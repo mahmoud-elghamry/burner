@@ -64,9 +64,11 @@ title_block(ws, "CAUSE & EFFECT MATRIX — LCP-01 Scrubber & Burner Control", 4)
 rows = [
     ("Purpose", "Defines the PLC (LCP-01) response to every process and safety cause, as requested in the "
                 "client e-mail of 04-Oct-2026 (Eng. Amr Farag)."),
-    ("Scope", "Gas scrubber alarms/trips, ESD, burner BR01 (Riello RS100) and BR02 (DLX 53 SHFP) Auto/Manual "
-              "control, tank temperature control (client sheet 'Temperature control of burner'), diesel-mode "
-              "indication."),
+    ("Scope", "Gas scrubber alarms/trips, ESD, burner BR01 (Riello RS100) and BR02 (DLX 53 SHFP) "
+              "trips and permissives, tank temperature control (client sheet 'Temperature control of burner'). "
+              "This matrix lists causes and effects only. Operating modes (AUTO / MAN), START / STOP, "
+              "RESET, start-up after power loss and lamps are described in the Control Narrative "
+              "(docs/التشغيل.md)."),
     ("Not in scope (Rev. A)", "Communication with the Master PLC in the control room — deferred to a later "
                               "revision.\nScrubber low level switch — not installed (DI I12.5 reserved)."),
     ("Burner flame safety", "Purge, ignition, flame supervision and the pilot / main gas valves are handled by "
@@ -83,7 +85,7 @@ rows = [
     ("How to read the matrix", "One row per cause. Cells under each effect say what happens to that output "
                                "while the cause is active. Empty = no action.\n"
                                "STOP = output de-energised / burner request removed.  RUN = energised.\n"
-                               "OPEN / CLOSE = resulting valve position.  ALARM = HMI alarm and fault lamp.\n"
+                               "OPEN / CLOSE = resulting valve position.  ALARM = HMI alarm (the burner fault lamps H3 / H4 are wired to the burner lockout, not to the PLC).\n"
                                "Column 'Source' shows where each line comes from: Client = client document; "
                                "PH proposal = proposed by PH, to be approved by the client."),
     ("Requested from client", "On sheet 'C&E Matrix', fill the two yellow columns for every row: "
@@ -120,7 +122,7 @@ effects = [
     ("E5", "XV-401 Flare SV (NO)", "Q0.2 / R3"),
     ("E6", "XV-402 Drain SV (NO)", "Q0.3 / R4"),
     ("E7", "XV-403 Suction SV (NC)", "Q0.4 / R5"),
-    ("E8", "HMI alarm / fault lamp", "HMI, H3 / H4"),
+    ("E8", "HMI alarm", "HMI"),
 ]
 cause_cols = ["No.", "Tag", "Cause", "PLC address", "Condition / setpoint", "Type"]
 tail_cols = ["Reset", "Source", "Remarks", "Client response", "Client comment"]
@@ -152,85 +154,71 @@ CL = "Client"
 PH = "PH proposal"
 
 
-def burner_rows(n, br, tk, lsl, te_in, te_out, rr, flt, sel, start, stop, stop_fx, req, stg):
+def burner_rows(n, br, tk, lsl, te_in, te_out, rr, flt, stop_fx, stg):
     p = f"C{n:02d}"
+    te = (f"{te_in[0]} / {te_out[0]}", f"{te_in[1]} / {te_out[1]}")
+    alarm = {**stop_fx, "E8": "ALARM"}
     return [
-        ("group", f"BURNER {br} — tank {tk}"),
-        (f"{p}a", lsl[0], f"{tk} level below low level switch (not ready)", lsl[1],
-         "LSL not reached (contact open)", "Permissive", stop_fx, "Auto (AUTO mode)", CL,
-         "Client sheet: burner may start only when level has reached LSL. Contact closes with liquid "
+        ("group", f"BURNER {br} — tank {tk}   (operating modes, START / STOP: see Control Narrative)"),
+        (f"{p}a", lsl[0], f"{tk} level below low level switch", lsl[1],
+         "LSL not reached (contact open)", "Permissive", stop_fx, "Automatic when level returns", CL,
+         "Client sheet: burner may run only when level has reached LSL. Contact closes with liquid "
          "present, so a broken wire also blocks the burner."),
-        (f"{p}b", f"{te_in[0]} / {te_out[0]}", f"{tk} oil temperature at setpoint",
-         f"{te_in[1]} / {te_out[1]}", "T >= SP (70 °C)", "Control", stop_fx,
-         "Auto when T <= SP − HYST (AUTO mode)", CL,
-         "Client cases 2/3/6. Higher of inlet/outlet is used (PH proposal). Restart after hysteresis "
-         "avoids short-cycling: each start costs ~50 s of purge."),
-        (f"{p}c", f"{te_in[0]} / {te_out[0]}", f"{tk} oil temperature below 2nd-stage threshold",
-         f"{te_in[1]} / {te_out[1]}", "T < SP − STG (60 °C)", "Control", {stg: "RUN"},
-         "Auto when T >= SP − STG", PH,
-         "Requests 2nd stage / high fire for fast heat-up. Between 60 and 70 °C: 1st stage only."),
-        (f"{p}d", f"{te_in[0]} / {te_out[0]}", "Thermocouple fault (wire break / out of range)",
-         f"{te_in[1]} / {te_out[1]}", "SM 1231 diagnostic or value out of range", "Trip",
-         {**stop_fx, "E8": "ALARM"}, "Manual (S2) after fault cleared", PH,
-         "Without a valid temperature the burner cannot be controlled."),
-        (f"{p}e", flt[0], f"{br} burner lockout (flame failure, ignition failure, air pressure)", flt[1],
-         "Lockout relay energised", "Alarm", {**stop_fx, "E8": "ALARM"},
-         f"At burner control box, then S2", PH,
-         "Burner's own control box has already shut the gas valves. PLC removes the heat request "
+        (f"{p}b", te[0], f"{tk} oil temperature at setpoint", te[1], "max(T) >= SP (70 °C)", "Control",
+         stop_fx, "Automatic at max(T) <= SP − HYST (65 °C)", CL,
+         "Client cases 2/3/6. The higher of inlet/outlet is used and the 5 °C restart band are PH "
+         "proposals: each restart costs ~50 s of purge."),
+        (f"{p}c", te[0], f"{tk} oil temperature low — fast heat-up", te[1], "max(T) < SP − STG (60 °C)",
+         "Control", {stg: "RUN"}, "Automatic at max(T) >= 60 °C", PH,
+         "2nd stage / high fire. Between 60 and 70 °C the burner runs on 1st stage."),
+        (f"{p}d", te[0], "Thermocouple fault — either of the two", te[1],
+         "Wire break or value out of range", "Trip", alarm, "S2 after fault cleared", PH,
+         "Either sensor failing stops the burner: without both readings the higher value cannot be trusted."),
+        (f"{p}e", flt[0], f"{br} lockout (flame / ignition / air pressure failure)", flt[1],
+         "Lockout signal present", "Trip", alarm, "At burner control box, then S2", PH,
+         "The burner's own control box has already closed the gas valves. PLC removes the heat request "
          "so the burner does not restart by itself after a local reset."),
         (f"{p}f", rr[0], f"{br} failed to start", rr[1],
-         f"Heat request ON and no RUN feedback within T_START (120 s)", "Trip",
-         {**stop_fx, "E8": "ALARM"}, "Manual (S2)", PH,
-         "Normal start cycle is ~55 s (RS100 manual §6.8.1) / ~65 s (DLX 53 manual)."),
-        (f"{p}g", sel[0], f"{br} selector in MANUAL", sel[1], "Selector open = MAN", "Mode",
-         {}, "—", CL,
-         "Client e-mail: Auto/Manual selection. MAN: operator starts with START and stops with STOP. "
-         f"All trips and the temperature setpoint ({p}b) still apply; no automatic restart."),
-        (f"{p}h", start[0], f"{br} START push button (MAN mode)", start[1], "Pressed", "Command",
-         {req: "RUN"}, "—", PH, "MAN: starts the burner. AUTO: re-enables automatic control after STOP. "
-         "Ignored while any trip or permissive is active."),
-        (f"{p}i", stop[0], f"{br} STOP push button", stop[1], "Pressed", "Command", stop_fx, "—", PH,
-         "Works in AUTO and MAN. In AUTO the burner stays off until START is pressed."),
+         "Heat request ON, no RUN within T_START (120 s)", "Trip", alarm, "S2", PH,
+         "RUN = gas valves energised (firing). Normal start ~55 s (RS100 §6.8.1) / ~65 s (DLX 53)."),
+        (f"{p}g", rr[0], f"{br} stopped by itself while running", rr[1],
+         "RUN lost, no lockout, heat request still ON", "Trip", alarm, "S2", PH,
+         "E.g. safety thermostat TS, gas pressure switch, burner supply lost. Without this row the PLC "
+         "would keep requesting heat from a burner that is no longer firing."),
     ]
 
 
 matrix = [
     ("group", "EMERGENCY SHUTDOWN"),
     ("C01", "S0", "E-STOP pressed", "I1.0", "NC1 contact open", "Trip",
-     {**BR1_STOP, **BR2_STOP, **SCRUB_TRIP}, "Release S0, then S2", PH,
-     "Burners: also cut by hardwired S0 NC2/NC3 (client e-mail: ESD impact on burner ON/OFF). "
+     {**BR1_STOP, **BR2_STOP, **SCRUB_TRIP}, "Release S0, then S2; burners need START", PH,
+     "Burners are also cut by hardwired S0 NC2/NC3 (client e-mail: ESD impact on burner ON/OFF). "
      "Scrubber valves to safe position on ESD = PH proposal."),
-    ("C02", "—", "PLC STOP / 24 VDC loss", "—", "All outputs de-energised", "Inherent",
-     {**BR1_STOP, **BR2_STOP, "E5": "OPEN", "E6": "OPEN", "E7": "CLOSE"}, "Automatic on restore + S2",
-     PH, "Result of valve types (NO / NO / NC) and relay outputs — no program needed."),
+    ("C02", "—", "PLC STOP, 24 VDC loss or power-up", "—", "All outputs de-energised", "Inherent",
+     {**BR1_STOP, **BR2_STOP, "E5": "OPEN", "E6": "OPEN", "E7": "CLOSE"},
+     "S2 for scrubber; burners need START", PH,
+     "Result of valve types (NO / NO / NC) and relay outputs. After power returns nothing restarts "
+     "by itself."),
     ("group", "GAS SCRUBBER"),
     ("C03", "PSH-101", "Scrubber high pressure", "I0.0", "Contact open (fail-safe)", "Trip",
-     SCRUB_TRIP, "Manual (S2) after cleared", CL,
-     "Client e-mail: scrubber alarms/trips. Burners NOT tripped (confirmed by Eng. Ahmed Zain)."),
+     SCRUB_TRIP, "S2 after cleared", CL,
+     "Client e-mail: scrubber alarms/trips. Burners are NOT tripped (decision PH / Eng. Ahmed Zain); "
+     "if gas pressure to the burner drops, the burner's own gas pressure switch stops it (C07g / C08g)."),
     ("C04", "LSH-102", "Scrubber high level", "I0.1", "Contact open (fail-safe)", "Alarm",
      {"E8": "ALARM"}, "Automatic when cleared", CL, "Pre-alarm before LSHH-103."),
     ("C05", "LSHH-103", "Scrubber high-high level", "I0.2", "Contact open (fail-safe)", "Trip",
-     SCRUB_TRIP, "Manual (S2) after cleared", CL, "Burners NOT tripped (confirmed by Eng. Ahmed Zain)."),
+     SCRUB_TRIP, "S2 after cleared", CL, "Burners are NOT tripped (as C03)."),
     ("C06", "LSL (scrubber)", "Scrubber low level", "I12.5 (reserved)", "—", "Not installed", {}, "—",
      CL, "Not installed — excluded from Rev. A. Input reserved for future use."),
 ]
 matrix += burner_rows(7, "BR01", "TK01", ("LSL-TK01", "I1.2"), ("TE-501", "IW96"), ("TE-502", "IW98"),
-                      ("RR", "I0.3"), ("Rflt", "I0.5"), ("S4", "I12.1"), ("S1", "I0.4"), ("S3", "I0.6"),
-                      BR1_STOP, "E1", "E2")
-matrix.append(("C07j", "—", "BR01 running continuously for 24 h", "—", "Run timer >= 24 h", "Control",
+                      ("RR", "I0.3"), ("Rflt", "I0.5"), BR1_STOP, "E2")
+matrix.append(("C07h", "—", "BR01 running continuously for 24 h", "—", "Run timer >= 24 h", "Control",
                BR1_STOP, "Automatic (restarts on next demand)", PH,
                "RS100 is approved for intermittent operation and must stop at least once every 24 h "
                "(RS100 manual §5.10)."))
 matrix += burner_rows(8, "BR02", "TK02", ("LSL-TK02", "I1.3"), ("TE-503", "IW100"), ("TE-504", "IW102"),
-                      ("RR2", "I1.4"), ("Rflt2", "I1.5"), ("S5", "I12.2"), ("S6", "I12.3"), ("S7", "I12.4"),
-                      BR2_STOP, "E3", "E4")
-matrix += [
-    ("C08j", "Rfuel2", "BR02 in diesel mode", "I12.0", "Relay energised", "Indication", {}, "—", CL,
-     "Read only: fuel is selected on the burner itself. Shown on HMI."),
-    ("group", "GENERAL"),
-    ("C09", "S2", "FAULT RESET push button", "I1.1", "Pressed", "Command", {}, "—", PH,
-     "Resets latched trips only when their cause has cleared."),
-]
+                      ("RR2", "I1.4"), ("Rflt2", "I1.5"), BR2_STOP, "E4")
 
 resp = DataValidation(type="list", formula1='"Approved,Approved with comment,Rejected"', allow_blank=True)
 resp.error = "Choose Approved, Approved with comment or Rejected"
