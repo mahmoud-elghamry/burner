@@ -1,6 +1,6 @@
 import os
 from openpyxl import Workbook
-from openpyxl.styles import Font, PatternFill, Alignment, Border, Side
+from openpyxl.styles import Font, PatternFill, Alignment, Border, Side, Protection
 from openpyxl.utils import get_column_letter
 from openpyxl.worksheet.datavalidation import DataValidation
 
@@ -13,6 +13,7 @@ BOX = Border(left=thin, right=thin, top=thin, bottom=thin)
 HDR = PatternFill("solid", fgColor="1F3864")
 SUB = PatternFill("solid", fgColor="D9E1F2")
 GRP = PatternFill("solid", fgColor="EDEDED")
+INPUT = PatternFill("solid", fgColor="FFFF99")
 FILL = {
     "STOP": PatternFill("solid", fgColor="F8CBAD"),
     "RUN": PatternFill("solid", fgColor="C6EFCE"),
@@ -85,7 +86,11 @@ rows = [
                                "OPEN / CLOSE = resulting valve position.  ALARM = HMI alarm and fault lamp.\n"
                                "Column 'Source' shows where each line comes from: Client = client document; "
                                "PH proposal = proposed by PH, to be approved by the client."),
-    ("Requested from client", "Review the rows marked 'PH proposal' and confirm or mark up. "
+    ("Requested from client", "On sheet 'C&E Matrix', fill the two yellow columns for every row: "
+                              "'Client response' (Approved / Approved with comment / Rejected) and "
+                              "'Client comment'. Rows marked 'PH proposal' need particular attention. "
+                              "All other cells are protected against accidental edits (no password). "
+                              "Use the filter on the header row, e.g. Source = PH proposal. "
                               "Parameter values are on sheet 'Parameters' and are adjustable from the HMI."),
 ]
 r = 4
@@ -118,7 +123,7 @@ effects = [
     ("E8", "HMI alarm / fault lamp", "HMI, H3 / H4"),
 ]
 cause_cols = ["No.", "Tag", "Cause", "PLC address", "Condition / setpoint", "Type"]
-tail_cols = ["Reset", "Source", "Remarks"]
+tail_cols = ["Reset", "Source", "Remarks", "Client response", "Client comment"]
 NC = len(cause_cols)
 ncols = NC + len(effects) + len(tail_cols)
 title_block(ws, "CAUSE & EFFECT MATRIX", ncols)
@@ -227,6 +232,10 @@ matrix += [
      "Resets latched trips only when their cause has cleared."),
 ]
 
+resp = DataValidation(type="list", formula1='"Approved,Approved with comment,Rejected"', allow_blank=True)
+resp.error = "Choose Approved, Approved with comment or Rejected"
+resp.prompt = "Approved / Approved with comment / Rejected"
+ws.add_data_validation(resp)
 r = hr + 3
 eidx = {e[0]: NC + 1 + j for j, e in enumerate(effects)}
 for row in matrix:
@@ -245,10 +254,15 @@ for row in matrix:
     put(ws, r, base + 1, reset)
     put(ws, r, base + 2, src, fill=SRC_FILL.get(src), h="center")
     put(ws, r, base + 3, rem)
+    # the only cells the client edits: unlocked, highlighted, dropdown on the response
+    for c in (base + 4, base + 5):
+        cell = put(ws, r, c, None, fill=INPUT, h="center" if c == base + 4 else "left")
+        cell.protection = Protection(locked=False)
+    resp.add(ws.cell(row=r, column=base + 4))
     ws.row_dimensions[r].height = max(28, 12 * (len(rem) // 55 + 1))
     r += 1
 
-widths = [6, 13, 30, 11, 22, 10] + [11] * len(effects) + [20, 12, 50]
+widths = [6, 13, 30, 11, 22, 10] + [11] * len(effects) + [20, 12, 50, 16, 40]
 for i, w in enumerate(widths, 1):
     ws.column_dimensions[get_column_letter(i)].width = w
 ws.freeze_panes = f"D{hr + 3}"
@@ -258,6 +272,13 @@ ws.page_setup.fitToWidth = 1
 ws.page_setup.fitToHeight = 1
 ws.sheet_properties.pageSetUpPr.fitToPage = True
 ws.print_title_rows = f"{hr}:{hr + 2}"
+ws.auto_filter.ref = f"A{hr + 2}:{get_column_letter(ncols)}{r - 1}"
+# no password: this only stops accidental edits; filtering stays allowed
+ws.protection.sheet = True
+ws.protection.autoFilter = False
+ws.protection.sort = False
+ws.protection.formatColumns = False
+ws.protection.formatRows = False
 
 # ------------------------------------------------------------------ Parameters
 ws = wb.create_sheet("Parameters")

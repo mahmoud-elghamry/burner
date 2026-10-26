@@ -14,6 +14,10 @@ py tools\render_xlsx.py deliverables\PH-LCP-01-CE_RevA.xlsx   # يطلّع PDF �
 
 `render_xlsx.py` محتاج LibreOffice (`soffice`). اتسطّب بـ winget في 2026-10-26.
 
+**اللي بيروح للعميل نسختين في `deliverables/`:** الإكسيل عشان يرد فيه (العمودين الأصفر، وفيهم
+قايمة منسدلة، والباقي محمي من غير باسورد)، والـ PDF كنسخة ثابتة للأرشيف والطباعة.
+بعد أي تعديل: `build_ce.py` ثم `render_xlsx.py`، وانسخ الـ PDF من `build/` لـ `deliverables/`.
+
 ## الفحص
 
 ```powershell
