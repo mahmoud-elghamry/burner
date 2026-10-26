@@ -93,7 +93,7 @@ for k, v in rows:
     put(ws, r, 1, k, bold=True, fill=SUB)
     ws.merge_cells(start_row=r, start_column=2, end_row=r, end_column=4)
     put(ws, r, 2, v)
-    ws.row_dimensions[r].height = max(30, 14 * (len(v) // 95 + 1 + v.count("\n")))
+    ws.row_dimensions[r].height = 13 * (len(v) // 125 + 1 + v.count("\n")) + 8
     r += 1
 r += 1
 put(ws, r, 1, "Revision", bold=True, fill=SUB); put(ws, r, 2, "Date", bold=True, fill=SUB)
@@ -253,8 +253,9 @@ for i, w in enumerate(widths, 1):
     ws.column_dimensions[get_column_letter(i)].width = w
 ws.freeze_panes = f"D{hr + 3}"
 ws.page_setup.orientation = "landscape"
+ws.page_setup.paperSize = ws.PAPERSIZE_A3
 ws.page_setup.fitToWidth = 1
-ws.page_setup.fitToHeight = 0
+ws.page_setup.fitToHeight = 1
 ws.sheet_properties.pageSetUpPr.fitToPage = True
 ws.print_title_rows = f"{hr}:{hr + 2}"
 
@@ -337,28 +338,16 @@ for i, w in enumerate([11, 12, 42, 12, 10, 8], 1):
     ws.column_dimensions[get_column_letter(i)].width = w
 ws.freeze_panes = "A5"
 
-# ------------------------------------------------------------------ Drawing V2
-ws = wb.create_sheet("Drawing V2 changes")
-title_block(ws, "CHANGES FOR DRAWING PH-LCP-01 V2 (internal)", 4)
-for i, h in enumerate(["No.", "Sheet", "Change", "Reason"], 1):
-    put(ws, 4, i, h, bold=True, fill=HDR, color="FFFFFF", h="center")
-chg = [
-    ("1", "10", "Show PSH-101, LSH-102, LSHH-103 as contacts that OPEN on alarm (de-energise to trip).",
-     "Fail-safe: broken wire = trip. Confirmed by Eng. Ahmed Zain."),
-    ("2", "11", "Mark I12.5 'scrubber LSL — not installed'.", "Not installed on site."),
-    ("3", "11", "Sheet title 'DI SM12211' → 'DI SM1221'.", "Typo."),
-    ("4", "1 / 14", "Page index lists 17 rows; Panel GA refers to 'device list /17' which does not exist. "
-                    "Add sheet 17 or remove the reference.", "Consistency."),
-    ("5", "12", "XQ:15–18 are labelled SPARE but R8/R9 drive BR02 stage lamps H5/H6.", "Consistency."),
-]
-for k, row in enumerate(chg, 5):
-    for i, v in enumerate(row, 1):
-        put(ws, k, i, v, h="center" if i <= 2 else "left")
-    ws.row_dimensions[k].height = 30
-for i, w in enumerate([6, 8, 70, 45], 1):
-    ws.column_dimensions[get_column_letter(i)].width = w
+# Drawing V2 changes are internal — they live in docs/ISSUES.md (F4–F7), not in the client file.
 
 for s in wb.worksheets:
     s.sheet_view.showGridLines = False
+    s.page_setup.horizontalCentered = True
+    if s.title != "C&E Matrix":
+        # one page wide, as many pages tall as needed
+        s.page_setup.orientation = "landscape" if s.title == "Cover" else "portrait"
+        s.page_setup.fitToWidth = 1
+        s.page_setup.fitToHeight = 0
+        s.sheet_properties.pageSetUpPr.fitToPage = True
 wb.save(OUT)
 print("saved", OUT)
