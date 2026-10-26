@@ -1,0 +1,5 @@
+# TIA project files are stored byte-for-byte
+tia/** -text
+*.pdf binary
+*.xlsx binary
+*.jpeg binary

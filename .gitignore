@@ -1,0 +1,7 @@
+__pycache__/
+*.pyc
+~$*
+.~lock.*
+tia/**/Logs/
+tia/**/*.tmp
+build/*.pdf
