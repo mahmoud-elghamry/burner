@@ -25,6 +25,7 @@ FILL = {
 SRC_FILL = {
     "Client": PatternFill("solid", fgColor="E2EFDA"),
     "PH proposal": PatternFill("solid", fgColor="FCE4D6"),
+    "PH decision": PatternFill("solid", fgColor="DDEBF7"),
 }
 
 
@@ -87,10 +88,10 @@ rows = [
                                "STOP = output de-energised / burner request removed.  RUN = energised.\n"
                                "OPEN / CLOSE = resulting valve position.  ALARM = HMI alarm (the burner fault lamps H3 / H4 are wired to the burner lockout, not to the PLC).\n"
                                "Type: Trip = stops and stays stopped until RESET (S2).  Permissive = stops, "
-                               "restarts by itself when the condition clears.  Control = normal temperature "
+                               "restarts by itself when the condition clears (AUTO mode, burner enabled).  Control = normal temperature "
                                "regulation.  Alarm = HMI message only.  Inherent = happens by wiring, no program.\n"
-                               "Column 'Source' shows where each line comes from: Client = client document; "
-                               "PH proposal = proposed by PH, to be approved by the client."),
+                               "Column 'Source': Client = client document; PH decision = decided by PH "
+                               "(Eng. Ahmed Zain); PH proposal = proposed by PH, still open."),
     ("Requested from client", "On sheet 'C&E Matrix', fill the two yellow columns for every row: "
                               "'Client response' (Approved / Approved with comment / Rejected) and "
                               "'Client comment'. Rows marked 'PH proposal' need particular attention. "
@@ -155,6 +156,7 @@ BR2_STOP = {"E3": "STOP", "E4": "STOP"}
 
 CL = "Client"
 PH = "PH proposal"
+PD = "PH decision"
 
 
 def burner_rows(n, br, tk, lsl, te_in, te_out, rr, flt, stop_fx, stg):
@@ -175,8 +177,10 @@ def burner_rows(n, br, tk, lsl, te_in, te_out, rr, flt, stop_fx, stg):
          "Control", {stg: "RUN"}, "Automatic at max(T) >= 60 °C", PH,
          "2nd stage / high fire. Between 60 and 70 °C the burner runs on 1st stage."),
         (f"{p}d", te[0], "Thermocouple fault — either of the two", te[1],
-         "Wire break or value out of range", "Trip", alarm, "S2 after fault cleared", PH,
-         "Either sensor failing stops the burner: without both readings the higher value cannot be trusted."),
+         "Either channel: 32767 / −32768, outside −20…150 °C, or channel diagnostic", "Trip", alarm,
+         "S2 after fault cleared", PH,
+         "Each channel is checked BEFORE taking the higher value, so one failed-low sensor cannot hide "
+         "behind the other. Heat is inhibited until both channels are valid after power-up."),
         (f"{p}e", flt[0], f"{br} lockout (flame / ignition / air pressure failure)", flt[1],
          "Lockout signal present", "Trip", alarm, "At burner control box, then S2", PH,
          "The burner's own control box has already closed the gas valves. PLC removes the heat request "
@@ -204,15 +208,15 @@ matrix = [
      "by itself."),
     ("group", "GAS SCRUBBER"),
     ("C03", "PSH-101", "Scrubber high pressure", "I0.0", "Contact open (fail-safe)", "Trip",
-     SCRUB_TRIP, "S2 after cleared", CL,
-     "Client e-mail: scrubber alarms/trips. Burners are NOT tripped (decision PH / Eng. Ahmed Zain); "
+     SCRUB_TRIP, "S2 after cleared", PD,
+     "Client e-mail asks for scrubber alarms/trips; the valve action and burner policy were decided by PH. Burners are NOT tripped (decision PH / Eng. Ahmed Zain); "
      "if gas pressure to the burner drops, the burner's own gas pressure switch stops it (C07g / C08g)."),
     ("C04", "LSH-102", "Scrubber high level", "I0.1", "Contact open (fail-safe)", "Alarm",
      {"E8": "ALARM"}, "Automatic when cleared", CL, "Pre-alarm before LSHH-103."),
     ("C05", "LSHH-103", "Scrubber high-high level", "I0.2", "Contact open (fail-safe)", "Trip",
-     SCRUB_TRIP, "S2 after cleared", CL, "Burners are NOT tripped (as C03)."),
+     SCRUB_TRIP, "S2 after cleared", PD, "Burners are NOT tripped (as C03)."),
     ("C06", "LSL (scrubber)", "Scrubber low level", "I12.5 (reserved)", "—", "Not installed", {}, "—",
-     CL, "Not installed — excluded from Rev. A. Input reserved for future use."),
+     PD, "Provisional: understood as not installed (open question Q1). Input reserved."),
 ]
 matrix += burner_rows(7, "BR01", "TK01", ("LSL-TK01", "I1.2"), ("TE-501", "IW96"), ("TE-502", "IW98"),
                       ("RR", "I0.3"), ("Rflt", "I0.5"), BR1_STOP, "E2")
@@ -291,7 +295,7 @@ params = [
 for k, p in enumerate(params, 5):
     for i, v in enumerate(p, 1):
         c = put(ws, k, i, v, h="center" if i in (3, 4, 5) else "left")
-        if i == 3:
+        if i == 3 and p[4] != "fixed":
             c.font = font(color="0000FF", bold=True)
 put(ws, 11, 1, "Blue values are defaults; they can be changed from the HMI by an authorised user.",
     border=False)
