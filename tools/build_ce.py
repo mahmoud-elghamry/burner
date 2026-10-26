@@ -103,7 +103,7 @@ for k, v in rows:
     put(ws, r, 1, k, bold=True, fill=SUB)
     ws.merge_cells(start_row=r, start_column=2, end_row=r, end_column=4)
     put(ws, r, 2, v)
-    ws.row_dimensions[r].height = 13 * (len(v) // 125 + 1 + v.count("\n")) + 8
+    ws.row_dimensions[r].height = 12 * (len(v) // 160 + 1 + v.count("\n")) + 6
     r += 1
 r += 1
 put(ws, r, 1, "Revision", bold=True, fill=SUB); put(ws, r, 2, "Date", bold=True, fill=SUB)
