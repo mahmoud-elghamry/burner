@@ -86,6 +86,9 @@ rows = [
                                "while the cause is active. Empty = no action.\n"
                                "STOP = output de-energised / burner request removed.  RUN = energised.\n"
                                "OPEN / CLOSE = resulting valve position.  ALARM = HMI alarm (the burner fault lamps H3 / H4 are wired to the burner lockout, not to the PLC).\n"
+                               "Type: Trip = stops and stays stopped until RESET (S2).  Permissive = stops, "
+                               "restarts by itself when the condition clears.  Control = normal temperature "
+                               "regulation.  Alarm = HMI message only.  Inherent = happens by wiring, no program.\n"
                                "Column 'Source' shows where each line comes from: Client = client document; "
                                "PH proposal = proposed by PH, to be approved by the client."),
     ("Requested from client", "On sheet 'C&E Matrix', fill the two yellow columns for every row: "
@@ -213,7 +216,7 @@ matrix = [
 ]
 matrix += burner_rows(7, "BR01", "TK01", ("LSL-TK01", "I1.2"), ("TE-501", "IW96"), ("TE-502", "IW98"),
                       ("RR", "I0.3"), ("Rflt", "I0.5"), BR1_STOP, "E2")
-matrix.append(("C07h", "—", "BR01 running continuously for 24 h", "—", "Run timer >= 24 h", "Control",
+matrix.append(("C07h", "—", "BR01 running continuously for 24 h", "—", "Run timer >= 24 h", "Permissive",
                BR1_STOP, "Automatic (restarts on next demand)", PH,
                "RS100 is approved for intermittent operation and must stop at least once every 24 h "
                "(RS100 manual §5.10)."))
