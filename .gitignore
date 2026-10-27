@@ -6,3 +6,8 @@ tia/**/Logs/
 tia/**/*.tmp
 build/*.pdf
 build/source-review-*/
+# TIA: transient files it rewrites on every open (same lesson as the tower project)
+tia/**/TMP/
+tia/**/UserFiles/
+tia/**/IM/SearchIndex/
+*.ap15_1.lock
