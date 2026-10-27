@@ -1,0 +1,12 @@
+﻿Opening D:\tasks\burner\tia\Burner\Burner.ap15_1
+Project opened: Burner
+
+=== PLC: PLC_1 ===
+OK   Main   [LAD]
+OK   TagTable Default tag table
+
+PLC summary -> exported: 2, protected(skipped): 0, failed: 0
+
+
+HMI summary -> exported: 0, failed: 0
+

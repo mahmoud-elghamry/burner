@@ -20,12 +20,19 @@
 
 [CmdletBinding()]
 param(
-    [string]$ProjectPath = ((Get-ChildItem (Join-Path $PSScriptRoot "..\tia") -Recurse -Filter "*.ap15_1" -ErrorAction SilentlyContinue | Select-Object -First 1).FullName),
-    [string]$OutDir      = (Join-Path $PSScriptRoot "..\export\xml"),
+    [string]$ProjectPath,
+    [string]$OutDir,
     [string]$ApiDir      = "C:\Program Files\Siemens\Automation\Portal V15_1\PublicAPI\V15.1"
 )
 
 $ErrorActionPreference = 'Stop'
+
+# $PSScriptRoot is EMPTY while param defaults are evaluated on a
+# [CmdletBinding()] script run with `powershell -File`, so the repo-relative
+# defaults are built here in the body instead (same as Apply-Blocks).
+$root = Split-Path -Parent $PSScriptRoot
+if (-not $ProjectPath) { $ProjectPath = (Get-ChildItem (Join-Path $root "tia") -Recurse -Filter "*.ap15_1" -ErrorAction SilentlyContinue | Select-Object -First 1).FullName }
+if (-not $OutDir)      { $OutDir      = Join-Path $root "export\xml" }
 
 # Openness rejects paths that still contain relative segments, so collapse
 # the '..' introduced by the $PSScriptRoot defaults before using them.
@@ -363,13 +370,14 @@ try {
 
 # ------------------------------------------------------------------- run
 $logPath = Join-Path (Split-Path $OutDir -Parent) 'export-log.txt'
+$hmiThrew = $false
 try {
     [TiaPlcExporter]::Open($ProjectPath)
     [TiaPlcExporter]::ExportAll($OutDir)
 
     if ($hmiCompiled) {
         try { [TiaHmiExporter]::ExportAll([TiaPlcExporter]::Prj, $OutDir) }
-        catch { Write-Warning "HMI export failed: $($_.Exception.Message)" }
+        catch { Write-Warning "HMI export failed: $($_.Exception.Message)"; $hmiThrew = $true }
     }
 }
 finally {
@@ -380,4 +388,13 @@ finally {
     Write-Host ""
     Write-Host "Done. XML -> $OutDir" -ForegroundColor Green
     Write-Host "Log  -> $logPath" -ForegroundColor Green
+}
+
+# A failed object means the export is INCOMPLETE - anything reading export\
+# would see a stale or missing block. Protected blocks are skipped, not failed.
+$failed = [TiaPlcExporter]::Failed
+if ($hmiCompiled) { $failed += [TiaHmiExporter]::Failed }
+if ($failed -gt 0 -or $hmiThrew) {
+    Write-Host "EXPORT INCOMPLETE: $failed object(s) failed. Compile and save first (inconsistent blocks do not export)." -ForegroundColor Red
+    exit 1
 }
