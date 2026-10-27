@@ -41,6 +41,12 @@ the other files are agent-produced work to verify. Agent notes are not independe
 of client requirements, approvals, or statements attributed to people. Re-check against originals
 or direct user confirmation. See `docs/evidence/2026-10-27-original-sources-review.md`.
 
+**Drawing first (user-confirmed):** `inputs/drawings/Burner_V1.pdf`, prepared by the previous
+engineer at the company, is the primary project reference. Use other inputs to clarify it and
+reconcile differences; ask about unresolved material ambiguity. Follow the drawn BR02 interface.
+Hysteresis is the team's confirmed choice; its numbers are adjustable settings, not an open
+question about whether to use it. See `docs/evidence/2026-10-27-user-drawing-priority.md`.
+
 ```
 inputs/  (client docs, manuals, drawing)          ← never edited
    ↓
