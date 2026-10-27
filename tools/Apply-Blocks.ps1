@@ -1,4 +1,4 @@
-﻿<#
+<#
     Apply-Blocks.ps1
     ------------------------------------------------------------------
     Imports one or more generated SimaticML block documents into the TIA
@@ -67,10 +67,10 @@ using Siemens.Engineering.SW.Blocks;
 
 public class BlockApplier
 {
-    public static int ErrorCount = 0;
+    static List<string> Failures = new List<string>();
     static DeviceItem CpuItem = null;
 
-    public static void Run(string projectPath, string buildDir, string[] files, bool dryRun)
+    public static bool Run(string projectPath, string buildDir, string[] files, bool dryRun)
     {
         TiaPortal portal = new TiaPortal(TiaPortalMode.WithoutUserInterface);
         Project prj = null;
@@ -96,33 +96,54 @@ public class BlockApplier
             // stay inconsistent until each one is compiled on its own.
             Console.WriteLine("");
             Console.WriteLine("=== COMPILING (per block) ===");
-            foreach (PlcBlock b in plc.BlockGroup.Blocks)
+            foreach (PlcBlock b in AllBlocks(plc.BlockGroup))
             {
                 if (b.IsConsistent) continue;
                 ICompilable bc = b.GetService<ICompilable>();
-                if (bc == null) { Console.WriteLine("  no compiler for " + b.Name); continue; }
+                if (bc == null)
+                {
+                    Console.WriteLine("  no compiler for " + b.Name);
+                    Failures.Add("block " + b.Name + ": no compiler");
+                    continue;
+                }
                 CompilerResult r = bc.Compile();
                 Console.WriteLine("  " + b.Name + ": state=" + r.State
                                   + " errors=" + r.ErrorCount + " warnings=" + r.WarningCount);
-                ErrorCount += r.ErrorCount;
+                Check("block " + b.Name, r);
                 foreach (CompilerResultMessage m in r.Messages) Print(m, "      ");
             }
 
             Console.WriteLine("");
             Console.WriteLine("=== CONSISTENCY ===");
             int bad = 0, total = 0;
-            foreach (PlcBlock b in plc.BlockGroup.Blocks)
+            foreach (PlcBlock b in AllBlocks(plc.BlockGroup))
             {
                 total++;
-                if (!b.IsConsistent) { bad++; Console.WriteLine("  INCONSISTENT: " + b.Name); }
+                if (!b.IsConsistent)
+                {
+                    bad++;
+                    Console.WriteLine("  INCONSISTENT: " + b.Name);
+                    Failures.Add("block " + b.Name + " inconsistent");
+                }
             }
             Console.WriteLine("  consistent " + (total - bad) + "/" + total);
-            if (bad > 0) ErrorCount += bad;
 
             Console.WriteLine("");
-            if (dryRun)      Console.WriteLine("DRY RUN - project NOT saved.");
-            else if (ErrorCount == 0) { prj.Save(); Console.WriteLine("PROJECT SAVED."); }
-            else Console.WriteLine("ERRORS (" + ErrorCount + ") - project NOT saved.");
+            if (Failures.Count > 0)
+            {
+                Console.WriteLine("NOT CLEAN - project NOT saved:");
+                foreach (string f in Failures) Console.WriteLine("  - " + f);
+                return false;
+            }
+            if (dryRun) { Console.WriteLine("CLEAN. DRY RUN - project NOT saved."); return true; }
+            prj.Save();
+            Console.WriteLine("CLEAN. PROJECT SAVED.");
+            return true;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("EXCEPTION - project NOT saved: " + ex.Message);
+            return false;
         }
         finally
         {
@@ -187,8 +208,25 @@ public class BlockApplier
         Console.WriteLine("state=" + result.State
                           + "  errors=" + result.ErrorCount
                           + "  warnings=" + result.WarningCount);
-        ErrorCount = result.ErrorCount;
+        Check("device", result);
         foreach (CompilerResultMessage m in result.Messages) Print(m, "  ");
+    }
+
+    // Clean = one of these states AND zero errors. "aborted" with 0 errors, or
+    // any state this list does not know, is a failure.
+    static void Check(string what, CompilerResult r)
+    {
+        string st = r.State.ToString();
+        bool okState = st == "Success" || st == "Information" || st == "Warning";
+        if (!okState || r.ErrorCount != 0)
+            Failures.Add(what + ": state=" + st + " errors=" + r.ErrorCount);
+    }
+
+    static IEnumerable<PlcBlock> AllBlocks(PlcBlockGroup g)
+    {
+        foreach (PlcBlock b in g.Blocks) yield return b;
+        foreach (PlcBlockGroup sub in g.Groups)
+            foreach (PlcBlock b in AllBlocks(sub)) yield return b;
     }
 
     static void Print(CompilerResultMessage m, string pad)
@@ -203,4 +241,4 @@ public class BlockApplier
 '@
 
 Add-Type -TypeDefinition $src -ReferencedAssemblies $engDll, 'System.Core' -ErrorAction Stop
-[BlockApplier]::Run($ProjectPath, $BuildDir, $Files, [bool]$DryRun)
+if (-not [BlockApplier]::Run($ProjectPath, $BuildDir, $Files, [bool]$DryRun)) { exit 1 }

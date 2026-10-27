@@ -14,6 +14,9 @@ foreach ($v in 'ProjectPath','OutDir','BuildDir','ApiDir') {
         if ($cur) { Set-Variable -Name $v -Value ([System.IO.Path]::GetFullPath($cur)) }
     }
 }
+if (Get-Process -Name 'Siemens.Automation.Portal' -ErrorAction SilentlyContinue) {
+    throw "TIA Portal is running. Close it first."
+}
 $engDll = Join-Path $ApiDir 'Siemens.Engineering.dll'
 [System.Reflection.Assembly]::LoadFrom($engDll) | Out-Null
 

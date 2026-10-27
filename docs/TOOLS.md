@@ -31,8 +31,15 @@ py tools\check_docs.py
 ## TIA Openness (منقولة من مشروع الأوناش)
 
 `Export-TiaProject.ps1` و`Compile-Project.ps1` و`Apply-Blocks.ps1` و`List-Blocks.ps1` و`lad2text.py`
-و`ladxml.py`. **بتلاقي المشروع كأول `*.ap15_1` جوه `tia\`**. TIA لازم يكون مقفول، وكل سكريبت فيه
-`-DryRun`. الشروط (جروب Openness، وأي حاجة تانية) في الـ skill `tia-openness`.
+و`ladxml.py`. **بتلاقي المشروع كأول `*.ap15_1` جوه `tia\`**. TIA لازم يكون مقفول، **والسكريبتات
+بترفض تشتغل لو مفتوح.** `-DryRun` موجود في `Apply-Blocks` و`Compile-Project` بس (Export وList مش
+بيحفظوا أصلًا). الشروط (جروب Openness، وأي حاجة تانية) في الـ skill `tia-openness`.
+
+**الحفظ:** `Apply-Blocks` و`Compile-Project` بيحفظوا **بس** لو الهاردوير والسوفتوير وكل البلوكات
+نضيفة. أي "aborted" أو Error أو بلوك inconsistent بيمنع الحفظ ويطلع exit 1 (`F28`).
+
+**السكريبتات دي نسخة من الأوناش ومن الـ skill.** أي تصليح فيها يتعمل في النسخ التلاتة مرة واحدة،
+والفرق الوحيد المسموح بيه هو سطر مسار المشروع.
 
 **مااتجرّبتش في الفولدر ده لسه**، لأن مشروع TIA لسه متعملش.
 

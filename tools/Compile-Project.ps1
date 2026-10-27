@@ -1,7 +1,11 @@
-﻿<#
+<#
     Compile-Project.ps1
     Compiles the hardware configuration and then the PLC software, printing
-    every message. Saves only when the software compile reports no errors.
+    every message. Saves only when EVERYTHING is clean: the hardware compile and
+    the software compile both finish in Success/Information/Warning with zero
+    errors, and every block (in every group) is consistent afterwards. Anything
+    else - Error state, an aborted compile, an exception - blocks the save and
+    makes the script exit with code 1.
 
     Compiling the software on its own reports "aborted" until the hardware
     configuration has been compiled, so the order here matters.
@@ -40,9 +44,10 @@ using Siemens.Engineering.SW.Blocks;
 public class ProjectCompiler
 {
     static DeviceItem CpuItem = null;
-    public static int SwErrors = -1;
+    static System.Collections.Generic.List<string> Failures =
+        new System.Collections.Generic.List<string>();
 
-    public static void Run(string projectPath, bool dryRun)
+    public static bool Run(string projectPath, bool dryRun)
     {
         TiaPortal portal = new TiaPortal(TiaPortalMode.WithoutUserInterface);
         Project prj = null;
@@ -53,16 +58,15 @@ public class ProjectCompiler
             if (plc == null) throw new Exception("PLC software not found");
 
             Console.WriteLine("=== 1. HARDWARE ===");
-            Run1(CpuItem.GetService<ICompilable>());
+            Check("hardware", Run1(CpuItem.GetService<ICompilable>()));
 
             Console.WriteLine("");
             Console.WriteLine("=== 2. SOFTWARE ===");
-            CompilerResult r = Run1(plc.GetService<ICompilable>());
-            SwErrors = r.ErrorCount;
+            Check("software", Run1(plc.GetService<ICompilable>()));
 
             Console.WriteLine("");
             Console.WriteLine("=== 2b. PER-BLOCK COMPILE (diagnostic) ===");
-            foreach (PlcBlock b in plc.BlockGroup.Blocks)
+            foreach (PlcBlock b in AllBlocks(plc.BlockGroup))
             {
                 if (b.IsConsistent) continue;
                 Console.WriteLine("--- " + b.Name + " ---");
@@ -70,26 +74,63 @@ public class ProjectCompiler
                 {
                     ICompilable bc = b.GetService<ICompilable>();
                     if (bc == null) { Console.WriteLine("   no ICompilable"); continue; }
-                    Run1(bc);
+                    Check("block " + b.Name, Run1(bc));
                 }
-                catch (Exception ex) { Console.WriteLine("   EX: " + ex.Message); }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("   EX: " + ex.Message);
+                    Failures.Add("block " + b.Name + ": " + ex.Message);
+                }
             }
 
             Console.WriteLine("");
             Console.WriteLine("=== 3. BLOCK CONSISTENCY ===");
-            foreach (PlcBlock b in plc.BlockGroup.Blocks)
+            foreach (PlcBlock b in AllBlocks(plc.BlockGroup))
+            {
                 Console.WriteLine(string.Format("  {0,-24} consistent={1}",
                     b.Name, b.IsConsistent));
+                if (!b.IsConsistent) Failures.Add("block " + b.Name + " inconsistent");
+            }
 
-            if (dryRun) { Console.WriteLine("\nDRY RUN - not saved."); }
-            else if (SwErrors == 0) { prj.Save(); Console.WriteLine("\nPROJECT SAVED."); }
-            else { Console.WriteLine("\nERRORS - not saved."); }
+            Console.WriteLine("");
+            if (Failures.Count > 0)
+            {
+                Console.WriteLine("NOT CLEAN - not saved:");
+                foreach (string f in Failures) Console.WriteLine("  - " + f);
+                return false;
+            }
+            if (dryRun) { Console.WriteLine("CLEAN. DRY RUN - not saved."); return true; }
+            prj.Save();
+            Console.WriteLine("CLEAN. PROJECT SAVED.");
+            return true;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("EXCEPTION - not saved: " + ex.Message);
+            return false;
         }
         finally
         {
             try { if (prj != null) prj.Close(); } catch { }
             try { portal.Dispose(); } catch { }
         }
+    }
+
+    // Clean = one of these states AND zero errors. "aborted" or any state
+    // this list does not know is a failure.
+    static void Check(string what, CompilerResult r)
+    {
+        string st = r.State.ToString();
+        bool okState = st == "Success" || st == "Information" || st == "Warning";
+        if (!okState || r.ErrorCount != 0)
+            Failures.Add(what + ": state=" + st + " errors=" + r.ErrorCount);
+    }
+
+    static System.Collections.Generic.IEnumerable<PlcBlock> AllBlocks(PlcBlockGroup g)
+    {
+        foreach (PlcBlock b in g.Blocks) yield return b;
+        foreach (PlcBlockGroup sub in g.Groups)
+            foreach (PlcBlock b in AllBlocks(sub)) yield return b;
     }
 
     static CompilerResult Run1(ICompilable c)
@@ -145,4 +186,4 @@ public class ProjectCompiler
 '@
 
 Add-Type -TypeDefinition $src -ReferencedAssemblies $engDll, 'System.Core' -ErrorAction Stop
-[ProjectCompiler]::Run($ProjectPath, [bool]$DryRun)
+if (-not [ProjectCompiler]::Run($ProjectPath, [bool]$DryRun)) { exit 1 }

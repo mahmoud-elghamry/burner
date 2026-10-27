@@ -60,7 +60,7 @@ Continuing anyway...
 }
 
 if (Get-Process -Name 'Siemens.Automation.Portal' -ErrorAction SilentlyContinue) {
-    Write-Warning "TIA Portal seems to be running. Close it first or the project will be locked."
+    throw "TIA Portal is running. Close it first (single writer - the export would read a locked or stale project)."
 }
 
 New-Item -ItemType Directory -Force -Path $OutDir | Out-Null
