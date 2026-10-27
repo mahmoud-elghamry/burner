@@ -16,7 +16,8 @@ Control panel **LCP-01** on a **natural-gas oil field** (not a factory). It runs
 - **two burners** heating two oil tanks: `BR01` Riello RS100 on `TK01`,
   `BR02` DLX 53 SHFP (client's, foreign 230 V) on `TK02`.
 
-PLC: S7-1200 **CPU 1214C DC/DC/DC `6ES7214-1AG40-0XB0`** + SM 1231 TC (4× type K)
+PLC: S7-1200 **CPU 1214C DC/DC/DC `6ES7214-1AG40-0XB0`** + SM 1231 TC (8 channels,
+`6ES7231-5QF32-0XB0`; 4 connected type K sensors, drawing sheet 13)
 + SM 1221 DI. HMI: KTP400. **TIA Portal V15.1** (`docs/decisions/0004`).
 
 **Gas and flame. Treat every decision as safety-related.**
@@ -34,6 +35,11 @@ E-STOP `S0` and safety thermostat `TS` are **hardwired**. `docs/decisions/0001`.
 ---
 
 ## The chain of truth
+
+**Provenance first:** the user confirmed on 2026-10-27 that `inputs/` holds the originals;
+the other files are agent-produced work to verify. Agent notes are not independent evidence
+of client requirements, approvals, or statements attributed to people. Re-check against originals
+or direct user confirmation. See `docs/evidence/2026-10-27-original-sources-review.md`.
 
 ```
 inputs/  (client docs, manuals, drawing)          ← never edited
