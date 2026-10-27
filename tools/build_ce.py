@@ -1,3 +1,4 @@
+import re
 import os
 from openpyxl import Workbook
 from openpyxl.styles import Font, PatternFill, Alignment, Border, Side, Protection
@@ -154,6 +155,13 @@ SCRUB_TRIP = {"E5": "OPEN", "E6": "OPEN", "E7": "CLOSE", "E8": "ALARM"}
 BR1_STOP = {"E1": "STOP", "E2": "STOP"}
 BR2_STOP = {"E3": "STOP", "E4": "STOP"}
 
+BUTTONS = {"S0": "E-STOP", "S2": "RESET"}
+TAG_NAMES = {
+    "S0": "S0 (E-STOP)",
+    "RR": "RR (BR01 run relay)", "Rflt": "Rflt (BR01 fault relay)",
+    "RR2": "RR2 (BR02 run relay)", "Rflt2": "Rflt2 (BR02 fault relay)",
+}
+
 CL = "Client"
 PH = "PH proposal"
 PD = "PH decision"
@@ -198,12 +206,12 @@ def burner_rows(n, br, tk, lsl, te_in, te_out, rr, flt, stop_fx, stg):
 matrix = [
     ("group", "EMERGENCY SHUTDOWN"),
     ("C01", "S0", "E-STOP pressed", "I1.0", "NC1 contact open", "Trip",
-     {**BR1_STOP, **BR2_STOP, **SCRUB_TRIP}, "Release S0, then S2; burners need START", PH,
+     {**BR1_STOP, **BR2_STOP, **SCRUB_TRIP}, "Release S0, then S2; burners need START (S1 / S6)", PH,
      "Burners are also cut by hardwired S0 NC2/NC3 (client e-mail: ESD impact on burner ON/OFF). "
      "Scrubber valves to safe position on ESD = PH proposal."),
     ("C02", "—", "PLC STOP, 24 VDC loss or power-up", "—", "All outputs de-energised", "Inherent",
      {**BR1_STOP, **BR2_STOP, "E5": "OPEN", "E6": "OPEN", "E7": "CLOSE"},
-     "S2 for scrubber; burners need START", PH,
+     "S2 for scrubber; burners need START (S1 / S6)", PH,
      "Result of valve types (NO / NO / NC) and relay outputs. After power returns nothing restarts "
      "by itself."),
     ("group", "GAS SCRUBBER"),
@@ -240,6 +248,10 @@ for row in matrix:
         r += 1
         continue
     no, tag, cause, addr, cond, typ, fx, reset, src, rem = row
+    # bare device codes are hard to read: name them where they appear
+    tag = TAG_NAMES.get(tag, tag)
+    reset, cond = (re.sub(r"\b(S0|S2)\b(?! \()", lambda m: f"{m.group(1)} ({BUTTONS[m.group(1)]})", t)
+                   for t in (reset, cond))
     for i, v in enumerate([no, tag, cause, addr, cond, typ], 1):
         put(ws, r, i, v, h="center" if i in (1, 4, 6) else "left")
     for eid, c in eidx.items():
