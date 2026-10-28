@@ -104,8 +104,10 @@ baseline/      export before a change
    Valve outputs are chosen so *de-energised = safe* (flare NO, drain NO, suction NC).
 5. **Tag names follow `docs/decisions/0005`** — instrument tag from the drawing,
    no spaces, no typos. The tower crane taught us what a messy tag table costs.
-6. **Single writer.** TIA must be **closed** before any Openness script; the
-   scripts refuse otherwise. If the user has it open, ask — do not close it.
+6. **Single writer.** TIA must be **closed** before any script that writes
+   (Compile, Apply-Blocks); they refuse otherwise. If the user has it open, ask —
+   do not close it. **Export and List-Blocks only read:** with TIA open they
+   attach read-only to it (never save/close).
 7. **Additive edits by default** (new block / new network), in-place edits need a
    `baseline/` diff. The `tia-openness` skill has the SimaticML rules — read it
    before generating any XML.

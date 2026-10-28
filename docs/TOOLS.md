@@ -31,7 +31,7 @@ py tools\check_docs.py
 ## TIA Openness (منقولة من مشروع الأوناش)
 
 `Export-TiaProject.ps1` و`Compile-Project.ps1` و`Apply-Blocks.ps1` و`List-Blocks.ps1` و`lad2text.py`
-و`ladxml.py`. **بتلاقي المشروع كأول `*.ap15_1` جوه `tia\`**. TIA لازم يكون مقفول، **والسكريبتات
+و`ladxml.py`. **بتلاقي المشروع كأول `*.ap15_1` جوه `tia\`**. TIA لازم يكون مقفول للي بيكتب (Compile وApply)، **ودول
 بترفض تشتغل لو مفتوح.** `-DryRun` موجود في `Apply-Blocks` و`Compile-Project` بس (Export وList مش
 بيحفظوا أصلًا). الشروط (جروب Openness، وأي حاجة تانية) في الـ skill `tia-openness`.
 
@@ -46,6 +46,10 @@ py tools\check_docs.py
 مااتصدّرش. **بلوك inconsistent مش بيتصدّر، فاعمل Compile (بحفظ) الأول.**
 
 **أول مرة PowerShell يكلّم TIA بتظهر رسالة Siemens `Openness access`.** اضغط Yes.
+
+**لو TIA مفتوح:** Export و`List-Blocks` **بيدخلوا عليه للقراية بس**، بشرط إن مشروع البيرنر هو
+المفتوح. مش بيحفظوا ولا بيقفلوا، وبيشوفوا التعديلات حتى لو مش محفوظة. Compile وApply-Blocks لسه
+بيرفضوا. التفاصيل في `docs/TOOLS.md` بتاع الأوناش.
 
 ## موجود على الجهاز
 

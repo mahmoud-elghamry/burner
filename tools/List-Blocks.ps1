@@ -1,5 +1,6 @@
 ﻿# Lists every block in the PLC with its type, number and instance-of info,
-# so new blocks/DBs can be created without colliding. Read-only.
+# so new blocks/DBs can be created without colliding. Read-only: with TIA
+# open it attaches to that instance instead of opening the project.
 param(
     [string]$ProjectPath = ((Get-ChildItem (Join-Path $PSScriptRoot "..\tia") -Recurse -Filter "*.ap15_1" -ErrorAction SilentlyContinue | Select-Object -First 1).FullName),
     [string]$ApiDir      = "C:\Program Files\Siemens\Automation\Portal V15_1\PublicAPI\V15.1"
@@ -14,9 +15,7 @@ foreach ($v in 'ProjectPath','OutDir','BuildDir','ApiDir') {
         if ($cur) { Set-Variable -Name $v -Value ([System.IO.Path]::GetFullPath($cur)) }
     }
 }
-if (Get-Process -Name 'Siemens.Automation.Portal' -ErrorAction SilentlyContinue) {
-    throw "TIA Portal is running. Close it first."
-}
+$attach = [bool](Get-Process -Name 'Siemens.Automation.Portal' -ErrorAction SilentlyContinue)
 $engDll = Join-Path $ApiDir 'Siemens.Engineering.dll'
 [System.Reflection.Assembly]::LoadFrom($engDll) | Out-Null
 
@@ -32,21 +31,55 @@ using Siemens.Engineering.SW.Tags;
 
 public class BlockLister
 {
-    public static void Run(string projectPath)
+    public static void Run(string projectPath, bool attach)
     {
-        TiaPortal portal = new TiaPortal(TiaPortalMode.WithoutUserInterface);
+        TiaPortal portal;
         Project prj = null;
+        if (attach) portal = AttachTo(projectPath, out prj);
+        else portal = new TiaPortal(TiaPortalMode.WithoutUserInterface);
         try
         {
-            prj = portal.Projects.Open(new FileInfo(projectPath));
+            if (!attach) prj = portal.Projects.Open(new FileInfo(projectPath));
             foreach (Device d in prj.Devices)
                 foreach (DeviceItem it in d.DeviceItems) Walk(it, 0);
         }
         finally
         {
-            try { if (prj != null) prj.Close(); } catch { }
+            // Attached: the project is the user's - only detach.
+            try { if (prj != null && !attach) prj.Close(); } catch { }
             try { portal.Dispose(); } catch { }
         }
+    }
+
+    // READ-ONLY attach to a TIA Portal the user already has open on THIS
+    // project. Never Save or Close here: the project and any unsaved edits
+    // belong to the user. Writing scripts still refuse while TIA is open.
+    static TiaPortal AttachTo(string projectPath, out Project found)
+    {
+        string want = Path.GetFullPath(projectPath);
+        TiaPortalProcess hit = null;
+        foreach (TiaPortalProcess p in TiaPortal.GetProcesses())
+        {
+            if (p.ProjectPath != null && string.Equals(
+                    Path.GetFullPath(p.ProjectPath.FullName), want, StringComparison.OrdinalIgnoreCase))
+            { hit = p; break; }
+        }
+        if (hit == null)
+            throw new Exception("TIA Portal is running but does not have " + want
+                                + " open. Open that project in TIA, or close TIA.");
+        Console.WriteLine("Attaching READ-ONLY to TIA process " + hit.Id
+                          + " (unsaved edits in TIA are included)");
+        TiaPortal portal = hit.Attach();
+        found = null;
+        foreach (Project p in portal.Projects)
+            if (string.Equals(Path.GetFullPath(p.Path.FullName), want, StringComparison.OrdinalIgnoreCase))
+            { found = p; break; }
+        if (found == null)
+        {
+            try { portal.Dispose(); } catch { }
+            throw new Exception("attached, but " + want + " is not open in that TIA instance");
+        }
+        return portal;
     }
 
     static void Walk(DeviceItem item, int depth)
@@ -99,4 +132,4 @@ public class BlockLister
 '@
 
 Add-Type -TypeDefinition $src -ReferencedAssemblies $engDll, 'System.Core' -ErrorAction Stop
-[BlockLister]::Run($ProjectPath)
+[BlockLister]::Run($ProjectPath, $attach)

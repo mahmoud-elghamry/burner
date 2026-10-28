@@ -66,9 +66,11 @@ Continuing anyway...
 "@
 }
 
-if (Get-Process -Name 'Siemens.Automation.Portal' -ErrorAction SilentlyContinue) {
-    throw "TIA Portal is running. Close it first (single writer - the export would read a locked or stale project)."
-}
+# Export only reads, so with TIA open it attaches to that instance instead of
+# opening the project itself. Blocks still have to be compiled (in TIA, saving
+# is not needed) - inconsistent blocks do not export.
+$attach = [bool](Get-Process -Name 'Siemens.Automation.Portal' -ErrorAction SilentlyContinue)
+if ($attach) { Write-Host "TIA Portal is open - attaching READ-ONLY." -ForegroundColor Yellow }
 
 New-Item -ItemType Directory -Force -Path $OutDir | Out-Null
 
@@ -119,8 +121,48 @@ public class TiaPlcExporter
     public static TiaPortal Portal;
     public static Project Prj;
 
-    public static void Open(string projectPath)
+    public static bool Attached;
+
+    // READ-ONLY attach to a TIA Portal the user already has open on THIS
+    // project. Never Save or Close here: the project and any unsaved edits
+    // belong to the user. Writing scripts still refuse while TIA is open.
+    static TiaPortal AttachTo(string projectPath, out Project found)
     {
+        string want = Path.GetFullPath(projectPath);
+        TiaPortalProcess hit = null;
+        foreach (TiaPortalProcess p in TiaPortal.GetProcesses())
+        {
+            if (p.ProjectPath != null && string.Equals(
+                    Path.GetFullPath(p.ProjectPath.FullName), want, StringComparison.OrdinalIgnoreCase))
+            { hit = p; break; }
+        }
+        if (hit == null)
+            throw new Exception("TIA Portal is running but does not have " + want
+                                + " open. Open that project in TIA, or close TIA.");
+        Console.WriteLine("Attaching READ-ONLY to TIA process " + hit.Id
+                          + " (unsaved edits in TIA are included)");
+        TiaPortal portal = hit.Attach();
+        found = null;
+        foreach (Project p in portal.Projects)
+            if (string.Equals(Path.GetFullPath(p.Path.FullName), want, StringComparison.OrdinalIgnoreCase))
+            { found = p; break; }
+        if (found == null)
+        {
+            try { portal.Dispose(); } catch { }
+            throw new Exception("attached, but " + want + " is not open in that TIA instance");
+        }
+        return portal;
+    }
+
+    public static void Open(string projectPath, bool attach)
+    {
+        if (attach)
+        {
+            Portal = AttachTo(projectPath, out Prj);
+            Attached = true;
+            L("Project attached: " + Prj.Name);
+            return;
+        }
         Portal = new TiaPortal(TiaPortalMode.WithoutUserInterface);
         L("Opening " + projectPath);
         Prj = Portal.Projects.Open(new FileInfo(projectPath));
@@ -129,7 +171,8 @@ public class TiaPlcExporter
 
     public static void Close()
     {
-        try { if (Prj != null) Prj.Close(); } catch { }
+        // Attached: the project is the user's - only detach.
+        try { if (Prj != null && !Attached) Prj.Close(); } catch { }
         try { if (Portal != null) Portal.Dispose(); } catch { }
     }
 
@@ -372,7 +415,7 @@ try {
 $logPath = Join-Path (Split-Path $OutDir -Parent) 'export-log.txt'
 $hmiThrew = $false
 try {
-    [TiaPlcExporter]::Open($ProjectPath)
+    [TiaPlcExporter]::Open($ProjectPath, $attach)
     [TiaPlcExporter]::ExportAll($OutDir)
 
     if ($hmiCompiled) {
