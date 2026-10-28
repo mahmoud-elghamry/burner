@@ -60,6 +60,7 @@
     TStart_Act                         : Time
     TOn                                : Int
     TStg                               : Int
+    TStgOff                            : Int
     T_PwrUp                            : TON_TIME
     T_TcBad                            : TON_TIME
     T_24h                              : TON_TIME
@@ -201,89 +202,94 @@ NETWORK 19  --  C0xb / C0xc — restart and 2nd-stage limits
    (no statements decoded)
 
 ------------------------------------------------------------------------------
-NETWORK 20  --  C0xb — AUTO demand on at T <= SP - HYST
+NETWORK 20  --  C0xc / F41 — 2nd stage back to 1st at SP - STG + 2.0 degC
+------------------------------------------------------------------------------
+   (no statements decoded)
+
+------------------------------------------------------------------------------
+NETWORK 21  --  C0xb — AUTO demand on at T <= SP - HYST
 ------------------------------------------------------------------------------
    #Demand := S (#Tmax <= #TOn)
 
 ------------------------------------------------------------------------------
-NETWORK 21  --  C0xb — AUTO demand off at T >= SP, or no valid temperature
+NETWORK 22  --  C0xb — AUTO demand off at T >= SP, or no valid temperature
 ------------------------------------------------------------------------------
    #Demand := R ((#Tmax >= #SP_Act) OR NOT #TcOk)
 
 ------------------------------------------------------------------------------
-NETWORK 22  --  B-01 — heat needed: AUTO = hysteresis, MAN = below SP
+NETWORK 23  --  B-01 — heat needed: AUTO = hysteresis, MAN = below SP
 ------------------------------------------------------------------------------
    #HeatNeed := (#TcOk AND #Auto AND #Demand OR #TcOk AND NOT #Auto AND (#Tmax < #SP_Act))
 
 ------------------------------------------------------------------------------
-NETWORK 23  --  C0xa / C0xd / C01 / C0xe / C07h — ready to fire
+NETWORK 24  --  C0xa / C0xd / C01 / C0xe / C07h — ready to fire
 ------------------------------------------------------------------------------
    #Ready := #LevelOK AND #TcOk AND #EStopOK AND NOT #Lockout AND NOT #Pause24
 
 ------------------------------------------------------------------------------
-NETWORK 24  --  C07h / R-08 — 24 h of continuous request: forced stop
+NETWORK 25  --  C07h / R-08 — 24 h of continuous request: forced stop
 ------------------------------------------------------------------------------
    #Pause24 := S TON(IN:=#Use24h AND #Active, PT:=T#24H)[T_24h].Q
 
 ------------------------------------------------------------------------------
-NETWORK 25  --  R-08 — restart allowed after RUN has been off 60 s
+NETWORK 26  --  R-08 — restart allowed after RUN has been off 60 s
 ------------------------------------------------------------------------------
    #Pause24 := R TON(IN:=#Pause24 AND NOT #RunFb, PT:=T#60S)[T_Pause].Q
 
 ------------------------------------------------------------------------------
-NETWORK 26  --  R-09 — RUN on without our request for 30 s
+NETWORK 27  --  R-09 — RUN on without our request for 30 s
 ------------------------------------------------------------------------------
    #RunWrong := TON(IN:=#RunFb AND NOT #Active, PT:=T#30S)[T_RunOff].Q
 
 ------------------------------------------------------------------------------
-NETWORK 27  --  C0xf — no RUN within T_START
+NETWORK 28  --  C0xf — no RUN within T_START
 ------------------------------------------------------------------------------
    #NoStart := TON(IN:=(#State = 1), PT:=#TStart_Act)[T_Start].Q
 
 ------------------------------------------------------------------------------
-NETWORK 28  --  R-01 / B-01 — START accepted: IDLE, ready, and in MAN only if heat is needed
+NETWORK 29  --  R-01 / B-01 — START accepted: IDLE, ready, and in MAN only if heat is needed
 ------------------------------------------------------------------------------
    #Enabled := S (#StartEdge AND (#State = 0) AND #Ready AND #Auto OR #StartEdge AND (#State = 0) AND #Ready AND #HeatNeed)
 
 ------------------------------------------------------------------------------
-NETWORK 29  --  B-01 / R-02 / R-12 — STOP, AUTO/MAN change or fuel change take the START back
+NETWORK 30  --  B-01 / R-02 / R-12 — STOP, AUTO/MAN change or fuel change take the START back
 ------------------------------------------------------------------------------
    #Enabled := R (NOT #StopOK OR #AutoChg OR #FuelChg)
 
 ------------------------------------------------------------------------------
-NETWORK 30  --  B-01 — IDLE -> STARTING (R-09: not if RUN is already on)
+NETWORK 31  --  B-01 — IDLE -> STARTING (R-09: not if RUN is already on)
 ------------------------------------------------------------------------------
    IF (#State = 0) AND #Enabled AND #Ready AND #HeatNeed AND NOT #RunFb THEN  MOVE  1  ->  #State
 
 ------------------------------------------------------------------------------
-NETWORK 31  --  B-01 — STARTING -> RUNNING on RUN
+NETWORK 32  --  B-01 — STARTING -> RUNNING on RUN
 ------------------------------------------------------------------------------
    IF (#State = 1) AND #RunFb THEN  MOVE  2  ->  #State
 
 ------------------------------------------------------------------------------
-NETWORK 32  --  C0xa / C0xb / C07h / B-01 — STARTING or RUNNING -> IDLE
+NETWORK 33  --  C0xa / C0xb / C07h / B-01 — STARTING or RUNNING -> IDLE
 ------------------------------------------------------------------------------
    IF (((#State = 1) OR (#State = 2)) AND NOT #Ready OR ((#State = 1) OR (#State = 2)) AND NOT #HeatNeed OR ((#State = 1) OR (#State = 2)) AND NOT #Enabled) THEN  MOVE  0  ->  #State
 
 ------------------------------------------------------------------------------
-NETWORK 33  --  R-03 — MAN: one cycle; any stop needs a new START
+NETWORK 34  --  R-03 — MAN: one cycle; any stop needs a new START
 ------------------------------------------------------------------------------
    #Enabled := R NOT #Auto AND (#State = 0) AND #Active
 
 ------------------------------------------------------------------------------
-NETWORK 34  --  C0xf — failed to start
+NETWORK 35  --  C0xf — failed to start
 ------------------------------------------------------------------------------
    IF (#State = 1) AND #NoStart THEN  MOVE  3  ->  #State
    #F_NoStart := S (#State = 1) AND #NoStart
 
 ------------------------------------------------------------------------------
-NETWORK 35  --  C0xg — RUN lost while running, no lockout, not stopped by us
+NETWORK 36  --  C0xg — RUN lost while running, no lockout, not stopped by us
 ------------------------------------------------------------------------------
    IF (#State = 2) AND NOT #RunFb AND NOT #Lockout THEN  MOVE  3  ->  #State
    #F_RunLost := S (#State = 2) AND NOT #RunFb AND NOT #Lockout
 
 ------------------------------------------------------------------------------
-NETWORK 36  --  R-06 / R-07 — RESET leaves FAULT only when every cause is gone
+NETWORK 37  --  R-06 / R-07 — RESET leaves FAULT only when every cause is gone
 ------------------------------------------------------------------------------
    IF (#State = 3) AND #ResetPulse AND #EStopOK AND NOT #Lockout AND #TcOk AND NOT #RunFb THEN  MOVE  0  ->  #State
    #F_EStop := R (#State = 3) AND #ResetPulse AND #EStopOK AND NOT #Lockout AND #TcOk AND NOT #RunFb
@@ -294,44 +300,49 @@ NETWORK 36  --  R-06 / R-07 — RESET leaves FAULT only when every cause is gone
    #F_RunWrong := R (#State = 3) AND #ResetPulse AND #EStopOK AND NOT #Lockout AND #TcOk AND NOT #RunFb
 
 ------------------------------------------------------------------------------
-NETWORK 37  --  C01 — E-STOP
+NETWORK 38  --  C01 — E-STOP
 ------------------------------------------------------------------------------
    IF NOT #EStopOK THEN  MOVE  3  ->  #State
    #F_EStop := S NOT #EStopOK
 
 ------------------------------------------------------------------------------
-NETWORK 38  --  C0xe — burner lockout
+NETWORK 39  --  C0xe — burner lockout
 ------------------------------------------------------------------------------
    IF #Lockout THEN  MOVE  3  ->  #State
    #F_Lockout := S #Lockout
 
 ------------------------------------------------------------------------------
-NETWORK 39  --  C0xd — thermocouple fault
+NETWORK 40  --  C0xd — thermocouple fault
 ------------------------------------------------------------------------------
    IF #TcBad THEN  MOVE  3  ->  #State
    #F_TC := S #TcBad
 
 ------------------------------------------------------------------------------
-NETWORK 40  --  R-09 — RUN without request
+NETWORK 41  --  R-09 — RUN without request
 ------------------------------------------------------------------------------
    IF #RunWrong THEN  MOVE  3  ->  #State
    #F_RunWrong := S #RunWrong
 
 ------------------------------------------------------------------------------
-NETWORK 41  --  B-02 — FAULT takes the START back
+NETWORK 42  --  B-02 — FAULT takes the START back
 ------------------------------------------------------------------------------
    #Enabled := R (#State = 3)
 
 ------------------------------------------------------------------------------
-NETWORK 42  --  E1 / E3 — heat request while STARTING or RUNNING
+NETWORK 43  --  E1 / E3 — heat request while STARTING or RUNNING
 ------------------------------------------------------------------------------
    #Active := ((#State = 1) OR (#State = 2))
    #HeatReq := ((#State = 1) OR (#State = 2))
 
 ------------------------------------------------------------------------------
-NETWORK 43  --  C0xc — 2nd stage: RUNNING and T < SP - STG
+NETWORK 44  --  C0xc — 2nd stage on: RUNNING and T < SP - STG
 ------------------------------------------------------------------------------
-   #Stage2 := (#State = 2) AND (#Tmax < #TStg)
+   #Stage2 := S (#State = 2) AND (#Tmax < #TStg)
+
+------------------------------------------------------------------------------
+NETWORK 45  --  C0xc / F41 — 2nd stage off at SP - STG + 2 degC, or when not RUNNING
+------------------------------------------------------------------------------
+   #Stage2 := R ((#Tmax >= #TStgOff) OR (#State <> 2))
 
 ##############################################################################
 # BLOCK FC   Common   (LAD, No.1, Optimized)
