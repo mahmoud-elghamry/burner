@@ -182,8 +182,8 @@ def burner_rows(n, br, tk, lsl, te_in, te_out, rr, flt, stop_fx, stg):
          "Client cases 2/3/6. The higher of inlet/outlet is used and the 5 °C restart band are PH "
          "proposals: each restart costs ~50 s of purge."),
         (f"{p}c", te[0], f"{tk} oil temperature low — fast heat-up", te[1], "max(T) < SP − STG (60 °C)",
-         "Control", {stg: "RUN"}, "Automatic at max(T) >= 60 °C", PH,
-         "2nd stage / high fire. Between 60 and 70 °C the burner runs on 1st stage."),
+         "Control", {stg: "RUN"}, "Automatic at max(T) >= 62 °C (2 °C band)", PH,
+         "2nd stage / high fire. Between 60 and 70 °C the burner runs on 1st stage. Back to 1st stage at 62 °C: the 2 °C band stops relay R2 / R7 chattering at 60 °C."),
         (f"{p}d", te[0], "Thermocouple fault — either of the two", te[1],
          "Either channel: 32767 / −32768, outside −20…150 °C, or channel diagnostic", "Trip", alarm,
          "S2 after fault cleared", PH,

@@ -88,6 +88,13 @@ class Net(L.Net):
                          '      <TemplateValue Name="SrcType" Type="Type">%s</TemplateValue>\n'
                          '    </Part>' % typ)
 
+    def add(self, typ):
+        # ADD عدد دخوله متغيّر، فليه Card
+        return self.part('    <Part Name="Add" UId="%%s" DisabledENO="false">\n'
+                         '      <TemplateValue Name="Card" Type="Cardinality">2</TemplateValue>\n'
+                         '      <TemplateValue Name="SrcType" Type="Type">%s</TemplateValue>\n'
+                         '    </Part>' % typ)
+
 
 # ---- تعبيرات الرانج -----------------------------------------------------
 #   '"X"' أو '#X'          كونتاكت NO
@@ -153,9 +160,9 @@ def outputs(net, node, outs):
             net.wire(node, net.pin(m, 'en'))
             net.wire(net.operand(o[1]), net.pin(m, 'in'))
             net.wire(net.pin(m, 'out1'), net.operand(o[2]))
-        elif k == 'SUB':
+        elif k in ('SUB', 'ADD'):
             _, typ, a, b, dst = o
-            s = net.sub(typ)
+            s = net.sub(typ) if k == 'SUB' else net.add(typ)
             net.wire(node, net.pin(s, 'en'))
             net.wire(net.operand(a), net.pin(s, 'in1'))
             net.wire(net.operand(b), net.pin(s, 'in2'))
@@ -443,7 +450,7 @@ BR_STAT = [
     ('TcOk', 'Bool'), ('TcBad', 'Bool'), ('Demand', 'Bool'), ('HeatNeed', 'Bool'),
     ('Ready', 'Bool'), ('Active', 'Bool'), ('Pause24', 'Bool'), ('RunWrong', 'Bool'),
     ('NoStart', 'Bool'), ('PwrUpDone', 'Bool'), ('TcSlow', 'Bool'), ('SP_Act', 'Int'), ('HYST_Act', 'Int'), ('STG_Act', 'Int'),
-    ('TStart_Act', 'Time'), ('TOn', 'Int'), ('TStg', 'Int'),
+    ('TStart_Act', 'Time'), ('TOn', 'Int'), ('TStg', 'Int'), ('TStgOff', 'Int'),
 ]
 BR_TON = ['T_PwrUp', 'T_TcBad', 'T_24h', 'T_Pause', 'T_RunOff', 'T_Start']
 
@@ -506,6 +513,8 @@ def burner_fb():
         rung('C0xb / C0xc — restart and 2nd-stage limits', None,
              ('SUB', 'Int', '#SP_Act', '#HYST_Act', '#TOn'),
              ('SUB', 'Int', '#SP_Act', '#STG_Act', '#TStg')),
+        rung('C0xc / F41 — 2nd stage back to 1st at SP - STG + 2.0 degC', None,
+             ('ADD', 'Int', '#TStg', '20', '#TStgOff')),
         rung('C0xb — AUTO demand on at T <= SP - HYST', ('Le', 'Int', '#Tmax', '#TOn'),
              ('S', '#Demand')),
         rung('C0xb — AUTO demand off at T >= SP, or no valid temperature',
@@ -566,8 +575,11 @@ def burner_fb():
         # ---- المخارج ------------------------------------------------------
         rung('E1 / E3 — heat request while STARTING or RUNNING', active,
              ('=', '#Active'), ('=', '#HeatReq')),
-        rung('C0xc — 2nd stage: RUNNING and T < SP - STG',
-             ('&', st(RUNNING), ('Lt', 'Int', '#Tmax', '#TStg')), ('=', '#Stage2')),
+        rung('C0xc — 2nd stage on: RUNNING and T < SP - STG',
+             ('&', st(RUNNING), ('Lt', 'Int', '#Tmax', '#TStg')), ('S', '#Stage2')),
+        rung('C0xc / F41 — 2nd stage off at SP - STG + 2 degC, or when not RUNNING',
+             ('|', ('Ge', 'Int', '#Tmax', '#TStgOff'), ('Ne', 'Int', '#State', RUNNING)),
+             ('R', '#Stage2')),
     ]
     stat = [member(n, t, retain=False) for n, t in BR_STAT] + [TON_FULL % t for t in BR_TON]
     iface = interface([

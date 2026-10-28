@@ -70,6 +70,7 @@
     <Member Name="TStart_Act" Datatype="Time" Remanence="NonRetain" Accessibility="Public" />
     <Member Name="TOn" Datatype="Int" Remanence="NonRetain" Accessibility="Public" />
     <Member Name="TStg" Datatype="Int" Remanence="NonRetain" Accessibility="Public" />
+    <Member Name="TStgOff" Datatype="Int" Remanence="NonRetain" Accessibility="Public" />
     <Member Name="T_PwrUp" Datatype="TON_TIME" Remanence="NonRetain" Accessibility="Public" />
     <Member Name="T_TcBad" Datatype="TON_TIME" Remanence="NonRetain" Accessibility="Public" />
     <Member Name="T_24h" Datatype="TON_TIME" Remanence="NonRetain" Accessibility="Public" />
