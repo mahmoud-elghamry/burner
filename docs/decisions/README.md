@@ -9,4 +9,4 @@
 | [0003](0003-temperature-control-max-of-two-hysteresis-5.md) | التحكم بأعلى قراءة، وهيستريسيس 5 درجات | MAX والهيستريسيس مؤكدان داخليًا؛ الأرقام قابلة للتعديل، وبقية الاختيارات بحالتها السابقة |
 | [0004](0004-tia-portal-v15-1.md) | TIA Portal V15.1 | proposed — الافتراضي |
 | [0005](0005-tag-naming.md) | قاعدة أسماء التاجات | accepted |
-| [0006](0006-program-architecture.md) | هيكل البرنامج: FB واحد للبيرنر بنسختين، وFB للـ scrubber | proposed — مستني زين |
+| [0006](0006-program-architecture.md) | هيكل البرنامج: FB واحد للبيرنر بنسختين، وFB للـ scrubber | accepted — 2026-10-28 |
