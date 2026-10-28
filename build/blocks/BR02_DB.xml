@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Document>
+  <Engineering version="V15.1" />
+  <SW.Blocks.InstanceDB ID="0">
+    <AttributeList>
+      <AutoNumber>false</AutoNumber>
+      <HeaderAuthor />
+      <HeaderFamily />
+      <HeaderName />
+      <HeaderVersion>0.1</HeaderVersion>
+      <InstanceOfName>Burner</InstanceOfName>
+      <InstanceOfType>FB</InstanceOfType>
+      <Interface><Sections xmlns="http://www.siemens.com/automation/Openness/SW/Interface/v3">
+  <Section Name="Input">
+    <Member Name="Auto" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
+    <Member Name="StartPB" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
+    <Member Name="StopOK" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
+    <Member Name="LevelOK" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
+    <Member Name="RunFb" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
+    <Member Name="Lockout" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
+    <Member Name="Fuel" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
+    <Member Name="TeA" Datatype="Int" Remanence="NonRetain" Accessibility="Public" />
+    <Member Name="TeB" Datatype="Int" Remanence="NonRetain" Accessibility="Public" />
+    <Member Name="Use24h" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
+    <Member Name="EStopOK" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
+    <Member Name="ResetPulse" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
+    <Member Name="FirstScan" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
+    <Member Name="SP" Datatype="Int" Remanence="NonRetain" Accessibility="Public" />
+    <Member Name="HYST" Datatype="Int" Remanence="NonRetain" Accessibility="Public" />
+    <Member Name="STG" Datatype="Int" Remanence="NonRetain" Accessibility="Public" />
+    <Member Name="TStart" Datatype="Time" Remanence="NonRetain" Accessibility="Public" />
+  </Section>
+  <Section Name="Output">
+    <Member Name="HeatReq" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
+    <Member Name="Stage2" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
+    <Member Name="State" Datatype="Int" Remanence="NonRetain" Accessibility="Public" />
+    <Member Name="Enabled" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
+    <Member Name="Tmax" Datatype="Int" Remanence="NonRetain" Accessibility="Public" />
+    <Member Name="F_EStop" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
+    <Member Name="F_TC" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
+    <Member Name="F_Lockout" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
+    <Member Name="F_NoStart" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
+    <Member Name="F_RunLost" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
+    <Member Name="F_RunWrong" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
+  </Section>
+  <Section Name="InOut" />
+  <Section Name="Static">
+    <Member Name="StartEdge" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
+    <Member Name="StartMem" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
+    <Member Name="AutoChg" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
+    <Member Name="AutoMem" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
+    <Member Name="FuelChg" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
+    <Member Name="FuelMem" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
+    <Member Name="TcOkA" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
+    <Member Name="TcOkB" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
+    <Member Name="TcOk" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
+    <Member Name="TcBad" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
+    <Member Name="Demand" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
+    <Member Name="HeatNeed" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
+    <Member Name="Ready" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
+    <Member Name="Active" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
+    <Member Name="Pause24" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
+    <Member Name="RunWrong" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
+    <Member Name="NoStart" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
+    <Member Name="SP_Act" Datatype="Int" Remanence="NonRetain" Accessibility="Public" />
+    <Member Name="HYST_Act" Datatype="Int" Remanence="NonRetain" Accessibility="Public" />
+    <Member Name="STG_Act" Datatype="Int" Remanence="NonRetain" Accessibility="Public" />
+    <Member Name="TStart_Act" Datatype="Time" Remanence="NonRetain" Accessibility="Public" />
+    <Member Name="TOn" Datatype="Int" Remanence="NonRetain" Accessibility="Public" />
+    <Member Name="TStg" Datatype="Int" Remanence="NonRetain" Accessibility="Public" />
+    <Member Name="T_TcBad" Datatype="TON_TIME" Remanence="NonRetain" Accessibility="Public" />
+    <Member Name="T_24h" Datatype="TON_TIME" Remanence="NonRetain" Accessibility="Public" />
+    <Member Name="T_Pause" Datatype="TON_TIME" Remanence="NonRetain" Accessibility="Public" />
+    <Member Name="T_RunOff" Datatype="TON_TIME" Remanence="NonRetain" Accessibility="Public" />
+    <Member Name="T_Start" Datatype="TON_TIME" Remanence="NonRetain" Accessibility="Public" />
+  </Section>
+</Sections></Interface>
+      <MemoryLayout>Optimized</MemoryLayout>
+      <Name>BR02_DB</Name>
+      <Number>4</Number>
+      <ProgrammingLanguage>DB</ProgrammingLanguage>
+    </AttributeList>
+    <ObjectList>
+      <MultilingualText ID="1" CompositionName="Comment">
+        <ObjectList>
+          <MultilingualTextItem ID="2" CompositionName="Items">
+            <AttributeList>
+              <Culture>en-US</Culture>
+              <Text />
+            </AttributeList>
+          </MultilingualTextItem>
+        </ObjectList>
+      </MultilingualText>
+      <MultilingualText ID="3" CompositionName="Title">
+        <ObjectList>
+          <MultilingualTextItem ID="4" CompositionName="Items">
+            <AttributeList>
+              <Culture>en-US</Culture>
+              <Text />
+            </AttributeList>
+          </MultilingualTextItem>
+        </ObjectList>
+      </MultilingualText>
+    </ObjectList>
+  </SW.Blocks.InstanceDB>
+</Document>

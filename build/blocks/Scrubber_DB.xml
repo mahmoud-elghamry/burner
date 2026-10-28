@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Document>
+  <Engineering version="V15.1" />
+  <SW.Blocks.InstanceDB ID="0">
+    <AttributeList>
+      <AutoNumber>false</AutoNumber>
+      <HeaderAuthor />
+      <HeaderFamily />
+      <HeaderName />
+      <HeaderVersion>0.1</HeaderVersion>
+      <InstanceOfName>Scrubber</InstanceOfName>
+      <InstanceOfType>FB</InstanceOfType>
+      <Interface><Sections xmlns="http://www.siemens.com/automation/Openness/SW/Interface/v3">
+  <Section Name="Input">
+    <Member Name="PSH" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
+    <Member Name="LSH" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
+    <Member Name="LSHH" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
+    <Member Name="EStopOK" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
+    <Member Name="ResetPulse" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
+    <Member Name="FirstScan" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
+  </Section>
+  <Section Name="Output">
+    <Member Name="Tripped" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
+    <Member Name="ValvesNormal" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
+    <Member Name="Alm_PSH" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
+    <Member Name="Alm_LSH" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
+    <Member Name="Alm_LSHH" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
+  </Section>
+  <Section Name="InOut" />
+  <Section Name="Static" />
+</Sections></Interface>
+      <MemoryLayout>Optimized</MemoryLayout>
+      <Name>Scrubber_DB</Name>
+      <Number>5</Number>
+      <ProgrammingLanguage>DB</ProgrammingLanguage>
+    </AttributeList>
+    <ObjectList>
+      <MultilingualText ID="1" CompositionName="Comment">
+        <ObjectList>
+          <MultilingualTextItem ID="2" CompositionName="Items">
+            <AttributeList>
+              <Culture>en-US</Culture>
+              <Text />
+            </AttributeList>
+          </MultilingualTextItem>
+        </ObjectList>
+      </MultilingualText>
+      <MultilingualText ID="3" CompositionName="Title">
+        <ObjectList>
+          <MultilingualTextItem ID="4" CompositionName="Items">
+            <AttributeList>
+              <Culture>en-US</Culture>
+              <Text />
+            </AttributeList>
+          </MultilingualTextItem>
+        </ObjectList>
+      </MultilingualText>
+    </ObjectList>
+  </SW.Blocks.InstanceDB>
+</Document>

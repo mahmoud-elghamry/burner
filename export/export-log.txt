@@ -2,11 +2,21 @@
 Project opened: Burner
 
 === PLC: PLC_1 ===
+OK   Par   [DB]
+OK   Sys   [DB]
+OK   Common   [LAD]
+OK   Scrubber   [LAD]
+OK   Scrubber_DB   [DB]
+OK   Burner   [LAD]
+OK   BR01_DB   [DB]
+OK   BR02_DB   [DB]
+OK   Outputs   [LAD]
+OK   Startup   [LAD]
 OK   Main   [LAD]
 OK   TagTable Default tag table
 OK   TagTable IO
 
-PLC summary -> exported: 3, protected(skipped): 0, failed: 0
+PLC summary -> exported: 13, protected(skipped): 0, failed: 0
 
 
 HMI summary -> exported: 0, failed: 0

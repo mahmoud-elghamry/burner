@@ -1,0 +1,645 @@
+##############################################################################
+# BLOCK FB   Burner   (LAD, No.1, Optimized)
+##############################################################################
+
+  VAR_INPUT
+    Auto                               : Bool
+    StartPB                            : Bool
+    StopOK                             : Bool
+    LevelOK                            : Bool
+    RunFb                              : Bool
+    Lockout                            : Bool
+    Fuel                               : Bool
+    TeA                                : Int
+    TeB                                : Int
+    Use24h                             : Bool
+    EStopOK                            : Bool
+    ResetPulse                         : Bool
+    FirstScan                          : Bool
+    SP                                 : Int
+    HYST                               : Int
+    STG                                : Int
+    TStart                             : Time
+
+  VAR_OUTPUT
+    HeatReq                            : Bool
+    Stage2                             : Bool
+    State                              : Int
+    Enabled                            : Bool
+    Tmax                               : Int
+    F_EStop                            : Bool
+    F_TC                               : Bool
+    F_Lockout                          : Bool
+    F_NoStart                          : Bool
+    F_RunLost                          : Bool
+    F_RunWrong                         : Bool
+
+  VAR_STATIC
+    StartEdge                          : Bool
+    StartMem                           : Bool
+    AutoChg                            : Bool
+    AutoMem                            : Bool
+    FuelChg                            : Bool
+    FuelMem                            : Bool
+    TcOkA                              : Bool
+    TcOkB                              : Bool
+    TcOk                               : Bool
+    TcBad                              : Bool
+    Demand                             : Bool
+    HeatNeed                           : Bool
+    Ready                              : Bool
+    Active                             : Bool
+    Pause24                            : Bool
+    RunWrong                           : Bool
+    NoStart                            : Bool
+    SP_Act                             : Int
+    HYST_Act                           : Int
+    STG_Act                            : Int
+    TStart_Act                         : Time
+    TOn                                : Int
+    TStg                               : Int
+    T_TcBad                            : TON_TIME
+    T_24h                              : TON_TIME
+    T_Pause                            : TON_TIME
+    T_RunOff                           : TON_TIME
+    T_Start                            : TON_TIME
+
+  VAR_NONE
+    PT                                 : Time
+    ET                                 : Time
+    IN                                 : Bool
+    Q                                  : Bool
+
+  VAR_NONE
+    PT                                 : Time
+    ET                                 : Time
+    IN                                 : Bool
+    Q                                  : Bool
+
+  VAR_NONE
+    PT                                 : Time
+    ET                                 : Time
+    IN                                 : Bool
+    Q                                  : Bool
+
+  VAR_NONE
+    PT                                 : Time
+    ET                                 : Time
+    IN                                 : Bool
+    Q                                  : Bool
+
+  VAR_NONE
+    PT                                 : Time
+    ET                                 : Time
+    IN                                 : Bool
+    Q                                  : Bool
+
+------------------------------------------------------------------------------
+NETWORK 1  --  R-05 — START edge: not on first scan, only after seen released, STOP wins
+------------------------------------------------------------------------------
+   #StartEdge := #StartPB AND NOT #StartMem AND NOT #FirstScan AND #StopOK
+
+------------------------------------------------------------------------------
+NETWORK 2  --  R-05 — START edge memory
+------------------------------------------------------------------------------
+   #StartMem := #StartPB
+
+------------------------------------------------------------------------------
+NETWORK 3  --  R-02 — AUTO/MAN changed
+------------------------------------------------------------------------------
+   #AutoChg := (#Auto AND NOT #AutoMem OR NOT #Auto AND #AutoMem)
+
+------------------------------------------------------------------------------
+NETWORK 4  --  R-02 — AUTO/MAN memory
+------------------------------------------------------------------------------
+   #AutoMem := #Auto
+
+------------------------------------------------------------------------------
+NETWORK 5  --  R-12 — fuel mode changed
+------------------------------------------------------------------------------
+   #FuelChg := (#Fuel AND NOT #FuelMem OR NOT #Fuel AND #FuelMem)
+
+------------------------------------------------------------------------------
+NETWORK 6  --  R-12 — fuel mode memory
+------------------------------------------------------------------------------
+   #FuelMem := #Fuel
+
+------------------------------------------------------------------------------
+NETWORK 7  --  C0xd — channel A valid: -20.0 .. 150.0 degC (32767 / -32768 fall outside)
+------------------------------------------------------------------------------
+   #TcOkA := (#TeA >= -200) AND (#TeA <= 1500)
+
+------------------------------------------------------------------------------
+NETWORK 8  --  C0xd — channel B valid
+------------------------------------------------------------------------------
+   #TcOkB := (#TeB >= -200) AND (#TeB <= 1500)
+
+------------------------------------------------------------------------------
+NETWORK 9  --  C0xd — both channels valid, each checked before MAX
+------------------------------------------------------------------------------
+   #TcOk := #TcOkA AND #TcOkB
+
+------------------------------------------------------------------------------
+NETWORK 10  --  C0xd / R-10 — invalid for more than 10 s = fault (heat is blocked at once)
+------------------------------------------------------------------------------
+   #TcBad := TON(IN:=NOT #TcOk, PT:=T#10S)[T_TcBad].Q
+
+------------------------------------------------------------------------------
+NETWORK 11  --  C0xb — temperature = higher channel (A)
+------------------------------------------------------------------------------
+   IF (#TeA >= #TeB) THEN  MOVE  #TeA  ->  #Tmax
+
+------------------------------------------------------------------------------
+NETWORK 12  --  C0xb — temperature = higher channel (B)
+------------------------------------------------------------------------------
+   IF (#TeA < #TeB) THEN  MOVE  #TeB  ->  #Tmax
+
+------------------------------------------------------------------------------
+NETWORK 13  --  R-11 — burner not heating: take all parameters
+------------------------------------------------------------------------------
+   IF NOT #Active THEN  MOVE  #SP  ->  #SP_Act
+   IF NOT #Active THEN  MOVE  #STG  ->  #STG_Act
+   IF NOT #Active THEN  MOVE  #TStart  ->  #TStart_Act
+
+------------------------------------------------------------------------------
+NETWORK 14  --  R-11 — lower SP applies at once
+------------------------------------------------------------------------------
+   IF (#SP <= #SP_Act) THEN  MOVE  #SP  ->  #SP_Act
+
+------------------------------------------------------------------------------
+NETWORK 15  --  R-11 — higher STG (less 2nd stage) applies at once
+------------------------------------------------------------------------------
+   IF (#STG >= #STG_Act) THEN  MOVE  #STG  ->  #STG_Act
+
+------------------------------------------------------------------------------
+NETWORK 16  --  R-11 — HYST only acts while stopped, so it is taken at once
+------------------------------------------------------------------------------
+   MOVE  #HYST  ->  #HYST_Act
+
+------------------------------------------------------------------------------
+NETWORK 17  --  C0xb / C0xc — restart and 2nd-stage limits
+------------------------------------------------------------------------------
+   (no statements decoded)
+
+------------------------------------------------------------------------------
+NETWORK 18  --  C0xb — AUTO demand on at T <= SP - HYST
+------------------------------------------------------------------------------
+   #Demand := S (#Tmax <= #TOn)
+
+------------------------------------------------------------------------------
+NETWORK 19  --  C0xb — AUTO demand off at T >= SP, or no valid temperature
+------------------------------------------------------------------------------
+   #Demand := R ((#Tmax >= #SP_Act) OR NOT #TcOk)
+
+------------------------------------------------------------------------------
+NETWORK 20  --  B-01 — heat needed: AUTO = hysteresis, MAN = below SP
+------------------------------------------------------------------------------
+   #HeatNeed := (#TcOk AND #Auto AND #Demand OR #TcOk AND NOT #Auto AND (#Tmax < #SP_Act))
+
+------------------------------------------------------------------------------
+NETWORK 21  --  C0xa / C0xd / C01 / C0xe / C07h — ready to fire
+------------------------------------------------------------------------------
+   #Ready := #LevelOK AND #TcOk AND #EStopOK AND NOT #Lockout AND NOT #Pause24
+
+------------------------------------------------------------------------------
+NETWORK 22  --  C07h / R-08 — 24 h of continuous request: forced stop
+------------------------------------------------------------------------------
+   #Pause24 := S TON(IN:=#Use24h AND #Active, PT:=T#24H)[T_24h].Q
+
+------------------------------------------------------------------------------
+NETWORK 23  --  R-08 — restart allowed after RUN has been off 60 s
+------------------------------------------------------------------------------
+   #Pause24 := R TON(IN:=#Pause24 AND NOT #RunFb, PT:=T#60S)[T_Pause].Q
+
+------------------------------------------------------------------------------
+NETWORK 24  --  R-09 — RUN on without our request for 30 s
+------------------------------------------------------------------------------
+   #RunWrong := TON(IN:=#RunFb AND NOT #Active, PT:=T#30S)[T_RunOff].Q
+
+------------------------------------------------------------------------------
+NETWORK 25  --  C0xf — no RUN within T_START
+------------------------------------------------------------------------------
+   #NoStart := TON(IN:=(#State = 1), PT:=#TStart_Act)[T_Start].Q
+
+------------------------------------------------------------------------------
+NETWORK 26  --  R-01 / B-01 — START accepted: IDLE, ready, and in MAN only if heat is needed
+------------------------------------------------------------------------------
+   #Enabled := S (#StartEdge AND (#State = 0) AND #Ready AND #Auto OR #StartEdge AND (#State = 0) AND #Ready AND #HeatNeed)
+
+------------------------------------------------------------------------------
+NETWORK 27  --  B-01 / R-02 / R-12 — STOP, AUTO/MAN change or fuel change take the START back
+------------------------------------------------------------------------------
+   #Enabled := R (NOT #StopOK OR #AutoChg OR #FuelChg)
+
+------------------------------------------------------------------------------
+NETWORK 28  --  B-01 — IDLE -> STARTING (R-09: not if RUN is already on)
+------------------------------------------------------------------------------
+   IF (#State = 0) AND #Enabled AND #Ready AND #HeatNeed AND NOT #RunFb THEN  MOVE  1  ->  #State
+
+------------------------------------------------------------------------------
+NETWORK 29  --  B-01 — STARTING -> RUNNING on RUN
+------------------------------------------------------------------------------
+   IF (#State = 1) AND #RunFb THEN  MOVE  2  ->  #State
+
+------------------------------------------------------------------------------
+NETWORK 30  --  C0xa / C0xb / C07h / B-01 — STARTING or RUNNING -> IDLE
+------------------------------------------------------------------------------
+   IF (((#State = 1) OR (#State = 2)) AND NOT #Ready OR ((#State = 1) OR (#State = 2)) AND NOT #HeatNeed OR ((#State = 1) OR (#State = 2)) AND NOT #Enabled) THEN  MOVE  0  ->  #State
+
+------------------------------------------------------------------------------
+NETWORK 31  --  R-03 — MAN: one cycle; any stop needs a new START
+------------------------------------------------------------------------------
+   #Enabled := R NOT #Auto AND (#State = 0) AND #Active
+
+------------------------------------------------------------------------------
+NETWORK 32  --  C0xf — failed to start
+------------------------------------------------------------------------------
+   IF (#State = 1) AND #NoStart THEN  MOVE  3  ->  #State
+   #F_NoStart := S (#State = 1) AND #NoStart
+
+------------------------------------------------------------------------------
+NETWORK 33  --  C0xg — RUN lost while running, no lockout, not stopped by us
+------------------------------------------------------------------------------
+   IF (#State = 2) AND NOT #RunFb AND NOT #Lockout THEN  MOVE  3  ->  #State
+   #F_RunLost := S (#State = 2) AND NOT #RunFb AND NOT #Lockout
+
+------------------------------------------------------------------------------
+NETWORK 34  --  R-06 / R-07 — RESET leaves FAULT only when every cause is gone
+------------------------------------------------------------------------------
+   IF (#State = 3) AND #ResetPulse AND #EStopOK AND NOT #Lockout AND #TcOk AND NOT #RunFb THEN  MOVE  0  ->  #State
+   #F_EStop := R (#State = 3) AND #ResetPulse AND #EStopOK AND NOT #Lockout AND #TcOk AND NOT #RunFb
+   #F_TC := R (#State = 3) AND #ResetPulse AND #EStopOK AND NOT #Lockout AND #TcOk AND NOT #RunFb
+   #F_Lockout := R (#State = 3) AND #ResetPulse AND #EStopOK AND NOT #Lockout AND #TcOk AND NOT #RunFb
+   #F_NoStart := R (#State = 3) AND #ResetPulse AND #EStopOK AND NOT #Lockout AND #TcOk AND NOT #RunFb
+   #F_RunLost := R (#State = 3) AND #ResetPulse AND #EStopOK AND NOT #Lockout AND #TcOk AND NOT #RunFb
+   #F_RunWrong := R (#State = 3) AND #ResetPulse AND #EStopOK AND NOT #Lockout AND #TcOk AND NOT #RunFb
+
+------------------------------------------------------------------------------
+NETWORK 35  --  C01 — E-STOP
+------------------------------------------------------------------------------
+   IF NOT #EStopOK THEN  MOVE  3  ->  #State
+   #F_EStop := S NOT #EStopOK
+
+------------------------------------------------------------------------------
+NETWORK 36  --  C0xe — burner lockout
+------------------------------------------------------------------------------
+   IF #Lockout THEN  MOVE  3  ->  #State
+   #F_Lockout := S #Lockout
+
+------------------------------------------------------------------------------
+NETWORK 37  --  C0xd — thermocouple fault
+------------------------------------------------------------------------------
+   IF #TcBad THEN  MOVE  3  ->  #State
+   #F_TC := S #TcBad
+
+------------------------------------------------------------------------------
+NETWORK 38  --  R-09 — RUN without request
+------------------------------------------------------------------------------
+   IF #RunWrong THEN  MOVE  3  ->  #State
+   #F_RunWrong := S #RunWrong
+
+------------------------------------------------------------------------------
+NETWORK 39  --  B-02 — FAULT takes the START back
+------------------------------------------------------------------------------
+   #Enabled := R (#State = 3)
+
+------------------------------------------------------------------------------
+NETWORK 40  --  E1 / E3 — heat request while STARTING or RUNNING
+------------------------------------------------------------------------------
+   #Active := ((#State = 1) OR (#State = 2))
+   #HeatReq := ((#State = 1) OR (#State = 2))
+
+------------------------------------------------------------------------------
+NETWORK 41  --  C0xc — 2nd stage: RUNNING and T < SP - STG
+------------------------------------------------------------------------------
+   #Stage2 := (#State = 2) AND (#Tmax < #TStg)
+
+##############################################################################
+# BLOCK FC   Common   (LAD, No.1, Optimized)
+##############################################################################
+
+  VAR_RETURN
+    Ret_Val                            : Void
+
+------------------------------------------------------------------------------
+NETWORK 1  --  R-06 — RESET edge (not on first scan)
+------------------------------------------------------------------------------
+   "Sys.ResetPulse" := "S2_FaultReset" AND NOT "Sys.ResetMem" AND NOT "Sys.FirstScan"
+
+------------------------------------------------------------------------------
+NETWORK 2  --  R-06 — RESET edge memory
+------------------------------------------------------------------------------
+   "Sys.ResetMem" := "S2_FaultReset"
+
+------------------------------------------------------------------------------
+NETWORK 3  --  C01 — E-STOP pressed (NC1 open) drops the latch
+------------------------------------------------------------------------------
+   "Sys.EStopOK" := R NOT "S0_EStopStatus"
+
+------------------------------------------------------------------------------
+NETWORK 4  --  C01 — E-STOP latch back after RESET (or at power-up if released)
+------------------------------------------------------------------------------
+   "Sys.EStopOK" := S ("S0_EStopStatus" AND "Sys.ResetPulse" OR "S0_EStopStatus" AND "Sys.FirstScan")
+
+------------------------------------------------------------------------------
+NETWORK 5  --  C01 — E-STOP alarm
+------------------------------------------------------------------------------
+   "Sys.Alm_EStop" := NOT "Sys.EStopOK"
+
+------------------------------------------------------------------------------
+NETWORK 6  --  R-11 — RESET clears the parameter alarm
+------------------------------------------------------------------------------
+   "Sys.Alm_ParRejected" := R "Sys.ResetPulse"
+
+------------------------------------------------------------------------------
+NETWORK 7  --  R-11 — SP: stored value bad after power-up -> default
+------------------------------------------------------------------------------
+   IF ("Sys.FirstScan" AND ("Par.SP_V" < 400) OR "Sys.FirstScan" AND ("Par.SP_V" > 900)) THEN  MOVE  700  ->  "Par.SP_V"
+
+------------------------------------------------------------------------------
+NETWORK 8  --  R-11 — SP: entry in range -> used
+------------------------------------------------------------------------------
+   IF ("Par.SP" >= 400) AND ("Par.SP" <= 900) THEN  MOVE  "Par.SP"  ->  "Par.SP_V"
+
+------------------------------------------------------------------------------
+NETWORK 9  --  R-11 — SP: entry out of range -> old value back, alarm
+------------------------------------------------------------------------------
+   IF (("Par.SP" < 400) OR ("Par.SP" > 900)) THEN  MOVE  "Par.SP_V"  ->  "Par.SP"
+   "Sys.Alm_ParRejected" := S (("Par.SP" < 400) OR ("Par.SP" > 900))
+
+------------------------------------------------------------------------------
+NETWORK 10  --  R-11 — HYST: stored value bad after power-up -> default
+------------------------------------------------------------------------------
+   IF ("Sys.FirstScan" AND ("Par.HYST_V" < 30) OR "Sys.FirstScan" AND ("Par.HYST_V" > 100)) THEN  MOVE  50  ->  "Par.HYST_V"
+
+------------------------------------------------------------------------------
+NETWORK 11  --  R-11 — HYST: entry in range -> used
+------------------------------------------------------------------------------
+   IF ("Par.HYST" >= 30) AND ("Par.HYST" <= 100) THEN  MOVE  "Par.HYST"  ->  "Par.HYST_V"
+
+------------------------------------------------------------------------------
+NETWORK 12  --  R-11 — HYST: entry out of range -> old value back, alarm
+------------------------------------------------------------------------------
+   IF (("Par.HYST" < 30) OR ("Par.HYST" > 100)) THEN  MOVE  "Par.HYST_V"  ->  "Par.HYST"
+   "Sys.Alm_ParRejected" := S (("Par.HYST" < 30) OR ("Par.HYST" > 100))
+
+------------------------------------------------------------------------------
+NETWORK 13  --  R-11 — STG: stored value bad after power-up -> default
+------------------------------------------------------------------------------
+   IF ("Sys.FirstScan" AND ("Par.STG_V" < 50) OR "Sys.FirstScan" AND ("Par.STG_V" > 300)) THEN  MOVE  100  ->  "Par.STG_V"
+
+------------------------------------------------------------------------------
+NETWORK 14  --  R-11 — STG: entry in range -> used
+------------------------------------------------------------------------------
+   IF ("Par.STG" >= 50) AND ("Par.STG" <= 300) THEN  MOVE  "Par.STG"  ->  "Par.STG_V"
+
+------------------------------------------------------------------------------
+NETWORK 15  --  R-11 — STG: entry out of range -> old value back, alarm
+------------------------------------------------------------------------------
+   IF (("Par.STG" < 50) OR ("Par.STG" > 300)) THEN  MOVE  "Par.STG_V"  ->  "Par.STG"
+   "Sys.Alm_ParRejected" := S (("Par.STG" < 50) OR ("Par.STG" > 300))
+
+------------------------------------------------------------------------------
+NETWORK 16  --  R-11 — TStart: stored value bad after power-up -> default
+------------------------------------------------------------------------------
+   IF ("Sys.FirstScan" AND ("Par.TStart_V" < T#90S) OR "Sys.FirstScan" AND ("Par.TStart_V" > T#5M)) THEN  MOVE  T#2M  ->  "Par.TStart_V"
+
+------------------------------------------------------------------------------
+NETWORK 17  --  R-11 — TStart: entry in range -> used
+------------------------------------------------------------------------------
+   IF ("Par.TStart" >= T#90S) AND ("Par.TStart" <= T#5M) THEN  MOVE  "Par.TStart"  ->  "Par.TStart_V"
+
+------------------------------------------------------------------------------
+NETWORK 18  --  R-11 — TStart: entry out of range -> old value back, alarm
+------------------------------------------------------------------------------
+   IF (("Par.TStart" < T#90S) OR ("Par.TStart" > T#5M)) THEN  MOVE  "Par.TStart_V"  ->  "Par.TStart"
+   "Sys.Alm_ParRejected" := S (("Par.TStart" < T#90S) OR ("Par.TStart" > T#5M))
+
+##############################################################################
+# BLOCK OB   Main   (LAD, No.1, ProgramCycle)
+##############################################################################
+
+  VAR_INPUT
+    Initial_Call                       : Bool
+    Remanence                          : Bool
+
+------------------------------------------------------------------------------
+NETWORK 1  --  decisions/0006 — Common: E-STOP latch, RESET edge, parameters
+------------------------------------------------------------------------------
+   CALL FC "Common"
+
+------------------------------------------------------------------------------
+NETWORK 2  --  C03 .. C05 — scrubber
+------------------------------------------------------------------------------
+   CALL FB "Scrubber" [instance Scrubber_DB](
+        PSH := "PSH_101",
+        LSH := "LSH_102",
+        LSHH := "LSHH_103",
+        EStopOK := "Sys.EStopOK",
+        ResetPulse := "Sys.ResetPulse",
+        FirstScan := "Sys.FirstScan",
+        Tripped := <unwired>,
+        ValvesNormal := <unwired>,
+        Alm_PSH := <unwired>,
+        Alm_LSH := <unwired>,
+        Alm_LSHH := <unwired>)
+
+------------------------------------------------------------------------------
+NETWORK 3  --  C07* — BR01 / TK01
+------------------------------------------------------------------------------
+   CALL FB "Burner" [instance BR01_DB](
+        Auto := "S4_BR01_Auto",
+        StartPB := "S1_BR01_Start",
+        StopOK := "S3_BR01_Stop",
+        LevelOK := "LSL_TK01",
+        RunFb := "BR01_Run",
+        Lockout := "BR01_Fault",
+        Fuel := FALSE,
+        TeA := "TE_501_Raw",
+        TeB := "TE_502_Raw",
+        Use24h := TRUE,
+        EStopOK := "Sys.EStopOK",
+        ResetPulse := "Sys.ResetPulse",
+        FirstScan := "Sys.FirstScan",
+        SP := "Par.SP_V",
+        HYST := "Par.HYST_V",
+        STG := "Par.STG_V",
+        TStart := "Par.TStart_V",
+        HeatReq := <unwired>,
+        Stage2 := <unwired>,
+        State := <unwired>,
+        Enabled := <unwired>,
+        Tmax := <unwired>,
+        F_EStop := <unwired>,
+        F_TC := <unwired>,
+        F_Lockout := <unwired>,
+        F_NoStart := <unwired>,
+        F_RunLost := <unwired>,
+        F_RunWrong := <unwired>)
+
+------------------------------------------------------------------------------
+NETWORK 4  --  C08* — BR02 / TK02
+------------------------------------------------------------------------------
+   CALL FB "Burner" [instance BR02_DB](
+        Auto := "S5_BR02_Auto",
+        StartPB := "S6_BR02_Start",
+        StopOK := "S7_BR02_Stop",
+        LevelOK := "LSL_TK02",
+        RunFb := "BR02_Run",
+        Lockout := "BR02_Fault",
+        Fuel := "Rfuel2_BR02_DieselMode",
+        TeA := "TE_503_Raw",
+        TeB := "TE_504_Raw",
+        Use24h := FALSE,
+        EStopOK := "Sys.EStopOK",
+        ResetPulse := "Sys.ResetPulse",
+        FirstScan := "Sys.FirstScan",
+        SP := "Par.SP_V",
+        HYST := "Par.HYST_V",
+        STG := "Par.STG_V",
+        TStart := "Par.TStart_V",
+        HeatReq := <unwired>,
+        Stage2 := <unwired>,
+        State := <unwired>,
+        Enabled := <unwired>,
+        Tmax := <unwired>,
+        F_EStop := <unwired>,
+        F_TC := <unwired>,
+        F_Lockout := <unwired>,
+        F_NoStart := <unwired>,
+        F_RunLost := <unwired>,
+        F_RunWrong := <unwired>)
+
+------------------------------------------------------------------------------
+NETWORK 5  --  E1 .. E7 — outputs
+------------------------------------------------------------------------------
+   CALL FC "Outputs"
+
+------------------------------------------------------------------------------
+NETWORK 6  --  C02 — first scan done
+------------------------------------------------------------------------------
+   "Sys.FirstScan" := R "Sys.FirstScan"
+
+##############################################################################
+# BLOCK FC   Outputs   (LAD, No.2, Optimized)
+##############################################################################
+
+  VAR_RETURN
+    Ret_Val                            : Void
+
+------------------------------------------------------------------------------
+NETWORK 1  --  E1 — BR01 heat request TL (R1, H1)
+------------------------------------------------------------------------------
+   "BR01_TL_Cmd" := "BR01_DB.HeatReq" AND "Sys.EStopOK"
+
+------------------------------------------------------------------------------
+NETWORK 2  --  E2 — BR01 2nd stage TR (R2, H2)
+------------------------------------------------------------------------------
+   "BR01_TR_Cmd" := "BR01_DB.Stage2" AND "Sys.EStopOK"
+
+------------------------------------------------------------------------------
+NETWORK 3  --  E3 / F13 — BR02 start L (R6) and 1st stage lamp H5 (R8)
+------------------------------------------------------------------------------
+   "BR02_L_Cmd" := "BR02_DB.HeatReq" AND "Sys.EStopOK"
+   "BR02_Stage1Lamp_Cmd" := "BR02_DB.HeatReq" AND "Sys.EStopOK"
+
+------------------------------------------------------------------------------
+NETWORK 4  --  E4 / F13 — BR02 high fire T2 (R7) and 2nd stage lamp H6 (R9)
+------------------------------------------------------------------------------
+   "BR02_T2_Cmd" := "BR02_DB.Stage2" AND "Sys.EStopOK"
+   "BR02_Stage2Lamp_Cmd" := "BR02_DB.Stage2" AND "Sys.EStopOK"
+
+------------------------------------------------------------------------------
+NETWORK 5  --  E5 / E6 / E7 — scrubber valves energised = normal (flare/drain closed, suction open)
+------------------------------------------------------------------------------
+   "XV_401_Cmd" := "Scrubber_DB.ValvesNormal"
+   "XV_402_Cmd" := "Scrubber_DB.ValvesNormal"
+   "XV_403_Cmd" := "Scrubber_DB.ValvesNormal"
+
+##############################################################################
+# BLOCK GlobalDB   Par   (DB, No.1, Optimized)
+##############################################################################
+
+  VAR_STATIC
+    SP                                 : Int
+    HYST                               : Int
+    STG                                : Int
+    TStart                             : Time
+    SP_V                               : Int
+    HYST_V                             : Int
+    STG_V                              : Int
+    TStart_V                           : Time
+
+##############################################################################
+# BLOCK FB   Scrubber   (LAD, No.2, Optimized)
+##############################################################################
+
+  VAR_INPUT
+    PSH                                : Bool
+    LSH                                : Bool
+    LSHH                               : Bool
+    EStopOK                            : Bool
+    ResetPulse                         : Bool
+    FirstScan                          : Bool
+
+  VAR_OUTPUT
+    Tripped                            : Bool
+    ValvesNormal                       : Bool
+    Alm_PSH                            : Bool
+    Alm_LSH                            : Bool
+    Alm_LSHH                           : Bool
+
+------------------------------------------------------------------------------
+NETWORK 1  --  C04 — LSH-102 high level: alarm only
+------------------------------------------------------------------------------
+   #Alm_LSH := NOT #LSH
+
+------------------------------------------------------------------------------
+NETWORK 2  --  C03 / C05 — trip causes shown on the HMI
+------------------------------------------------------------------------------
+   #Alm_PSH := NOT #PSH
+
+------------------------------------------------------------------------------
+NETWORK 3  --  C05 — LSHH-103 alarm
+------------------------------------------------------------------------------
+   #Alm_LSHH := NOT #LSHH
+
+------------------------------------------------------------------------------
+NETWORK 4  --  C03 / C05 / C01 — RESET once every cause is gone
+------------------------------------------------------------------------------
+   #Tripped := R #ResetPulse AND #PSH AND #LSHH AND #EStopOK
+
+------------------------------------------------------------------------------
+NETWORK 5  --  S-01 / C03 / C05 / C01 — trip (also at power-up)
+------------------------------------------------------------------------------
+   #Tripped := S (NOT #PSH OR NOT #LSHH OR NOT #EStopOK OR #FirstScan)
+
+------------------------------------------------------------------------------
+NETWORK 6  --  S-01 — valves in normal position only while not tripped
+------------------------------------------------------------------------------
+   #ValvesNormal := NOT #Tripped
+
+##############################################################################
+# BLOCK OB   Startup   (LAD, No.100, Startup)
+##############################################################################
+
+  VAR_INPUT
+    LostRetentive                      : Bool
+    LostRTC                            : Bool
+
+------------------------------------------------------------------------------
+NETWORK 1  --  C02 — power-up: first-scan flag (scrubber trips, burners need START)
+------------------------------------------------------------------------------
+   "Sys.FirstScan" := S NOT "Sys.FirstScan"
+
+##############################################################################
+# BLOCK GlobalDB   Sys   (DB, No.2, Optimized)
+##############################################################################
+
+  VAR_STATIC
+    FirstScan                          : Bool
+    EStopOK                            : Bool
+    ResetPulse                         : Bool
+    ResetMem                           : Bool
+    Alm_EStop                          : Bool
+    Alm_ParRejected                    : Bool
