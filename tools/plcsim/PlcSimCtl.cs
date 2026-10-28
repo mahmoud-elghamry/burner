@@ -87,7 +87,10 @@ class PlcSimCtl
         Match w = Regex.Match(a, @"^IW(\d+)$");
         ProcessValueAddress pa = new ProcessValueAddress();
         pa.Area = RuntimeArea.Input;
-        pa.IsPeripheral = false;
+        // لازم true: في VplcHost، IsPeripheral=false بيروح SetTagValue (محتاج اسم تاج في
+        // TagNameUtf8) وبيرمي exception، وCompactService بيحوّل أي exception لـ
+        // ServiceNotConnected. true بيروح SetInputBit / SetInput على منطقة الـ I.
+        pa.IsPeripheral = true;
         if (b.Success)
         {
             word = false;
@@ -115,8 +118,9 @@ class PlcSimCtl
         ICompact svc;
         try
         {
-            svc = conn.Connect(cb, uri, s => Console.WriteLine("ERR disconnected"));
-            svc.RegisterFullView();
+            svc = conn.Connect(cb, uri, s => { });
+            // ممنوع RegisterFullView: بيربط عمر PLCSIM بالأداة دي، فلما تقفل بيقفل معاها
+            // (اتشاف 2026-10-28، ضاع تنزيلين كده).
             Console.WriteLine("OK connected " + svc.GetCurrentFamily());
         }
         catch (Exception e) { Console.WriteLine("ERR connect: " + e.Message); return 1; }
@@ -149,8 +153,14 @@ class PlcSimCtl
                             pv.Value = new byte[] { (byte)((v >> 8) & 0xFF), (byte)(v & 0xFF) };   // S7 = big-endian
                         }
                         else pv.Value = new byte[] { (byte)(t[2] == "1" ? 1 : 0) };
-                        List<SetValueResult> r = svc.SetValues(new[] { pv });
-                        string s = string.Join(",", r);
+                        // بعد RUN/STOP الخدمة بتاخد لحظة ترجع: نعيد لحد 2 ث، وبعدها ERR (غالبًا VplcHost مات)
+                        string s = "";
+                        for (int i = 0; i < 8; i++)
+                        {
+                            s = string.Join(",", svc.SetValues(new[] { pv }));
+                            if (s != "ServiceNotConnected") break;
+                            Thread.Sleep(250);
+                        }
                         Console.WriteLine((s == "Success" ? "OK " : "ERR ") + s);
                         break;
                     }
@@ -160,14 +170,19 @@ class PlcSimCtl
                         Console.WriteLine("OK " + (q == null ? "null" : BitConverter.ToString(q)));
                         break;
                     }
+                    case "call":    // تجربة: أي method من ICompact من غير معاملات
+                    {
+                        object r = typeof(ICompact).GetMethod(t[1]).Invoke(svc, null);
+                        Console.WriteLine("OK " + (r == null ? "void" : r.ToString()));
+                        break;
+                    }
                     case "sleep": Thread.Sleep(int.Parse(t[1])); Console.WriteLine("OK"); break;
-                    case "quit": Console.WriteLine("OK bye"); try { conn.Disconnect(); } catch { } return 0;
+                    case "quit": Console.WriteLine("OK bye"); return 0;
                     default: Console.WriteLine("ERR unknown command " + t[0]); break;
                 }
             }
             catch (Exception e) { Console.WriteLine("ERR " + e.GetType().Name + ": " + e.Message); }
         }
-        try { conn.Disconnect(); } catch { }
         return 0;
     }
 }

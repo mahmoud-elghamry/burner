@@ -29,3 +29,14 @@
 مفيش كتابة على الـ DB. ودول بيتجرّبوا بالإيد من watch table.
 
 النتايج بتتسجّل في ملف لوحدها بعد التشغيل.
+
+## تحديث: ليه كتابة المداخل كانت بترجع `ServiceNotConnected` (subagent على Opus)
+
+- `ServiceNotConnected` مش حالة حقيقية: `CompactService.SetValues` بيمسك أي exception ويرجّع الكلمة دي.
+- في VplcHost، `IsPeripheral=false` بيروح `SetTagValue`، وده محتاج اسم تاج (`TagNameUtf8`). إحنا ماكناش
+  باعتين اسم، فحصل `NullReferenceException`، و**الـ vPLC (VplcHost) مات**. وبعدها كل نداء بيفشل بنفس الكلمة.
+  الدليل في `%TEMP%\PlcSimCompactServiceLog.txt` (22:24:24، 22:27:11، 22:32:51)، وفيه crash dumps لـ VplcHost.
+- **الحل:** `IsPeripheral=true`، فبيروح `SetInputBit`/`SetInput` على مساحة الدخل مباشرة. الكلمة big-endian.
+- يعني التنزيلات اللي ضاعت ماكانتش بسبب `RegisterFullView` بس. أول `set` غلط كان بيموّت الـ vPLC.
+- **ممنوع أي `SetValues` بـ `IsPeripheral=false` من غير اسم تاج.** و`readq` بيرجّع أصفار لو الـ CPU مش شغال،
+  فقبل ما نصدّقه لازم `mode` يبقى `Run`.

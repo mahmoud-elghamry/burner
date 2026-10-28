@@ -90,12 +90,15 @@ class Sim(object):
 
     def restart(self):
         """PLC STOP ثم RUN بمداخل سليمة، وبعدها RESET للـ scrubber (S-01)."""
+        # المداخل بتتكتب بعد RUN: PLCSIM مش بيقبل SetValues وهو STOP. أول scan
+        # بيشوف المداخل القديمة (ممكن E-STOP)، والـ RESET بعدها بيرجّع كله.
         self.cmd('stop')
         time.sleep(1.5)
-        for n, v in HEALTHY:
-            self.set(n, v, wait=0)
         self.cmd('run')
         time.sleep(3)
+        for n, v in HEALTHY:
+            self.set(n, v, wait=0)
+        time.sleep(SCAN)
         self.press('S2')
 
     def close(self):
@@ -213,8 +216,8 @@ def T6(s):
 
 def T6p(s):
     """R-10: بعد رجوع الكهربا الكارت بيدّي 32767 لثواني — مش عطل لو رجع قبل 10 ث"""
+    s.set('TE501', 32767)
     s.cmd('stop'); time.sleep(1.5)
-    s.set('TE501', 32767, 0)
     s.cmd('run'); time.sleep(3); s.press('S2')
     s.press('S1')
     s.expect('TC still calibrating: START refused, no heat', TL1=0)
