@@ -62,12 +62,15 @@
     <Member Name="Pause24" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
     <Member Name="RunWrong" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
     <Member Name="NoStart" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
+    <Member Name="PwrUpDone" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
+    <Member Name="TcSlow" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
     <Member Name="SP_Act" Datatype="Int" Remanence="NonRetain" Accessibility="Public" />
     <Member Name="HYST_Act" Datatype="Int" Remanence="NonRetain" Accessibility="Public" />
     <Member Name="STG_Act" Datatype="Int" Remanence="NonRetain" Accessibility="Public" />
     <Member Name="TStart_Act" Datatype="Time" Remanence="NonRetain" Accessibility="Public" />
     <Member Name="TOn" Datatype="Int" Remanence="NonRetain" Accessibility="Public" />
     <Member Name="TStg" Datatype="Int" Remanence="NonRetain" Accessibility="Public" />
+    <Member Name="T_PwrUp" Datatype="TON_TIME" Remanence="NonRetain" Accessibility="Public" />
     <Member Name="T_TcBad" Datatype="TON_TIME" Remanence="NonRetain" Accessibility="Public" />
     <Member Name="T_24h" Datatype="TON_TIME" Remanence="NonRetain" Accessibility="Public" />
     <Member Name="T_Pause" Datatype="TON_TIME" Remanence="NonRetain" Accessibility="Public" />

@@ -442,10 +442,10 @@ BR_STAT = [
     ('FuelChg', 'Bool'), ('FuelMem', 'Bool'), ('TcOkA', 'Bool'), ('TcOkB', 'Bool'),
     ('TcOk', 'Bool'), ('TcBad', 'Bool'), ('Demand', 'Bool'), ('HeatNeed', 'Bool'),
     ('Ready', 'Bool'), ('Active', 'Bool'), ('Pause24', 'Bool'), ('RunWrong', 'Bool'),
-    ('NoStart', 'Bool'), ('SP_Act', 'Int'), ('HYST_Act', 'Int'), ('STG_Act', 'Int'),
+    ('NoStart', 'Bool'), ('PwrUpDone', 'Bool'), ('TcSlow', 'Bool'), ('SP_Act', 'Int'), ('HYST_Act', 'Int'), ('STG_Act', 'Int'),
     ('TStart_Act', 'Time'), ('TOn', 'Int'), ('TStg', 'Int'),
 ]
-BR_TON = ['T_TcBad', 'T_24h', 'T_Pause', 'T_RunOff', 'T_Start']
+BR_TON = ['T_PwrUp', 'T_TcBad', 'T_24h', 'T_Pause', 'T_RunOff', 'T_Start']
 
 IDLE, STARTING, RUNNING, FAULT = '0', '1', '2', '3'
 
@@ -479,8 +479,16 @@ def burner_fb():
              ('=', '#TcOkB')),
         rung('C0xd — both channels valid, each checked before MAX', ('&', '#TcOkA', '#TcOkB'),
              ('=', '#TcOk')),
-        rung('C0xd / R-10 — invalid for more than 10 s = fault (heat is blocked at once)',
-             ('&', ('!', '#TcOk'), ('TON', '#T_TcBad', 'T#10S')), ('=', '#TcBad')),
+        rung('R-10 — power-up window (TC card calibrating) is over after 10 s',
+             ('&', ('!', '#FirstScan'), ('TON', '#T_PwrUp', 'T#10S')), ('=', '#PwrUpDone')),
+        # مراجعة 2026-10-28: المهلة كانت دايمًا، فسلك سايب أقل من 10 ث كان بيوقّف
+        # ويولّع من غير عطل. دلوقتي المهلة بعد رجوع الكهربا بس (R-10)، وبعدها فوري.
+        # تايمر جوه فرع توازي مش مسموح ("network is not supported")، فرانجين.
+        rung('C0xd / R-10 — invalid for 10 s', ('&', ('!', '#TcOk'),
+                                                ('TON', '#T_TcBad', 'T#10S')),
+             ('=', '#TcSlow')),
+        rung('C0xd / R-10 — invalid = fault: at once, or after 10 s right after power-up',
+             ('&', ('!', '#TcOk'), ('|', '#PwrUpDone', '#TcSlow')), ('=', '#TcBad')),
         rung('C0xb — temperature = higher channel (A)', ('Ge', 'Int', '#TeA', '#TeB'),
              ('MOVE', '#TeA', '#Tmax')),
         rung('C0xb — temperature = higher channel (B)', ('Lt', 'Int', '#TeA', '#TeB'),
