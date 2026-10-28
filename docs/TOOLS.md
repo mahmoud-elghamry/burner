@@ -9,6 +9,7 @@
 
 ```powershell
 py tools\build_ce.py                                    # يطلّع deliverables\PH-LCP-01-CE_RevA.xlsx
+py tools\build_tags.py                                  # يطلّع build\tags\IO.xml من IO List
 py tools\render_xlsx.py deliverables\PH-LCP-01-CE_RevA.xlsx   # يطلّع PDF في build\ عشان تتشاف
 ```
 
@@ -30,16 +31,21 @@ py tools\check_docs.py
 
 ## TIA Openness (منقولة من مشروع الأوناش)
 
-`Export-TiaProject.ps1` و`Compile-Project.ps1` و`Apply-Blocks.ps1` و`List-Blocks.ps1` و`lad2text.py`
+`Export-TiaProject.ps1` و`Compile-Project.ps1` و`Apply-Blocks.ps1` و`Apply-Tags.ps1` و`List-Blocks.ps1` و`lad2text.py`
 و`ladxml.py`. **بتلاقي المشروع كأول `*.ap15_1` جوه `tia\`**. TIA لازم يكون مقفول للي بيكتب (Compile وApply)، **ودول
-بترفض تشتغل لو مفتوح.** `-DryRun` موجود في `Apply-Blocks` و`Compile-Project` بس (Export وList مش
+بترفض تشتغل لو مفتوح. `Apply-Tags` بياخد ملفات XML من `build\`، زي `-Files tags\IO.xml`، وبيعمل overwrite
+لجدول التاجات بنفس الاسم، وبعدها بيعمل compile للـ PLC. `-DryRun` موجود في `Apply-Blocks` و`Apply-Tags`
+و`Compile-Project` (Export وList مش
 بيحفظوا أصلًا). الشروط (جروب Openness، وأي حاجة تانية) في الـ skill `tia-openness`.
 
 **الحفظ:** `Apply-Blocks` و`Compile-Project` بيحفظوا **بس** لو الهاردوير والسوفتوير وكل البلوكات
-نضيفة. أي "aborted" أو Error أو بلوك inconsistent بيمنع الحفظ ويطلع exit 1 (`F28`).
+نضيفة. `Apply-Tags` كمان بيحفظ بس بعد compile نضيف. أي "aborted" أو Error أو بلوك inconsistent بيمنع
+الحفظ ويطلع exit 1 (`F28`).
 
-**السكريبتات دي نسخة من الأوناش ومن الـ skill.** أي تصليح فيها يتعمل في النسخ التلاتة مرة واحدة،
-والفرق الوحيد المسموح بيه هو سطر مسار المشروع.
+**سكريبتات** `Export-TiaProject.ps1` و`Compile-Project.ps1` و`Apply-Blocks.ps1` و`List-Blocks.ps1`
+و`lad2text.py` و`ladxml.py` منقولة من مشروع الأوناش والـ skill؛ أي تصليح فيها يتعمل في النسخ التلاتة
+مرة واحدة، والفرق الوحيد المسموح بيه هو سطر مسار المشروع. `Apply-Tags.ps1` إضافة للمشروع ده، وبتتبع
+نفس قواعد الاستيراد والـ compile والحفظ.
 
 **اتجرّبت هنا يوم 2026-10-27، والأربعة شغّالين** (`docs/evidence/2026-10-27-openness-tools-first-run.md`).
 أول تشغيل لقى عيبين في Export واتصلّحوا في كل النسخ (`F39`). Export بقى يطلع **exit 1** لو أي بلوك

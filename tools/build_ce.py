@@ -317,52 +317,52 @@ for i, w in enumerate([12, 55, 10, 8, 12, 50], 1):
 
 # ------------------------------------------------------------------ I/O list
 ws = wb.create_sheet("IO List")
-title_block(ws, "I/O LIST (from drawing PH-LCP-01 V1, sheets 10–13)", 6)
-hdr = ["Address", "Tag", "Description", "Terminal", "Signal", "Sheet"]
+title_block(ws, "I/O LIST (from drawing PH-LCP-01 V1, sheets 10–13)", 7)
+hdr = ["Address", "Tag", "Description", "Terminal", "Signal", "Sheet", "PLC Tag"]
 for i, h in enumerate(hdr, 1):
     put(ws, 4, i, h, bold=True, fill=HDR, color="FFFFFF", h="center")
 io = [
-    ("I0.0", "PSH-101", "Scrubber high pressure", "XI:1", "DI 24V", "10"),
-    ("I0.1", "LSH-102", "Scrubber high level", "XI:3", "DI 24V", "10"),
-    ("I0.2", "LSHH-103", "Scrubber high-high level", "XI:5", "DI 24V", "10"),
-    ("I0.3", "RR", "BR01 run feedback", "XI:7", "DI 24V", "10"),
-    ("I0.4", "S1", "BR01 START push button", "XI:9", "DI 24V", "10"),
-    ("I0.5", "Rflt", "BR01 fault (lockout)", "XI:11", "DI 24V", "10"),
-    ("I0.6", "S3", "BR01 STOP push button", "XI:13", "DI 24V", "10"),
-    ("I0.7", "—", "Spare", "XI:15", "DI 24V", "10"),
-    ("I1.0", "S0", "E-STOP status (NC1)", "XI:17", "DI 24V", "10"),
-    ("I1.1", "S2", "FAULT RESET push button", "XI:19", "DI 24V", "10"),
-    ("I1.2", "LSL-TK01", "TK01 low level", "XI:21", "DI 24V", "10"),
-    ("I1.3", "LSL-TK02", "TK02 low level", "XI:23", "DI 24V", "10"),
-    ("I1.4", "RR2", "BR02 run feedback", "XI:25", "DI 24V", "10"),
-    ("I1.5", "Rflt2", "BR02 fault (lockout)", "XI:27", "DI 24V", "10"),
-    ("I12.0", "Rfuel2", "BR02 diesel mode", "XI2:1", "DI 24V", "11"),
-    ("I12.1", "S4", "BR01 AUTO/MAN selector (closed = AUTO)", "XI2:3", "DI 24V", "11"),
-    ("I12.2", "S5", "BR02 AUTO/MAN selector (closed = AUTO)", "XI2:5", "DI 24V", "11"),
-    ("I12.3", "S6", "BR02 START push button", "XI2:7", "DI 24V", "11"),
-    ("I12.4", "S7", "BR02 STOP push button", "XI2:9", "DI 24V", "11"),
-    ("I12.5", "—", "Reserved: scrubber LSL (not installed)", "XI2:11", "DI 24V", "11"),
-    ("I12.6–7", "—", "Spare", "XI2:13–16", "DI 24V", "11"),
-    ("Q0.0", "R1", "BR01 heat request (TL) + H1 1st stage lamp", "XQ:1/2", "DQ 24V", "12"),
-    ("Q0.1", "R2", "BR01 2nd stage (TR) + H2 2nd stage lamp", "XQ:3/4", "DQ 24V", "12"),
-    ("Q0.2", "R3", "XV-401 Flare SV (NO)", "XQ:5/6", "DQ 24V", "12"),
-    ("Q0.3", "R4", "XV-402 Drain SV (NO)", "XQ:7/8", "DQ 24V", "12"),
-    ("Q0.4", "R5", "XV-403 Suction SV (NC)", "XQ:9/10", "DQ 24V", "12"),
-    ("Q0.5", "R6", "BR02 start (L)", "X6:2", "DQ 24V", "12 / 8"),
-    ("Q0.6", "R7", "BR02 high fire (T2)", "X6:4", "DQ 24V", "12 / 8"),
-    ("Q0.7", "R8", "BR02 1st stage lamp H5", "—", "DQ 24V", "12"),
-    ("Q1.0", "R9", "BR02 2nd stage lamp H6", "—", "DQ 24V", "12"),
-    ("Q1.1", "R10", "Spare", "XQ:19/20", "DQ 24V", "12"),
-    ("IW96", "TE-501", "TK01 inlet oil temperature", "X5:1/2", "TC type K", "13"),
-    ("IW98", "TE-502", "TK01 outlet oil temperature", "X5:3/4", "TC type K", "13"),
-    ("IW100", "TE-503", "TK02 inlet oil temperature", "X5:5/6", "TC type K", "13"),
-    ("IW102", "TE-504", "TK02 outlet oil temperature", "X5:7/8", "TC type K", "13"),
-    ("IW104–110", "—", "Spare thermocouple channels", "X5:9–16", "TC", "13"),
+    ("I0.0", "PSH-101", "Scrubber high pressure", "XI:1", "DI 24V", "10", "PSH_101"),
+    ("I0.1", "LSH-102", "Scrubber high level", "XI:3", "DI 24V", "10", "LSH_102"),
+    ("I0.2", "LSHH-103", "Scrubber high-high level", "XI:5", "DI 24V", "10", "LSHH_103"),
+    ("I0.3", "RR", "BR01 run feedback", "XI:7", "DI 24V", "10", "BR01_Run"),
+    ("I0.4", "S1", "BR01 START push button", "XI:9", "DI 24V", "10", "S1_BR01_Start"),
+    ("I0.5", "Rflt", "BR01 fault (lockout)", "XI:11", "DI 24V", "10", "BR01_Fault"),
+    ("I0.6", "S3", "BR01 STOP push button", "XI:13", "DI 24V", "10", "S3_BR01_Stop"),
+    ("I0.7", "—", "Spare", "XI:15", "DI 24V", "10", ""),
+    ("I1.0", "S0", "E-STOP status (NC1)", "XI:17", "DI 24V", "10", "S0_EStopStatus"),
+    ("I1.1", "S2", "FAULT RESET push button", "XI:19", "DI 24V", "10", "S2_FaultReset"),
+    ("I1.2", "LSL-TK01", "TK01 low level", "XI:21", "DI 24V", "10", "LSL_TK01"),
+    ("I1.3", "LSL-TK02", "TK02 low level", "XI:23", "DI 24V", "10", "LSL_TK02"),
+    ("I1.4", "RR2", "BR02 run feedback", "XI:25", "DI 24V", "10", "BR02_Run"),
+    ("I1.5", "Rflt2", "BR02 fault (lockout)", "XI:27", "DI 24V", "10", "BR02_Fault"),
+    ("I12.0", "Rfuel2", "BR02 diesel mode", "XI2:1", "DI 24V", "11", "Rfuel2_BR02_DieselMode"),
+    ("I12.1", "S4", "BR01 AUTO/MAN selector (closed = AUTO)", "XI2:3", "DI 24V", "11", "S4_BR01_Auto"),
+    ("I12.2", "S5", "BR02 AUTO/MAN selector (closed = AUTO)", "XI2:5", "DI 24V", "11", "S5_BR02_Auto"),
+    ("I12.3", "S6", "BR02 START push button", "XI2:7", "DI 24V", "11", "S6_BR02_Start"),
+    ("I12.4", "S7", "BR02 STOP push button", "XI2:9", "DI 24V", "11", "S7_BR02_Stop"),
+    ("I12.5", "—", "Reserved: scrubber LSL (not installed)", "XI2:11", "DI 24V", "11", ""),
+    ("I12.6–7", "—", "Spare", "XI2:13–16", "DI 24V", "11", ""),
+    ("Q0.0", "R1", "BR01 heat request (TL) + H1 1st stage lamp", "XQ:1/2", "DQ 24V", "12", "BR01_TL_Cmd"),
+    ("Q0.1", "R2", "BR01 2nd stage (TR) + H2 2nd stage lamp", "XQ:3/4", "DQ 24V", "12", "BR01_TR_Cmd"),
+    ("Q0.2", "R3", "XV-401 Flare SV (NO)", "XQ:5/6", "DQ 24V", "12", "XV_401_Cmd"),
+    ("Q0.3", "R4", "XV-402 Drain SV (NO)", "XQ:7/8", "DQ 24V", "12", "XV_402_Cmd"),
+    ("Q0.4", "R5", "XV-403 Suction SV (NC)", "XQ:9/10", "DQ 24V", "12", "XV_403_Cmd"),
+    ("Q0.5", "R6", "BR02 start (L)", "X6:2", "DQ 24V", "12 / 8", "BR02_L_Cmd"),
+    ("Q0.6", "R7", "BR02 high fire (T2)", "X6:4", "DQ 24V", "12 / 8", "BR02_T2_Cmd"),
+    ("Q0.7", "R8", "BR02 1st stage lamp H5", "—", "DQ 24V", "12", "BR02_Stage1Lamp_Cmd"),
+    ("Q1.0", "R9", "BR02 2nd stage lamp H6", "—", "DQ 24V", "12", "BR02_Stage2Lamp_Cmd"),
+    ("Q1.1", "R10", "Spare", "XQ:19/20", "DQ 24V", "12", ""),
+    ("IW96", "TE-501", "TK01 inlet oil temperature", "X5:1/2", "TC type K", "13", "TE_501_Raw"),
+    ("IW98", "TE-502", "TK01 outlet oil temperature", "X5:3/4", "TC type K", "13", "TE_502_Raw"),
+    ("IW100", "TE-503", "TK02 inlet oil temperature", "X5:5/6", "TC type K", "13", "TE_503_Raw"),
+    ("IW102", "TE-504", "TK02 outlet oil temperature", "X5:7/8", "TC type K", "13", "TE_504_Raw"),
+    ("IW104–110", "—", "Spare thermocouple channels", "X5:9–16", "TC", "13", ""),
 ]
 for k, row in enumerate(io, 5):
     for i, v in enumerate(row, 1):
         put(ws, k, i, v, h="center" if i in (1, 4, 5, 6) else "left")
-for i, w in enumerate([11, 12, 42, 12, 10, 8], 1):
+for i, w in enumerate([11, 12, 42, 12, 10, 8, 28], 1):
     ws.column_dimensions[get_column_letter(i)].width = w
 ws.freeze_panes = "A5"
 
