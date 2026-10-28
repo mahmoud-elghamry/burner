@@ -58,9 +58,11 @@ class Sim(object):
             raise RuntimeError('%s -> %s' % (line, r))
         return r[3:]
 
-    def set(self, name, value, wait=SCAN):
+    def set(self, name, value, wait=None):
         addr = I[name]
         self.cmd(('setw %s %d' if addr.startswith('IW') else 'set %s %d') % (addr, value))
+        if wait is None:
+            wait = SCAN             # وقت النداء، عشان --slow يأثّر
         if wait:
             time.sleep(wait)
 
@@ -358,13 +360,38 @@ def BR02(s):
 
 ALL = [T1, T1b, T2, T3, T4, T5, T6, T6p, T6b, T7, T8, T9, T10, R01, R02, R09, BR02]
 
+# الترمينال (VS Code وPowerShell) بيقلب العربي، فالعنوان اللي بيتطبع إنجليزي.
+EN = {
+    'T1': 'normal day, AUTO: 40 -> 60 -> 62 -> 70 -> 65 degC',
+    'T1b': 'temperature = the higher of the two thermocouples',
+    'T2': 'tank empty while running',
+    'T3': 'flame out (lockout)',
+    'T4': 'no ignition within T_START (120 s)',
+    'T5': 'stopped by itself while running',
+    'T6': 'thermocouple broken: 32767, -32768, 2500 on one channel',
+    'T6p': 'R-10: TC card reads 32767 for seconds after power-up',
+    'T6b': 'STOP and START together, START jammed',
+    'T7': 'scrubber high pressure / high-high level: burners keep running',
+    'T8': 'E-STOP',
+    'T9': 'power lost and back',
+    'T10': 'MAN: one cycle only',
+    'R01': 'START refused while tank level is low',
+    'R02': 'AUTO/MAN changed while running',
+    'R09': 'RUN on without our request for 30 s',
+    'BR02': 'BR02: lamps, diesel change, STOP, independent of BR01',
+}
 
-def main(names):
+
+def main(args):
+    global SCAN
+    if '--slow' in args:        # للعرض جنب TIA Online: كل خطوة ثانيتين
+        SCAN = 2.0
+    names = [a for a in args if not a.startswith('--')]
     tests = [t for t in ALL if not names or t.__name__ in names]
     s = Sim()
     try:
         for t in tests:
-            print('%s — %s' % (t.__name__, t.__doc__.strip()))
+            print('%s - %s' % (t.__name__, EN[t.__name__]))
             s.restart()
             try:
                 t(s)
