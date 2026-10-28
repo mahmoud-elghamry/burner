@@ -4,8 +4,9 @@ Project opened: Burner
 === PLC: PLC_1 ===
 OK   Main   [LAD]
 OK   TagTable Default tag table
+OK   TagTable IO
 
-PLC summary -> exported: 2, protected(skipped): 0, failed: 0
+PLC summary -> exported: 3, protected(skipped): 0, failed: 0
 
 
 HMI summary -> exported: 0, failed: 0
