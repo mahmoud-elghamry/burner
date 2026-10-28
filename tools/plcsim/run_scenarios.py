@@ -50,6 +50,10 @@ class Sim(object):
         self.p.stdin.write(line + '\n')
         self.p.stdin.flush()
         r = self.p.stdout.readline().strip()
+        # SetInput بيرجّع AddressOutOfRange لبايتات غير 0 مع إن الكتابة بتوصل (اتأكد
+        # بالمخارج 2026-10-28)، فالحكم الحقيقي هو expect() على المخارج.
+        if line.startswith('set') and r == 'ERR AddressOutOfRange':
+            return ''
         if not r.startswith('OK'):
             raise RuntimeError('%s -> %s' % (line, r))
         return r[3:]
