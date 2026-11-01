@@ -10,3 +10,4 @@
 | [0004](0004-tia-portal-v15-1.md) | TIA Portal V15.1 | proposed — الافتراضي |
 | [0005](0005-tag-naming.md) | قاعدة أسماء التاجات | accepted |
 | [0006](0006-program-architecture.md) | هيكل البرنامج: FB واحد للبيرنر بنسختين، وFB للـ scrubber | accepted — 2026-10-28 |
+| [0007](0007-hmi-plan.md) | خطة الشاشة KTP400: عرض وأرقام بس، و6 شاشات، وإنذارات من غير Ack | proposed — 2026-11-01 |
