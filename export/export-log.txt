@@ -22,5 +22,9 @@ OK   TagTable Tag table_1
 PLC summary -> exported: 16, protected(skipped): 0, failed: 0
 
 
-HMI summary -> exported: 0, failed: 0
+=== HMI: HMI_RT_1 ===
+OK   Screen Root screen
+OK   HmiTagTable Default tag table
+
+HMI summary -> exported: 2, failed: 0
 
