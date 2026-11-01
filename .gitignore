@@ -15,3 +15,5 @@ tia/**/IM/SearchIndex/
 build/plcsim/
 build/probe/
 build/review/
+baseline/*
+!baseline/.gitkeep
