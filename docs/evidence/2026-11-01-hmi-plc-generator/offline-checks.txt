@@ -1,0 +1,8 @@
+PASS: 13 XML files equal generator output; 113 networks structurally checked.
+PASS: 485 Access elements validated against Siemens V15.1 Access_v3 XSD.
+PASS: exact 20-row documentation alarm table matches HMI_ALARMS destinations, polarity and text.
+PASS: C07a/C08a alarm provenance and C06a PH proposal verified in generated workbook.
+PASS: HmiAlm DB6 has exactly 3 non-retain Words; Main call order verified.
+PASS: Common, Outputs, Par, Startup, Sys byte-identical to original generator snapshots.
+PASS: ISSUES changes are only F44, F45, F47 statuses.
+NOTE: no TIA import, compile, re-export or PLCSIM run.

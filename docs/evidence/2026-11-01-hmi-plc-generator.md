@@ -45,8 +45,8 @@
 - فحص مساعد واحد وقف لأن `PowerShell` بدّل حروف مسار عربي بـ `?` وهو بيبعته على `stdin`.
   اتعاد الفحص بمسار `Unicode` صريح ونجح. مفيش تغيير في منطق الـ `PLC` بسبب ده.
 
-**الدليل المحلي:** `build/hmi-plc-review/offline-checks.txt`، وفك اللادر الأصلي الكامل في
-`build/hmi-plc-review/decoded-all.txt`، والشبكات الجديدة والمتغيرة في `build/hmi-plc-review/changed-networks.txt`.
+**الدليل المحلي:** `docs/evidence/2026-11-01-hmi-plc-generator/offline-checks.txt`، وفك اللادر الأصلي الكامل في
+`docs/evidence/2026-11-01-hmi-plc-generator/decoded-all.txt`، والشبكات الجديدة والمتغيرة في `docs/evidence/2026-11-01-hmi-plc-generator/changed-networks.txt`.
 الملفات دي محلية ومتولدة، والسجل ده هو دليل التسليم المستمر في `docs/`.
 
 ## ترتيب المسح واللي لسه مااتثبتش
