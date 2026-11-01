@@ -65,3 +65,9 @@ py tools\check_docs.py
 | S7-PLCSIM V15.1 | متسطّب. **دي أداة الاختبار الأساسية** |
 | WinCC RT Advanced + Simulator | متسطّب. بيشغّل شاشة KTP400 على الكمبيوتر |
 | LibreOffice | اتسطّب 2026-10-26 عشان نشوف الـ xlsx |
+
+## Codex وسكريبتات Openness
+
+**Codex جوه الـ sandbox مش بيوصل لـ TIA** (`Connection to TiaPortal failed`، 2026-11-01). Codex بيكتب
+الكود والمولّدات، وأنا اللي بشغّل Export وApply وCompile بره الـ sandbox
+(`docs/evidence/2026-11-01-user-hmi-decisions.md`).
