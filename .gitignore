@@ -13,3 +13,5 @@ tia/**/IM/SearchIndex/
 *.ap15_1.lock
 .claude/worktrees/
 build/plcsim/
+build/probe/
+build/review/

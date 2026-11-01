@@ -42,6 +42,7 @@
     <Member Name="F_NoStart" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
     <Member Name="F_RunLost" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
     <Member Name="F_RunWrong" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
+    <Member Name="ParPending" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
   </Section>
   <Section Name="InOut" />
   <Section Name="Static">

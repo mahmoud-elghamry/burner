@@ -31,6 +31,25 @@ py tools\check_docs.py
 
 ## TIA Openness (منقولة من مشروع الأوناش)
 
+**توليد البلوكات وفك اللادر محليًا:**
+
+```powershell
+py tools\build_blocks.py
+py tools\lad2text.py --all build\blocks
+```
+
+**ترتيب ملفات الاستيراد بعد `0007`:**
+
+```text
+-Files blocks\Par.xml,blocks\Sys.xml,blocks\HmiAlm.xml,blocks\Common.xml,blocks\Scrubber.xml,blocks\Scrubber_DB.xml,blocks\Burner.xml,blocks\BR01_DB.xml,blocks\BR02_DB.xml,blocks\Outputs.xml,blocks\HmiMap.xml,blocks\Startup.xml,blocks\Main.xml
+```
+
+`HmiAlm` هو `DB6`، و`HmiMap` هو `FC3`. الـ `DBs` قبل اللي بيستخدمها، والـ `FB` قبل نسخه، و`Main` في الآخر.
+مفكك اللادر الحالي مش بيعرض `SliceAccessModifier`؛ وجهة بت الإنذار تتراجع من الـ `XML` مع عنوان الشبكة.
+`Common` و`BR01` و`BR02` جوه `HmiAlm` من نوع `Word`، والـ `slice` على العضو نفسه، زي
+`Component Name="Common" SliceAccessModifier="x0"`، حسب الـ `schema` المحلية لـ `V15.1`.
+قبول الاستيراد والكومبايل لسه لازم يتجرّب في `TIA`، وبعده اختبارات `PLCSIM` حسب `0007`.
+
 `Export-TiaProject.ps1` و`Compile-Project.ps1` و`Apply-Blocks.ps1` و`Apply-Tags.ps1` و`List-Blocks.ps1` و`lad2text.py`
 و`ladxml.py`. **بتلاقي المشروع كأول `*.ap15_1` جوه `tia\`**. TIA لازم يكون مقفول للي بيكتب (Compile وApply)، **ودول
 بترفض تشتغل لو مفتوح. `Apply-Tags` بياخد ملفات XML من `build\`، زي `-Files tags\IO.xml`، وبيعمل overwrite

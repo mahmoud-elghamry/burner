@@ -174,9 +174,10 @@ def burner_rows(n, br, tk, lsl, te_in, te_out, rr, flt, stop_fx, stg):
     return [
         ("group", f"BURNER {br} — tank {tk}   (operating modes, START / STOP: see Control Narrative)"),
         (f"{p}a", lsl[0], f"{tk} level below low level switch", lsl[1],
-         "LSL not reached (contact open)", "Permissive", stop_fx, "Automatic when level returns", CL,
+         "LSL not reached (contact open)", "Permissive", alarm, "Automatic when level returns", CL,
          "Client sheet: burner may run only when level has reached LSL. Contact closes with liquid "
-         "present, so a broken wire also blocks the burner."),
+         "present, so a broken wire also blocks the burner. PH proposal (0007): HMI warning "
+         f"'{tk} level low: burner held'; clears automatically when level returns."),
         (f"{p}b", te[0], f"{tk} oil temperature at setpoint", te[1], "max(T) >= SP (70 °C)", "Control",
          stop_fx, "Automatic at max(T) <= SP − HYST (65 °C)", CL,
          "Client cases 2/3/6. The higher of inlet/outlet is used and the 5 °C restart band are PH "
@@ -225,6 +226,14 @@ matrix = [
      SCRUB_TRIP, "S2 after cleared", PD, "Burners are NOT tripped (as C03)."),
     ("C06", "LSL (scrubber)", "Scrubber low level", "I12.5 (reserved)", "—", "Not installed", {}, "—",
      PD, "Provisional: understood as not installed (open question Q1). Input reserved."),
+    ("C06a", "S0 / PSH-101 / LSHH-103 / power-up", "Scrubber trip cause memory and first-out", "—",
+     "EStopOK=0 / PSH open / LSHH open / FirstScan", "Alarm", {"E8": "ALARM"},
+     "S2 with PSH, LSHH and EStopOK healthy", PH,
+     "F44 / 0007 D5: each cause is latched until RESET, including causes arriving after the first. "
+     "FirstOut: 0=none, 1=E-STOP, 2=PSH-101, 3=LSHH-103, 4=power-up. First cause holds until "
+     "RESET; simultaneous priority: E-STOP, PSH, LSHH, power-up. Capture power-up inside Scrubber "
+     "before Main clears FirstScan. HMI indication only; existing valve/burner policy unchanged. "
+     "Accepted internally by user 2026-11-01; remains PH proposal, not a Client requirement."),
 ]
 matrix += burner_rows(7, "BR01", "TK01", ("LSL-TK01", "I1.2"), ("TE-501", "IW96"), ("TE-502", "IW98"),
                       ("RR", "I0.3"), ("Rflt", "I0.5"), BR1_STOP, "E2")
@@ -312,6 +321,14 @@ for k, p in enumerate(params, 5):
 put(ws, 11, 1, "Blue values are defaults; they can be changed from the HMI by an authorised user.",
     border=False)
 ws.merge_cells("A11:F11")
+put(ws, 12, 1, "R-11 / D6 / 0007 — PH proposal, accepted internally 01-Nov-2026: lower SP, higher HYST "
+    "and higher STG apply immediately. Higher SP, lower HYST and lower STG wait until the burner "
+    "is not Enabled (after STOP or before START); changing a number must not light a burner. "
+    "All four parameters are taken while not Enabled. T_START is also taken while not Active. "
+    "PLC rejects out-of-range entries, keeps the last valid value and raises an alarm. "
+    "After power-up, an invalid stored value is replaced by its default.", border=False)
+ws.merge_cells("A12:F12")
+ws.row_dimensions[12].height = 84
 for i, w in enumerate([12, 55, 10, 8, 12, 50], 1):
     ws.column_dimensions[get_column_letter(i)].width = w
 

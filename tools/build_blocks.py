@@ -10,7 +10,7 @@
 
 كل network عنوانه رقم صف من الـ C&E أو سطر من docs/التشغيل.md. والمعامل
 بيتكتب بصيغة TIA: '"Tag"' و'"DB".Member' و'#Local' و'#T_X.Q' و'700' و'T#10S'
-و'TRUE'.
+و'TRUE'. وبتات Word بصيغة '"HmiAlm".Common.%X0' (slice على العضو).
 """
 from __future__ import print_function
 import io, os, re, sys
@@ -25,6 +25,15 @@ OUT = os.path.join(ROOT, 'build', 'blocks')
 # ======================================================================
 #  المعاملات وشكل الشبكة
 # ======================================================================
+def symbol_component(name, slice_access=None):
+    """صيغة الـ slice في مكان واحد؛ Siemens V15.1 SW.PlcBlocks.Access_v3.xsd.
+
+    Component_T: SliceAccessModifier، والنمط ([xbwdXBWD]\\d+)|undef.
+    """
+    modifier = (' SliceAccessModifier="%s"' % slice_access) if slice_access else ''
+    return '        <Component Name="%s"%s />\n' % (L.esc(name), modifier)
+
+
 class Net(L.Net):
     """L.Net + معاملات بصيغة TIA، ومقارنات، وMOVE، وSUB، وSet/Reset."""
 
@@ -37,14 +46,19 @@ class Net(L.Net):
             self.accesses.append(body % (u, ''.join(
                 '        <Component Name="%s" />\n' % L.esc(c) for c in comps)))
         elif spec.startswith('"'):
-            m = re.match(r'^"([^"]+)"((?:\.[A-Za-z0-9_]+)*)$', spec)
+            # HmiAlm Word bit: '"HmiAlm".Common.%X0' -> slice on Common.
+            m = re.match(r'^"([^"]+)"((?:\.[A-Za-z0-9_]+)*)(?:\.%X(\d+))?$', spec)
             if not m:
                 raise ValueError('bad operand ' + spec)
             comps = [m.group(1)] + [c for c in m.group(2).split('.') if c]
             body = ('    <Access Scope="GlobalVariable" UId="%s">\n      <Symbol>\n%s'
                     '      </Symbol>\n    </Access>')
+            bit = int(m.group(3)) if m.group(3) is not None else None
+            if bit is not None and (len(comps) < 2 or not 0 <= bit < 16):
+                raise ValueError('bad Word bit operand ' + spec)
             self.accesses.append(body % (u, ''.join(
-                '        <Component Name="%s" />\n' % L.esc(c) for c in comps)))
+                symbol_component(c, 'x%d' % bit if bit is not None and i == len(comps) - 1 else None)
+                for i, c in enumerate(comps))))
         elif spec.upper().startswith('T#'):
             self.accesses.append(
                 '    <Access Scope="TypedConstant" UId="%s">\n      <Constant>\n'
@@ -378,6 +392,10 @@ SCRUB_OUT = [('Tripped', 'Scrubber in trip, valves to safe position'),
              ('ValvesNormal', 'Q0.2..Q0.4 energised (flare/drain closed, suction open)'),
              ('Alm_PSH', 'HMI alarm C03'), ('Alm_LSH', 'HMI alarm C04'),
              ('Alm_LSHH', 'HMI alarm C05')]
+SCRUB_CAUSES = [('Cause_EStop', 'C06a / F44: E-STOP cause, latched until healthy RESET'),
+                ('Cause_PSH', 'C06a / F44: PSH-101 cause, latched until healthy RESET'),
+                ('Cause_LSHH', 'C06a / F44: LSHH-103 cause, latched until healthy RESET'),
+                ('Cause_PwrUp', 'C06a / F44: power-up cause, latched until healthy RESET')]
 
 
 def scrubber_fb():
@@ -393,9 +411,28 @@ def scrubber_fb():
         rung('S-01 — valves in normal position only while not tripped',
              ('!', '#Tripped'), ('=', '#ValvesNormal')),
     ]
+    # C06a: أول 6 شبكات زي ما هي. التسجيل الأول، والمسح في الآخر يكسب.
+    # Common بيمنع ResetPulse في FirstScan؛ ومفيش تسجيل بعد شبكة المسح.
+    causes = [('#Cause_EStop', ('!', '#EStopOK'), 'E-STOP'),
+              ('#Cause_PSH', ('!', '#PSH'), 'PSH-101'),
+              ('#Cause_LSHH', ('!', '#LSHH'), 'LSHH-103'),
+              ('#Cause_PwrUp', '#FirstScan', 'power-up')]
+    for target, condition, text in causes:
+        nets.append(rung('C06a / F44 / 0007 D5 — latch cause: ' + text,
+                         condition, ('S', target)))
+    # كل MOVE متحرس بـ FirstOut=0. أول شبكة تكسب لو أكتر من سبب ظهر مع بعض.
+    for number, (_, condition, text) in enumerate(causes, 1):
+        nets.append(rung('C06a / F44 / 0007 D5 — first-out %d: %s (only if none)' % (number, text),
+                         ('&', ('Eq', 'Int', '#FirstOut', '0'), condition),
+                         ('MOVE', str(number), '#FirstOut')))
+    nets.append(rung('C06a / F44 / 0007 D5 — healthy RESET clears all causes and first-out last',
+                     ('&', '#ResetPulse', '#PSH', '#LSHH', '#EStopOK'),
+                     *[('R', target) for target, _, _ in causes], ('MOVE', '0', '#FirstOut')))
     iface = interface([
         ('Input', [member(n, 'Bool', retain=None, comment=c) for n, c in SCRUB_IN]),
-        ('Output', [member(n, 'Bool', retain=False, comment=c) for n, c in SCRUB_OUT]),
+        ('Output', [member(n, 'Bool', retain=False, comment=c) for n, c in SCRUB_OUT + SCRUB_CAUSES] +
+         [member('FirstOut', 'Int', retain=False,
+                 comment='C06a / 0007 D5: 0 none, 1 E-STOP, 2 PSH, 3 LSHH, 4 power-up')]),
         ('InOut', []), ('Static', []), ('Temp', []), ('Constant', [])])
     return code_block('SW.Blocks.FB', 'Scrubber', 2, iface, nets,
                       comment='Gas scrubber, docs/التشغيل.md §1')
@@ -404,7 +441,8 @@ def scrubber_fb():
 def scrubber_db():
     iface = interface([
         ('Input', [member(n, 'Bool', retain=False) for n, _ in SCRUB_IN]),
-        ('Output', [member(n, 'Bool', retain=False) for n, _ in SCRUB_OUT]),
+        ('Output', [member(n, 'Bool', retain=False) for n, _ in SCRUB_OUT + SCRUB_CAUSES] +
+         [member('FirstOut', 'Int', retain=False)]),
         ('InOut', []), ('Static', [])])
     return db_block('SW.Blocks.InstanceDB', 'Scrubber_DB', 5, iface, instance_of='Scrubber')
 
@@ -443,6 +481,7 @@ BR_OUT = [
     ('F_NoStart', 'Bool', 'Fault C0xf failed to start'),
     ('F_RunLost', 'Bool', 'Fault C0xg stopped by itself'),
     ('F_RunWrong', 'Bool', 'Fault R-09 RUN without request'),
+    ('ParPending', 'Bool', 'R-11 / D6 / 0007: a validated entry differs from its active copy'),
 ]
 BR_STAT = [
     ('StartEdge', 'Bool'), ('StartMem', 'Bool'), ('AutoChg', 'Bool'), ('AutoMem', 'Bool'),
@@ -501,15 +540,22 @@ def burner_fb():
         rung('C0xb — temperature = higher channel (B)', ('Lt', 'Int', '#TeA', '#TeB'),
              ('MOVE', '#TeB', '#Tmax')),
         # ---- الأرقام ------------------------------------------------------
-        rung('R-11 — burner not heating: take all parameters', ('!', '#Active'),
-             ('MOVE', '#SP', '#SP_Act'), ('MOVE', '#STG', '#STG_Act'),
+        rung('R-11 / D6 / 0007 — not Enabled: take all four parameters', ('!', '#Enabled'),
+             ('MOVE', '#SP', '#SP_Act'), ('MOVE', '#HYST', '#HYST_Act'),
+             ('MOVE', '#STG', '#STG_Act'),
              ('MOVE', '#TStart', '#TStart_Act')),
-        rung('R-11 — lower SP applies at once', ('Le', 'Int', '#SP', '#SP_Act'),
+        rung('R-11 / D6 / 0007 — not Active: take TStart', ('!', '#Active'),
+             ('MOVE', '#TStart', '#TStart_Act')),
+        rung('R-11 / D6 / 0007 — lower SP applies at once', ('Le', 'Int', '#SP', '#SP_Act'),
              ('MOVE', '#SP', '#SP_Act')),
-        rung('R-11 — higher STG (less 2nd stage) applies at once',
+        rung('R-11 / D6 / 0007 — higher HYST applies at once',
+             ('Ge', 'Int', '#HYST', '#HYST_Act'), ('MOVE', '#HYST', '#HYST_Act')),
+        rung('R-11 / D6 / 0007 — higher STG (less 2nd stage) applies at once',
              ('Ge', 'Int', '#STG', '#STG_Act'), ('MOVE', '#STG', '#STG_Act')),
-        rung('R-11 — HYST only acts while stopped, so it is taken at once', None,
-             ('MOVE', '#HYST', '#HYST_Act')),
+        rung('R-11 / D6 / 0007 — pending while any entry differs from its active copy',
+             ('|', ('Ne', 'Int', '#SP', '#SP_Act'), ('Ne', 'Int', '#HYST', '#HYST_Act'),
+              ('Ne', 'Int', '#STG', '#STG_Act'), ('Ne', 'Time', '#TStart', '#TStart_Act')),
+             ('=', '#ParPending')),
         rung('C0xb / C0xc — restart and 2nd-stage limits', None,
              ('SUB', 'Int', '#SP_Act', '#HYST_Act', '#TOn'),
              ('SUB', 'Int', '#SP_Act', '#STG_Act', '#TStg')),
@@ -626,6 +672,77 @@ def outputs_fc():
 
 
 # ======================================================================
+#  HMI — جدول واحد للبتات وتعليقات الـ DB وشبكات النقل (0007، التشغيل §5)
+# ======================================================================
+# (Word، bit، إشارة PLC، النص، بيختفي إمتى، المرجع).
+# '!' قبل المعامل = كونتاكت NC. البت = 1 يعني الإنذار ظاهر. لا Ack.
+HMI_ALARMS = [
+    ('Common', 0, '"Sys".Alm_EStop', 'E-STOP active or not reset',
+     'Release E-STOP and RESET', 'C01'),
+    ('Common', 1, '"Scrubber_DB".Cause_PSH', 'Scrubber trip: high pressure PSH-101',
+     'RESET with all scrubber trip causes healthy', 'C03 / C06a (PH proposal: cause memory)'),
+    ('Common', 2, '"Scrubber_DB".Cause_LSHH', 'Scrubber trip: high-high level LSHH-103',
+     'RESET with all scrubber trip causes healthy', 'C05 / C06a (PH proposal: cause memory)'),
+    ('Common', 3, '"Scrubber_DB".Cause_PwrUp', 'Scrubber held after power-up: RESET required',
+     'RESET with all scrubber trip causes healthy', 'S-01 / C06a (PH proposal)'),
+    ('Common', 4, '"Scrubber_DB".Alm_LSH', 'Scrubber high level LSH-102',
+     'Automatically when level returns', 'C04 (Client)'),
+    ('Common', 5, '"Sys".Alm_ParRejected', 'Setting rejected: out of range',
+     'RESET; old value restored on rejection (existing Common latch)', 'R-11'),
+    ('BR01', 0, '"BR01_DB".F_EStop', 'BR01 stopped by E-STOP: RESET + START',
+     'RESET after fault causes clear; START to run', 'C01'),
+    ('BR01', 1, '"BR01_DB".F_TC', 'BR01 thermocouple fault',
+     'RESET after repair', 'C07d'),
+    ('BR01', 2, '"BR01_DB".F_Lockout', 'BR01 burner lockout',
+     'RESET after burner control box lockout cleared', 'C07e'),
+    ('BR01', 3, '"BR01_DB".F_NoStart', 'BR01 failed to start',
+     'RESET after fault causes clear', 'C07f'),
+    ('BR01', 4, '"BR01_DB".F_RunLost', 'BR01 stopped by itself',
+     'RESET after fault causes clear', 'C07g'),
+    ('BR01', 5, '"BR01_DB".F_RunWrong', 'BR01 RUN without request',
+     'RESET with RUN off and fault causes clear', 'R-09'),
+    ('BR01', 6, '!"BR01_DB".LevelOK', 'TK01 level low: burner held',
+     'Automatically when level returns', 'C07a (PH proposal: alarm; Client: permissive)'),
+    ('BR02', 0, '"BR02_DB".F_EStop', 'BR02 stopped by E-STOP: RESET + START',
+     'RESET after fault causes clear; START to run', 'C01'),
+    ('BR02', 1, '"BR02_DB".F_TC', 'BR02 thermocouple fault',
+     'RESET after repair', 'C08d'),
+    ('BR02', 2, '"BR02_DB".F_Lockout', 'BR02 burner lockout',
+     'RESET after burner control box lockout cleared', 'C08e'),
+    ('BR02', 3, '"BR02_DB".F_NoStart', 'BR02 failed to start',
+     'RESET after fault causes clear', 'C08f'),
+    ('BR02', 4, '"BR02_DB".F_RunLost', 'BR02 stopped by itself',
+     'RESET after fault causes clear', 'C08g'),
+    ('BR02', 5, '"BR02_DB".F_RunWrong', 'BR02 RUN without request',
+     'RESET with RUN off and fault causes clear', 'R-09'),
+    ('BR02', 6, '!"BR02_DB".LevelOK', 'TK02 level low: burner held',
+     'Automatically when level returns', 'C08a (PH proposal: alarm; Client: permissive)'),
+]
+
+
+def hmi_alm_db():
+    mems = [member(word, 'Word', retain=False,
+                   comment='0007 / H-05: ' + '; '.join(
+                       'x%d %s [%s]' % (bit, text, source)
+                       for w, bit, _, text, _, source in HMI_ALARMS if w == word))
+            for word in ('Common', 'BR01', 'BR02')]
+    return db_block('SW.Blocks.GlobalDB', 'HmiAlm', 6, interface([('Static', mems)]))
+
+
+def hmi_map_fc():
+    nets = []
+    for word, bit, operand, text, clears, source in HMI_ALARMS:
+        expr = ('!', operand[1:]) if operand.startswith('!') else operand
+        nets.append(rung('%s / 0007 H-05 — %s.x%d: %s; clears: %s' %
+                         (source, word, bit, text, clears), expr,
+                         ('=', '"HmiAlm".%s.%%X%d' % (word, bit))))
+    iface = interface([('Input', []), ('Output', []), ('InOut', []), ('Temp', []),
+                       ('Constant', []), ('Return', ['<Member Name="Ret_Val" Datatype="Void" />'])])
+    return code_block('SW.Blocks.FC', 'HmiMap', 3, iface, nets,
+                      comment='0007 / H-05: alarm display map only; writes HmiAlm only, no Ack')
+
+
+# ======================================================================
 #  OB100 و OB1
 # ======================================================================
 def startup_ob():
@@ -666,6 +783,7 @@ def main_ob():
         call('C07* — BR01 / TK01', 'Burner', 'FB', 'BR01_DB', burner_params('BR01')),
         call('C08* — BR02 / TK02', 'Burner', 'FB', 'BR02_DB', burner_params('BR02')),
         call('E1 .. E7 — outputs', 'Outputs', 'FC'),
+        call('0007 / H-05 — HMI alarms (writes HmiAlm only)', 'HmiMap', 'FC'),
         rung('C02 — first scan done', '"Sys".FirstScan', ('R', '"Sys".FirstScan')),
     ]
     iface = interface([
@@ -681,13 +799,14 @@ def main_ob():
 
 # الترتيب ده هو ترتيب الاستيراد.
 BLOCKS = [
-    ('Par.xml', par_db), ('Sys.xml', sys_db),
+    ('Par.xml', par_db), ('Sys.xml', sys_db), ('HmiAlm.xml', hmi_alm_db),
     ('Common.xml', common_fc),
     ('Scrubber.xml', scrubber_fb), ('Scrubber_DB.xml', scrubber_db),
     ('Burner.xml', burner_fb),
     ('BR01_DB.xml', lambda: burner_db('BR01_DB', 3)),
     ('BR02_DB.xml', lambda: burner_db('BR02_DB', 4)),
     ('Outputs.xml', outputs_fc),
+    ('HmiMap.xml', hmi_map_fc),
     ('Startup.xml', startup_ob), ('Main.xml', main_ob),
 ]
 

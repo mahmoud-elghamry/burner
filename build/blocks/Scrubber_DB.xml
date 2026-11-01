@@ -25,6 +25,11 @@
     <Member Name="Alm_PSH" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
     <Member Name="Alm_LSH" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
     <Member Name="Alm_LSHH" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
+    <Member Name="Cause_EStop" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
+    <Member Name="Cause_PSH" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
+    <Member Name="Cause_LSHH" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
+    <Member Name="Cause_PwrUp" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
+    <Member Name="FirstOut" Datatype="Int" Remanence="NonRetain" Accessibility="Public" />
   </Section>
   <Section Name="InOut" />
   <Section Name="Static" />
