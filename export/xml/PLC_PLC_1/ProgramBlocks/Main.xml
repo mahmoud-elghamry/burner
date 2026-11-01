@@ -2,7 +2,7 @@
 <Document>
   <Engineering version="V15.1" />
   <DocumentInfo>
-    <Created>2026-10-28T19:14:18.4826363Z</Created>
+    <Created>2026-11-01T20:58:45.7903102Z</Created>
     <ExportSetting>WithDefaults</ExportSetting>
     <InstalledProducts>
       <Product>
@@ -158,57 +158,82 @@
         <Parameter Name="Alm_PSH" Section="Output" Type="Bool" />
         <Parameter Name="Alm_LSH" Section="Output" Type="Bool" />
         <Parameter Name="Alm_LSHH" Section="Output" Type="Bool" />
+        <Parameter Name="Cause_EStop" Section="Output" Type="Bool" />
+        <Parameter Name="Cause_PSH" Section="Output" Type="Bool" />
+        <Parameter Name="Cause_LSHH" Section="Output" Type="Bool" />
+        <Parameter Name="Cause_PwrUp" Section="Output" Type="Bool" />
+        <Parameter Name="FirstOut" Section="Output" Type="Int" />
       </CallInfo>
     </Call>
   </Parts>
   <Wires>
-    <Wire UId="34">
+    <Wire UId="39">
       <Powerrail />
       <NameCon UId="27" Name="en" />
     </Wire>
-    <Wire UId="35">
+    <Wire UId="40">
       <IdentCon UId="21" />
       <NameCon UId="27" Name="PSH" />
     </Wire>
-    <Wire UId="36">
+    <Wire UId="41">
       <IdentCon UId="22" />
       <NameCon UId="27" Name="LSH" />
     </Wire>
-    <Wire UId="37">
+    <Wire UId="42">
       <IdentCon UId="23" />
       <NameCon UId="27" Name="LSHH" />
     </Wire>
-    <Wire UId="38">
+    <Wire UId="43">
       <IdentCon UId="24" />
       <NameCon UId="27" Name="EStopOK" />
     </Wire>
-    <Wire UId="39">
+    <Wire UId="44">
       <IdentCon UId="25" />
       <NameCon UId="27" Name="ResetPulse" />
     </Wire>
-    <Wire UId="40">
+    <Wire UId="45">
       <IdentCon UId="26" />
       <NameCon UId="27" Name="FirstScan" />
     </Wire>
-    <Wire UId="41">
+    <Wire UId="46">
       <NameCon UId="27" Name="Tripped" />
       <OpenCon UId="29" />
     </Wire>
-    <Wire UId="42">
+    <Wire UId="47">
       <NameCon UId="27" Name="ValvesNormal" />
       <OpenCon UId="30" />
     </Wire>
-    <Wire UId="43">
+    <Wire UId="48">
       <NameCon UId="27" Name="Alm_PSH" />
       <OpenCon UId="31" />
     </Wire>
-    <Wire UId="44">
+    <Wire UId="49">
       <NameCon UId="27" Name="Alm_LSH" />
       <OpenCon UId="32" />
     </Wire>
-    <Wire UId="45">
+    <Wire UId="50">
       <NameCon UId="27" Name="Alm_LSHH" />
       <OpenCon UId="33" />
+    </Wire>
+    <Wire UId="51">
+      <NameCon UId="27" Name="Cause_EStop" />
+      <OpenCon UId="34" />
+    </Wire>
+    <Wire UId="52">
+      <NameCon UId="27" Name="Cause_PSH" />
+      <OpenCon UId="35" />
+    </Wire>
+    <Wire UId="53">
+      <NameCon UId="27" Name="Cause_LSHH" />
+      <OpenCon UId="36" />
+    </Wire>
+    <Wire UId="54">
+      <NameCon UId="27" Name="Cause_PwrUp" />
+      <OpenCon UId="37" />
+    </Wire>
+    <Wire UId="55">
+      <NameCon UId="27" Name="FirstOut" />
+      <OpenCon UId="38" />
     </Wire>
   </Wires>
 </FlgNet></NetworkSource>
@@ -368,125 +393,130 @@
         <Parameter Name="F_NoStart" Section="Output" Type="Bool" />
         <Parameter Name="F_RunLost" Section="Output" Type="Bool" />
         <Parameter Name="F_RunWrong" Section="Output" Type="Bool" />
+        <Parameter Name="ParPending" Section="Output" Type="Bool" />
       </CallInfo>
     </Call>
   </Parts>
   <Wires>
-    <Wire UId="51">
+    <Wire UId="52">
       <Powerrail />
       <NameCon UId="38" Name="en" />
     </Wire>
-    <Wire UId="52">
+    <Wire UId="53">
       <IdentCon UId="21" />
       <NameCon UId="38" Name="Auto" />
     </Wire>
-    <Wire UId="53">
+    <Wire UId="54">
       <IdentCon UId="22" />
       <NameCon UId="38" Name="StartPB" />
     </Wire>
-    <Wire UId="54">
+    <Wire UId="55">
       <IdentCon UId="23" />
       <NameCon UId="38" Name="StopOK" />
     </Wire>
-    <Wire UId="55">
+    <Wire UId="56">
       <IdentCon UId="24" />
       <NameCon UId="38" Name="LevelOK" />
     </Wire>
-    <Wire UId="56">
+    <Wire UId="57">
       <IdentCon UId="25" />
       <NameCon UId="38" Name="RunFb" />
     </Wire>
-    <Wire UId="57">
+    <Wire UId="58">
       <IdentCon UId="26" />
       <NameCon UId="38" Name="Lockout" />
     </Wire>
-    <Wire UId="58">
+    <Wire UId="59">
       <IdentCon UId="27" />
       <NameCon UId="38" Name="Fuel" />
     </Wire>
-    <Wire UId="59">
+    <Wire UId="60">
       <IdentCon UId="28" />
       <NameCon UId="38" Name="TeA" />
     </Wire>
-    <Wire UId="60">
+    <Wire UId="61">
       <IdentCon UId="29" />
       <NameCon UId="38" Name="TeB" />
     </Wire>
-    <Wire UId="61">
+    <Wire UId="62">
       <IdentCon UId="30" />
       <NameCon UId="38" Name="Use24h" />
     </Wire>
-    <Wire UId="62">
+    <Wire UId="63">
       <IdentCon UId="31" />
       <NameCon UId="38" Name="EStopOK" />
     </Wire>
-    <Wire UId="63">
+    <Wire UId="64">
       <IdentCon UId="32" />
       <NameCon UId="38" Name="ResetPulse" />
     </Wire>
-    <Wire UId="64">
+    <Wire UId="65">
       <IdentCon UId="33" />
       <NameCon UId="38" Name="FirstScan" />
     </Wire>
-    <Wire UId="65">
+    <Wire UId="66">
       <IdentCon UId="34" />
       <NameCon UId="38" Name="SP" />
     </Wire>
-    <Wire UId="66">
+    <Wire UId="67">
       <IdentCon UId="35" />
       <NameCon UId="38" Name="HYST" />
     </Wire>
-    <Wire UId="67">
+    <Wire UId="68">
       <IdentCon UId="36" />
       <NameCon UId="38" Name="STG" />
     </Wire>
-    <Wire UId="68">
+    <Wire UId="69">
       <IdentCon UId="37" />
       <NameCon UId="38" Name="TStart" />
     </Wire>
-    <Wire UId="69">
+    <Wire UId="70">
       <NameCon UId="38" Name="HeatReq" />
       <OpenCon UId="40" />
     </Wire>
-    <Wire UId="70">
+    <Wire UId="71">
       <NameCon UId="38" Name="Stage2" />
       <OpenCon UId="41" />
     </Wire>
-    <Wire UId="71">
+    <Wire UId="72">
       <NameCon UId="38" Name="State" />
       <OpenCon UId="42" />
     </Wire>
-    <Wire UId="72">
+    <Wire UId="73">
       <NameCon UId="38" Name="Enabled" />
       <OpenCon UId="43" />
     </Wire>
-    <Wire UId="73">
+    <Wire UId="74">
       <NameCon UId="38" Name="Tmax" />
       <OpenCon UId="44" />
     </Wire>
-    <Wire UId="74">
+    <Wire UId="75">
       <NameCon UId="38" Name="F_EStop" />
       <OpenCon UId="45" />
     </Wire>
-    <Wire UId="75">
+    <Wire UId="76">
       <NameCon UId="38" Name="F_TC" />
       <OpenCon UId="46" />
     </Wire>
-    <Wire UId="76">
+    <Wire UId="77">
       <NameCon UId="38" Name="F_Lockout" />
       <OpenCon UId="47" />
     </Wire>
-    <Wire UId="77">
+    <Wire UId="78">
       <NameCon UId="38" Name="F_NoStart" />
       <OpenCon UId="48" />
     </Wire>
-    <Wire UId="78">
+    <Wire UId="79">
       <NameCon UId="38" Name="F_RunLost" />
       <OpenCon UId="49" />
     </Wire>
-    <Wire UId="79">
+    <Wire UId="80">
       <NameCon UId="38" Name="F_RunWrong" />
       <OpenCon UId="50" />
+    </Wire>
+    <Wire UId="81">
+      <NameCon UId="38" Name="ParPending" />
+      <OpenCon UId="51" />
     </Wire>
   </Wires>
 </FlgNet></NetworkSource>
@@ -645,125 +675,130 @@
         <Parameter Name="F_NoStart" Section="Output" Type="Bool" />
         <Parameter Name="F_RunLost" Section="Output" Type="Bool" />
         <Parameter Name="F_RunWrong" Section="Output" Type="Bool" />
+        <Parameter Name="ParPending" Section="Output" Type="Bool" />
       </CallInfo>
     </Call>
   </Parts>
   <Wires>
-    <Wire UId="51">
+    <Wire UId="52">
       <Powerrail />
       <NameCon UId="38" Name="en" />
     </Wire>
-    <Wire UId="52">
+    <Wire UId="53">
       <IdentCon UId="21" />
       <NameCon UId="38" Name="Auto" />
     </Wire>
-    <Wire UId="53">
+    <Wire UId="54">
       <IdentCon UId="22" />
       <NameCon UId="38" Name="StartPB" />
     </Wire>
-    <Wire UId="54">
+    <Wire UId="55">
       <IdentCon UId="23" />
       <NameCon UId="38" Name="StopOK" />
     </Wire>
-    <Wire UId="55">
+    <Wire UId="56">
       <IdentCon UId="24" />
       <NameCon UId="38" Name="LevelOK" />
     </Wire>
-    <Wire UId="56">
+    <Wire UId="57">
       <IdentCon UId="25" />
       <NameCon UId="38" Name="RunFb" />
     </Wire>
-    <Wire UId="57">
+    <Wire UId="58">
       <IdentCon UId="26" />
       <NameCon UId="38" Name="Lockout" />
     </Wire>
-    <Wire UId="58">
+    <Wire UId="59">
       <IdentCon UId="27" />
       <NameCon UId="38" Name="Fuel" />
     </Wire>
-    <Wire UId="59">
+    <Wire UId="60">
       <IdentCon UId="28" />
       <NameCon UId="38" Name="TeA" />
     </Wire>
-    <Wire UId="60">
+    <Wire UId="61">
       <IdentCon UId="29" />
       <NameCon UId="38" Name="TeB" />
     </Wire>
-    <Wire UId="61">
+    <Wire UId="62">
       <IdentCon UId="30" />
       <NameCon UId="38" Name="Use24h" />
     </Wire>
-    <Wire UId="62">
+    <Wire UId="63">
       <IdentCon UId="31" />
       <NameCon UId="38" Name="EStopOK" />
     </Wire>
-    <Wire UId="63">
+    <Wire UId="64">
       <IdentCon UId="32" />
       <NameCon UId="38" Name="ResetPulse" />
     </Wire>
-    <Wire UId="64">
+    <Wire UId="65">
       <IdentCon UId="33" />
       <NameCon UId="38" Name="FirstScan" />
     </Wire>
-    <Wire UId="65">
+    <Wire UId="66">
       <IdentCon UId="34" />
       <NameCon UId="38" Name="SP" />
     </Wire>
-    <Wire UId="66">
+    <Wire UId="67">
       <IdentCon UId="35" />
       <NameCon UId="38" Name="HYST" />
     </Wire>
-    <Wire UId="67">
+    <Wire UId="68">
       <IdentCon UId="36" />
       <NameCon UId="38" Name="STG" />
     </Wire>
-    <Wire UId="68">
+    <Wire UId="69">
       <IdentCon UId="37" />
       <NameCon UId="38" Name="TStart" />
     </Wire>
-    <Wire UId="69">
+    <Wire UId="70">
       <NameCon UId="38" Name="HeatReq" />
       <OpenCon UId="40" />
     </Wire>
-    <Wire UId="70">
+    <Wire UId="71">
       <NameCon UId="38" Name="Stage2" />
       <OpenCon UId="41" />
     </Wire>
-    <Wire UId="71">
+    <Wire UId="72">
       <NameCon UId="38" Name="State" />
       <OpenCon UId="42" />
     </Wire>
-    <Wire UId="72">
+    <Wire UId="73">
       <NameCon UId="38" Name="Enabled" />
       <OpenCon UId="43" />
     </Wire>
-    <Wire UId="73">
+    <Wire UId="74">
       <NameCon UId="38" Name="Tmax" />
       <OpenCon UId="44" />
     </Wire>
-    <Wire UId="74">
+    <Wire UId="75">
       <NameCon UId="38" Name="F_EStop" />
       <OpenCon UId="45" />
     </Wire>
-    <Wire UId="75">
+    <Wire UId="76">
       <NameCon UId="38" Name="F_TC" />
       <OpenCon UId="46" />
     </Wire>
-    <Wire UId="76">
+    <Wire UId="77">
       <NameCon UId="38" Name="F_Lockout" />
       <OpenCon UId="47" />
     </Wire>
-    <Wire UId="77">
+    <Wire UId="78">
       <NameCon UId="38" Name="F_NoStart" />
       <OpenCon UId="48" />
     </Wire>
-    <Wire UId="78">
+    <Wire UId="79">
       <NameCon UId="38" Name="F_RunLost" />
       <OpenCon UId="49" />
     </Wire>
-    <Wire UId="79">
+    <Wire UId="80">
       <NameCon UId="38" Name="F_RunWrong" />
       <OpenCon UId="50" />
+    </Wire>
+    <Wire UId="81">
+      <NameCon UId="38" Name="ParPending" />
+      <OpenCon UId="51" />
     </Wire>
   </Wires>
 </FlgNet></NetworkSource>
@@ -836,6 +871,46 @@
         <AttributeList>
           <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
   <Parts>
+    <Call UId="21">
+      <CallInfo Name="HmiMap" BlockType="FC" />
+    </Call>
+  </Parts>
+  <Wires>
+    <Wire UId="22">
+      <Powerrail />
+      <NameCon UId="21" Name="en" />
+    </Wire>
+  </Wires>
+</FlgNet></NetworkSource>
+          <ProgrammingLanguage>LAD</ProgrammingLanguage>
+        </AttributeList>
+        <ObjectList>
+          <MultilingualText ID="1D" CompositionName="Comment">
+            <ObjectList>
+              <MultilingualTextItem ID="1E" CompositionName="Items">
+                <AttributeList>
+                  <Culture>en-US</Culture>
+                  <Text />
+                </AttributeList>
+              </MultilingualTextItem>
+            </ObjectList>
+          </MultilingualText>
+          <MultilingualText ID="1F" CompositionName="Title">
+            <ObjectList>
+              <MultilingualTextItem ID="20" CompositionName="Items">
+                <AttributeList>
+                  <Culture>en-US</Culture>
+                  <Text>0007 / H-05 — HMI alarms (writes HmiAlm only)</Text>
+                </AttributeList>
+              </MultilingualTextItem>
+            </ObjectList>
+          </MultilingualText>
+        </ObjectList>
+      </SW.Blocks.CompileUnit>
+      <SW.Blocks.CompileUnit ID="21" CompositionName="CompileUnits">
+        <AttributeList>
+          <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
+  <Parts>
     <Access Scope="GlobalVariable" UId="21">
       <Symbol>
         <Component Name="Sys" />
@@ -873,9 +948,9 @@
           <ProgrammingLanguage>LAD</ProgrammingLanguage>
         </AttributeList>
         <ObjectList>
-          <MultilingualText ID="1D" CompositionName="Comment">
+          <MultilingualText ID="22" CompositionName="Comment">
             <ObjectList>
-              <MultilingualTextItem ID="1E" CompositionName="Items">
+              <MultilingualTextItem ID="23" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
                   <Text />
@@ -883,9 +958,9 @@
               </MultilingualTextItem>
             </ObjectList>
           </MultilingualText>
-          <MultilingualText ID="1F" CompositionName="Title">
+          <MultilingualText ID="24" CompositionName="Title">
             <ObjectList>
-              <MultilingualTextItem ID="20" CompositionName="Items">
+              <MultilingualTextItem ID="25" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
                   <Text>C02 — first scan done</Text>
@@ -895,9 +970,9 @@
           </MultilingualText>
         </ObjectList>
       </SW.Blocks.CompileUnit>
-      <MultilingualText ID="21" CompositionName="Title">
+      <MultilingualText ID="26" CompositionName="Title">
         <ObjectList>
-          <MultilingualTextItem ID="22" CompositionName="Items">
+          <MultilingualTextItem ID="27" CompositionName="Items">
             <AttributeList>
               <Culture>en-US</Culture>
               <Text>Main</Text>
