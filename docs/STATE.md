@@ -19,7 +19,7 @@
 
 **إنذارات الشاشة (0007 P6).** Openness V15.1 مالوش API لإنذارات أو مستخدمين Comfort (اتأكد من الـ DLL
 2026-11-02)، فالـ 20 إنذار هيدخلوا بزرار Import في TIA من ملف Excel. **مستنيين من المستخدم:** class اسمها
-`Faults` من غير Ack، وإنذار عيّنة واحد، وExport لـ `build/alarms_sample.xlsx`. وبعده:
+`Faults` من غير Ack، وإنذار عيّنة واحد، وExport لملف `alarms_sample.xlsx` في فولدر `build`. وبعده:
 - نولّد الـ 20 إنذار في نفس الشكل، والمستخدم يعملهم Import.
 - الـ alarm view بالإيد على شاشة Alarms.
 - المستخدم `Engineer`، والصلاحية على حقول Settings.
