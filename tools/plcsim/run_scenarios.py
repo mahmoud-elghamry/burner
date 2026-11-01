@@ -384,7 +384,9 @@ EN = {
 
 def main(args):
     global SCAN
-    if '--slow' in args:        # للعرض جنب TIA Online: كل خطوة ثانيتين
+    # للعرض جنب TIA Online أو محاكي الشاشة: كل خطوة ثانيتين. مش اختبار: T4 وT6 وT6p
+    # بيقعوا فيه لأن الانتظار الزيادة بيعدّي مهلة الـ 120 ث والـ 10 ث (2026-11-02).
+    if '--slow' in args:
         SCAN = 2.0
     names = [a for a in args if not a.startswith('--')]
     tests = [t for t in ALL if not names or t.__name__ in names]
