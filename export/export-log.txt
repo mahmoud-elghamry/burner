@@ -23,8 +23,14 @@ PLC summary -> exported: 16, protected(skipped): 0, failed: 0
 
 
 === HMI: HMI_RT_1 ===
+OK   Screen Alarms
+OK   Screen BR01
+OK   Screen BR02
 OK   Screen Root screen
+OK   Screen Scrubber
+OK   Screen Settings
 OK   HmiTagTable Default tag table
+OK   HmiTagTable LCP01
 
-HMI summary -> exported: 2, failed: 0
+HMI summary -> exported: 8, failed: 0
 
