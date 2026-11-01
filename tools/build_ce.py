@@ -72,7 +72,7 @@ rows = [
               "RESET, start-up after power loss and lamps are described in the Control Narrative "
               "(docs/التشغيل.md)."),
     ("Not in scope (Rev. A)", "Communication with the Master PLC in the control room — deferred to a later "
-                              "revision.\nScrubber low level switch — not installed (DI I12.5 reserved)."),
+                              "revision.\nScrubber low level switch — none on this scrubber (DI I12.5 spare)."),
     ("Burner flame safety", "Purge, ignition, flame supervision and the pilot / main gas valves are handled by "
                             "each burner's own certified control box (RS100: RMG88; DLX 53: SQ DUAL). "
                             "LCP-01 only gives the burner its heat request (TL / L) and stage request "
@@ -224,8 +224,8 @@ matrix = [
      {"E8": "ALARM"}, "Automatic when cleared", CL, "Pre-alarm before LSHH-103."),
     ("C05", "LSHH-103", "Scrubber high-high level", "I0.2", "Contact open (fail-safe)", "Trip",
      SCRUB_TRIP, "S2 after cleared", PD, "Burners are NOT tripped (as C03)."),
-    ("C06", "LSL (scrubber)", "Scrubber low level", "I12.5 (reserved)", "—", "Not installed", {}, "—",
-     PD, "Provisional: understood as not installed (open question Q1). Input reserved."),
+    ("C06", "LSL (scrubber)", "Scrubber low level", "I12.5 (spare)", "—", "Not installed", {}, "—",
+     PD, "Not installed: the scrubber has LSH-102 and LSHH-103 only (confirmed 02-Nov-2026). I12.5 is spare."),
     ("C06a", "S0 / PSH-101 / LSHH-103 / power-up", "Scrubber trip cause memory and first-out", "—",
      "EStopOK=0 / PSH open / LSHH open / FirstScan", "Alarm", {"E8": "ALARM"},
      "S2 with PSH, LSHH and EStopOK healthy", PH,
@@ -358,7 +358,7 @@ io = [
     ("I12.2", "S5", "BR02 AUTO/MAN selector (closed = AUTO)", "XI2:5", "DI 24V", "11", "S5_BR02_Auto"),
     ("I12.3", "S6", "BR02 START push button", "XI2:7", "DI 24V", "11", "S6_BR02_Start"),
     ("I12.4", "S7", "BR02 STOP push button", "XI2:9", "DI 24V", "11", "S7_BR02_Stop"),
-    ("I12.5", "—", "Reserved: scrubber LSL (not installed)", "XI2:11", "DI 24V", "11", ""),
+    ("I12.5", "—", "Spare (scrubber has no LSL)", "XI2:11", "DI 24V", "11", ""),
     ("I12.6–7", "—", "Spare", "XI2:13–16", "DI 24V", "11", ""),
     ("Q0.0", "R1", "BR01 heat request (TL) + H1 1st stage lamp", "XQ:1/2", "DQ 24V", "12", "BR01_TL_Cmd"),
     ("Q0.1", "R2", "BR01 2nd stage (TR) + H2 2nd stage lamp", "XQ:3/4", "DQ 24V", "12", "BR01_TR_Cmd"),

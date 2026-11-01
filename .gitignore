@@ -17,3 +17,6 @@ build/probe/
 build/review/
 baseline/*
 !baseline/.gitkeep
+# TIA: automatic backups and files regenerated on every HMI compile
+tia/*.backup/
+tia/**/Generates/
