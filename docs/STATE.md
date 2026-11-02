@@ -18,9 +18,9 @@
 ## شغّال دلوقتي 🔄
 
 **إنذارات الشاشة (0007 P6).** Openness V15.1 مالوش API لإنذارات أو مستخدمين Comfort (اتأكد من الـ DLL
-2026-11-02)، فالـ 22 إنذار هيدخلوا (اتضاف `C04a` و`C04b`) بزرار Import في TIA من ملف Excel. **مستنيين من المستخدم:** class اسمها
-`Faults` من غير Ack، وإنذار عيّنة واحد، وExport لملف `alarms_sample.xlsx` في فولدر `build`. وبعده:
-- نولّد الـ 22 إنذار في نفس الشكل، والمستخدم يعملهم Import.
+2026-11-02)، فالـ 22 إنذار (ومعاهم `C04a` و`C04b`) بيدخلوا بزرار Import في TIA من ملف Excel.
+الشكل اتاخد من Export حقيقي (`build/alarms_sample.xlsx`)، والـ class هي `No Acknowledgement` الجاهزة في TIA.
+`py tools/build_alarms.py` بيطلّع `build/hmi/Alarms_LCP01.xlsx` من `HMI_ALARMS`. **مستنيين:** المستخدم يعمل Import. وبعده:
 - الـ alarm view بالإيد على شاشة Alarms.
 - المستخدم `Engineer`، والصلاحية على حقول Settings.
 
