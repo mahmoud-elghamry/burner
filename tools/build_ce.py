@@ -82,8 +82,9 @@ rows = [
                          "independent of the PLC. Safety thermostat TS (manual reset) is in series with the "
                          "BR01 control supply. These act even if the PLC fails."),
     ("Fail-safe outputs", "All PLC outputs de-energise on PLC STOP or 24 VDC loss. Valve types were chosen so "
-                          "that de-energised = safe: XV-401 flare (NO) OPENS, XV-402 drain (NO) OPENS, "
-                          "XV-403 suction (NC) CLOSES, both burners lose their heat request."),
+                          "that de-energised = safe: XV-401 flare (NO) OPENS, XV-402 drain (NC) CLOSES, "
+                          "XV-403 suction (NC) CLOSES, both burners lose their heat request. The drain is "
+                          "the only valve that is energised to act: it opens on high level (C04 / C05)."),
     ("How to read the matrix", "One row per cause. Cells under each effect say what happens to that output "
                                "while the cause is active. Empty = no action.\n"
                                "STOP = output de-energised / burner request removed.  RUN = energised.\n"
@@ -96,7 +97,7 @@ rows = [
     ("Requested from client", "On sheet 'C&E Matrix', fill the two yellow columns for every row: "
                               "'Client response' (Approved / Approved with comment / Rejected) and "
                               "'Client comment'. Rows marked 'PH proposal' need particular attention. "
-                              "Use the filter on the header row, e.g. Source = PH proposal. "
+                                                            "Use the filter on the header row, e.g. Source = PH proposal. "
                               "Parameter values are on sheet 'Parameters' and are adjustable from the HMI."),
 ]
 r = 4
@@ -124,7 +125,7 @@ effects = [
     ("E3", "BR02 start (L)", "Q0.5 / R6"),
     ("E4", "BR02 high fire (T2)", "Q0.6 / R7"),
     ("E5", "XV-401 Flare SV (NO)", "Q0.2 / R3"),
-    ("E6", "XV-402 Drain SV (NO)", "Q0.3 / R4"),
+    ("E6", "XV-402 Drain SV (NC)", "Q0.3 / R4"),
     ("E7", "XV-403 Suction SV (NC)", "Q0.4 / R5"),
     ("E8", "HMI alarm", "HMI"),
 ]
@@ -150,7 +151,7 @@ for k, h in enumerate(tail_cols):
     put(ws, hr, c, h, bold=True, fill=HDR, color="FFFFFF", h="center")
 ws.row_dimensions[hr + 1].height = 42
 
-SCRUB_TRIP = {"E5": "OPEN", "E6": "OPEN", "E7": "CLOSE", "E8": "ALARM"}
+SCRUB_SAFE = {"E5": "OPEN", "E6": "CLOSE", "E7": "CLOSE"}
 BR1_STOP = {"E1": "STOP", "E2": "STOP"}
 BR2_STOP = {"E3": "STOP", "E4": "STOP"}
 
@@ -206,23 +207,44 @@ def burner_rows(n, br, tk, lsl, te_in, te_out, rr, flt, stop_fx, stg):
 matrix = [
     ("group", "EMERGENCY SHUTDOWN"),
     ("C01", "S0", "E-STOP pressed", "I1.0", "NC1 contact open", "Trip",
-     {**BR1_STOP, **BR2_STOP, **SCRUB_TRIP}, "Release S0, then S2; burners need START (S1 / S6)", PH,
+     {**BR1_STOP, **BR2_STOP, **SCRUB_SAFE, "E8": "ALARM"}, "Release S0, then S2; burners need START (S1 / S6)", PH,
      "Burners are also cut by hardwired S0 NC2/NC3 (client e-mail: ESD impact on burner ON/OFF). "
-     "Scrubber valves to safe position on ESD = PH proposal."),
+     "Scrubber valves to safe position on ESD = PH proposal. The drain stays closed during E-STOP even "
+     "on high level (meeting 02-Nov-2026)."),
     ("C02", "—", "PLC STOP, 24 VDC loss or power-up", "—", "All outputs de-energised", "Inherent",
-     {**BR1_STOP, **BR2_STOP, "E5": "OPEN", "E6": "OPEN", "E7": "CLOSE"},
+     {**BR1_STOP, **BR2_STOP, **SCRUB_SAFE},
      "S2 for scrubber; burners need START (S1 / S6)", PH,
-     "Result of valve types (NO / NO / NC) and relay outputs. After power returns nothing restarts "
-     "by itself."),
+     "Result of valve types (flare NO / drain NC / suction NC) and relay outputs. After power returns "
+     "flare and suction stay in trip until S2. The drain is not held: it follows the level as soon as "
+     "the PLC runs (C04), otherwise a high level at power-up could never be cleared. Drain type NC "
+     "confirmed 02-Nov-2026; drawing V1 shows NO and will be revised (Eng. Omar)."),
     ("group", "GAS SCRUBBER"),
     ("C03", "PSH-101", "Scrubber high pressure", "I0.0", "Contact open (fail-safe)", "Trip",
-     SCRUB_TRIP, "S2 after cleared", PD,
+     {"E5": "OPEN", "E7": "CLOSE", "E8": "ALARM"}, "S2 after cleared", PD,
      "Client e-mail asks for scrubber alarms/trips; the valve action and burner policy were decided by PH. Burners are NOT tripped (decision PH / Eng. Ahmed Zain); "
-     "if gas pressure to the burner drops, the burner's own gas pressure switch stops it (C07g / C08g)."),
-    ("C04", "LSH-102", "Scrubber high level", "I0.1", "Contact open (fail-safe)", "Alarm",
-     {"E8": "ALARM"}, "Automatic when cleared", CL, "Pre-alarm before LSHH-103."),
+     "if gas pressure to the burner drops, the burner's own gas pressure switch stops it (C07g / C08g). "
+     "The drain is not touched by PSH; it follows the level (meeting 02-Nov-2026)."),
+    ("C04", "LSH-102", "Scrubber high level", "I0.1", "Contact open (fail-safe) for TDRN_ON (3 s)",
+     "Control", {"E6": "OPEN", "E8": "ALARM"},
+     "Automatic: drain closes when LSH-102 healthy for TDRN_OFF (5 s)", PD,
+     "Client e-mail asks for the alarm. Opening the drain on LSH-102 was decided in the meeting of "
+     "02-Nov-2026: the liquid drains a little and the level falls. Also opened by LSHH-103 (C05). "
+     "Closes again above the drain nozzle, so liquid keeps sealing the drain. Not during E-STOP."),
+    ("C04a", "XV-402", "Drain open too long (LSH-102 stuck or wire broken)", "—",
+     "Drain open continuously for TDRN_MAX (10 min)", "Trip", {"E6": "CLOSE", "E8": "ALARM"},
+     "S2; the drain then follows the level again", PD,
+     "The scrubber has no low level switch (C06). A broken LSH-102 wire reads as high level and would "
+     "keep the drain open until the scrubber is empty and gas blows through the drain. This timer is "
+     "the only protection against that. Accepted 02-Nov-2026."),
+    ("C04b", "LSH-102 / LSHH-103", "LSH-102 fault: high-high level without high level", "—",
+     "LSHH-103 open while LSH-102 healthy, for 5 s", "Alarm", {"E8": "ALARM"},
+     "S2 when the two switches agree", PD,
+     "LSHH-103 is mounted above LSH-102, so it cannot trip alone unless LSH-102 has failed. "
+     "Accepted 02-Nov-2026."),
     ("C05", "LSHH-103", "Scrubber high-high level", "I0.2", "Contact open (fail-safe)", "Trip",
-     SCRUB_TRIP, "S2 after cleared", PD, "Burners are NOT tripped (as C03)."),
+     {"E6": "OPEN", "E7": "CLOSE", "E8": "ALARM"}, "S2 after cleared (suction)", PD,
+     "Burners are NOT tripped (as C03). Flare not touched (meeting 02-Nov-2026). The drain opens as for "
+     "C04 and is not held by the trip: it follows the level, so it still opens if LSH-102 has failed."),
     ("C06", "LSL (scrubber)", "Scrubber low level", "I12.5 (spare)", "—", "Not installed", {}, "—",
      PD, "Not installed: the scrubber has LSH-102 and LSHH-103 only (confirmed 02-Nov-2026). I12.5 is spare."),
     ("C06a", "S0 / PSH-101 / LSHH-103 / power-up", "Scrubber trip cause memory and first-out", "—",
@@ -306,23 +328,30 @@ params = [
      "PH proposal: ~2 × burner start cycle"),
     ("T_MAXRUN", "Forced stop of BR01 after continuous run", 24, "h", "fixed",
      "RS100 manual §5.10"),
+    ("TDRN_ON", "Scrubber high level must last this long before the drain opens (C04)", 3, "s", "1 – 30",
+     "PH decision 02-Nov-2026: float switch bounce"),
+    ("TDRN_OFF", "Drain closes when high level has been gone this long (C04)", 5, "s", "0 – 60",
+     "PH decision 02-Nov-2026"),
+    ("TDRN_MAX", "Drain open continuously longer than this: drain closes, alarm (C04a)", 10, "min",
+     "1 – 60", "PH decision 02-Nov-2026: no scrubber low level switch"),
 ]
 for k, p in enumerate(params, 5):
     for i, v in enumerate(p, 1):
         c = put(ws, k, i, v, h="center" if i in (3, 4, 5) else "left")
         if i == 3 and p[4] != "fixed":
             c.font = font(color="0000FF", bold=True)
-put(ws, 11, 1, "Blue values are defaults; they can be changed from the HMI by an authorised user.",
+nr = 5 + len(params) + 1
+put(ws, nr, 1, "Blue values are defaults; they can be changed from the HMI by an authorised user.",
     border=False)
-ws.merge_cells("A11:F11")
-put(ws, 12, 1, "R-11 / D6 / 0007 — PH proposal, accepted internally 01-Nov-2026: lower SP, higher HYST "
+ws.merge_cells(f"A{nr}:F{nr}")
+put(ws, nr + 1, 1, "R-11 / D6 / 0007 — PH proposal, accepted internally 01-Nov-2026: lower SP, higher HYST "
     "and higher STG apply immediately. Higher SP, lower HYST and lower STG wait until the burner "
     "is not Enabled (after STOP or before START); changing a number must not light a burner. "
-    "All four parameters are taken while not Enabled. T_START is also taken while not Active. "
+    "All four burner parameters are taken while not Enabled. T_START is also taken while not Active. "
     "PLC rejects out-of-range entries, keeps the last valid value and raises an alarm. "
     "After power-up, an invalid stored value is replaced by its default.", border=False)
-ws.merge_cells("A12:F12")
-ws.row_dimensions[12].height = 84
+ws.merge_cells(f"A{nr + 1}:F{nr + 1}")
+ws.row_dimensions[nr + 1].height = 84
 for i, w in enumerate([12, 55, 10, 8, 12, 50], 1):
     ws.column_dimensions[get_column_letter(i)].width = w
 
@@ -357,7 +386,7 @@ io = [
     ("Q0.0", "R1", "BR01 heat request (TL) + H1 1st stage lamp", "XQ:1/2", "DQ 24V", "12", "BR01_TL_Cmd"),
     ("Q0.1", "R2", "BR01 2nd stage (TR) + H2 2nd stage lamp", "XQ:3/4", "DQ 24V", "12", "BR01_TR_Cmd"),
     ("Q0.2", "R3", "XV-401 Flare SV (NO)", "XQ:5/6", "DQ 24V", "12", "XV_401_Cmd"),
-    ("Q0.3", "R4", "XV-402 Drain SV (NO)", "XQ:7/8", "DQ 24V", "12", "XV_402_Cmd"),
+    ("Q0.3", "R4", "XV-402 Drain SV (NC)", "XQ:7/8", "DQ 24V", "12", "XV_402_Cmd"),
     ("Q0.4", "R5", "XV-403 Suction SV (NC)", "XQ:9/10", "DQ 24V", "12", "XV_403_Cmd"),
     ("Q0.5", "R6", "BR02 start (L)", "X6:2", "DQ 24V", "12 / 8", "BR02_L_Cmd"),
     ("Q0.6", "R7", "BR02 high fire (T2)", "X6:4", "DQ 24V", "12 / 8", "BR02_T2_Cmd"),
