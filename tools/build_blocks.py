@@ -651,6 +651,10 @@ def burner_fb():
         rung('C0xg — RUN lost while running, no lockout, not stopped by us',
              ('&', st(RUNNING), ('!', '#RunFb'), ('!', '#Lockout')),
              ('MOVE', FAULT, '#State'), ('S', '#F_RunLost')),
+        # D-09 (2026-11-02): لازم قبل الـ RESET. لو بعده، عطل وRESET في نفس الـ scan كانوا
+        # بيرجّعوا IDLE والسماح لسه موجود، فالبيرنر يولّع تاني من غير START جديد (B-02).
+        rung('B-02 — FAULT takes the START back (before RESET, D-09)', st(FAULT),
+             ('R', '#Enabled')),
         rung('R-06 / R-07 — RESET leaves FAULT only when every cause is gone',
              ('&', st(FAULT), '#ResetPulse', '#EStopOK', ('!', '#Lockout'), '#TcOk',
               ('!', '#RunFb')),
@@ -662,7 +666,6 @@ def burner_fb():
         rung('C0xd — thermocouple fault', '#TcBad', ('MOVE', FAULT, '#State'), ('S', '#F_TC')),
         rung('R-09 — RUN without request', '#RunWrong', ('MOVE', FAULT, '#State'),
              ('S', '#F_RunWrong')),
-        rung('B-02 — FAULT takes the START back', st(FAULT), ('R', '#Enabled')),
         # ---- المخارج ------------------------------------------------------
         rung('E1 / E3 — heat request while STARTING or RUNNING', active,
              ('=', '#Active'), ('=', '#HeatReq')),

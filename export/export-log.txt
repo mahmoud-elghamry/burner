@@ -8,12 +8,12 @@ OK   HmiAlm   [DB]
 OK   Common   [LAD]
 OK   Scrubber   [LAD]
 OK   Scrubber_DB   [DB]
-OK   Burner   [LAD]
 OK   BR01_DB   [DB]
 OK   BR02_DB   [DB]
 OK   Outputs   [LAD]
 OK   HmiMap   [LAD]
 OK   Startup   [LAD]
+OK   Burner   [LAD]
 OK   Main   [LAD]
 OK   TagTable Default tag table
 OK   TagTable Tag table_1
