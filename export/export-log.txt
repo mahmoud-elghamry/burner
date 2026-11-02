@@ -16,8 +16,8 @@ OK   HmiMap   [LAD]
 OK   Startup   [LAD]
 OK   Main   [LAD]
 OK   TagTable Default tag table
-OK   TagTable IO
 OK   TagTable Tag table_1
+OK   TagTable IO
 
 PLC summary -> exported: 16, protected(skipped): 0, failed: 0
 

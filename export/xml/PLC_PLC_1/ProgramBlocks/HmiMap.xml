@@ -2,7 +2,7 @@
 <Document>
   <Engineering version="V15.1" />
   <DocumentInfo>
-    <Created>2026-11-01T21:53:20.843729Z</Created>
+    <Created>2026-11-02T18:33:35.2960086Z</Created>
     <ExportSetting>WithDefaults</ExportSetting>
     <InstalledProducts>
       <Product>
@@ -444,14 +444,14 @@
   <Parts>
     <Access Scope="GlobalVariable" UId="21">
       <Symbol>
-        <Component Name="BR01_DB" />
-        <Component Name="F_EStop" />
+        <Component Name="Scrubber_DB" />
+        <Component Name="F_DrainTO" />
       </Symbol>
     </Access>
     <Access Scope="GlobalVariable" UId="22">
       <Symbol>
         <Component Name="HmiAlm" />
-        <Component Name="BR01" SliceAccessModifier="x0" />
+        <Component Name="Common" SliceAccessModifier="x6" />
       </Symbol>
     </Access>
     <Part Name="Contact" UId="23" />
@@ -494,7 +494,7 @@
               <MultilingualTextItem ID="25" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>C01 / 0007 H-05 — BR01.x0: BR01 stopped by E-STOP: RESET + START; clears: RESET after fault causes clear; START to run</Text>
+                  <Text>C04a / 0007 H-05 — Common.x6: Scrubber drain open too long: drain closed; clears: RESET (drain follows level again)</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -507,14 +507,14 @@
   <Parts>
     <Access Scope="GlobalVariable" UId="21">
       <Symbol>
-        <Component Name="BR01_DB" />
-        <Component Name="F_TC" />
+        <Component Name="Scrubber_DB" />
+        <Component Name="F_LshFault" />
       </Symbol>
     </Access>
     <Access Scope="GlobalVariable" UId="22">
       <Symbol>
         <Component Name="HmiAlm" />
-        <Component Name="BR01" SliceAccessModifier="x1" />
+        <Component Name="Common" SliceAccessModifier="x7" />
       </Symbol>
     </Access>
     <Part Name="Contact" UId="23" />
@@ -557,7 +557,7 @@
               <MultilingualTextItem ID="2A" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>C07d / 0007 H-05 — BR01.x1: BR01 thermocouple fault; clears: RESET after repair</Text>
+                  <Text>C04b / 0007 H-05 — Common.x7: LSH-102 fault: LSHH-103 without LSH-102; clears: RESET once the two switches agree</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -571,13 +571,13 @@
     <Access Scope="GlobalVariable" UId="21">
       <Symbol>
         <Component Name="BR01_DB" />
-        <Component Name="F_Lockout" />
+        <Component Name="F_EStop" />
       </Symbol>
     </Access>
     <Access Scope="GlobalVariable" UId="22">
       <Symbol>
         <Component Name="HmiAlm" />
-        <Component Name="BR01" SliceAccessModifier="x2" />
+        <Component Name="BR01" SliceAccessModifier="x0" />
       </Symbol>
     </Access>
     <Part Name="Contact" UId="23" />
@@ -620,7 +620,7 @@
               <MultilingualTextItem ID="2F" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>C07e / 0007 H-05 — BR01.x2: BR01 burner lockout; clears: RESET after burner control box lockout cleared</Text>
+                  <Text>C01 / 0007 H-05 — BR01.x0: BR01 stopped by E-STOP: RESET + START; clears: RESET after fault causes clear; START to run</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -634,13 +634,13 @@
     <Access Scope="GlobalVariable" UId="21">
       <Symbol>
         <Component Name="BR01_DB" />
-        <Component Name="F_NoStart" />
+        <Component Name="F_TC" />
       </Symbol>
     </Access>
     <Access Scope="GlobalVariable" UId="22">
       <Symbol>
         <Component Name="HmiAlm" />
-        <Component Name="BR01" SliceAccessModifier="x3" />
+        <Component Name="BR01" SliceAccessModifier="x1" />
       </Symbol>
     </Access>
     <Part Name="Contact" UId="23" />
@@ -683,7 +683,7 @@
               <MultilingualTextItem ID="34" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>C07f / 0007 H-05 — BR01.x3: BR01 failed to start; clears: RESET after fault causes clear</Text>
+                  <Text>C07d / 0007 H-05 — BR01.x1: BR01 thermocouple fault; clears: RESET after repair</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -697,13 +697,13 @@
     <Access Scope="GlobalVariable" UId="21">
       <Symbol>
         <Component Name="BR01_DB" />
-        <Component Name="F_RunLost" />
+        <Component Name="F_Lockout" />
       </Symbol>
     </Access>
     <Access Scope="GlobalVariable" UId="22">
       <Symbol>
         <Component Name="HmiAlm" />
-        <Component Name="BR01" SliceAccessModifier="x4" />
+        <Component Name="BR01" SliceAccessModifier="x2" />
       </Symbol>
     </Access>
     <Part Name="Contact" UId="23" />
@@ -746,7 +746,7 @@
               <MultilingualTextItem ID="39" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>C07g / 0007 H-05 — BR01.x4: BR01 stopped by itself; clears: RESET after fault causes clear</Text>
+                  <Text>C07e / 0007 H-05 — BR01.x2: BR01 burner lockout; clears: RESET after burner control box lockout cleared</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -760,13 +760,13 @@
     <Access Scope="GlobalVariable" UId="21">
       <Symbol>
         <Component Name="BR01_DB" />
-        <Component Name="F_RunWrong" />
+        <Component Name="F_NoStart" />
       </Symbol>
     </Access>
     <Access Scope="GlobalVariable" UId="22">
       <Symbol>
         <Component Name="HmiAlm" />
-        <Component Name="BR01" SliceAccessModifier="x5" />
+        <Component Name="BR01" SliceAccessModifier="x3" />
       </Symbol>
     </Access>
     <Part Name="Contact" UId="23" />
@@ -809,7 +809,7 @@
               <MultilingualTextItem ID="3E" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>R-09 / 0007 H-05 — BR01.x5: BR01 RUN without request; clears: RESET with RUN off and fault causes clear</Text>
+                  <Text>C07f / 0007 H-05 — BR01.x3: BR01 failed to start; clears: RESET after fault causes clear</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -823,18 +823,16 @@
     <Access Scope="GlobalVariable" UId="21">
       <Symbol>
         <Component Name="BR01_DB" />
-        <Component Name="LevelOK" />
+        <Component Name="F_RunLost" />
       </Symbol>
     </Access>
     <Access Scope="GlobalVariable" UId="22">
       <Symbol>
         <Component Name="HmiAlm" />
-        <Component Name="BR01" SliceAccessModifier="x6" />
+        <Component Name="BR01" SliceAccessModifier="x4" />
       </Symbol>
     </Access>
-    <Part Name="Contact" UId="23">
-      <Negated Name="operand" />
-    </Part>
+    <Part Name="Contact" UId="23" />
     <Part Name="Coil" UId="24" />
   </Parts>
   <Wires>
@@ -874,7 +872,7 @@
               <MultilingualTextItem ID="43" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>C07a (PH proposal: alarm; Client: permissive) / 0007 H-05 — BR01.x6: TK01 level low: burner held; clears: Automatically when level returns</Text>
+                  <Text>C07g / 0007 H-05 — BR01.x4: BR01 stopped by itself; clears: RESET after fault causes clear</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -887,14 +885,14 @@
   <Parts>
     <Access Scope="GlobalVariable" UId="21">
       <Symbol>
-        <Component Name="BR02_DB" />
-        <Component Name="F_EStop" />
+        <Component Name="BR01_DB" />
+        <Component Name="F_RunWrong" />
       </Symbol>
     </Access>
     <Access Scope="GlobalVariable" UId="22">
       <Symbol>
         <Component Name="HmiAlm" />
-        <Component Name="BR02" SliceAccessModifier="x0" />
+        <Component Name="BR01" SliceAccessModifier="x5" />
       </Symbol>
     </Access>
     <Part Name="Contact" UId="23" />
@@ -937,7 +935,7 @@
               <MultilingualTextItem ID="48" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>C01 / 0007 H-05 — BR02.x0: BR02 stopped by E-STOP: RESET + START; clears: RESET after fault causes clear; START to run</Text>
+                  <Text>R-09 / 0007 H-05 — BR01.x5: BR01 RUN without request; clears: RESET with RUN off and fault causes clear</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -950,17 +948,19 @@
   <Parts>
     <Access Scope="GlobalVariable" UId="21">
       <Symbol>
-        <Component Name="BR02_DB" />
-        <Component Name="F_TC" />
+        <Component Name="BR01_DB" />
+        <Component Name="LevelOK" />
       </Symbol>
     </Access>
     <Access Scope="GlobalVariable" UId="22">
       <Symbol>
         <Component Name="HmiAlm" />
-        <Component Name="BR02" SliceAccessModifier="x1" />
+        <Component Name="BR01" SliceAccessModifier="x6" />
       </Symbol>
     </Access>
-    <Part Name="Contact" UId="23" />
+    <Part Name="Contact" UId="23">
+      <Negated Name="operand" />
+    </Part>
     <Part Name="Coil" UId="24" />
   </Parts>
   <Wires>
@@ -1000,7 +1000,7 @@
               <MultilingualTextItem ID="4D" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>C08d / 0007 H-05 — BR02.x1: BR02 thermocouple fault; clears: RESET after repair</Text>
+                  <Text>C07a (PH proposal: alarm; Client: permissive) / 0007 H-05 — BR01.x6: TK01 level low: burner held; clears: Automatically when level returns</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -1014,13 +1014,13 @@
     <Access Scope="GlobalVariable" UId="21">
       <Symbol>
         <Component Name="BR02_DB" />
-        <Component Name="F_Lockout" />
+        <Component Name="F_EStop" />
       </Symbol>
     </Access>
     <Access Scope="GlobalVariable" UId="22">
       <Symbol>
         <Component Name="HmiAlm" />
-        <Component Name="BR02" SliceAccessModifier="x2" />
+        <Component Name="BR02" SliceAccessModifier="x0" />
       </Symbol>
     </Access>
     <Part Name="Contact" UId="23" />
@@ -1063,7 +1063,7 @@
               <MultilingualTextItem ID="52" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>C08e / 0007 H-05 — BR02.x2: BR02 burner lockout; clears: RESET after burner control box lockout cleared</Text>
+                  <Text>C01 / 0007 H-05 — BR02.x0: BR02 stopped by E-STOP: RESET + START; clears: RESET after fault causes clear; START to run</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -1077,13 +1077,13 @@
     <Access Scope="GlobalVariable" UId="21">
       <Symbol>
         <Component Name="BR02_DB" />
-        <Component Name="F_NoStart" />
+        <Component Name="F_TC" />
       </Symbol>
     </Access>
     <Access Scope="GlobalVariable" UId="22">
       <Symbol>
         <Component Name="HmiAlm" />
-        <Component Name="BR02" SliceAccessModifier="x3" />
+        <Component Name="BR02" SliceAccessModifier="x1" />
       </Symbol>
     </Access>
     <Part Name="Contact" UId="23" />
@@ -1126,7 +1126,7 @@
               <MultilingualTextItem ID="57" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>C08f / 0007 H-05 — BR02.x3: BR02 failed to start; clears: RESET after fault causes clear</Text>
+                  <Text>C08d / 0007 H-05 — BR02.x1: BR02 thermocouple fault; clears: RESET after repair</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -1140,13 +1140,13 @@
     <Access Scope="GlobalVariable" UId="21">
       <Symbol>
         <Component Name="BR02_DB" />
-        <Component Name="F_RunLost" />
+        <Component Name="F_Lockout" />
       </Symbol>
     </Access>
     <Access Scope="GlobalVariable" UId="22">
       <Symbol>
         <Component Name="HmiAlm" />
-        <Component Name="BR02" SliceAccessModifier="x4" />
+        <Component Name="BR02" SliceAccessModifier="x2" />
       </Symbol>
     </Access>
     <Part Name="Contact" UId="23" />
@@ -1189,7 +1189,7 @@
               <MultilingualTextItem ID="5C" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>C08g / 0007 H-05 — BR02.x4: BR02 stopped by itself; clears: RESET after fault causes clear</Text>
+                  <Text>C08e / 0007 H-05 — BR02.x2: BR02 burner lockout; clears: RESET after burner control box lockout cleared</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -1203,13 +1203,13 @@
     <Access Scope="GlobalVariable" UId="21">
       <Symbol>
         <Component Name="BR02_DB" />
-        <Component Name="F_RunWrong" />
+        <Component Name="F_NoStart" />
       </Symbol>
     </Access>
     <Access Scope="GlobalVariable" UId="22">
       <Symbol>
         <Component Name="HmiAlm" />
-        <Component Name="BR02" SliceAccessModifier="x5" />
+        <Component Name="BR02" SliceAccessModifier="x3" />
       </Symbol>
     </Access>
     <Part Name="Contact" UId="23" />
@@ -1252,7 +1252,7 @@
               <MultilingualTextItem ID="61" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>R-09 / 0007 H-05 — BR02.x5: BR02 RUN without request; clears: RESET with RUN off and fault causes clear</Text>
+                  <Text>C08f / 0007 H-05 — BR02.x3: BR02 failed to start; clears: RESET after fault causes clear</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -1260,6 +1260,132 @@
         </ObjectList>
       </SW.Blocks.CompileUnit>
       <SW.Blocks.CompileUnit ID="62" CompositionName="CompileUnits">
+        <AttributeList>
+          <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
+  <Parts>
+    <Access Scope="GlobalVariable" UId="21">
+      <Symbol>
+        <Component Name="BR02_DB" />
+        <Component Name="F_RunLost" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="22">
+      <Symbol>
+        <Component Name="HmiAlm" />
+        <Component Name="BR02" SliceAccessModifier="x4" />
+      </Symbol>
+    </Access>
+    <Part Name="Contact" UId="23" />
+    <Part Name="Coil" UId="24" />
+  </Parts>
+  <Wires>
+    <Wire UId="25">
+      <Powerrail />
+      <NameCon UId="23" Name="in" />
+    </Wire>
+    <Wire UId="26">
+      <IdentCon UId="21" />
+      <NameCon UId="23" Name="operand" />
+    </Wire>
+    <Wire UId="27">
+      <NameCon UId="23" Name="out" />
+      <NameCon UId="24" Name="in" />
+    </Wire>
+    <Wire UId="28">
+      <IdentCon UId="22" />
+      <NameCon UId="24" Name="operand" />
+    </Wire>
+  </Wires>
+</FlgNet></NetworkSource>
+          <ProgrammingLanguage>LAD</ProgrammingLanguage>
+        </AttributeList>
+        <ObjectList>
+          <MultilingualText ID="63" CompositionName="Comment">
+            <ObjectList>
+              <MultilingualTextItem ID="64" CompositionName="Items">
+                <AttributeList>
+                  <Culture>en-US</Culture>
+                  <Text />
+                </AttributeList>
+              </MultilingualTextItem>
+            </ObjectList>
+          </MultilingualText>
+          <MultilingualText ID="65" CompositionName="Title">
+            <ObjectList>
+              <MultilingualTextItem ID="66" CompositionName="Items">
+                <AttributeList>
+                  <Culture>en-US</Culture>
+                  <Text>C08g / 0007 H-05 — BR02.x4: BR02 stopped by itself; clears: RESET after fault causes clear</Text>
+                </AttributeList>
+              </MultilingualTextItem>
+            </ObjectList>
+          </MultilingualText>
+        </ObjectList>
+      </SW.Blocks.CompileUnit>
+      <SW.Blocks.CompileUnit ID="67" CompositionName="CompileUnits">
+        <AttributeList>
+          <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
+  <Parts>
+    <Access Scope="GlobalVariable" UId="21">
+      <Symbol>
+        <Component Name="BR02_DB" />
+        <Component Name="F_RunWrong" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="22">
+      <Symbol>
+        <Component Name="HmiAlm" />
+        <Component Name="BR02" SliceAccessModifier="x5" />
+      </Symbol>
+    </Access>
+    <Part Name="Contact" UId="23" />
+    <Part Name="Coil" UId="24" />
+  </Parts>
+  <Wires>
+    <Wire UId="25">
+      <Powerrail />
+      <NameCon UId="23" Name="in" />
+    </Wire>
+    <Wire UId="26">
+      <IdentCon UId="21" />
+      <NameCon UId="23" Name="operand" />
+    </Wire>
+    <Wire UId="27">
+      <NameCon UId="23" Name="out" />
+      <NameCon UId="24" Name="in" />
+    </Wire>
+    <Wire UId="28">
+      <IdentCon UId="22" />
+      <NameCon UId="24" Name="operand" />
+    </Wire>
+  </Wires>
+</FlgNet></NetworkSource>
+          <ProgrammingLanguage>LAD</ProgrammingLanguage>
+        </AttributeList>
+        <ObjectList>
+          <MultilingualText ID="68" CompositionName="Comment">
+            <ObjectList>
+              <MultilingualTextItem ID="69" CompositionName="Items">
+                <AttributeList>
+                  <Culture>en-US</Culture>
+                  <Text />
+                </AttributeList>
+              </MultilingualTextItem>
+            </ObjectList>
+          </MultilingualText>
+          <MultilingualText ID="6A" CompositionName="Title">
+            <ObjectList>
+              <MultilingualTextItem ID="6B" CompositionName="Items">
+                <AttributeList>
+                  <Culture>en-US</Culture>
+                  <Text>R-09 / 0007 H-05 — BR02.x5: BR02 RUN without request; clears: RESET with RUN off and fault causes clear</Text>
+                </AttributeList>
+              </MultilingualTextItem>
+            </ObjectList>
+          </MultilingualText>
+        </ObjectList>
+      </SW.Blocks.CompileUnit>
+      <SW.Blocks.CompileUnit ID="6C" CompositionName="CompileUnits">
         <AttributeList>
           <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
   <Parts>
@@ -1302,9 +1428,9 @@
           <ProgrammingLanguage>LAD</ProgrammingLanguage>
         </AttributeList>
         <ObjectList>
-          <MultilingualText ID="63" CompositionName="Comment">
+          <MultilingualText ID="6D" CompositionName="Comment">
             <ObjectList>
-              <MultilingualTextItem ID="64" CompositionName="Items">
+              <MultilingualTextItem ID="6E" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
                   <Text />
@@ -1312,9 +1438,9 @@
               </MultilingualTextItem>
             </ObjectList>
           </MultilingualText>
-          <MultilingualText ID="65" CompositionName="Title">
+          <MultilingualText ID="6F" CompositionName="Title">
             <ObjectList>
-              <MultilingualTextItem ID="66" CompositionName="Items">
+              <MultilingualTextItem ID="70" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
                   <Text>C08a (PH proposal: alarm; Client: permissive) / 0007 H-05 — BR02.x6: TK02 level low: burner held; clears: Automatically when level returns</Text>
@@ -1324,9 +1450,9 @@
           </MultilingualText>
         </ObjectList>
       </SW.Blocks.CompileUnit>
-      <MultilingualText ID="67" CompositionName="Title">
+      <MultilingualText ID="71" CompositionName="Title">
         <ObjectList>
-          <MultilingualTextItem ID="68" CompositionName="Items">
+          <MultilingualTextItem ID="72" CompositionName="Items">
             <AttributeList>
               <Culture>en-US</Culture>
               <Text>HmiMap</Text>
