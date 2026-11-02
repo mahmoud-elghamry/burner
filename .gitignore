@@ -20,3 +20,5 @@ baseline/*
 # TIA: automatic backups and files regenerated on every HMI compile
 tia/*.backup/
 tia/**/Generates/
+build/drawing/
+build/for-manager/
