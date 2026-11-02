@@ -21,6 +21,7 @@
 2026-11-02)، فالـ 22 إنذار (ومعاهم `C04a` و`C04b`) بيدخلوا بزرار Import في TIA من ملف Excel.
 الشكل من Export حقيقي (`build/alarms_sample.xlsx`): 21 Fault (`No Acknowledgement`) وWarning واحد (`Common.x4`، `Warnings`).
 نصوص الـ22 إنذار وInfo اتبسطوا للمشغّل يوم 11-03، من `tools/build_alarms.py` في `build/hmi/Alarms_LCP01.xlsx`؛ أقصى عنوان 36/40، وجدول §5 مطابق، وفحص docs طلع OK.
+الشرح (Info text) بقى **عربي مصري** للفني، والعنوان فضل إنجليزي (طلب المستخدم 11-03، `evidence/2026-11-03-alarm-info-arabic.md`)؛ **لسه:** نتأكد إن الشاشة بتعرض العربي صح، ومراجعة Astra للترجمة.
 الدليل: `evidence/2026-11-03-alarm-ui-plain-english.md`. **باقي TIA:** backup ثم Import بنفس IDs من غير حذف أولًا، وبعده export ومقارنة الـ22 صف.
 - الـ alarm view والألوان بالإيد (الاتنين ظاهرين ومن غير Ack)، ثم اختبار المحاكي؛ مفيش تحقق TIA للنصوص الجديدة هنا.
 - المستخدم `Engineer`، والصلاحية على حقول Settings.

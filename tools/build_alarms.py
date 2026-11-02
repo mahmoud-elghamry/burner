@@ -7,6 +7,8 @@
 - الـ trigger: تاج الشاشة Alm_<Word> (UInt) والبت من الجدول.
 - الـ class: Fault = "No Acknowledgement"؛ Warning = "Warnings" (مفيش Ack؛ RESET من الباب).
 - الأعمدة متاخدة من Export حقيقي (build/alarms_sample.xlsx، 2026-11-02).
+- عنوان الإنذار إنجليزي قصير؛ الشرح (Info text) بالعربي المصري عشان الفني يفهمه (المستخدم 2026-11-03).
+  النسخة الإنجليزية اللي راجعها Astra في commit 7d43cac، والعربي نفس المعنى جملة بجملة.
 """
 from __future__ import print_function
 import os, sys, re
@@ -35,103 +37,103 @@ BANNED_PANEL_WORDS = ('recorded', 'heat request', 'stage request', 'requests',
 # ((word, bit), operator class, alarm text, info text)
 OPERATOR_ALARMS = [
     (('Common', 0), 'Fault', 'E-STOP pressed or not reset',
-     'E-STOP was pressed; this alarm stays until RESET. '
-     'The panel told both burners to stop, the flare valve to open, and the suction and drain valves to close. '
-     'Release E-STOP and press RESET on the panel door; valves may move again, and each burner needs START.'),
+     'اتداس على زرار الطوارئ E-STOP، والإنذار ده هيفضل لحد RESET. '
+     'اللوحة إدّت أمر للبيرنرين يقفوا، ولصمام الفلير يفتح، ولصمامي الساكشن والدرين يقفلوا. '
+     'فك زرار الطوارئ واضغط RESET على باب اللوحة؛ الصمامات ممكن تتحرك تاني، وكل بيرنر محتاج START.'),
     (('Common', 1), 'Fault', 'Scrubber high pressure: RESET needed',
-     'PSH-101 reported high pressure. '
-     'The panel tells the flare to open and suction to close. '
-     'This does not change burner commands or drain control. '
-     'When pressure is normal, very high level has cleared and E-STOP is released, press door RESET. '
-     'RESET clears this alarm and may move valves.'),
+     'حساس الضغط PSH-101 بيقول إن ضغط السكرابر عالي. '
+     'اللوحة إدّت أمر لصمام الفلير يفتح ولصمام الساكشن يقفل. '
+     'ده مش بيغيّر أوامر البيرنرات ولا تحكّم الدرين. '
+     'لما الضغط يرجع طبيعي، والمستوى العالي جدًا يروح، وزرار الطوارئ يكون مفكوك، اضغط RESET على باب اللوحة. '
+     'الـ RESET بيمسح الإنذار وممكن يحرّك الصمامات.'),
     (('Common', 2), 'Fault', 'Scrubber very high level: RESET needed',
-     'LSHH-103 reported very high level. '
-     'The panel tells suction to close; flare and burner commands are unchanged. '
-     'The level switches still control the drain. '
-     'When pressure is normal, very high level has cleared and E-STOP is released, press door RESET. '
-     'RESET clears this alarm and may move valves.'),
+     'حساس المستوى LSHH-103 بيقول إن المية في السكرابر عالية جدًا. '
+     'اللوحة إدّت أمر لصمام الساكشن يقفل؛ والفلير وأوامر البيرنرات زي ما هي. '
+     'حساسات المستوى لسه بتتحكم في الدرين. '
+     'لما الضغط يرجع طبيعي، والمستوى العالي جدًا يروح، وزرار الطوارئ يكون مفكوك، اضغط RESET على باب اللوحة. '
+     'الـ RESET بيمسح الإنذار وممكن يحرّك الصمامات.'),
     (('Common', 3), 'Fault', 'Scrubber waiting after power-up',
-     'After power-up, the panel tells the flare to open and suction to close. '
-     'The drain can work before RESET. '
-     'When pressure is normal, very high level has cleared and E-STOP is released, press door RESET. '
-     'RESET clears this alarm and may move valves. '
-     'Burners need START after power-up; scrubber RESET does not restart or stop them.'),
+     'بعد ما الكهربا رجعت، اللوحة إدّت أمر لصمام الفلير يفتح ولصمام الساكشن يقفل. '
+     'الدرين بيشتغل عادي حتى قبل RESET. '
+     'لما الضغط يكون طبيعي، والمستوى العالي جدًا مش موجود، وزرار الطوارئ مفكوك، اضغط RESET على باب اللوحة. '
+     'الـ RESET بيمسح الإنذار وممكن يحرّك الصمامات. '
+     'البيرنرات محتاجة START بعد رجوع الكهربا، والـ RESET بتاع السكرابر مش بيشغّلها ولا بيوقّفها.'),
     (('Common', 4), 'Warning', 'Scrubber level high (LSH-102)',
-     'Check the scrubber level; this alarm clears when LSH-102 returns to normal. '
-     'Either level switch can trigger drain opening after a delay. '
-     'Usual delays: 3 seconds before opening, 5 before closing after both switches clear. '
-     'E-STOP awaiting RESET or a drain time-limit alarm prevents opening. '
-     'This alarm does not tell the burners to stop.'),
+     'بص على مستوى المية في السكرابر؛ الإنذار ده بيروح لوحده لما LSH-102 يرجع طبيعي. '
+     'أي حساس مستوى من الاتنين ممكن يفتح الدرين بعد شوية. '
+     'التأخير العادي: 3 ثواني قبل ما يفتح، و5 ثواني قبل ما يقفل بعد ما الحساسين يرجعوا طبيعي. '
+     'الدرين مش هيفتح لو فيه طوارئ مستنية RESET، أو إنذار إن وقت الدرين خلص. '
+     'الإنذار ده مش بيوقّف البيرنرات.'),
     (('Common', 5), 'Fault', 'Setting outside allowed range',
-     'A number was outside its allowed range. '
-     'The panel put back the last valid value. '
-     'Check the allowed range before trying again; press RESET on the panel door to clear this alarm.'),
+     'رقم اتكتب برّه الحدود المسموحة. '
+     'اللوحة رجّعت آخر رقم صحيح. '
+     'اتأكد من الحدود قبل ما تجرّب تاني، واضغط RESET على باب اللوحة عشان الإنذار يروح.'),
     (('Common', 6), 'Fault', 'Scrubber drain time limit reached',
-     'The drain was told to stay open past the set time limit. '
-     'The panel told the drain to close and left the burners alone. '
-     'Check why the drain was needed so long before pressing door RESET, because RESET can tell it to open again immediately.'),
+     'الدرين فضل مطلوب مفتوح أكتر من الوقت المسموح. '
+     'اللوحة إدّت أمر للدرين يقفل، وسابت البيرنرات زي ما هي. '
+     'شوف ليه الدرين فضل مفتوح كل ده قبل ما تضغط RESET، لأن الـ RESET ممكن يفتحه تاني على طول.'),
     (('Common', 7), 'Fault', 'Scrubber level switch problem',
-     'For 5 seconds, LSHH-103 reported very high level but LSH-102 did not report high level. '
-     'Very high level still tells suction to close; normal drain control continues. '
-     'This alarm does not tell burners to stop. '
-     'Check both switches and wiring. '
-     'Once this mismatch clears, press door RESET.'),
+     'لمدة 5 ثواني، حساس LSHH-103 قال إن المستوى عالي جدًا، بس حساس LSH-102 ماقالش إنه عالي. '
+     'المستوى العالي جدًا لسه بيقفل الساكشن، والدرين شغال عادي. '
+     'الإنذار ده مش بيوقّف البيرنرات. '
+     'افحص الحساسين والسلك بتاعهم. '
+     'لما الاختلاف ده يروح، اضغط RESET على باب اللوحة.'),
     (('BR01', 0), 'Fault', 'BR01 E-STOP: RESET needed',
-     'BR01 had an E-STOP trip; this alarm stays until RESET. '
-     'The panel told BR01 to stop. '
-     'Release E-STOP and fix other problems; once BR01 no longer reports running, press door RESET, then BR01 START.'),
+     'حصل تريب طوارئ على BR01، والإنذار ده هيفضل لحد RESET. '
+     'اللوحة إدّت أمر لـ BR01 يقف. '
+     'فك زرار الطوارئ وصلّح أي مشكلة تانية؛ ولما BR01 مايبقاش بيقول إنه شغال، اضغط RESET على باب اللوحة، وبعدين START بتاع BR01.'),
     (('BR01', 1), 'Fault', 'BR01 temperature sensor problem',
-     'A tank temperature sensor gave a bad reading (TE-501 or TE-502); check both sensors and wiring. '
-     'The panel told BR01 to stop. '
-     'Fix all problems; once BR01 no longer reports running, press door RESET, then BR01 START.'),
+     'حساس حرارة في التانك بيدّي قراية غلط (TE-501 أو TE-502)؛ افحص الحساسين والسلك. '
+     'اللوحة إدّت أمر لـ BR01 يقف. '
+     'صلّح كل المشاكل؛ ولما BR01 مايبقاش بيقول إنه شغال، اضغط RESET على باب اللوحة، وبعدين START بتاع BR01.'),
     (('BR01', 2), 'Fault', 'BR01 burner lockout',
-     'BR01 reported a fault in its own safety control. '
-     'The panel told BR01 to stop. '
-     'Fix all problems and reset the burner itself first; once it no longer reports running, press door RESET, then BR01 START.'),
+     'علبة الأمان بتاعة البيرنر BR01 نفسه طلّعت عطل. '
+     'اللوحة إدّت أمر لـ BR01 يقف. '
+     'صلّح المشكلة واعمل ريسيت للبيرنر نفسه من عنده الأول؛ ولما مايبقاش بيقول إنه شغال، اضغط RESET على باب اللوحة، وبعدين START بتاع BR01.'),
     (('BR01', 3), 'Fault', 'BR01 failed to start',
-     'BR01 did not report running before the set start time ran out; check the burner. '
-     'The panel told BR01 to stop. '
-     'Fix all problems; once BR01 no longer reports running, press door RESET, then BR01 START.'),
+     'BR01 ماقالش إنه شغال قبل ما وقت الولعة المضبوط يخلص؛ افحص البيرنر. '
+     'اللوحة إدّت أمر لـ BR01 يقف. '
+     'صلّح كل المشاكل؛ ولما BR01 مايبقاش بيقول إنه شغال، اضغط RESET على باب اللوحة، وبعدين START بتاع BR01.'),
     (('BR01', 4), 'Fault', 'BR01 no longer reports running',
-     'BR01 stopped reporting it was running; check the burner and wiring. '
-     'The panel then told BR01 to stop. '
-     'Fix all problems; once BR01 no longer reports running, press door RESET, then BR01 START.'),
+     'BR01 بطّل يقول إنه شغال؛ افحص البيرنر والسلك. '
+     'وبعدها اللوحة إدّت أمر لـ BR01 يقف. '
+     'صلّح كل المشاكل؛ ولما BR01 مايبقاش بيقول إنه شغال، اضغط RESET على باب اللوحة، وبعدين START بتاع BR01.'),
     (('BR01', 5), 'Fault', 'BR01 reports running while told off',
-     'BR01 reported running for 30 seconds without being asked; check the burner and wiring. '
-     'The panel is telling BR01 to stay off. '
-     'Fix all problems; once BR01 no longer reports running, press door RESET, then BR01 START.'),
+     'BR01 قال إنه شغال لمدة 30 ثانية من غير ما حد يطلب منه؛ افحص البيرنر والسلك. '
+     'اللوحة بتدّي أمر لـ BR01 يفضل طافي. '
+     'صلّح كل المشاكل؛ ولما BR01 مايبقاش بيقول إنه شغال، اضغط RESET على باب اللوحة، وبعدين START بتاع BR01.'),
     (('BR01', 6), 'Fault', 'TK01 level too low for BR01',
-     'TK01 reports low level; the panel told BR01 to stop, and this alarm clears when level returns. '
-     'AUTO can restart only if the earlier START still applies, the tank needs heat and all checks pass. '
-     'In MAN, press BR01 START again after an interrupted cycle.'),
+     'التانك TK01 بيقول إن المستوى واطي؛ اللوحة إدّت أمر لـ BR01 يقف، والإنذار بيروح لوحده لما المستوى يرجع. '
+     'في AUTO، البيرنر يرجع يشتغل بس لو الـ START اللي اتداس قبل كده لسه قايم، والتانك محتاج تسخين، وكل الشروط تمام. '
+     'في MAN، اضغط START بتاع BR01 تاني بعد ما الدورة اتقطعت.'),
     (('BR02', 0), 'Fault', 'BR02 E-STOP: RESET needed',
-     'BR02 had an E-STOP trip; this alarm stays until RESET. '
-     'The panel told BR02 to stop. '
-     'Release E-STOP and fix other problems; once BR02 no longer reports running, press door RESET, then BR02 START.'),
+     'حصل تريب طوارئ على BR02، والإنذار ده هيفضل لحد RESET. '
+     'اللوحة إدّت أمر لـ BR02 يقف. '
+     'فك زرار الطوارئ وصلّح أي مشكلة تانية؛ ولما BR02 مايبقاش بيقول إنه شغال، اضغط RESET على باب اللوحة، وبعدين START بتاع BR02.'),
     (('BR02', 1), 'Fault', 'BR02 temperature sensor problem',
-     'A tank temperature sensor gave a bad reading (TE-503 or TE-504); check both sensors and wiring. '
-     'The panel told BR02 to stop. '
-     'Fix all problems; once BR02 no longer reports running, press door RESET, then BR02 START.'),
+     'حساس حرارة في التانك بيدّي قراية غلط (TE-503 أو TE-504)؛ افحص الحساسين والسلك. '
+     'اللوحة إدّت أمر لـ BR02 يقف. '
+     'صلّح كل المشاكل؛ ولما BR02 مايبقاش بيقول إنه شغال، اضغط RESET على باب اللوحة، وبعدين START بتاع BR02.'),
     (('BR02', 2), 'Fault', 'BR02 burner lockout',
-     'BR02 reported a fault in its own safety control. '
-     'The panel told BR02 to stop. '
-     'Fix all problems and reset the burner itself first; once it no longer reports running, press door RESET, then BR02 START.'),
+     'علبة الأمان بتاعة البيرنر BR02 نفسه طلّعت عطل. '
+     'اللوحة إدّت أمر لـ BR02 يقف. '
+     'صلّح المشكلة واعمل ريسيت للبيرنر نفسه من عنده الأول؛ ولما مايبقاش بيقول إنه شغال، اضغط RESET على باب اللوحة، وبعدين START بتاع BR02.'),
     (('BR02', 3), 'Fault', 'BR02 failed to start',
-     'BR02 did not report running before the set start time ran out; check the burner. '
-     'The panel told BR02 to stop. '
-     'Fix all problems; once BR02 no longer reports running, press door RESET, then BR02 START.'),
+     'BR02 ماقالش إنه شغال قبل ما وقت الولعة المضبوط يخلص؛ افحص البيرنر. '
+     'اللوحة إدّت أمر لـ BR02 يقف. '
+     'صلّح كل المشاكل؛ ولما BR02 مايبقاش بيقول إنه شغال، اضغط RESET على باب اللوحة، وبعدين START بتاع BR02.'),
     (('BR02', 4), 'Fault', 'BR02 no longer reports running',
-     'BR02 stopped reporting it was running; check the burner and wiring. '
-     'The panel then told BR02 to stop. '
-     'Fix all problems; once BR02 no longer reports running, press door RESET, then BR02 START.'),
+     'BR02 بطّل يقول إنه شغال؛ افحص البيرنر والسلك. '
+     'وبعدها اللوحة إدّت أمر لـ BR02 يقف. '
+     'صلّح كل المشاكل؛ ولما BR02 مايبقاش بيقول إنه شغال، اضغط RESET على باب اللوحة، وبعدين START بتاع BR02.'),
     (('BR02', 5), 'Fault', 'BR02 reports running while told off',
-     'BR02 reported running for 30 seconds without being asked; check the burner and wiring. '
-     'The panel is telling BR02 to stay off. '
-     'Fix all problems; once BR02 no longer reports running, press door RESET, then BR02 START.'),
+     'BR02 قال إنه شغال لمدة 30 ثانية من غير ما حد يطلب منه؛ افحص البيرنر والسلك. '
+     'اللوحة بتدّي أمر لـ BR02 يفضل طافي. '
+     'صلّح كل المشاكل؛ ولما BR02 مايبقاش بيقول إنه شغال، اضغط RESET على باب اللوحة، وبعدين START بتاع BR02.'),
     (('BR02', 6), 'Fault', 'TK02 level too low for BR02',
-     'TK02 reports low level; the panel told BR02 to stop, and this alarm clears when level returns. '
-     'AUTO can restart only if the earlier START still applies, the tank needs heat and all checks pass. '
-     'In MAN, press BR02 START again after an interrupted cycle.'),
+     'التانك TK02 بيقول إن المستوى واطي؛ اللوحة إدّت أمر لـ BR02 يقف، والإنذار بيروح لوحده لما المستوى يرجع. '
+     'في AUTO، البيرنر يرجع يشتغل بس لو الـ START اللي اتداس قبل كده لسه قايم، والتانك محتاج تسخين، وكل الشروط تمام. '
+     'في MAN، اضغط START بتاع BR02 تاني بعد ما الدورة اتقطعت.'),
 ]
 
 
