@@ -34,6 +34,7 @@ HEALTHY = [('PSH', 1), ('LSH', 1), ('LSHH', 1), ('S0', 1), ('S3', 1), ('S7', 1),
            ('TE501', 400), ('TE502', 400), ('TE503', 400), ('TE504', 400)]
 
 SCAN = 0.4      # ثواني بعد كل تغيير، كفاية لكذا scan
+DRN_ON, DRN_OFF, DRN_MAX = 3.0 + 0.6, 5.0 + 0.6, 600.0 + 1.0   # Par: TDrnOn/Off/Max الافتراضي
 
 
 class Sim(object):
@@ -106,6 +107,8 @@ class Sim(object):
             self.set(n, v, wait=0)
         time.sleep(SCAN)
         self.press('S2')
+        # الدرين بيقفل بعد TDRN_OFF (5 ث) من رجوع المستوى، لو أول scan شاف LSH قديم
+        time.sleep(DRN_OFF)
 
     def close(self):
         try:
@@ -126,7 +129,7 @@ def start_br01(s, temp=400):
 def T1(s):
     """يوم عادي: AUTO، 40 ثم 60 ثم 70 ثم 65"""
     s.expect('after power-up + RESET: burners off, valves normal',
-             TL1=0, TR1=0, XV401=1, XV402=1, XV403=1)
+             TL1=0, TR1=0, XV401=1, XV402=0, XV403=1)
     s.press('S1')
     s.expect('START at 40 degC -> STARTING: TL on, no 2nd stage', TL1=1, TR1=0)
     s.set('RR', 1)
@@ -248,21 +251,75 @@ def T6b(s):
 
 
 def T7(s):
-    """ضغط الـ scrubber عالي — البيرنرات تكمّل"""
+    """ضغط الـ scrubber عالي، ومستوى عالي جدًا — البيرنرات تكمّل"""
     start_br01(s)
     s.set('PSH', 0)
-    s.expect('PSH-101: valves safe, BR01 keeps running (C03)', XV401=0, XV402=0, XV403=0, TL1=1)
+    s.expect('PSH-101: flare open, suction closed, drain untouched, BR01 runs (C03)',
+             XV401=0, XV402=0, XV403=0, TL1=1)
     s.set('PSH', 1)
-    s.expect('PSH back: valves stay safe until RESET', XV401=0, XV402=0, XV403=0)
+    s.expect('PSH back: flare/suction stay until RESET', XV401=0, XV403=0)
     s.press('S2')
-    s.expect('RESET: valves normal, BR01 untouched (R-07)', XV401=1, XV402=1, XV403=1, TL1=1)
-    s.set('LSHH', 0)
-    s.expect('LSHH-103: valves safe (C05)', XV401=0, XV402=0, XV403=0, TL1=1)
+    s.expect('RESET: valves normal, BR01 untouched (R-07)', XV401=1, XV402=0, XV403=1, TL1=1)
+    s.set('LSH', 0, 0); s.set('LSHH', 0)
+    s.expect('LSHH-103: suction closed at once, flare untouched (C05)', XV401=1, XV403=0, TL1=1)
+    s.wait(DRN_ON)
+    s.expect('LSHH-103 + 3 s: drain open (C05)', XV401=1, XV402=1, XV403=0)
     s.press('S2')
-    s.expect('RESET while LSHH still open: stays tripped', XV401=0, XV402=0, XV403=0)
-    s.set('LSHH', 1); s.press('S2')
+    s.expect('RESET while LSHH still open: suction stays closed', XV402=1, XV403=0)
+    s.set('LSHH', 1, 0); s.set('LSH', 1)
+    s.expect('level down: drain still open (TDRN_OFF), suction closed until RESET',
+             XV402=1, XV403=0)
+    s.wait(DRN_OFF)
+    s.expect('level gone 5 s: drain closed, suction still closed', XV402=0, XV403=0)
+    s.press('S2')
+    s.expect('RESET: all normal', XV401=1, XV402=0, XV403=1, TL1=1)
+
+
+def T7b(s):
+    """مستوى عالي: الدرين بيمشي مع المستوى"""
     s.set('LSH', 0)
-    s.expect('LSH-102: alarm only, valves stay (C04)', XV401=1, XV402=1, XV403=1)
+    s.expect('LSH-102: drain not yet (debounce TDRN_ON)', XV402=0, XV401=1, XV403=1)
+    s.wait(DRN_ON)
+    s.expect('LSH-102 + 3 s: drain open, flare/suction untouched (C04)',
+             XV401=1, XV402=1, XV403=1)
+    s.set('LSH', 1)
+    s.set('LSH', 0)
+    s.set('LSH', 1)
+    s.expect('float bounce: drain stays open', XV402=1)
+    s.wait(DRN_OFF)
+    s.expect('level gone 5 s: drain closed, no RESET needed', XV401=1, XV402=0, XV403=1)
+    s.set('LSH', 0)
+    s.wait(DRN_ON)
+    s.expect('high level again: drain open', XV402=1)
+    s.set('S0', 0)
+    s.expect('E-STOP: drain closed even on high level (C01)', XV401=0, XV402=0, XV403=0)
+    s.set('S0', 1)
+    s.expect('E-STOP released, no RESET: drain still closed', XV402=0)
+    s.press('S2')
+    s.expect('RESET: drain follows the level again', XV401=1, XV402=1, XV403=1)
+    s.cmd('stop'); time.sleep(1.5)
+    s.expect('PLC STOP: drain closed (NC, C02)', XV401=0, XV402=0, XV403=0)
+    s.cmd('run'); time.sleep(3)
+    s.set('LSH', 0)
+    s.wait(DRN_ON)
+    s.expect('power back, high level, no RESET: drain opens, flare/suction tripped',
+             XV401=0, XV402=1, XV403=0)
+
+
+def T7d(s):
+    """سلك LSH مقطوع: الدرين يقفل بعد TDRN_MAX (10 دقايق) — مش في التشغيل العادي"""
+    s.set('LSH', 0)
+    s.wait(DRN_ON)
+    s.expect('LSH-102 open: drain open', XV402=1)
+    s.wait(DRN_MAX - 30)
+    s.expect('9.5 min: drain still open', XV402=1)
+    s.wait(30)
+    s.expect('10 min: drain closed by timeout (C04a)', XV402=0, XV401=1, XV403=1)
+    s.press('S2')
+    s.expect('RESET: drain follows the level again', XV402=1)
+    s.set('LSH', 1)
+    s.wait(DRN_OFF)
+    s.expect('level back: drain closed', XV402=0)
 
 
 def T8(s):
@@ -358,7 +415,8 @@ def BR02(s):
     s.expect('S7 STOP: BR02 off', L2=0)
 
 
-ALL = [T1, T1b, T2, T3, T4, T5, T6, T6p, T6b, T7, T8, T9, T10, R01, R02, R09, BR02]
+ALL = [T1, T1b, T2, T3, T4, T5, T6, T6p, T6b, T7, T7b, T8, T9, T10, R01, R02, R09, BR02]
+LONG = [T7d]    # بيتشغّل بالاسم بس: py run_scenarios.py T7d (10 دقايق)
 
 # الترمينال (VS Code وPowerShell) بيقلب العربي، فالعنوان اللي بيتطبع إنجليزي.
 EN = {
@@ -372,6 +430,8 @@ EN = {
     'T6p': 'R-10: TC card reads 32767 for seconds after power-up',
     'T6b': 'STOP and START together, START jammed',
     'T7': 'scrubber high pressure / high-high level: burners keep running',
+    'T7b': 'scrubber high level: drain follows the level (C04), E-STOP, power-up',
+    'T7d': 'LSH-102 stuck open: drain closes after TDRN_MAX (C04a), 10 min',
     'T8': 'E-STOP',
     'T9': 'power lost and back',
     'T10': 'MAN: one cycle only',
@@ -389,7 +449,7 @@ def main(args):
     if '--slow' in args:
         SCAN = 2.0
     names = [a for a in args if not a.startswith('--')]
-    tests = [t for t in ALL if not names or t.__name__ in names]
+    tests = [t for t in ALL + LONG if (not names and t in ALL) or t.__name__ in names]
     s = Sim()
     try:
         for t in tests:

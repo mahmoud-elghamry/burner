@@ -7,20 +7,20 @@
 | الجزء | فين | الدليل |
 |---|---|---|
 | قراية المدخلات (الرسم، وورقة الحرارة، والإيميل، والكتالوجات) | `inputs/` | `evidence/2026-10-26-inputs-read.md`، و`2026-10-27-original-sources-review.md` |
-| **الـ C&E Rev. A**: 25 صف (`C01`…`C08g` و`C06a`)، وParameters، وIO List (31 نقطة) | `deliverables/PH-LCP-01-CE_RevA.xlsx` من `tools/build_ce.py` | — |
+| **الـ C&E Rev. A**: 27 صف (`C01`…`C08g`، و`C04a`/`C04b`/`C06a`)، وParameters (8)، وIO List (31 نقطة). **الدرين NC وكل حساس بيحرّك صمامه** (اجتماع 2026-11-02) | `deliverables/PH-LCP-01-CE_RevA.xlsx` من `tools/build_ce.py` | `evidence/2026-11-02-scrubber-drain-nc.md` |
 | **وصف التشغيل**: الأوضاع، وSTART/STOP، وRESET، والشاشة §5، والقواعد R-01…R-12 | `docs/التشغيل.md` | — |
 | القرارات 0001…0007 (0004 لسه proposed) | `docs/decisions/` | — |
 | **مشروع TIA**: CPU 1214C وكارت TC وكارت DI، وجدول التاجات `IO` (31) | `tia/Burner/` | `evidence/2026-10-27-tia-hardware-created.md` |
-| **البرنامج**: 13 بلوك (OB1 وOB100 وFC1…FC3 وFB1 وFB2 وDB1…DB6)، كومبايل 0 errors | `tools/build_blocks.py` ← `build/blocks/` | `evidence/2026-11-01-hmi-plc-import.md` |
-| **PLCSIM**: 17 سيناريو PASS (70 خطوة) على البرنامج الحالي، واتعادوا 2026-11-02 | `tools/plcsim/run_scenarios.py` | `evidence/2026-11-01-plcsim-regression-after-hmi-plc.md` |
-| **الشاشة KTP400 Comfort**: الجهاز والربط بالـ PLC، و78 تاج، و6 شاشات، وكومبايل 0 errors، واشتغلت على المحاكي مع PLCSIM | `tools/build_hmi.py` ← `build/hmi/`، و`Apply-Hmi.ps1` | `evidence/2026-11-01-hmi-screens-import.md` |
+| **البرنامج**: 13 بلوك (OB1 وOB100 وFC1…FC3 وFB1 وFB2 وDB1…DB6)، كومبايل 0 errors. Scrubber بالدرين NC اتعمله import 2026-11-02 | `tools/build_blocks.py` ← `build/blocks/` | `evidence/2026-11-02-plcsim-drain-nc.md` |
+| **PLCSIM**: 18 سيناريو PASS (83 خطوة) على البرنامج الحالي 2026-11-02، ومعاهم `T7b` للدرين. `T7d` (مهلة الدرين 10 د) بيتشغّل بالاسم | `tools/plcsim/run_scenarios.py` | `evidence/2026-11-02-plcsim-drain-nc.md` |
+| **الشاشة KTP400 Comfort**: الجهاز والربط بالـ PLC، و89 تاج، و6 شاشات (Settings فيها أرقام الدرين التلاتة)، وكومبايل 0 errors، واشتغلت على المحاكي مع PLCSIM | `tools/build_hmi.py` ← `build/hmi/`، و`Apply-Hmi.ps1` | `evidence/2026-11-01-hmi-screens-import.md` |
 
 ## شغّال دلوقتي 🔄
 
 **إنذارات الشاشة (0007 P6).** Openness V15.1 مالوش API لإنذارات أو مستخدمين Comfort (اتأكد من الـ DLL
-2026-11-02)، فالـ 20 إنذار هيدخلوا بزرار Import في TIA من ملف Excel. **مستنيين من المستخدم:** class اسمها
+2026-11-02)، فالـ 22 إنذار هيدخلوا (اتضاف `C04a` و`C04b`) بزرار Import في TIA من ملف Excel. **مستنيين من المستخدم:** class اسمها
 `Faults` من غير Ack، وإنذار عيّنة واحد، وExport لملف `alarms_sample.xlsx` في فولدر `build`. وبعده:
-- نولّد الـ 20 إنذار في نفس الشكل، والمستخدم يعملهم Import.
+- نولّد الـ 22 إنذار في نفس الشكل، والمستخدم يعملهم Import.
 - الـ alarm view بالإيد على شاشة Alarms.
 - المستخدم `Engineer`، والصلاحية على حقول Settings.
 
@@ -33,7 +33,8 @@
 4. **الـ C&E**: الـ Cover والـ Revision لسه مكتوب فيهم `Rev. A … 26-10-2026`، مع إنه اتغيّر يوم 11-01
    (`C06a`، وإنذارات `C07a`/`C08a`، وقاعدة D6). **محتاج قرار:** نزوّد سطر revision، ولا نسيبها Rev. A لحد ما تتبعت؟
    وكمان `F32`: صفوف `Client` فيها حاجات مقترحة.
-5. **تعديلات الرسم V2**: `F4`…`F7`، و`F46` (lockout مش fail-safe).
+5. **تعديلات الرسم V2**: `F4`…`F7`، و`F46` (lockout مش fail-safe)، و`F50` الدرين NC (المهندس عمر).
+   **ونسخة `D:\tia\Burner`** اللي اتعملت للمدير معمولة قبل الاجتماع، والدرين فيها لسه NO.
 6. **قبل التسليم**: باسورد الـ PLC (`F37`)، وملصق فيرموير الـ CPU (`F38`).
 7. **في الموقع**: `S7` NC (`F20`)، و`32767` من الكارت الحقيقي، ووقت الولعة الحقيقي، والـ IP.
 8. **Deliverables لسه ماتعملتش**: إجراء الـ FAT، وIO List كملف لوحده لو مطلوب (دلوقتي شيت جوه الـ C&E).
