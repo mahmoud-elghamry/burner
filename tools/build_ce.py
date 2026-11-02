@@ -96,7 +96,6 @@ rows = [
     ("Requested from client", "On sheet 'C&E Matrix', fill the two yellow columns for every row: "
                               "'Client response' (Approved / Approved with comment / Rejected) and "
                               "'Client comment'. Rows marked 'PH proposal' need particular attention. "
-                              "All other cells are protected against accidental edits (no password). "
                               "Use the filter on the header row, e.g. Source = PH proposal. "
                               "Parameter values are on sheet 'Parameters' and are adjustable from the HMI."),
 ]
@@ -289,12 +288,7 @@ ws.page_setup.fitToHeight = 1
 ws.sheet_properties.pageSetUpPr.fitToPage = True
 ws.print_title_rows = f"{hr}:{hr + 2}"
 ws.auto_filter.ref = f"A{hr + 2}:{get_column_letter(ncols)}{r - 1}"
-# no password: this only stops accidental edits; filtering stays allowed
-ws.protection.sheet = True
-ws.protection.autoFilter = False
-ws.protection.sort = False
-ws.protection.formatColumns = False
-ws.protection.formatRows = False
+# sheet left unprotected on purpose (2026-11-02): the user edits it directly
 
 # ------------------------------------------------------------------ Parameters
 ws = wb.create_sheet("Parameters")
