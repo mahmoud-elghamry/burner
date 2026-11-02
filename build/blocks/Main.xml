@@ -113,6 +113,24 @@
         <Component Name="FirstScan" />
       </Symbol>
     </Access>
+    <Access Scope="GlobalVariable" UId="29">
+      <Symbol>
+        <Component Name="Par" />
+        <Component Name="TDrnOn_V" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="30">
+      <Symbol>
+        <Component Name="Par" />
+        <Component Name="TDrnOff_V" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="31">
+      <Symbol>
+        <Component Name="Par" />
+        <Component Name="TDrnMax_V" />
+      </Symbol>
+    </Access>
     <Call UId="21">
       <CallInfo Name="Scrubber" BlockType="FB">
         <Instance Scope="GlobalVariable" UId="22">
@@ -124,37 +142,52 @@
           <Parameter Name="EStopOK" Section="Input" Type="Bool" />
           <Parameter Name="ResetPulse" Section="Input" Type="Bool" />
           <Parameter Name="FirstScan" Section="Input" Type="Bool" />
+          <Parameter Name="TDrnOn" Section="Input" Type="Time" />
+          <Parameter Name="TDrnOff" Section="Input" Type="Time" />
+          <Parameter Name="TDrnMax" Section="Input" Type="Time" />
       </CallInfo>
     </Call>
   </Parts>
   <Wires>
-    <Wire UId="29">
+    <Wire UId="32">
       <Powerrail />
       <NameCon UId="21" Name="en" />
     </Wire>
-    <Wire UId="30">
+    <Wire UId="33">
       <IdentCon UId="23" />
       <NameCon UId="21" Name="PSH" />
     </Wire>
-    <Wire UId="31">
+    <Wire UId="34">
       <IdentCon UId="24" />
       <NameCon UId="21" Name="LSH" />
     </Wire>
-    <Wire UId="32">
+    <Wire UId="35">
       <IdentCon UId="25" />
       <NameCon UId="21" Name="LSHH" />
     </Wire>
-    <Wire UId="33">
+    <Wire UId="36">
       <IdentCon UId="26" />
       <NameCon UId="21" Name="EStopOK" />
     </Wire>
-    <Wire UId="34">
+    <Wire UId="37">
       <IdentCon UId="27" />
       <NameCon UId="21" Name="ResetPulse" />
     </Wire>
-    <Wire UId="35">
+    <Wire UId="38">
       <IdentCon UId="28" />
       <NameCon UId="21" Name="FirstScan" />
+    </Wire>
+    <Wire UId="39">
+      <IdentCon UId="29" />
+      <NameCon UId="21" Name="TDrnOn" />
+    </Wire>
+    <Wire UId="40">
+      <IdentCon UId="30" />
+      <NameCon UId="21" Name="TDrnOff" />
+    </Wire>
+    <Wire UId="41">
+      <IdentCon UId="31" />
+      <NameCon UId="21" Name="TDrnMax" />
     </Wire>
   </Wires>
 </FlgNet></NetworkSource>
@@ -176,7 +209,7 @@
               <MultilingualTextItem ID="A" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>C03 .. C05 — scrubber</Text>
+                  <Text>C03 .. C06a — scrubber</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>

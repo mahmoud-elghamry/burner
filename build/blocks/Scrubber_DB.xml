@@ -18,10 +18,19 @@
     <Member Name="EStopOK" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
     <Member Name="ResetPulse" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
     <Member Name="FirstScan" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
+    <Member Name="TDrnOn" Datatype="Time" Remanence="NonRetain" Accessibility="Public" />
+    <Member Name="TDrnOff" Datatype="Time" Remanence="NonRetain" Accessibility="Public" />
+    <Member Name="TDrnMax" Datatype="Time" Remanence="NonRetain" Accessibility="Public" />
   </Section>
   <Section Name="Output">
     <Member Name="Tripped" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
+    <Member Name="FlareTrip" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
     <Member Name="ValvesNormal" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
+    <Member Name="FlareCmd" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
+    <Member Name="DrainCmd" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
+    <Member Name="SuctionCmd" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
+    <Member Name="F_DrainTO" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
+    <Member Name="F_LshFault" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
     <Member Name="Alm_PSH" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
     <Member Name="Alm_LSH" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
     <Member Name="Alm_LSHH" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
@@ -32,7 +41,14 @@
     <Member Name="FirstOut" Datatype="Int" Remanence="NonRetain" Accessibility="Public" />
   </Section>
   <Section Name="InOut" />
-  <Section Name="Static" />
+  <Section Name="Static">
+    <Member Name="LevelHigh" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
+    <Member Name="DrnDemand" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
+    <Member Name="T_DrnOn" Datatype="TON_TIME" Remanence="NonRetain" Accessibility="Public" />
+    <Member Name="T_DrnOff" Datatype="TON_TIME" Remanence="NonRetain" Accessibility="Public" />
+    <Member Name="T_DrnMax" Datatype="TON_TIME" Remanence="NonRetain" Accessibility="Public" />
+    <Member Name="T_LshFlt" Datatype="TON_TIME" Remanence="NonRetain" Accessibility="Public" />
+  </Section>
 </Sections></Interface>
       <MemoryLayout>Optimized</MemoryLayout>
       <Name>Scrubber_DB</Name>

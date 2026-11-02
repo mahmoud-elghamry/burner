@@ -2,7 +2,7 @@
 <Document>
   <Engineering version="V15.1" />
   <DocumentInfo>
-    <Created>2026-10-28T17:59:36.080861Z</Created>
+    <Created>2026-11-02T00:55:51.358264Z</Created>
     <ExportSetting>WithDefaults</ExportSetting>
     <InstalledProducts>
       <Product>
@@ -439,7 +439,7 @@
               <MultilingualTextItem ID="66" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>XV-402 Drain SV (NO)</Text>
+                  <Text>XV-402 Drain SV (NC)</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>

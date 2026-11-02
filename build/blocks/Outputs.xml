@@ -26,9 +26,9 @@
       <SetENOAutomatically>False</SetENOAutomatically>
     </AttributeList>
     <ObjectList>
-      <MultilingualText ID="1A" CompositionName="Comment">
+      <MultilingualText ID="24" CompositionName="Comment">
         <ObjectList>
-          <MultilingualTextItem ID="1B" CompositionName="Items">
+          <MultilingualTextItem ID="25" CompositionName="Items">
             <AttributeList>
               <Culture>en-US</Culture>
               <Text>The only block that writes %Q (decisions/0006 rule 3)</Text>
@@ -373,7 +373,7 @@
     <Access Scope="GlobalVariable" UId="22">
       <Symbol>
         <Component Name="Scrubber_DB" />
-        <Component Name="ValvesNormal" />
+        <Component Name="FlareCmd" />
       </Symbol>
     </Access>
     <Access Scope="GlobalVariable" UId="24">
@@ -381,47 +381,25 @@
         <Component Name="XV_401_Cmd" />
       </Symbol>
     </Access>
-    <Access Scope="GlobalVariable" UId="26">
-      <Symbol>
-        <Component Name="XV_402_Cmd" />
-      </Symbol>
-    </Access>
-    <Access Scope="GlobalVariable" UId="28">
-      <Symbol>
-        <Component Name="XV_403_Cmd" />
-      </Symbol>
-    </Access>
     <Part Name="Contact" UId="21" />
     <Part Name="Coil" UId="23" />
-    <Part Name="Coil" UId="25" />
-    <Part Name="Coil" UId="27" />
   </Parts>
   <Wires>
-    <Wire UId="29">
+    <Wire UId="25">
       <Powerrail />
       <NameCon UId="21" Name="in" />
     </Wire>
-    <Wire UId="30">
+    <Wire UId="26">
       <IdentCon UId="22" />
       <NameCon UId="21" Name="operand" />
     </Wire>
-    <Wire UId="31">
+    <Wire UId="27">
       <NameCon UId="21" Name="out" />
       <NameCon UId="23" Name="in" />
-      <NameCon UId="25" Name="in" />
-      <NameCon UId="27" Name="in" />
     </Wire>
-    <Wire UId="32">
+    <Wire UId="28">
       <NameCon UId="23" Name="operand" />
       <IdentCon UId="24" />
-    </Wire>
-    <Wire UId="33">
-      <NameCon UId="25" Name="operand" />
-      <IdentCon UId="26" />
-    </Wire>
-    <Wire UId="34">
-      <NameCon UId="27" Name="operand" />
-      <IdentCon UId="28" />
     </Wire>
   </Wires>
 </FlgNet></NetworkSource>
@@ -443,16 +421,140 @@
               <MultilingualTextItem ID="19" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>E5 / E6 / E7 — scrubber valves energised = normal (flare/drain closed, suction open)</Text>
+                  <Text>E5 — XV-401 flare (NO): energised = closed</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
           </MultilingualText>
         </ObjectList>
       </SW.Blocks.CompileUnit>
-      <MultilingualText ID="1C" CompositionName="Title">
+      <SW.Blocks.CompileUnit ID="1A" CompositionName="CompileUnits">
+        <AttributeList>
+          <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
+  <Parts>
+    <Access Scope="GlobalVariable" UId="22">
+      <Symbol>
+        <Component Name="Scrubber_DB" />
+        <Component Name="DrainCmd" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="24">
+      <Symbol>
+        <Component Name="XV_402_Cmd" />
+      </Symbol>
+    </Access>
+    <Part Name="Contact" UId="21" />
+    <Part Name="Coil" UId="23" />
+  </Parts>
+  <Wires>
+    <Wire UId="25">
+      <Powerrail />
+      <NameCon UId="21" Name="in" />
+    </Wire>
+    <Wire UId="26">
+      <IdentCon UId="22" />
+      <NameCon UId="21" Name="operand" />
+    </Wire>
+    <Wire UId="27">
+      <NameCon UId="21" Name="out" />
+      <NameCon UId="23" Name="in" />
+    </Wire>
+    <Wire UId="28">
+      <NameCon UId="23" Name="operand" />
+      <IdentCon UId="24" />
+    </Wire>
+  </Wires>
+</FlgNet></NetworkSource>
+          <ProgrammingLanguage>LAD</ProgrammingLanguage>
+        </AttributeList>
         <ObjectList>
-          <MultilingualTextItem ID="1D" CompositionName="Items">
+          <MultilingualText ID="1B" CompositionName="Comment">
+            <ObjectList>
+              <MultilingualTextItem ID="1C" CompositionName="Items">
+                <AttributeList>
+                  <Culture>en-US</Culture>
+                  <Text />
+                </AttributeList>
+              </MultilingualTextItem>
+            </ObjectList>
+          </MultilingualText>
+          <MultilingualText ID="1D" CompositionName="Title">
+            <ObjectList>
+              <MultilingualTextItem ID="1E" CompositionName="Items">
+                <AttributeList>
+                  <Culture>en-US</Culture>
+                  <Text>E6 — XV-402 drain (NC): energised = open (C04 / C05)</Text>
+                </AttributeList>
+              </MultilingualTextItem>
+            </ObjectList>
+          </MultilingualText>
+        </ObjectList>
+      </SW.Blocks.CompileUnit>
+      <SW.Blocks.CompileUnit ID="1F" CompositionName="CompileUnits">
+        <AttributeList>
+          <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
+  <Parts>
+    <Access Scope="GlobalVariable" UId="22">
+      <Symbol>
+        <Component Name="Scrubber_DB" />
+        <Component Name="SuctionCmd" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="24">
+      <Symbol>
+        <Component Name="XV_403_Cmd" />
+      </Symbol>
+    </Access>
+    <Part Name="Contact" UId="21" />
+    <Part Name="Coil" UId="23" />
+  </Parts>
+  <Wires>
+    <Wire UId="25">
+      <Powerrail />
+      <NameCon UId="21" Name="in" />
+    </Wire>
+    <Wire UId="26">
+      <IdentCon UId="22" />
+      <NameCon UId="21" Name="operand" />
+    </Wire>
+    <Wire UId="27">
+      <NameCon UId="21" Name="out" />
+      <NameCon UId="23" Name="in" />
+    </Wire>
+    <Wire UId="28">
+      <NameCon UId="23" Name="operand" />
+      <IdentCon UId="24" />
+    </Wire>
+  </Wires>
+</FlgNet></NetworkSource>
+          <ProgrammingLanguage>LAD</ProgrammingLanguage>
+        </AttributeList>
+        <ObjectList>
+          <MultilingualText ID="20" CompositionName="Comment">
+            <ObjectList>
+              <MultilingualTextItem ID="21" CompositionName="Items">
+                <AttributeList>
+                  <Culture>en-US</Culture>
+                  <Text />
+                </AttributeList>
+              </MultilingualTextItem>
+            </ObjectList>
+          </MultilingualText>
+          <MultilingualText ID="22" CompositionName="Title">
+            <ObjectList>
+              <MultilingualTextItem ID="23" CompositionName="Items">
+                <AttributeList>
+                  <Culture>en-US</Culture>
+                  <Text>E7 — XV-403 suction (NC): energised = open</Text>
+                </AttributeList>
+              </MultilingualTextItem>
+            </ObjectList>
+          </MultilingualText>
+        </ObjectList>
+      </SW.Blocks.CompileUnit>
+      <MultilingualText ID="26" CompositionName="Title">
+        <ObjectList>
+          <MultilingualTextItem ID="27" CompositionName="Items">
             <AttributeList>
               <Culture>en-US</Culture>
               <Text>Outputs</Text>

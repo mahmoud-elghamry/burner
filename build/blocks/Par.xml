@@ -14,10 +14,16 @@
     <Member Name="HYST" Datatype="Int" Remanence="Retain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">HMI entry: Restart hysteresis, 0.1 degC (C07b)</MultiLanguageText></Comment><StartValue>50</StartValue></Member>
     <Member Name="STG" Datatype="Int" Remanence="Retain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">HMI entry: 2nd stage below SP - STG, 0.1 degC (C07c)</MultiLanguageText></Comment><StartValue>100</StartValue></Member>
     <Member Name="TStart" Datatype="Time" Remanence="Retain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">HMI entry: Max. time heat request -&gt; RUN (C07f)</MultiLanguageText></Comment><StartValue>T#2M</StartValue></Member>
+    <Member Name="TDrnOn" Datatype="Time" Remanence="Retain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">HMI entry: Scrubber high level before drain opens (C04)</MultiLanguageText></Comment><StartValue>T#3S</StartValue></Member>
+    <Member Name="TDrnOff" Datatype="Time" Remanence="Retain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">HMI entry: Scrubber level gone before drain closes (C04)</MultiLanguageText></Comment><StartValue>T#5S</StartValue></Member>
+    <Member Name="TDrnMax" Datatype="Time" Remanence="Retain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">HMI entry: Scrubber drain max. continuous open time (C04a)</MultiLanguageText></Comment><StartValue>T#10M</StartValue></Member>
     <Member Name="SP_V" Datatype="Int" Remanence="Retain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Validated value used by the program (R-11)</MultiLanguageText></Comment><StartValue>700</StartValue></Member>
     <Member Name="HYST_V" Datatype="Int" Remanence="Retain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Validated value used by the program (R-11)</MultiLanguageText></Comment><StartValue>50</StartValue></Member>
     <Member Name="STG_V" Datatype="Int" Remanence="Retain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Validated value used by the program (R-11)</MultiLanguageText></Comment><StartValue>100</StartValue></Member>
     <Member Name="TStart_V" Datatype="Time" Remanence="Retain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Validated value used by the program (R-11)</MultiLanguageText></Comment><StartValue>T#2M</StartValue></Member>
+    <Member Name="TDrnOn_V" Datatype="Time" Remanence="Retain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Validated value used by the program (R-11)</MultiLanguageText></Comment><StartValue>T#3S</StartValue></Member>
+    <Member Name="TDrnOff_V" Datatype="Time" Remanence="Retain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Validated value used by the program (R-11)</MultiLanguageText></Comment><StartValue>T#5S</StartValue></Member>
+    <Member Name="TDrnMax_V" Datatype="Time" Remanence="Retain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Validated value used by the program (R-11)</MultiLanguageText></Comment><StartValue>T#10M</StartValue></Member>
   </Section>
 </Sections></Interface>
       <MemoryLayout>Optimized</MemoryLayout>
