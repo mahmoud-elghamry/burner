@@ -5,7 +5,7 @@
 الشكل متاخد من exports حقيقية لـ V15.1: عيّنة P1 (IO field، وتاج Int على HMI_Connection_1)،
 وشاشات الأوناش (TextField وButton وCircle وRectangle وRangeAppearance وSingleBitVisibility).
 
-- الشاشة بتكتب في 4 تاجات بس: Par_SP وPar_HYST وPar_STG وPar_TStart (H-01). كل حقل تاني Output.
+- الشاشة بتكتب في تاجات Par بس (PARAMS في build_blocks.py، H-01). كل حقل تاني Output.
 - مفيش أي زرار بيكتب في الـ PLC. الزراير بتغيّر الشاشة بس (ActivateScreen).
 - أسماء أعضاء الـ DBs بتتراجع على جداول build_blocks.py، فلو اسم اتغيّر هناك السكريبت بيقف.
 - الحرارة بعُشر الدرجة: الحقل بيعرضها بـ ShiftDecimalPoint=1 (700 -> 70.0)، من غير scaling.
@@ -54,6 +54,7 @@ def _members():
     br.update({n: t for n, t, *_ in B.BR_OUT})
     br.update({n: t for n, t in B.BR_STAT})
     scrub = {n: 'Bool' for n, _ in B.SCRUB_IN}
+    scrub.update({n: 'Time' for n, _ in B.SCRUB_PAR})
     scrub.update({n: 'Bool' for n, _ in B.SCRUB_OUT})
     scrub.update({n: 'Bool' for n, _ in B.SCRUB_CAUSES})
     scrub['FirstOut'] = 'Int'
@@ -77,7 +78,8 @@ for br in ('BR01', 'BR02'):
     TAGS += [(br + '_' + m, br + '_DB', m) for m in BR_READ + extra]
 TAGS += [('Scrub_' + m, 'Scrubber_DB', m) for m in
          ['PSH', 'LSH', 'LSHH', 'Tripped', 'ValvesNormal', 'Cause_EStop', 'Cause_PSH',
-          'Cause_LSHH', 'Cause_PwrUp', 'FirstOut']]
+          'Cause_LSHH', 'Cause_PwrUp', 'FirstOut', 'FlareCmd', 'DrainCmd', 'SuctionCmd',
+          'F_DrainTO', 'F_LshFault']]
 TAGS += [('Par_' + n, 'Par', n) for n, *_ in B.PARAMS]
 TAGS += [('Par_' + n + '_V', 'Par', n + '_V') for n, *_ in B.PARAMS]
 TAGS += [('Sys_' + m, 'Sys', m) for m in ['EStopOK', 'Alm_EStop', 'Alm_ParRejected']]
@@ -392,6 +394,8 @@ def overview():
            anims=[s.anim_vis('Scrub_ValvesNormal', True)])
     s.text(x + 4, y + 160, pw - 8, 18, 'Valves: safe position', size=11, bold=True, fore=RED,
            anims=[s.anim_vis('Scrub_ValvesNormal', False)])
+    s.text(x + 4, y + 180, pw - 8, 18, 'Drain: OPEN (high level)', size=11, bold=True,
+           fore=AMBER, anims=[s.anim_vis('Scrub_DrainCmd', True)])
     # البيرنرين
     for i, (br, tk) in enumerate([('BR01', 'TK01'), ('BR02', 'TK02')]):
         x = 2 + (i + 1) * (pw + 3)
@@ -463,6 +467,8 @@ def scrubber():
     s.lamp(x + 4, y + 44, 'Scrub_LSH', 'LSH-102 healthy')
     s.lamp(x + 4, y + 64, 'Scrub_LSHH', 'LSHH-103 healthy')
     s.lamp(x + 4, y + 84, 'Sys_EStopOK', 'E-STOP released')
+    s.lamp(x + 4, y + 112, 'Scrub_F_DrainTO', 'Drain timeout', on=RED)
+    s.lamp(x + 4, y + 132, 'Scrub_F_LshFault', 'LSH-102 fault', on=RED)
     x = 162
     panel(s, x, y, 156, 178, 'Trip causes (RESET)')
     s.text(x + 4, y + 22, 148, 18, 'First:', size=11)
@@ -473,15 +479,17 @@ def scrubber():
     s.lamp(x + 80, y + 114, 'Scrub_Cause_PwrUp', 'Power-up', on=AMBER, w=72)
     x = 320
     panel(s, x, y, 156, 178, 'Valve commands')
-    for j, (tag, normal, safe) in enumerate([('XV-401 flare', 'CLOSE', 'OPEN'),
-                                            ('XV-402 drain', 'CLOSE', 'OPEN'),
-                                            ('XV-403 suction', 'OPEN', 'CLOSE')]):
+    # كل صمام بأمره: الأمر 1 = الملف شغال. الفلير NO، والدرين والساكشن NC.
+    for j, (tag, cmd, on_word, off_word, on_fore, off_fore) in enumerate([
+            ('XV-401 flare', 'Scrub_FlareCmd', 'CLOSE', 'OPEN', INK, RED),
+            ('XV-402 drain', 'Scrub_DrainCmd', 'OPEN', 'CLOSE', AMBER, INK),
+            ('XV-403 suction', 'Scrub_SuctionCmd', 'OPEN', 'CLOSE', INK, RED)]):
         yy = y + 24 + j * 22
         s.text(x + 4, yy, 96, 20, tag, size=11)
-        s.text(x + 100, yy, 52, 20, normal, size=11, bold=True,
-               anims=[s.anim_vis('Scrub_ValvesNormal', True)])
-        s.text(x + 100, yy, 52, 20, safe, size=11, bold=True, fore=RED,
-               anims=[s.anim_vis('Scrub_ValvesNormal', False)])
+        s.text(x + 100, yy, 52, 20, on_word, size=11, bold=True, fore=on_fore,
+               anims=[s.anim_vis(cmd, True)])
+        s.text(x + 100, yy, 52, 20, off_word, size=11, bold=True, fore=off_fore,
+               anims=[s.anim_vis(cmd, False)])
     s.text(x + 4, y + 96, 148, 34, 'Command only: no valve position feedback.', size=10,
            fore=GREY)
     s.text(x + 4, y + 140, 148, 18, 'RESET required', size=12, bold=True, fore=RED,
@@ -508,19 +516,22 @@ def settings():
     s.text(200, y, 90, 18, 'Range', size=11, bold=True)
     s.text(292, y, 76, 18, 'Accepted', size=11, bold=True, align='Right')
     rows = [('SP', 'Stop at  C', 1, '40.0 - 90.0'), ('HYST', 'Restart below  C', 1, '3.0 - 10.0'),
-            ('STG', '2nd stage below  C', 1, '5.0 - 30.0'), ('TStart', 'Start time  ms', 0, '90000 - 300000')]
+            ('STG', '2nd stage below  C', 1, '5.0 - 30.0'), ('TStart', 'Start time  ms', 0, '90000 - 300000'),
+            ('TDrnOn', 'Drain open  ms', 0, '1000 - 30000'), ('TDrnOff', 'Drain close  ms', 0, '0 - 60000'),
+            ('TDrnMax', 'Drain max  ms', 0, '60000 - 3600000')]
     for j, (n, label, shift, rng) in enumerate(rows):
-        yy = y + 22 + j * 30
-        s.text(8, yy, 112, 26, label, size=11)
-        s.io(120, yy, 76, 26, 'Par_' + n, write=True, shift=shift, length=6 if n == 'TStart' else 5)
-        s.text(200, yy, 90, 26, rng, size=10, fore=GREY)
-        s.io(292, yy, 76, 26, 'Par_' + n + '_V', shift=shift, length=6 if n == 'TStart' else 5)
+        yy = y + 20 + j * 22
+        length = 5 if shift else 7
+        s.text(8, yy, 112, 20, label, size=11)
+        s.io(120, yy, 76, 20, 'Par_' + n, write=True, shift=shift, length=length)
+        s.text(200, yy, 90, 20, rng, size=10, fore=GREY)
+        s.io(292, yy, 76, 20, 'Par_' + n + '_V', shift=shift, length=length)
     s.text(372, y + 22, 104, 54, 'Raising heat applies after STOP + START.', size=10, fore=GREY)
     s.lamp(372, y + 84, 'BR01_ParPending', 'BR01 pending', on=AMBER, w=104)
     s.lamp(372, y + 104, 'BR02_ParPending', 'BR02 pending', on=AMBER, w=104)
-    s.text(8, y + 146, 360, 20, 'Setting rejected: out of range (RESET to clear)', size=11,
+    s.text(8, y + 178, 360, 20, 'Setting rejected: out of range (RESET to clear)', size=11,
            bold=True, fore=WHITE, back=RED, anims=[s.anim_vis('Sys_Alm_ParRejected', True)])
-    s.text(8, y + 176, 460, 20, 'Settings need log-on (user Engineer).', size=10, fore=GREY)
+    s.text(372, y + 130, 104, 40, 'Settings need log-on (user Engineer).', size=10, fore=GREY)
     return s
 
 
