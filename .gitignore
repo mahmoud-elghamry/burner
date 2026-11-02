@@ -22,3 +22,5 @@ tia/*.backup/
 tia/**/Generates/
 build/drawing/
 build/for-manager/
+# ملفات المذاكرة الشخصية
+docs/شرح/
