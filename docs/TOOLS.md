@@ -101,3 +101,5 @@ py tools\lad2text.py --all build\blocks
 الترتيب المتحقق للبرنامج الحالي: `Par,Sys,HmiAlm,Scrubber,Scrubber_DB,Burner,BR01_DB,BR02_DB,Common,Outputs,HmiMap,Startup,Main`.
 من غير الترتيب ده، المرور الواحد ممكن يلاقي `Sys` لسه غير مجمّع ويرفض حفظ المشروع، حتى لو انتهى تجميع DB لاحقًا.
 لا تُحذف ملفات lock ولا تُنهى عمليات TIA لتجاوز قفل مشروع؛ انتظر انتهاء السكريبت وإغلاق جلسته قبل فتحه من الواجهة.
+
+**تجربة HMI V15.1 — 2026-11-10:** إضافة HelpText غير فارغ لحقول IOField في مسار XML الحالي سببت `duplicate entry order key`؛ إبقاؤه فارغًا أزال الأخطاء، وتعليقات HMI tags تبقى متاحة. مراجع ZOrder الداخلية القديمة احتاجت `Compile → Software (rebuild all)` من واجهة TIA؛ آخر كومبايل بعد الحفظ 0 errors و0 warnings. الدليل `evidence/2026-11-10-readability-en.md`. لا تستورد صفحة Alarms الفارغة من المولد فوق تعديلات واجهة يدوية.

@@ -1,0 +1,5 @@
+HMI target: HMI_RT_1
+HMI compile: state=Success errors=0 warnings=0
+  Information: HMI_1 Time stamp: 11/10/2026 4:37 PM - 764764 bytes used of 4194304 bytes, maximum
+  Success:  Compiling finished (errors: 0; warnings: 0)
+SAVED
