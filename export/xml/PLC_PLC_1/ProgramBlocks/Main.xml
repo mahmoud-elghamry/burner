@@ -2,7 +2,7 @@
 <Document>
   <Engineering version="V15.1" />
   <DocumentInfo>
-    <Created>2026-11-02T18:55:12.0061728Z</Created>
+    <Created>2026-11-10T23:26:18.4801396Z</Created>
     <ExportSetting>WithDefaults</ExportSetting>
     <InstalledProducts>
       <Product>
@@ -127,176 +127,56 @@
     <Access Scope="GlobalVariable" UId="24">
       <Symbol>
         <Component Name="Sys" />
-        <Component Name="EStopOK" />
-      </Symbol>
-    </Access>
-    <Access Scope="GlobalVariable" UId="25">
-      <Symbol>
-        <Component Name="Sys" />
         <Component Name="ResetPulse" />
       </Symbol>
     </Access>
-    <Access Scope="GlobalVariable" UId="26">
-      <Symbol>
-        <Component Name="Sys" />
-        <Component Name="FirstScan" />
-      </Symbol>
-    </Access>
-    <Access Scope="GlobalVariable" UId="27">
-      <Symbol>
-        <Component Name="Par" />
-        <Component Name="TDrnOn_V" />
-      </Symbol>
-    </Access>
-    <Access Scope="GlobalVariable" UId="28">
-      <Symbol>
-        <Component Name="Par" />
-        <Component Name="TDrnOff_V" />
-      </Symbol>
-    </Access>
-    <Access Scope="GlobalVariable" UId="29">
-      <Symbol>
-        <Component Name="Par" />
-        <Component Name="TDrnMax_V" />
-      </Symbol>
-    </Access>
-    <Call UId="30">
+    <Call UId="25">
       <CallInfo Name="Scrubber" BlockType="FB">
-        <Instance Scope="GlobalVariable" UId="31">
+        <Instance Scope="GlobalVariable" UId="26">
           <Component Name="Scrubber_DB" />
         </Instance>
         <Parameter Name="PSH" Section="Input" Type="Bool" />
         <Parameter Name="LSH" Section="Input" Type="Bool" />
         <Parameter Name="LSHH" Section="Input" Type="Bool" />
-        <Parameter Name="EStopOK" Section="Input" Type="Bool" />
-        <Parameter Name="ResetPulse" Section="Input" Type="Bool" />
-        <Parameter Name="FirstScan" Section="Input" Type="Bool" />
-        <Parameter Name="TDrnOn" Section="Input" Type="Time" />
-        <Parameter Name="TDrnOff" Section="Input" Type="Time" />
-        <Parameter Name="TDrnMax" Section="Input" Type="Time" />
-        <Parameter Name="Tripped" Section="Output" Type="Bool" />
-        <Parameter Name="FlareTrip" Section="Output" Type="Bool" />
-        <Parameter Name="ValvesNormal" Section="Output" Type="Bool" />
+        <Parameter Name="Reset" Section="Input" Type="Bool" />
         <Parameter Name="FlareCmd" Section="Output" Type="Bool" />
         <Parameter Name="DrainCmd" Section="Output" Type="Bool" />
         <Parameter Name="SuctionCmd" Section="Output" Type="Bool" />
-        <Parameter Name="F_DrainTO" Section="Output" Type="Bool" />
-        <Parameter Name="F_LshFault" Section="Output" Type="Bool" />
-        <Parameter Name="Alm_PSH" Section="Output" Type="Bool" />
-        <Parameter Name="Alm_LSH" Section="Output" Type="Bool" />
-        <Parameter Name="Alm_LSHH" Section="Output" Type="Bool" />
-        <Parameter Name="Cause_EStop" Section="Output" Type="Bool" />
-        <Parameter Name="Cause_PSH" Section="Output" Type="Bool" />
-        <Parameter Name="Cause_LSHH" Section="Output" Type="Bool" />
-        <Parameter Name="Cause_PwrUp" Section="Output" Type="Bool" />
-        <Parameter Name="FirstOut" Section="Output" Type="Int" />
       </CallInfo>
     </Call>
   </Parts>
   <Wires>
-    <Wire UId="48">
+    <Wire UId="30">
       <Powerrail />
-      <NameCon UId="30" Name="en" />
+      <NameCon UId="25" Name="en" />
     </Wire>
-    <Wire UId="49">
+    <Wire UId="31">
       <IdentCon UId="21" />
-      <NameCon UId="30" Name="PSH" />
+      <NameCon UId="25" Name="PSH" />
     </Wire>
-    <Wire UId="50">
+    <Wire UId="32">
       <IdentCon UId="22" />
-      <NameCon UId="30" Name="LSH" />
+      <NameCon UId="25" Name="LSH" />
     </Wire>
-    <Wire UId="51">
+    <Wire UId="33">
       <IdentCon UId="23" />
-      <NameCon UId="30" Name="LSHH" />
+      <NameCon UId="25" Name="LSHH" />
     </Wire>
-    <Wire UId="52">
+    <Wire UId="34">
       <IdentCon UId="24" />
-      <NameCon UId="30" Name="EStopOK" />
+      <NameCon UId="25" Name="Reset" />
     </Wire>
-    <Wire UId="53">
-      <IdentCon UId="25" />
-      <NameCon UId="30" Name="ResetPulse" />
+    <Wire UId="35">
+      <NameCon UId="25" Name="FlareCmd" />
+      <OpenCon UId="27" />
     </Wire>
-    <Wire UId="54">
-      <IdentCon UId="26" />
-      <NameCon UId="30" Name="FirstScan" />
+    <Wire UId="36">
+      <NameCon UId="25" Name="DrainCmd" />
+      <OpenCon UId="28" />
     </Wire>
-    <Wire UId="55">
-      <IdentCon UId="27" />
-      <NameCon UId="30" Name="TDrnOn" />
-    </Wire>
-    <Wire UId="56">
-      <IdentCon UId="28" />
-      <NameCon UId="30" Name="TDrnOff" />
-    </Wire>
-    <Wire UId="57">
-      <IdentCon UId="29" />
-      <NameCon UId="30" Name="TDrnMax" />
-    </Wire>
-    <Wire UId="58">
-      <NameCon UId="30" Name="Tripped" />
-      <OpenCon UId="32" />
-    </Wire>
-    <Wire UId="59">
-      <NameCon UId="30" Name="FlareTrip" />
-      <OpenCon UId="33" />
-    </Wire>
-    <Wire UId="60">
-      <NameCon UId="30" Name="ValvesNormal" />
-      <OpenCon UId="34" />
-    </Wire>
-    <Wire UId="61">
-      <NameCon UId="30" Name="FlareCmd" />
-      <OpenCon UId="35" />
-    </Wire>
-    <Wire UId="62">
-      <NameCon UId="30" Name="DrainCmd" />
-      <OpenCon UId="36" />
-    </Wire>
-    <Wire UId="63">
-      <NameCon UId="30" Name="SuctionCmd" />
-      <OpenCon UId="37" />
-    </Wire>
-    <Wire UId="64">
-      <NameCon UId="30" Name="F_DrainTO" />
-      <OpenCon UId="38" />
-    </Wire>
-    <Wire UId="65">
-      <NameCon UId="30" Name="F_LshFault" />
-      <OpenCon UId="39" />
-    </Wire>
-    <Wire UId="66">
-      <NameCon UId="30" Name="Alm_PSH" />
-      <OpenCon UId="40" />
-    </Wire>
-    <Wire UId="67">
-      <NameCon UId="30" Name="Alm_LSH" />
-      <OpenCon UId="41" />
-    </Wire>
-    <Wire UId="68">
-      <NameCon UId="30" Name="Alm_LSHH" />
-      <OpenCon UId="42" />
-    </Wire>
-    <Wire UId="69">
-      <NameCon UId="30" Name="Cause_EStop" />
-      <OpenCon UId="43" />
-    </Wire>
-    <Wire UId="70">
-      <NameCon UId="30" Name="Cause_PSH" />
-      <OpenCon UId="44" />
-    </Wire>
-    <Wire UId="71">
-      <NameCon UId="30" Name="Cause_LSHH" />
-      <OpenCon UId="45" />
-    </Wire>
-    <Wire UId="72">
-      <NameCon UId="30" Name="Cause_PwrUp" />
-      <OpenCon UId="46" />
-    </Wire>
-    <Wire UId="73">
-      <NameCon UId="30" Name="FirstOut" />
-      <OpenCon UId="47" />
+    <Wire UId="37">
+      <NameCon UId="25" Name="SuctionCmd" />
+      <OpenCon UId="29" />
     </Wire>
   </Wires>
 </FlgNet></NetworkSource>
@@ -346,240 +226,113 @@
     </Access>
     <Access Scope="GlobalVariable" UId="24">
       <Symbol>
-        <Component Name="LSL_TK01" />
+        <Component Name="Sys" />
+        <Component Name="ResetPulse" />
       </Symbol>
     </Access>
     <Access Scope="GlobalVariable" UId="25">
       <Symbol>
-        <Component Name="BR01_Run" />
+        <Component Name="LSL_TK01" />
       </Symbol>
     </Access>
     <Access Scope="GlobalVariable" UId="26">
       <Symbol>
+        <Component Name="BR01_Run" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="27">
+      <Symbol>
         <Component Name="BR01_Fault" />
       </Symbol>
     </Access>
-    <Access Scope="LiteralConstant" UId="27">
+    <Access Scope="LiteralConstant" UId="28">
       <Constant>
         <ConstantType>Bool</ConstantType>
         <ConstantValue>FALSE</ConstantValue>
       </Constant>
     </Access>
-    <Access Scope="GlobalVariable" UId="28">
+    <Access Scope="GlobalVariable" UId="29">
       <Symbol>
         <Component Name="TE_501_Raw" />
       </Symbol>
     </Access>
-    <Access Scope="GlobalVariable" UId="29">
+    <Access Scope="GlobalVariable" UId="30">
       <Symbol>
         <Component Name="TE_502_Raw" />
       </Symbol>
     </Access>
-    <Access Scope="LiteralConstant" UId="30">
-      <Constant>
-        <ConstantType>Bool</ConstantType>
-        <ConstantValue>TRUE</ConstantValue>
-      </Constant>
-    </Access>
-    <Access Scope="GlobalVariable" UId="31">
-      <Symbol>
-        <Component Name="Sys" />
-        <Component Name="EStopOK" />
-      </Symbol>
-    </Access>
-    <Access Scope="GlobalVariable" UId="32">
-      <Symbol>
-        <Component Name="Sys" />
-        <Component Name="ResetPulse" />
-      </Symbol>
-    </Access>
-    <Access Scope="GlobalVariable" UId="33">
-      <Symbol>
-        <Component Name="Sys" />
-        <Component Name="FirstScan" />
-      </Symbol>
-    </Access>
-    <Access Scope="GlobalVariable" UId="34">
-      <Symbol>
-        <Component Name="Par" />
-        <Component Name="SP_V" />
-      </Symbol>
-    </Access>
-    <Access Scope="GlobalVariable" UId="35">
-      <Symbol>
-        <Component Name="Par" />
-        <Component Name="HYST_V" />
-      </Symbol>
-    </Access>
-    <Access Scope="GlobalVariable" UId="36">
-      <Symbol>
-        <Component Name="Par" />
-        <Component Name="STG_V" />
-      </Symbol>
-    </Access>
-    <Access Scope="GlobalVariable" UId="37">
-      <Symbol>
-        <Component Name="Par" />
-        <Component Name="TStart_V" />
-      </Symbol>
-    </Access>
-    <Call UId="38">
+    <Call UId="31">
       <CallInfo Name="Burner" BlockType="FB">
-        <Instance Scope="GlobalVariable" UId="39">
+        <Instance Scope="GlobalVariable" UId="32">
           <Component Name="BR01_DB" />
         </Instance>
         <Parameter Name="Auto" Section="Input" Type="Bool" />
         <Parameter Name="StartPB" Section="Input" Type="Bool" />
         <Parameter Name="StopOK" Section="Input" Type="Bool" />
+        <Parameter Name="Reset" Section="Input" Type="Bool" />
         <Parameter Name="LevelOK" Section="Input" Type="Bool" />
         <Parameter Name="RunFb" Section="Input" Type="Bool" />
         <Parameter Name="Lockout" Section="Input" Type="Bool" />
         <Parameter Name="Fuel" Section="Input" Type="Bool" />
         <Parameter Name="TeA" Section="Input" Type="Int" />
         <Parameter Name="TeB" Section="Input" Type="Int" />
-        <Parameter Name="Use24h" Section="Input" Type="Bool" />
-        <Parameter Name="EStopOK" Section="Input" Type="Bool" />
-        <Parameter Name="ResetPulse" Section="Input" Type="Bool" />
-        <Parameter Name="FirstScan" Section="Input" Type="Bool" />
-        <Parameter Name="SP" Section="Input" Type="Int" />
-        <Parameter Name="HYST" Section="Input" Type="Int" />
-        <Parameter Name="STG" Section="Input" Type="Int" />
-        <Parameter Name="TStart" Section="Input" Type="Time" />
         <Parameter Name="HeatReq" Section="Output" Type="Bool" />
         <Parameter Name="Stage2" Section="Output" Type="Bool" />
-        <Parameter Name="State" Section="Output" Type="Int" />
-        <Parameter Name="Enabled" Section="Output" Type="Bool" />
-        <Parameter Name="Tmax" Section="Output" Type="Int" />
-        <Parameter Name="F_EStop" Section="Output" Type="Bool" />
-        <Parameter Name="F_TC" Section="Output" Type="Bool" />
-        <Parameter Name="F_Lockout" Section="Output" Type="Bool" />
-        <Parameter Name="F_NoStart" Section="Output" Type="Bool" />
-        <Parameter Name="F_RunLost" Section="Output" Type="Bool" />
-        <Parameter Name="F_RunWrong" Section="Output" Type="Bool" />
-        <Parameter Name="ParPending" Section="Output" Type="Bool" />
       </CallInfo>
     </Call>
   </Parts>
   <Wires>
-    <Wire UId="52">
+    <Wire UId="35">
       <Powerrail />
-      <NameCon UId="38" Name="en" />
+      <NameCon UId="31" Name="en" />
     </Wire>
-    <Wire UId="53">
+    <Wire UId="36">
       <IdentCon UId="21" />
-      <NameCon UId="38" Name="Auto" />
+      <NameCon UId="31" Name="Auto" />
     </Wire>
-    <Wire UId="54">
+    <Wire UId="37">
       <IdentCon UId="22" />
-      <NameCon UId="38" Name="StartPB" />
+      <NameCon UId="31" Name="StartPB" />
     </Wire>
-    <Wire UId="55">
+    <Wire UId="38">
       <IdentCon UId="23" />
-      <NameCon UId="38" Name="StopOK" />
+      <NameCon UId="31" Name="StopOK" />
     </Wire>
-    <Wire UId="56">
+    <Wire UId="39">
       <IdentCon UId="24" />
-      <NameCon UId="38" Name="LevelOK" />
+      <NameCon UId="31" Name="Reset" />
     </Wire>
-    <Wire UId="57">
+    <Wire UId="40">
       <IdentCon UId="25" />
-      <NameCon UId="38" Name="RunFb" />
+      <NameCon UId="31" Name="LevelOK" />
     </Wire>
-    <Wire UId="58">
+    <Wire UId="41">
       <IdentCon UId="26" />
-      <NameCon UId="38" Name="Lockout" />
+      <NameCon UId="31" Name="RunFb" />
     </Wire>
-    <Wire UId="59">
+    <Wire UId="42">
       <IdentCon UId="27" />
-      <NameCon UId="38" Name="Fuel" />
+      <NameCon UId="31" Name="Lockout" />
     </Wire>
-    <Wire UId="60">
+    <Wire UId="43">
       <IdentCon UId="28" />
-      <NameCon UId="38" Name="TeA" />
+      <NameCon UId="31" Name="Fuel" />
     </Wire>
-    <Wire UId="61">
+    <Wire UId="44">
       <IdentCon UId="29" />
-      <NameCon UId="38" Name="TeB" />
+      <NameCon UId="31" Name="TeA" />
     </Wire>
-    <Wire UId="62">
+    <Wire UId="45">
       <IdentCon UId="30" />
-      <NameCon UId="38" Name="Use24h" />
+      <NameCon UId="31" Name="TeB" />
     </Wire>
-    <Wire UId="63">
-      <IdentCon UId="31" />
-      <NameCon UId="38" Name="EStopOK" />
+    <Wire UId="46">
+      <NameCon UId="31" Name="HeatReq" />
+      <OpenCon UId="33" />
     </Wire>
-    <Wire UId="64">
-      <IdentCon UId="32" />
-      <NameCon UId="38" Name="ResetPulse" />
-    </Wire>
-    <Wire UId="65">
-      <IdentCon UId="33" />
-      <NameCon UId="38" Name="FirstScan" />
-    </Wire>
-    <Wire UId="66">
-      <IdentCon UId="34" />
-      <NameCon UId="38" Name="SP" />
-    </Wire>
-    <Wire UId="67">
-      <IdentCon UId="35" />
-      <NameCon UId="38" Name="HYST" />
-    </Wire>
-    <Wire UId="68">
-      <IdentCon UId="36" />
-      <NameCon UId="38" Name="STG" />
-    </Wire>
-    <Wire UId="69">
-      <IdentCon UId="37" />
-      <NameCon UId="38" Name="TStart" />
-    </Wire>
-    <Wire UId="70">
-      <NameCon UId="38" Name="HeatReq" />
-      <OpenCon UId="40" />
-    </Wire>
-    <Wire UId="71">
-      <NameCon UId="38" Name="Stage2" />
-      <OpenCon UId="41" />
-    </Wire>
-    <Wire UId="72">
-      <NameCon UId="38" Name="State" />
-      <OpenCon UId="42" />
-    </Wire>
-    <Wire UId="73">
-      <NameCon UId="38" Name="Enabled" />
-      <OpenCon UId="43" />
-    </Wire>
-    <Wire UId="74">
-      <NameCon UId="38" Name="Tmax" />
-      <OpenCon UId="44" />
-    </Wire>
-    <Wire UId="75">
-      <NameCon UId="38" Name="F_EStop" />
-      <OpenCon UId="45" />
-    </Wire>
-    <Wire UId="76">
-      <NameCon UId="38" Name="F_TC" />
-      <OpenCon UId="46" />
-    </Wire>
-    <Wire UId="77">
-      <NameCon UId="38" Name="F_Lockout" />
-      <OpenCon UId="47" />
-    </Wire>
-    <Wire UId="78">
-      <NameCon UId="38" Name="F_NoStart" />
-      <OpenCon UId="48" />
-    </Wire>
-    <Wire UId="79">
-      <NameCon UId="38" Name="F_RunLost" />
-      <OpenCon UId="49" />
-    </Wire>
-    <Wire UId="80">
-      <NameCon UId="38" Name="F_RunWrong" />
-      <OpenCon UId="50" />
-    </Wire>
-    <Wire UId="81">
-      <NameCon UId="38" Name="ParPending" />
-      <OpenCon UId="51" />
+    <Wire UId="47">
+      <NameCon UId="31" Name="Stage2" />
+      <OpenCon UId="34" />
     </Wire>
   </Wires>
 </FlgNet></NetworkSource>
@@ -629,239 +382,112 @@
     </Access>
     <Access Scope="GlobalVariable" UId="24">
       <Symbol>
-        <Component Name="LSL_TK02" />
-      </Symbol>
-    </Access>
-    <Access Scope="GlobalVariable" UId="25">
-      <Symbol>
-        <Component Name="BR02_Run" />
-      </Symbol>
-    </Access>
-    <Access Scope="GlobalVariable" UId="26">
-      <Symbol>
-        <Component Name="BR02_Fault" />
-      </Symbol>
-    </Access>
-    <Access Scope="GlobalVariable" UId="27">
-      <Symbol>
-        <Component Name="Rfuel2_BR02_DieselMode" />
-      </Symbol>
-    </Access>
-    <Access Scope="GlobalVariable" UId="28">
-      <Symbol>
-        <Component Name="TE_503_Raw" />
-      </Symbol>
-    </Access>
-    <Access Scope="GlobalVariable" UId="29">
-      <Symbol>
-        <Component Name="TE_504_Raw" />
-      </Symbol>
-    </Access>
-    <Access Scope="LiteralConstant" UId="30">
-      <Constant>
-        <ConstantType>Bool</ConstantType>
-        <ConstantValue>FALSE</ConstantValue>
-      </Constant>
-    </Access>
-    <Access Scope="GlobalVariable" UId="31">
-      <Symbol>
-        <Component Name="Sys" />
-        <Component Name="EStopOK" />
-      </Symbol>
-    </Access>
-    <Access Scope="GlobalVariable" UId="32">
-      <Symbol>
         <Component Name="Sys" />
         <Component Name="ResetPulse" />
       </Symbol>
     </Access>
-    <Access Scope="GlobalVariable" UId="33">
+    <Access Scope="GlobalVariable" UId="25">
       <Symbol>
-        <Component Name="Sys" />
-        <Component Name="FirstScan" />
+        <Component Name="LSL_TK02" />
       </Symbol>
     </Access>
-    <Access Scope="GlobalVariable" UId="34">
+    <Access Scope="GlobalVariable" UId="26">
       <Symbol>
-        <Component Name="Par" />
-        <Component Name="SP_V" />
+        <Component Name="BR02_Run" />
       </Symbol>
     </Access>
-    <Access Scope="GlobalVariable" UId="35">
+    <Access Scope="GlobalVariable" UId="27">
       <Symbol>
-        <Component Name="Par" />
-        <Component Name="HYST_V" />
+        <Component Name="BR02_Fault" />
       </Symbol>
     </Access>
-    <Access Scope="GlobalVariable" UId="36">
+    <Access Scope="GlobalVariable" UId="28">
       <Symbol>
-        <Component Name="Par" />
-        <Component Name="STG_V" />
+        <Component Name="Rfuel2_BR02_DieselMode" />
       </Symbol>
     </Access>
-    <Access Scope="GlobalVariable" UId="37">
+    <Access Scope="GlobalVariable" UId="29">
       <Symbol>
-        <Component Name="Par" />
-        <Component Name="TStart_V" />
+        <Component Name="TE_503_Raw" />
       </Symbol>
     </Access>
-    <Call UId="38">
+    <Access Scope="GlobalVariable" UId="30">
+      <Symbol>
+        <Component Name="TE_504_Raw" />
+      </Symbol>
+    </Access>
+    <Call UId="31">
       <CallInfo Name="Burner" BlockType="FB">
-        <Instance Scope="GlobalVariable" UId="39">
+        <Instance Scope="GlobalVariable" UId="32">
           <Component Name="BR02_DB" />
         </Instance>
         <Parameter Name="Auto" Section="Input" Type="Bool" />
         <Parameter Name="StartPB" Section="Input" Type="Bool" />
         <Parameter Name="StopOK" Section="Input" Type="Bool" />
+        <Parameter Name="Reset" Section="Input" Type="Bool" />
         <Parameter Name="LevelOK" Section="Input" Type="Bool" />
         <Parameter Name="RunFb" Section="Input" Type="Bool" />
         <Parameter Name="Lockout" Section="Input" Type="Bool" />
         <Parameter Name="Fuel" Section="Input" Type="Bool" />
         <Parameter Name="TeA" Section="Input" Type="Int" />
         <Parameter Name="TeB" Section="Input" Type="Int" />
-        <Parameter Name="Use24h" Section="Input" Type="Bool" />
-        <Parameter Name="EStopOK" Section="Input" Type="Bool" />
-        <Parameter Name="ResetPulse" Section="Input" Type="Bool" />
-        <Parameter Name="FirstScan" Section="Input" Type="Bool" />
-        <Parameter Name="SP" Section="Input" Type="Int" />
-        <Parameter Name="HYST" Section="Input" Type="Int" />
-        <Parameter Name="STG" Section="Input" Type="Int" />
-        <Parameter Name="TStart" Section="Input" Type="Time" />
         <Parameter Name="HeatReq" Section="Output" Type="Bool" />
         <Parameter Name="Stage2" Section="Output" Type="Bool" />
-        <Parameter Name="State" Section="Output" Type="Int" />
-        <Parameter Name="Enabled" Section="Output" Type="Bool" />
-        <Parameter Name="Tmax" Section="Output" Type="Int" />
-        <Parameter Name="F_EStop" Section="Output" Type="Bool" />
-        <Parameter Name="F_TC" Section="Output" Type="Bool" />
-        <Parameter Name="F_Lockout" Section="Output" Type="Bool" />
-        <Parameter Name="F_NoStart" Section="Output" Type="Bool" />
-        <Parameter Name="F_RunLost" Section="Output" Type="Bool" />
-        <Parameter Name="F_RunWrong" Section="Output" Type="Bool" />
-        <Parameter Name="ParPending" Section="Output" Type="Bool" />
       </CallInfo>
     </Call>
   </Parts>
   <Wires>
-    <Wire UId="52">
+    <Wire UId="35">
       <Powerrail />
-      <NameCon UId="38" Name="en" />
+      <NameCon UId="31" Name="en" />
     </Wire>
-    <Wire UId="53">
+    <Wire UId="36">
       <IdentCon UId="21" />
-      <NameCon UId="38" Name="Auto" />
+      <NameCon UId="31" Name="Auto" />
     </Wire>
-    <Wire UId="54">
+    <Wire UId="37">
       <IdentCon UId="22" />
-      <NameCon UId="38" Name="StartPB" />
+      <NameCon UId="31" Name="StartPB" />
     </Wire>
-    <Wire UId="55">
+    <Wire UId="38">
       <IdentCon UId="23" />
-      <NameCon UId="38" Name="StopOK" />
+      <NameCon UId="31" Name="StopOK" />
     </Wire>
-    <Wire UId="56">
+    <Wire UId="39">
       <IdentCon UId="24" />
-      <NameCon UId="38" Name="LevelOK" />
+      <NameCon UId="31" Name="Reset" />
     </Wire>
-    <Wire UId="57">
+    <Wire UId="40">
       <IdentCon UId="25" />
-      <NameCon UId="38" Name="RunFb" />
+      <NameCon UId="31" Name="LevelOK" />
     </Wire>
-    <Wire UId="58">
+    <Wire UId="41">
       <IdentCon UId="26" />
-      <NameCon UId="38" Name="Lockout" />
+      <NameCon UId="31" Name="RunFb" />
     </Wire>
-    <Wire UId="59">
+    <Wire UId="42">
       <IdentCon UId="27" />
-      <NameCon UId="38" Name="Fuel" />
+      <NameCon UId="31" Name="Lockout" />
     </Wire>
-    <Wire UId="60">
+    <Wire UId="43">
       <IdentCon UId="28" />
-      <NameCon UId="38" Name="TeA" />
+      <NameCon UId="31" Name="Fuel" />
     </Wire>
-    <Wire UId="61">
+    <Wire UId="44">
       <IdentCon UId="29" />
-      <NameCon UId="38" Name="TeB" />
+      <NameCon UId="31" Name="TeA" />
     </Wire>
-    <Wire UId="62">
+    <Wire UId="45">
       <IdentCon UId="30" />
-      <NameCon UId="38" Name="Use24h" />
+      <NameCon UId="31" Name="TeB" />
     </Wire>
-    <Wire UId="63">
-      <IdentCon UId="31" />
-      <NameCon UId="38" Name="EStopOK" />
+    <Wire UId="46">
+      <NameCon UId="31" Name="HeatReq" />
+      <OpenCon UId="33" />
     </Wire>
-    <Wire UId="64">
-      <IdentCon UId="32" />
-      <NameCon UId="38" Name="ResetPulse" />
-    </Wire>
-    <Wire UId="65">
-      <IdentCon UId="33" />
-      <NameCon UId="38" Name="FirstScan" />
-    </Wire>
-    <Wire UId="66">
-      <IdentCon UId="34" />
-      <NameCon UId="38" Name="SP" />
-    </Wire>
-    <Wire UId="67">
-      <IdentCon UId="35" />
-      <NameCon UId="38" Name="HYST" />
-    </Wire>
-    <Wire UId="68">
-      <IdentCon UId="36" />
-      <NameCon UId="38" Name="STG" />
-    </Wire>
-    <Wire UId="69">
-      <IdentCon UId="37" />
-      <NameCon UId="38" Name="TStart" />
-    </Wire>
-    <Wire UId="70">
-      <NameCon UId="38" Name="HeatReq" />
-      <OpenCon UId="40" />
-    </Wire>
-    <Wire UId="71">
-      <NameCon UId="38" Name="Stage2" />
-      <OpenCon UId="41" />
-    </Wire>
-    <Wire UId="72">
-      <NameCon UId="38" Name="State" />
-      <OpenCon UId="42" />
-    </Wire>
-    <Wire UId="73">
-      <NameCon UId="38" Name="Enabled" />
-      <OpenCon UId="43" />
-    </Wire>
-    <Wire UId="74">
-      <NameCon UId="38" Name="Tmax" />
-      <OpenCon UId="44" />
-    </Wire>
-    <Wire UId="75">
-      <NameCon UId="38" Name="F_EStop" />
-      <OpenCon UId="45" />
-    </Wire>
-    <Wire UId="76">
-      <NameCon UId="38" Name="F_TC" />
-      <OpenCon UId="46" />
-    </Wire>
-    <Wire UId="77">
-      <NameCon UId="38" Name="F_Lockout" />
-      <OpenCon UId="47" />
-    </Wire>
-    <Wire UId="78">
-      <NameCon UId="38" Name="F_NoStart" />
-      <OpenCon UId="48" />
-    </Wire>
-    <Wire UId="79">
-      <NameCon UId="38" Name="F_RunLost" />
-      <OpenCon UId="49" />
-    </Wire>
-    <Wire UId="80">
-      <NameCon UId="38" Name="F_RunWrong" />
-      <OpenCon UId="50" />
-    </Wire>
-    <Wire UId="81">
-      <NameCon UId="38" Name="ParPending" />
-      <OpenCon UId="51" />
+    <Wire UId="47">
+      <NameCon UId="31" Name="Stage2" />
+      <OpenCon UId="34" />
     </Wire>
   </Wires>
 </FlgNet></NetworkSource>

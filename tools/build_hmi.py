@@ -54,10 +54,8 @@ def _members():
     br.update({n: t for n, t, *_ in B.BR_OUT})
     br.update({n: t for n, t in B.BR_STAT})
     scrub = {n: 'Bool' for n, _ in B.SCRUB_IN}
-    scrub.update({n: 'Time' for n, _ in B.SCRUB_PAR})
     scrub.update({n: 'Bool' for n, _ in B.SCRUB_OUT})
-    scrub.update({n: 'Bool' for n, _ in B.SCRUB_CAUSES})
-    scrub['FirstOut'] = 'Int'
+    scrub.update({n: t for n, t, _ in B.SCRUB_STAT})
     par = {}
     for n, t, *_ in B.PARAMS:
         par[n] = t

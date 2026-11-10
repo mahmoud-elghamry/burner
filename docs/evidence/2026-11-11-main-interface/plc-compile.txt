@@ -1,0 +1,70 @@
+project : D:\tasks\burner\tia\Burner\Burner.ap15_1
+build   : D:\tasks\burner\build\review\main-interface-20261111\blocks
+project opened: Burner
+PLC: PLC_1
+
+=== IMPORTING ===
+  imported: Burner (FB)
+  imported: BR01_DB (InstanceDB)
+  imported: BR02_DB (InstanceDB)
+  imported: Scrubber (FB)
+  imported: Scrubber_DB (InstanceDB)
+  imported: Main (OB)
+
+=== COMPILING (device) ===
+state=Success  errors=0  warnings=0
+  [Information] (no text)   @ PLC_1
+      [Information] (no text)   @ Hardware configuration
+          [Information] Hardware was not compiled. The configuration is up-to-date.
+  [Success] Compiling finished (errors: 0; warnings: 0)
+
+=== COMPILING (per block) ===
+  Outputs: state=Success errors=0 warnings=0
+      [Success] (no text)   @ PLC_1
+          [Success] (no text)   @ Program blocks
+              [Success] Block was successfully compiled.   @ Outputs (FC2)
+      [Success] Compiling finished (errors: 0; warnings: 0)
+  HmiMap: state=Success errors=0 warnings=0
+      [Success] (no text)   @ PLC_1
+          [Success] (no text)   @ Program blocks
+              [Success] Block was successfully compiled.   @ HmiMap (FC3)
+      [Success] Compiling finished (errors: 0; warnings: 0)
+  Burner: state=Success errors=0 warnings=0
+      [Success] (no text)   @ PLC_1
+          [Success] (no text)   @ Program blocks
+              [Success] Block was successfully compiled.   @ Burner (FB1)
+      [Success] Compiling finished (errors: 0; warnings: 0)
+  BR01_DB: state=Success errors=0 warnings=0
+      [Success] (no text)   @ PLC_1
+          [Success] (no text)   @ Program blocks
+              [Success] Block was successfully compiled.   @ BR01_DB (DB3)
+      [Success] Compiling finished (errors: 0; warnings: 0)
+  BR02_DB: state=Success errors=0 warnings=0
+      [Success] (no text)   @ PLC_1
+          [Success] (no text)   @ Program blocks
+              [Success] Block was successfully compiled.   @ BR02_DB (DB4)
+      [Success] Compiling finished (errors: 0; warnings: 0)
+  Scrubber: state=Success errors=0 warnings=0
+      [Success] (no text)   @ PLC_1
+          [Success] (no text)   @ Program blocks
+              [Success] Block was successfully compiled.   @ Scrubber (FB2)
+      [Success] Compiling finished (errors: 0; warnings: 0)
+  Scrubber_DB: state=Success errors=0 warnings=0
+      [Success] (no text)   @ PLC_1
+          [Success] (no text)   @ Program blocks
+              [Success] Block was successfully compiled.   @ Scrubber_DB (DB5)
+      [Success] Compiling finished (errors: 0; warnings: 0)
+  Main: state=Success errors=0 warnings=0
+      [Information] (no text)   @ PLC_1
+          [Information] (no text)   @ Program blocks
+              [Information] (no text)   @ Main (OB1)
+                  [Information] Number of updated calls in network C03 .. C06a — scrubber: 1.   @ Network 2
+                  [Information] Number of updated calls in network C07* — BR01 / TK01: 1.   @ Network 3
+                  [Information] Number of updated calls in network C08* — BR02 / TK02: 1.   @ Network 4
+                  [Success] Block was successfully compiled.
+      [Success] Compiling finished (errors: 0; warnings: 0)
+
+=== CONSISTENCY ===
+  consistent 13/13
+
+CLEAN. PROJECT SAVED.

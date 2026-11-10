@@ -87,6 +87,12 @@ py tools\lad2text.py --all build\blocks
 
 ## Codex وسكريبتات Openness
 
-**Codex جوه الـ sandbox مش بيوصل لـ TIA** (`Connection to TiaPortal failed`، 2026-11-01). Codex بيكتب
-الكود والمولّدات، وأنا اللي بشغّل Export وApply وCompile بره الـ sandbox
-(`docs/evidence/2026-11-01-user-hmi-decisions.md`).
+**تحديث 2026-11-11:** في الجلسة الحالية Openness اشتغل من Codex: تصدير، واستيراد البلوكات وكومبايلها،
+وكومبايل HMI. مشكلة `Connection to TiaPortal failed` المسجلة يوم 11-01 كانت تخص بيئة الجلسة وقتها؛
+لا تُفترض مستمرة من غير تجربة. الدليل: `docs/evidence/2026-11-11-main-interface/plc-compile.txt`
+و`docs/evidence/2026-11-11-main-interface/hmi-compile.txt`.
+
+**شغّل سكريبتات Openness بـ `powershell` (Windows PowerShell 5.1)، وليس `pwsh` (7).**
+التشغيل المباشر من shell الجلسة (7.6.9) فشل عند `Add-Type` قبل فتح المشروع؛ 5.1 شغّل نفس السكريبت بنجاح.
+لو المطلوب كومبايل HMI فقط من غير استيراد شاشات، `Apply-Hmi.ps1 -BuildDir <empty-directory>`
+بيستورد صفر ملفات ثم يعمل compile؛ افحص تقرير `state` والأخطاء والتحذيرات حرفيًا.

@@ -2,7 +2,7 @@
 <Document>
   <Engineering version="V15.1" />
   <DocumentInfo>
-    <Created>2026-11-02T18:55:11.6177327Z</Created>
+    <Created>2026-11-10T23:26:17.6146139Z</Created>
     <ExportSetting>WithDefaults</ExportSetting>
     <InstalledProducts>
       <Product>
@@ -35,34 +35,17 @@
     <Member Name="Auto" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute></AttributeList><Comment><MultiLanguageText Lang="en-US">AUTO/MAN selector, 1 = AUTO</MultiLanguageText></Comment></Member>
     <Member Name="StartPB" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute></AttributeList><Comment><MultiLanguageText Lang="en-US">START push button (NO)</MultiLanguageText></Comment></Member>
     <Member Name="StopOK" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute></AttributeList><Comment><MultiLanguageText Lang="en-US">STOP push button (NC): 1 = released</MultiLanguageText></Comment></Member>
+    <Member Name="Reset" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute></AttributeList><Comment><MultiLanguageText Lang="en-US">RESET push button, one scan (Sys.ResetPulse)</MultiLanguageText></Comment></Member>
     <Member Name="LevelOK" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute></AttributeList><Comment><MultiLanguageText Lang="en-US">Tank LSL reached (C07a)</MultiLanguageText></Comment></Member>
     <Member Name="RunFb" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute></AttributeList><Comment><MultiLanguageText Lang="en-US">Burner RUN feedback</MultiLanguageText></Comment></Member>
     <Member Name="Lockout" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute></AttributeList><Comment><MultiLanguageText Lang="en-US">Burner lockout signal (C07e)</MultiLanguageText></Comment></Member>
     <Member Name="Fuel" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute></AttributeList><Comment><MultiLanguageText Lang="en-US">Fuel mode (BR02 Rfuel2, R-12); FALSE for BR01</MultiLanguageText></Comment></Member>
     <Member Name="TeA" Datatype="Int" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute></AttributeList><Comment><MultiLanguageText Lang="en-US">Thermocouple A raw, 0.1 degC</MultiLanguageText></Comment></Member>
     <Member Name="TeB" Datatype="Int" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute></AttributeList><Comment><MultiLanguageText Lang="en-US">Thermocouple B raw, 0.1 degC</MultiLanguageText></Comment></Member>
-    <Member Name="Use24h" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute></AttributeList><Comment><MultiLanguageText Lang="en-US">24 h forced stop enabled (C07h, BR01 only)</MultiLanguageText></Comment></Member>
-    <Member Name="EStopOK" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute></AttributeList><Comment><MultiLanguageText Lang="en-US">Sys.EStopOK</MultiLanguageText></Comment></Member>
-    <Member Name="ResetPulse" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute></AttributeList><Comment><MultiLanguageText Lang="en-US">Sys.ResetPulse</MultiLanguageText></Comment></Member>
-    <Member Name="FirstScan" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute></AttributeList><Comment><MultiLanguageText Lang="en-US">Sys.FirstScan</MultiLanguageText></Comment></Member>
-    <Member Name="SP" Datatype="Int" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute></AttributeList><Comment><MultiLanguageText Lang="en-US">Par.SP_V</MultiLanguageText></Comment></Member>
-    <Member Name="HYST" Datatype="Int" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute></AttributeList><Comment><MultiLanguageText Lang="en-US">Par.HYST_V</MultiLanguageText></Comment></Member>
-    <Member Name="STG" Datatype="Int" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute></AttributeList><Comment><MultiLanguageText Lang="en-US">Par.STG_V</MultiLanguageText></Comment></Member>
-    <Member Name="TStart" Datatype="Time" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute></AttributeList><Comment><MultiLanguageText Lang="en-US">Par.TStart_V</MultiLanguageText></Comment></Member>
   </Section>
   <Section Name="Output">
     <Member Name="HeatReq" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute></AttributeList><Comment><MultiLanguageText Lang="en-US">Heat request TL / L (E1 / E3)</MultiLanguageText></Comment></Member>
     <Member Name="Stage2" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute></AttributeList><Comment><MultiLanguageText Lang="en-US">2nd stage TR / T2 (E2 / E4)</MultiLanguageText></Comment></Member>
-    <Member Name="State" Datatype="Int" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute></AttributeList><Comment><MultiLanguageText Lang="en-US">0 IDLE, 1 STARTING, 2 RUNNING, 3 FAULT</MultiLanguageText></Comment></Member>
-    <Member Name="Enabled" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute></AttributeList><Comment><MultiLanguageText Lang="en-US">START given and not taken back (B-01)</MultiLanguageText></Comment></Member>
-    <Member Name="Tmax" Datatype="Int" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute></AttributeList><Comment><MultiLanguageText Lang="en-US">Higher of the two thermocouples, 0.1 degC</MultiLanguageText></Comment></Member>
-    <Member Name="F_EStop" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute></AttributeList><Comment><MultiLanguageText Lang="en-US">Fault C01</MultiLanguageText></Comment></Member>
-    <Member Name="F_TC" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute></AttributeList><Comment><MultiLanguageText Lang="en-US">Fault C0xd thermocouple</MultiLanguageText></Comment></Member>
-    <Member Name="F_Lockout" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute></AttributeList><Comment><MultiLanguageText Lang="en-US">Fault C0xe lockout</MultiLanguageText></Comment></Member>
-    <Member Name="F_NoStart" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute></AttributeList><Comment><MultiLanguageText Lang="en-US">Fault C0xf failed to start</MultiLanguageText></Comment></Member>
-    <Member Name="F_RunLost" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute></AttributeList><Comment><MultiLanguageText Lang="en-US">Fault C0xg stopped by itself</MultiLanguageText></Comment></Member>
-    <Member Name="F_RunWrong" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute></AttributeList><Comment><MultiLanguageText Lang="en-US">Fault R-09 RUN without request</MultiLanguageText></Comment></Member>
-    <Member Name="ParPending" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute></AttributeList><Comment><MultiLanguageText Lang="en-US">R-11 / D6 / 0007: a validated entry differs from its active copy</MultiLanguageText></Comment></Member>
   </Section>
   <Section Name="InOut" />
   <Section Name="Static">
@@ -92,6 +75,17 @@
     <Member Name="TOn" Datatype="Int" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="SetPoint" SystemDefined="true">false</BooleanAttribute></AttributeList></Member>
     <Member Name="TStg" Datatype="Int" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="SetPoint" SystemDefined="true">false</BooleanAttribute></AttributeList></Member>
     <Member Name="TStgOff" Datatype="Int" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="SetPoint" SystemDefined="true">false</BooleanAttribute></AttributeList></Member>
+    <Member Name="State" Datatype="Int" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="SetPoint" SystemDefined="true">false</BooleanAttribute></AttributeList></Member>
+    <Member Name="Enabled" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="SetPoint" SystemDefined="true">false</BooleanAttribute></AttributeList></Member>
+    <Member Name="Tmax" Datatype="Int" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="SetPoint" SystemDefined="true">false</BooleanAttribute></AttributeList></Member>
+    <Member Name="F_EStop" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="SetPoint" SystemDefined="true">false</BooleanAttribute></AttributeList></Member>
+    <Member Name="F_TC" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="SetPoint" SystemDefined="true">false</BooleanAttribute></AttributeList></Member>
+    <Member Name="F_Lockout" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="SetPoint" SystemDefined="true">false</BooleanAttribute></AttributeList></Member>
+    <Member Name="F_NoStart" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="SetPoint" SystemDefined="true">false</BooleanAttribute></AttributeList></Member>
+    <Member Name="F_RunLost" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="SetPoint" SystemDefined="true">false</BooleanAttribute></AttributeList></Member>
+    <Member Name="F_RunWrong" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="SetPoint" SystemDefined="true">false</BooleanAttribute></AttributeList></Member>
+    <Member Name="ParPending" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="SetPoint" SystemDefined="true">false</BooleanAttribute></AttributeList></Member>
+    <Member Name="Use24h" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="SetPoint" SystemDefined="true">false</BooleanAttribute></AttributeList></Member>
     <Member Name="T_PwrUp" Datatype="TON_TIME" Version="1.0" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute></AttributeList><Sections><Section Name="None"><Member Name="PT" Datatype="Time" /><Member Name="ET" Datatype="Time" /><Member Name="IN" Datatype="Bool" /><Member Name="Q" Datatype="Bool" /></Section></Sections></Member>
     <Member Name="T_TcBad" Datatype="TON_TIME" Version="1.0" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute></AttributeList><Sections><Section Name="None"><Member Name="PT" Datatype="Time" /><Member Name="ET" Datatype="Time" /><Member Name="IN" Datatype="Bool" /><Member Name="Q" Datatype="Bool" /></Section></Sections></Member>
     <Member Name="T_24h" Datatype="TON_TIME" Version="1.0" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute></AttributeList><Sections><Section Name="None"><Member Name="PT" Datatype="Time" /><Member Name="ET" Datatype="Time" /><Member Name="IN" Datatype="Bool" /><Member Name="Q" Datatype="Bool" /></Section></Sections></Member>
@@ -138,8 +132,9 @@
         <Component Name="StartMem" />
       </Symbol>
     </Access>
-    <Access Scope="LocalVariable" UId="23">
+    <Access Scope="GlobalVariable" UId="23">
       <Symbol>
+        <Component Name="Sys" />
         <Component Name="FirstScan" />
       </Symbol>
     </Access>
@@ -224,7 +219,7 @@
               <MultilingualTextItem ID="7" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>R-05 — START edge: not on first scan, only after seen released, STOP wins</Text>
+                  <Text>R-05 - START edge: not on first scan, only after seen released, STOP wins</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -921,8 +916,9 @@
         <AttributeList>
           <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
   <Parts>
-    <Access Scope="LocalVariable" UId="21">
+    <Access Scope="GlobalVariable" UId="21">
       <Symbol>
+        <Component Name="Sys" />
         <Component Name="FirstScan" />
       </Symbol>
     </Access>
@@ -996,7 +992,7 @@
               <MultilingualTextItem ID="34" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>R-10 — power-up window (TC card calibrating) is over after 10 s</Text>
+                  <Text>R-10 - power-up window (TC card calibrating) is over after 10 s</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -1363,9 +1359,10 @@
         <Component Name="Enabled" />
       </Symbol>
     </Access>
-    <Access Scope="LocalVariable" UId="22">
+    <Access Scope="GlobalVariable" UId="22">
       <Symbol>
-        <Component Name="SP" />
+        <Component Name="Par" />
+        <Component Name="SP_V" />
       </Symbol>
     </Access>
     <Access Scope="LocalVariable" UId="23">
@@ -1373,9 +1370,10 @@
         <Component Name="SP_Act" />
       </Symbol>
     </Access>
-    <Access Scope="LocalVariable" UId="24">
+    <Access Scope="GlobalVariable" UId="24">
       <Symbol>
-        <Component Name="HYST" />
+        <Component Name="Par" />
+        <Component Name="HYST_V" />
       </Symbol>
     </Access>
     <Access Scope="LocalVariable" UId="25">
@@ -1383,9 +1381,10 @@
         <Component Name="HYST_Act" />
       </Symbol>
     </Access>
-    <Access Scope="LocalVariable" UId="26">
+    <Access Scope="GlobalVariable" UId="26">
       <Symbol>
-        <Component Name="STG" />
+        <Component Name="Par" />
+        <Component Name="STG_V" />
       </Symbol>
     </Access>
     <Access Scope="LocalVariable" UId="27">
@@ -1393,9 +1392,10 @@
         <Component Name="STG_Act" />
       </Symbol>
     </Access>
-    <Access Scope="LocalVariable" UId="28">
+    <Access Scope="GlobalVariable" UId="28">
       <Symbol>
-        <Component Name="TStart" />
+        <Component Name="Par" />
+        <Component Name="TStart_V" />
       </Symbol>
     </Access>
     <Access Scope="LocalVariable" UId="29">
@@ -1487,7 +1487,7 @@
               <MultilingualTextItem ID="4D" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>R-11 / D6 / 0007 — not Enabled: take all four parameters</Text>
+                  <Text>R-11 / D6 / 0007 - not Enabled: take all four parameters</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -1503,9 +1503,10 @@
         <Component Name="Active" />
       </Symbol>
     </Access>
-    <Access Scope="LocalVariable" UId="22">
+    <Access Scope="GlobalVariable" UId="22">
       <Symbol>
-        <Component Name="TStart" />
+        <Component Name="Par" />
+        <Component Name="TStart_V" />
       </Symbol>
     </Access>
     <Access Scope="LocalVariable" UId="23">
@@ -1561,7 +1562,7 @@
               <MultilingualTextItem ID="52" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>R-11 / D6 / 0007 — not Active: take TStart</Text>
+                  <Text>R-11 / D6 / 0007 - not Active: take TStart</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -1572,9 +1573,10 @@
         <AttributeList>
           <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
   <Parts>
-    <Access Scope="LocalVariable" UId="21">
+    <Access Scope="GlobalVariable" UId="21">
       <Symbol>
-        <Component Name="SP" />
+        <Component Name="Par" />
+        <Component Name="SP_V" />
       </Symbol>
     </Access>
     <Access Scope="LocalVariable" UId="22">
@@ -1582,9 +1584,10 @@
         <Component Name="SP_Act" />
       </Symbol>
     </Access>
-    <Access Scope="LocalVariable" UId="23">
+    <Access Scope="GlobalVariable" UId="23">
       <Symbol>
-        <Component Name="SP" />
+        <Component Name="Par" />
+        <Component Name="SP_V" />
       </Symbol>
     </Access>
     <Access Scope="LocalVariable" UId="24">
@@ -1644,7 +1647,7 @@
               <MultilingualTextItem ID="57" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>R-11 / D6 / 0007 — lower SP applies at once</Text>
+                  <Text>R-11 / D6 / 0007 - lower SP applies at once</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -1655,9 +1658,10 @@
         <AttributeList>
           <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
   <Parts>
-    <Access Scope="LocalVariable" UId="21">
+    <Access Scope="GlobalVariable" UId="21">
       <Symbol>
-        <Component Name="HYST" />
+        <Component Name="Par" />
+        <Component Name="HYST_V" />
       </Symbol>
     </Access>
     <Access Scope="LocalVariable" UId="22">
@@ -1665,9 +1669,10 @@
         <Component Name="HYST_Act" />
       </Symbol>
     </Access>
-    <Access Scope="LocalVariable" UId="23">
+    <Access Scope="GlobalVariable" UId="23">
       <Symbol>
-        <Component Name="HYST" />
+        <Component Name="Par" />
+        <Component Name="HYST_V" />
       </Symbol>
     </Access>
     <Access Scope="LocalVariable" UId="24">
@@ -1727,7 +1732,7 @@
               <MultilingualTextItem ID="5C" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>R-11 / D6 / 0007 — higher HYST applies at once</Text>
+                  <Text>R-11 / D6 / 0007 - higher HYST applies at once</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -1738,9 +1743,10 @@
         <AttributeList>
           <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
   <Parts>
-    <Access Scope="LocalVariable" UId="21">
+    <Access Scope="GlobalVariable" UId="21">
       <Symbol>
-        <Component Name="STG" />
+        <Component Name="Par" />
+        <Component Name="STG_V" />
       </Symbol>
     </Access>
     <Access Scope="LocalVariable" UId="22">
@@ -1748,9 +1754,10 @@
         <Component Name="STG_Act" />
       </Symbol>
     </Access>
-    <Access Scope="LocalVariable" UId="23">
+    <Access Scope="GlobalVariable" UId="23">
       <Symbol>
-        <Component Name="STG" />
+        <Component Name="Par" />
+        <Component Name="STG_V" />
       </Symbol>
     </Access>
     <Access Scope="LocalVariable" UId="24">
@@ -1810,7 +1817,7 @@
               <MultilingualTextItem ID="61" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>R-11 / D6 / 0007 — higher STG (less 2nd stage) applies at once</Text>
+                  <Text>R-11 / D6 / 0007 - higher STG (less 2nd stage) applies at once</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -1821,9 +1828,10 @@
         <AttributeList>
           <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
   <Parts>
-    <Access Scope="LocalVariable" UId="21">
+    <Access Scope="GlobalVariable" UId="21">
       <Symbol>
-        <Component Name="SP" />
+        <Component Name="Par" />
+        <Component Name="SP_V" />
       </Symbol>
     </Access>
     <Access Scope="LocalVariable" UId="22">
@@ -1831,9 +1839,10 @@
         <Component Name="SP_Act" />
       </Symbol>
     </Access>
-    <Access Scope="LocalVariable" UId="23">
+    <Access Scope="GlobalVariable" UId="23">
       <Symbol>
-        <Component Name="HYST" />
+        <Component Name="Par" />
+        <Component Name="HYST_V" />
       </Symbol>
     </Access>
     <Access Scope="LocalVariable" UId="24">
@@ -1841,9 +1850,10 @@
         <Component Name="HYST_Act" />
       </Symbol>
     </Access>
-    <Access Scope="LocalVariable" UId="25">
+    <Access Scope="GlobalVariable" UId="25">
       <Symbol>
-        <Component Name="STG" />
+        <Component Name="Par" />
+        <Component Name="STG_V" />
       </Symbol>
     </Access>
     <Access Scope="LocalVariable" UId="26">
@@ -1851,9 +1861,10 @@
         <Component Name="STG_Act" />
       </Symbol>
     </Access>
-    <Access Scope="LocalVariable" UId="27">
+    <Access Scope="GlobalVariable" UId="27">
       <Symbol>
-        <Component Name="TStart" />
+        <Component Name="Par" />
+        <Component Name="TStart_V" />
       </Symbol>
     </Access>
     <Access Scope="LocalVariable" UId="28">
@@ -1967,7 +1978,7 @@
               <MultilingualTextItem ID="66" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>R-11 / D6 / 0007 — pending while any entry differs from its active copy</Text>
+                  <Text>R-11 / D6 / 0007 - pending while any entry differs from its active copy</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -2461,8 +2472,9 @@
         <Component Name="TcOk" />
       </Symbol>
     </Access>
-    <Access Scope="LocalVariable" UId="23">
+    <Access Scope="GlobalVariable" UId="23">
       <Symbol>
+        <Component Name="Sys" />
         <Component Name="EStopOK" />
       </Symbol>
     </Access>
@@ -2561,7 +2573,7 @@
               <MultilingualTextItem ID="84" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>C0xa / C0xd / C01 / C0xe / C07h — ready to fire</Text>
+                  <Text>C0xa / C0xd / C01 / C0xe / C07h - ready to fire</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -4048,11 +4060,12 @@
     </Access>
     <Access Scope="LocalVariable" UId="23">
       <Symbol>
-        <Component Name="ResetPulse" />
+        <Component Name="Reset" />
       </Symbol>
     </Access>
-    <Access Scope="LocalVariable" UId="24">
+    <Access Scope="GlobalVariable" UId="24">
       <Symbol>
+        <Component Name="Sys" />
         <Component Name="EStopOK" />
       </Symbol>
     </Access>
@@ -4249,7 +4262,7 @@
               <MultilingualTextItem ID="CA" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>R-06 / R-07 — RESET leaves FAULT only when every cause is gone</Text>
+                  <Text>R-06 / R-07 - RESET leaves FAULT only when every cause is gone</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -4260,8 +4273,9 @@
         <AttributeList>
           <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
   <Parts>
-    <Access Scope="LocalVariable" UId="21">
+    <Access Scope="GlobalVariable" UId="21">
       <Symbol>
+        <Component Name="Sys" />
         <Component Name="EStopOK" />
       </Symbol>
     </Access>
@@ -4335,7 +4349,7 @@
               <MultilingualTextItem ID="CF" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>C01 — E-STOP</Text>
+                  <Text>C01 - E-STOP</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>

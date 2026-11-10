@@ -1,0 +1,9 @@
+PASS unchanged tag bindings: 89 HMI_HMI_RT_1/HmiTags/LCP01.xml
+PASS unchanged tag bindings: 31 PLC_PLC_1/PlcTags/IO.xml
+PASS canonical export changes limited to six approved PLC blocks:
+PLC_PLC_1\ProgramBlocks\BR01_DB.xml
+PLC_PLC_1\ProgramBlocks\BR02_DB.xml
+PLC_PLC_1\ProgramBlocks\Burner.xml
+PLC_PLC_1\ProgramBlocks\Main.xml
+PLC_PLC_1\ProgramBlocks\Scrubber.xml
+PLC_PLC_1\ProgramBlocks\Scrubber_DB.xml

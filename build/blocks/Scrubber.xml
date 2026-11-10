@@ -13,35 +13,30 @@
     <Member Name="PSH" Datatype="Bool" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">PSH-101 healthy (contact closed)</MultiLanguageText></Comment></Member>
     <Member Name="LSH" Datatype="Bool" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">LSH-102 healthy</MultiLanguageText></Comment></Member>
     <Member Name="LSHH" Datatype="Bool" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">LSHH-103 healthy</MultiLanguageText></Comment></Member>
-    <Member Name="EStopOK" Datatype="Bool" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Sys.EStopOK</MultiLanguageText></Comment></Member>
-    <Member Name="ResetPulse" Datatype="Bool" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Sys.ResetPulse</MultiLanguageText></Comment></Member>
-    <Member Name="FirstScan" Datatype="Bool" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Sys.FirstScan</MultiLanguageText></Comment></Member>
-    <Member Name="TDrnOn" Datatype="Time" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Par.TDrnOn_V (C04)</MultiLanguageText></Comment></Member>
-    <Member Name="TDrnOff" Datatype="Time" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Par.TDrnOff_V (C04)</MultiLanguageText></Comment></Member>
-    <Member Name="TDrnMax" Datatype="Time" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Par.TDrnMax_V (C04a)</MultiLanguageText></Comment></Member>
+    <Member Name="Reset" Datatype="Bool" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">RESET push button, one scan (Sys.ResetPulse)</MultiLanguageText></Comment></Member>
   </Section>
   <Section Name="Output">
-    <Member Name="Tripped" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Suction trip latch C01/C02/C03/C05: XV-403 closed until RESET</MultiLanguageText></Comment></Member>
-    <Member Name="FlareTrip" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Flare trip latch C01/C02/C03: XV-401 open until RESET</MultiLanguageText></Comment></Member>
-    <Member Name="ValvesNormal" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">No trip latched: flare closed and suction open (HMI)</MultiLanguageText></Comment></Member>
     <Member Name="FlareCmd" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Q0.2 XV-401 (NO): 1 = energised = closed</MultiLanguageText></Comment></Member>
     <Member Name="DrainCmd" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Q0.3 XV-402 (NC): 1 = energised = open (C04 / C05)</MultiLanguageText></Comment></Member>
     <Member Name="SuctionCmd" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Q0.4 XV-403 (NC): 1 = energised = open</MultiLanguageText></Comment></Member>
+  </Section>
+  <Section Name="InOut" />
+  <Section Name="Static">
+    <Member Name="Tripped" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Suction trip latch C01/C02/C03/C05: XV-403 closed until RESET</MultiLanguageText></Comment></Member>
+    <Member Name="FlareTrip" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Flare trip latch C01/C02/C03: XV-401 open until RESET</MultiLanguageText></Comment></Member>
+    <Member Name="ValvesNormal" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">No trip latched: flare closed and suction open (HMI)</MultiLanguageText></Comment></Member>
+    <Member Name="LevelHigh" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">LSH-102 or LSHH-103 open</MultiLanguageText></Comment></Member>
+    <Member Name="DrnDemand" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Drain demand after TDRN_ON of high level</MultiLanguageText></Comment></Member>
     <Member Name="F_DrainTO" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">C04a: drain open too long, latched until RESET</MultiLanguageText></Comment></Member>
     <Member Name="F_LshFault" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">C04b: LSHH-103 without LSH-102, latched until RESET</MultiLanguageText></Comment></Member>
     <Member Name="Alm_PSH" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">HMI alarm C03</MultiLanguageText></Comment></Member>
     <Member Name="Alm_LSH" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">HMI alarm C04</MultiLanguageText></Comment></Member>
     <Member Name="Alm_LSHH" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">HMI alarm C05</MultiLanguageText></Comment></Member>
+    <Member Name="FirstOut" Datatype="Int" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">C06a / 0007 D5: 0 none, 1 E-STOP, 2 PSH, 3 LSHH, 4 power-up</MultiLanguageText></Comment></Member>
     <Member Name="Cause_EStop" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">C06a / F44: E-STOP cause, latched until healthy RESET</MultiLanguageText></Comment></Member>
     <Member Name="Cause_PSH" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">C06a / F44: PSH-101 cause, latched until healthy RESET</MultiLanguageText></Comment></Member>
     <Member Name="Cause_LSHH" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">C06a / F44: LSHH-103 cause, latched until healthy RESET</MultiLanguageText></Comment></Member>
     <Member Name="Cause_PwrUp" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">C06a / F44: power-up cause, latched until healthy RESET</MultiLanguageText></Comment></Member>
-    <Member Name="FirstOut" Datatype="Int" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">C06a / 0007 D5: 0 none, 1 E-STOP, 2 PSH, 3 LSHH, 4 power-up</MultiLanguageText></Comment></Member>
-  </Section>
-  <Section Name="InOut" />
-  <Section Name="Static">
-    <Member Name="LevelHigh" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
-    <Member Name="DrnDemand" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
     <Member Name="T_DrnOn" Datatype="TON_TIME" Version="1.0" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute></AttributeList><Sections><Section Name="None"><Member Name="PT" Datatype="Time" /><Member Name="ET" Datatype="Time" /><Member Name="IN" Datatype="Bool" /><Member Name="Q" Datatype="Bool" /></Section></Sections></Member>
     <Member Name="T_DrnOff" Datatype="TON_TIME" Version="1.0" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute></AttributeList><Sections><Section Name="None"><Member Name="PT" Datatype="Time" /><Member Name="ET" Datatype="Time" /><Member Name="IN" Datatype="Bool" /><Member Name="Q" Datatype="Bool" /></Section></Sections></Member>
     <Member Name="T_DrnMax" Datatype="TON_TIME" Version="1.0" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute></AttributeList><Sections><Section Name="None"><Member Name="PT" Datatype="Time" /><Member Name="ET" Datatype="Time" /><Member Name="IN" Datatype="Bool" /><Member Name="Q" Datatype="Bool" /></Section></Sections></Member>
@@ -125,7 +120,7 @@
               <MultilingualTextItem ID="5" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>C04 — LSH-102 high level alarm</Text>
+                  <Text>[ALARM] C04 — LSH-102 high level alarm</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -188,7 +183,7 @@
               <MultilingualTextItem ID="A" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>C03 — PSH-101 alarm</Text>
+                  <Text>[ALARM] C03 — PSH-101 alarm</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -251,7 +246,7 @@
               <MultilingualTextItem ID="F" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>C05 — LSHH-103 alarm</Text>
+                  <Text>[ALARM] C05 — LSHH-103 alarm</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -264,7 +259,7 @@
   <Parts>
     <Access Scope="LocalVariable" UId="22">
       <Symbol>
-        <Component Name="ResetPulse" />
+        <Component Name="Reset" />
       </Symbol>
     </Access>
     <Access Scope="LocalVariable" UId="24">
@@ -277,8 +272,9 @@
         <Component Name="LSHH" />
       </Symbol>
     </Access>
-    <Access Scope="LocalVariable" UId="28">
+    <Access Scope="GlobalVariable" UId="28">
       <Symbol>
+        <Component Name="Sys" />
         <Component Name="EStopOK" />
       </Symbol>
     </Access>
@@ -365,7 +361,7 @@
               <MultilingualTextItem ID="14" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>C03 / C05 / C01 — RESET once every cause is gone</Text>
+                  <Text>[TRIP] C03 / C05 / C01 — RESET once every cause is gone</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -386,13 +382,15 @@
         <Component Name="LSHH" />
       </Symbol>
     </Access>
-    <Access Scope="LocalVariable" UId="26">
+    <Access Scope="GlobalVariable" UId="26">
       <Symbol>
+        <Component Name="Sys" />
         <Component Name="EStopOK" />
       </Symbol>
     </Access>
-    <Access Scope="LocalVariable" UId="28">
+    <Access Scope="GlobalVariable" UId="28">
       <Symbol>
+        <Component Name="Sys" />
         <Component Name="FirstScan" />
       </Symbol>
     </Access>
@@ -484,7 +482,7 @@
               <MultilingualTextItem ID="19" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>S-01 / C01 / C03 / C05 — suction trip (also at power-up)</Text>
+                  <Text>[TRIP] S-01 / C01 / C03 / C05 — suction trip (also at power-up)</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -500,13 +498,15 @@
         <Component Name="PSH" />
       </Symbol>
     </Access>
-    <Access Scope="LocalVariable" UId="24">
+    <Access Scope="GlobalVariable" UId="24">
       <Symbol>
+        <Component Name="Sys" />
         <Component Name="EStopOK" />
       </Symbol>
     </Access>
-    <Access Scope="LocalVariable" UId="26">
+    <Access Scope="GlobalVariable" UId="26">
       <Symbol>
+        <Component Name="Sys" />
         <Component Name="FirstScan" />
       </Symbol>
     </Access>
@@ -586,7 +586,7 @@
               <MultilingualTextItem ID="1E" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>S-01 / C01 / C03 — flare trip (also at power-up); LSHH does not open the flare</Text>
+                  <Text>[TRIP] S-01 / C01 / C03 — flare trip (also at power-up); LSHH does not open the flare</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -649,7 +649,7 @@
               <MultilingualTextItem ID="23" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>E5 — XV-401 flare (NO) energised = closed while no flare trip</Text>
+                  <Text>[TRIP] E5 — XV-401 flare (NO) energised = closed while no flare trip</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -712,7 +712,7 @@
               <MultilingualTextItem ID="28" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>E7 — XV-403 suction (NC) energised = open while no suction trip</Text>
+                  <Text>[TRIP] E7 — XV-403 suction (NC) energised = open while no suction trip</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -791,7 +791,7 @@
               <MultilingualTextItem ID="2D" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>S-01 — HMI: no trip latched</Text>
+                  <Text>[TRIP] S-01 — HMI: no trip latched</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -878,7 +878,7 @@
               <MultilingualTextItem ID="32" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>C04 / C05 — high level: LSH-102 or LSHH-103 open</Text>
+                  <Text>[DRAIN] C04 / C05 — high level: LSH-102 or LSHH-103 open</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -894,9 +894,10 @@
         <Component Name="LevelHigh" />
       </Symbol>
     </Access>
-    <Access Scope="LocalVariable" UId="25">
+    <Access Scope="GlobalVariable" UId="25">
       <Symbol>
-        <Component Name="TDrnOn" />
+        <Component Name="Par" />
+        <Component Name="TDrnOn_V" />
       </Symbol>
     </Access>
     <Access Scope="LocalVariable" UId="28">
@@ -962,7 +963,7 @@
               <MultilingualTextItem ID="37" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>C04 — drain demand after TDRN_ON of high level</Text>
+                  <Text>[DRAIN] C04 — drain demand after TDRN_ON of high level</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -978,9 +979,10 @@
         <Component Name="LevelHigh" />
       </Symbol>
     </Access>
-    <Access Scope="LocalVariable" UId="25">
+    <Access Scope="GlobalVariable" UId="25">
       <Symbol>
-        <Component Name="TDrnOff" />
+        <Component Name="Par" />
+        <Component Name="TDrnOff_V" />
       </Symbol>
     </Access>
     <Access Scope="LocalVariable" UId="28">
@@ -1048,7 +1050,7 @@
               <MultilingualTextItem ID="3C" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>C04 — drain demand off after TDRN_OFF without high level</Text>
+                  <Text>[DRAIN] C04 — drain demand off after TDRN_OFF without high level</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -1064,9 +1066,10 @@
         <Component Name="DrainCmd" />
       </Symbol>
     </Access>
-    <Access Scope="LocalVariable" UId="25">
+    <Access Scope="GlobalVariable" UId="25">
       <Symbol>
-        <Component Name="TDrnMax" />
+        <Component Name="Par" />
+        <Component Name="TDrnMax_V" />
       </Symbol>
     </Access>
     <Access Scope="LocalVariable" UId="28">
@@ -1132,7 +1135,7 @@
               <MultilingualTextItem ID="41" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>C04a — drain open continuously for TDRN_MAX: close and alarm</Text>
+                  <Text>[DRAIN] C04a — drain open continuously for TDRN_MAX: close and alarm</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -1145,7 +1148,7 @@
   <Parts>
     <Access Scope="LocalVariable" UId="22">
       <Symbol>
-        <Component Name="ResetPulse" />
+        <Component Name="Reset" />
       </Symbol>
     </Access>
     <Access Scope="LocalVariable" UId="24">
@@ -1193,7 +1196,7 @@
               <MultilingualTextItem ID="46" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>C04a — RESET clears the drain timeout (drain follows level again)</Text>
+                  <Text>[DRAIN] C04a — RESET clears the drain timeout (drain follows level again)</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -1209,8 +1212,9 @@
         <Component Name="DrnDemand" />
       </Symbol>
     </Access>
-    <Access Scope="LocalVariable" UId="24">
+    <Access Scope="GlobalVariable" UId="24">
       <Symbol>
+        <Component Name="Sys" />
         <Component Name="EStopOK" />
       </Symbol>
     </Access>
@@ -1284,7 +1288,7 @@
               <MultilingualTextItem ID="4B" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>E6 — XV-402 drain (NC) energised = open: demand, no E-STOP, no timeout</Text>
+                  <Text>[DRAIN] E6 — XV-402 drain (NC) energised = open: demand, no E-STOP, no timeout</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -1384,7 +1388,7 @@
               <MultilingualTextItem ID="50" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>C04b — LSHH-103 open while LSH-102 healthy for 5 s: LSH-102 fault</Text>
+                  <Text>[LSH] C04b — LSHH-103 open while LSH-102 healthy for 5 s: LSH-102 fault</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -1397,7 +1401,7 @@
   <Parts>
     <Access Scope="LocalVariable" UId="22">
       <Symbol>
-        <Component Name="ResetPulse" />
+        <Component Name="Reset" />
       </Symbol>
     </Access>
     <Access Scope="LocalVariable" UId="24">
@@ -1483,7 +1487,7 @@
               <MultilingualTextItem ID="55" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>C04b — RESET clears the LSH-102 fault once the switches agree</Text>
+                  <Text>[LSH] C04b — RESET clears the LSH-102 fault once the switches agree</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -1494,8 +1498,9 @@
         <AttributeList>
           <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
   <Parts>
-    <Access Scope="LocalVariable" UId="22">
+    <Access Scope="GlobalVariable" UId="22">
       <Symbol>
+        <Component Name="Sys" />
         <Component Name="EStopOK" />
       </Symbol>
     </Access>
@@ -1546,7 +1551,7 @@
               <MultilingualTextItem ID="5A" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>C06a / F44 / 0007 D5 — latch cause: E-STOP</Text>
+                  <Text>[CAUSE] C06a / F44 / 0007 D5 — latch cause: E-STOP</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -1609,7 +1614,7 @@
               <MultilingualTextItem ID="5F" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>C06a / F44 / 0007 D5 — latch cause: PSH-101</Text>
+                  <Text>[CAUSE] C06a / F44 / 0007 D5 — latch cause: PSH-101</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -1672,7 +1677,7 @@
               <MultilingualTextItem ID="64" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>C06a / F44 / 0007 D5 — latch cause: LSHH-103</Text>
+                  <Text>[CAUSE] C06a / F44 / 0007 D5 — latch cause: LSHH-103</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -1683,8 +1688,9 @@
         <AttributeList>
           <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
   <Parts>
-    <Access Scope="LocalVariable" UId="22">
+    <Access Scope="GlobalVariable" UId="22">
       <Symbol>
+        <Component Name="Sys" />
         <Component Name="FirstScan" />
       </Symbol>
     </Access>
@@ -1733,7 +1739,7 @@
               <MultilingualTextItem ID="69" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>C06a / F44 / 0007 D5 — latch cause: power-up</Text>
+                  <Text>[CAUSE] C06a / F44 / 0007 D5 — latch cause: power-up</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -1755,8 +1761,9 @@
         <ConstantValue>0</ConstantValue>
       </Constant>
     </Access>
-    <Access Scope="LocalVariable" UId="25">
+    <Access Scope="GlobalVariable" UId="25">
       <Symbol>
+        <Component Name="Sys" />
         <Component Name="EStopOK" />
       </Symbol>
     </Access>
@@ -1834,7 +1841,7 @@
               <MultilingualTextItem ID="6E" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>C06a / F44 / 0007 D5 — first-out 1: E-STOP (only if none)</Text>
+                  <Text>[CAUSE] C06a / F44 / 0007 D5 — first-out 1: E-STOP (only if none)</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -1935,7 +1942,7 @@
               <MultilingualTextItem ID="73" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>C06a / F44 / 0007 D5 — first-out 2: PSH-101 (only if none)</Text>
+                  <Text>[CAUSE] C06a / F44 / 0007 D5 — first-out 2: PSH-101 (only if none)</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -2036,7 +2043,7 @@
               <MultilingualTextItem ID="78" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>C06a / F44 / 0007 D5 — first-out 3: LSHH-103 (only if none)</Text>
+                  <Text>[CAUSE] C06a / F44 / 0007 D5 — first-out 3: LSHH-103 (only if none)</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -2058,8 +2065,9 @@
         <ConstantValue>0</ConstantValue>
       </Constant>
     </Access>
-    <Access Scope="LocalVariable" UId="25">
+    <Access Scope="GlobalVariable" UId="25">
       <Symbol>
+        <Component Name="Sys" />
         <Component Name="FirstScan" />
       </Symbol>
     </Access>
@@ -2135,7 +2143,7 @@
               <MultilingualTextItem ID="7D" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>C06a / F44 / 0007 D5 — first-out 4: power-up (only if none)</Text>
+                  <Text>[CAUSE] C06a / F44 / 0007 D5 — first-out 4: power-up (only if none)</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -2148,7 +2156,7 @@
   <Parts>
     <Access Scope="LocalVariable" UId="22">
       <Symbol>
-        <Component Name="ResetPulse" />
+        <Component Name="Reset" />
       </Symbol>
     </Access>
     <Access Scope="LocalVariable" UId="24">
@@ -2161,8 +2169,9 @@
         <Component Name="LSHH" />
       </Symbol>
     </Access>
-    <Access Scope="LocalVariable" UId="28">
+    <Access Scope="GlobalVariable" UId="28">
       <Symbol>
+        <Component Name="Sys" />
         <Component Name="EStopOK" />
       </Symbol>
     </Access>
@@ -2294,7 +2303,7 @@
               <MultilingualTextItem ID="82" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>C06a / F44 / 0007 D5 — healthy RESET clears all causes and first-out last</Text>
+                  <Text>[CAUSE] C06a / F44 / 0007 D5 — healthy RESET clears all causes and first-out last</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>

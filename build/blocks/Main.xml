@@ -98,37 +98,7 @@
     <Access Scope="GlobalVariable" UId="26">
       <Symbol>
         <Component Name="Sys" />
-        <Component Name="EStopOK" />
-      </Symbol>
-    </Access>
-    <Access Scope="GlobalVariable" UId="27">
-      <Symbol>
-        <Component Name="Sys" />
         <Component Name="ResetPulse" />
-      </Symbol>
-    </Access>
-    <Access Scope="GlobalVariable" UId="28">
-      <Symbol>
-        <Component Name="Sys" />
-        <Component Name="FirstScan" />
-      </Symbol>
-    </Access>
-    <Access Scope="GlobalVariable" UId="29">
-      <Symbol>
-        <Component Name="Par" />
-        <Component Name="TDrnOn_V" />
-      </Symbol>
-    </Access>
-    <Access Scope="GlobalVariable" UId="30">
-      <Symbol>
-        <Component Name="Par" />
-        <Component Name="TDrnOff_V" />
-      </Symbol>
-    </Access>
-    <Access Scope="GlobalVariable" UId="31">
-      <Symbol>
-        <Component Name="Par" />
-        <Component Name="TDrnMax_V" />
       </Symbol>
     </Access>
     <Call UId="21">
@@ -139,55 +109,30 @@
           <Parameter Name="PSH" Section="Input" Type="Bool" />
           <Parameter Name="LSH" Section="Input" Type="Bool" />
           <Parameter Name="LSHH" Section="Input" Type="Bool" />
-          <Parameter Name="EStopOK" Section="Input" Type="Bool" />
-          <Parameter Name="ResetPulse" Section="Input" Type="Bool" />
-          <Parameter Name="FirstScan" Section="Input" Type="Bool" />
-          <Parameter Name="TDrnOn" Section="Input" Type="Time" />
-          <Parameter Name="TDrnOff" Section="Input" Type="Time" />
-          <Parameter Name="TDrnMax" Section="Input" Type="Time" />
+          <Parameter Name="Reset" Section="Input" Type="Bool" />
       </CallInfo>
     </Call>
   </Parts>
   <Wires>
-    <Wire UId="32">
+    <Wire UId="27">
       <Powerrail />
       <NameCon UId="21" Name="en" />
     </Wire>
-    <Wire UId="33">
+    <Wire UId="28">
       <IdentCon UId="23" />
       <NameCon UId="21" Name="PSH" />
     </Wire>
-    <Wire UId="34">
+    <Wire UId="29">
       <IdentCon UId="24" />
       <NameCon UId="21" Name="LSH" />
     </Wire>
-    <Wire UId="35">
+    <Wire UId="30">
       <IdentCon UId="25" />
       <NameCon UId="21" Name="LSHH" />
     </Wire>
-    <Wire UId="36">
+    <Wire UId="31">
       <IdentCon UId="26" />
-      <NameCon UId="21" Name="EStopOK" />
-    </Wire>
-    <Wire UId="37">
-      <IdentCon UId="27" />
-      <NameCon UId="21" Name="ResetPulse" />
-    </Wire>
-    <Wire UId="38">
-      <IdentCon UId="28" />
-      <NameCon UId="21" Name="FirstScan" />
-    </Wire>
-    <Wire UId="39">
-      <IdentCon UId="29" />
-      <NameCon UId="21" Name="TDrnOn" />
-    </Wire>
-    <Wire UId="40">
-      <IdentCon UId="30" />
-      <NameCon UId="21" Name="TDrnOff" />
-    </Wire>
-    <Wire UId="41">
-      <IdentCon UId="31" />
-      <NameCon UId="21" Name="TDrnMax" />
+      <NameCon UId="21" Name="Reset" />
     </Wire>
   </Wires>
 </FlgNet></NetworkSource>

@@ -388,42 +388,47 @@ def common_fc():
 # ======================================================================
 #  Scrubber (FB2)
 # ======================================================================
-SCRUB_IN = [('PSH', 'PSH-101 healthy (contact closed)'), ('LSH', 'LSH-102 healthy'),
-            ('LSHH', 'LSHH-103 healthy'), ('EStopOK', 'Sys.EStopOK'),
-            ('ResetPulse', 'Sys.ResetPulse'), ('FirstScan', 'Sys.FirstScan')]
-SCRUB_PAR = [('TDrnOn', 'Par.TDrnOn_V (C04)'), ('TDrnOff', 'Par.TDrnOff_V (C04)'),
-             ('TDrnMax', 'Par.TDrnMax_V (C04a)')]
-SCRUB_OUT = [('Tripped', 'Suction trip latch C01/C02/C03/C05: XV-403 closed until RESET'),
-             ('FlareTrip', 'Flare trip latch C01/C02/C03: XV-401 open until RESET'),
-             ('ValvesNormal', 'No trip latched: flare closed and suction open (HMI)'),
-             ('FlareCmd', 'Q0.2 XV-401 (NO): 1 = energised = closed'),
+SCRUB_IN = [('PSH', 'PSH-101 healthy (contact closed)'),
+            ('LSH', 'LSH-102 healthy'),
+            ('LSHH', 'LSHH-103 healthy'),
+            ('Reset', 'RESET push button, one scan (Sys.ResetPulse)')]
+SCRUB_OUT = [('FlareCmd', 'Q0.2 XV-401 (NO): 1 = energised = closed'),
              ('DrainCmd', 'Q0.3 XV-402 (NC): 1 = energised = open (C04 / C05)'),
-             ('SuctionCmd', 'Q0.4 XV-403 (NC): 1 = energised = open'),
-             ('F_DrainTO', 'C04a: drain open too long, latched until RESET'),
-             ('F_LshFault', 'C04b: LSHH-103 without LSH-102, latched until RESET'),
-             ('Alm_PSH', 'HMI alarm C03'), ('Alm_LSH', 'HMI alarm C04'),
-             ('Alm_LSHH', 'HMI alarm C05')]
+             ('SuctionCmd', 'Q0.4 XV-403 (NC): 1 = energised = open')]
 SCRUB_CAUSES = [('Cause_EStop', 'C06a / F44: E-STOP cause, latched until healthy RESET'),
                 ('Cause_PSH', 'C06a / F44: PSH-101 cause, latched until healthy RESET'),
                 ('Cause_LSHH', 'C06a / F44: LSHH-103 cause, latched until healthy RESET'),
                 ('Cause_PwrUp', 'C06a / F44: power-up cause, latched until healthy RESET')]
-SCRUB_STAT = [('LevelHigh', 'Bool'), ('DrnDemand', 'Bool')]
+SCRUB_STAT = [
+    ('Tripped', 'Bool', 'Suction trip latch C01/C02/C03/C05: XV-403 closed until RESET'),
+    ('FlareTrip', 'Bool', 'Flare trip latch C01/C02/C03: XV-401 open until RESET'),
+    ('ValvesNormal', 'Bool', 'No trip latched: flare closed and suction open (HMI)'),
+    ('LevelHigh', 'Bool', 'LSH-102 or LSHH-103 open'),
+    ('DrnDemand', 'Bool', 'Drain demand after TDRN_ON of high level'),
+    ('F_DrainTO', 'Bool', 'C04a: drain open too long, latched until RESET'),
+    ('F_LshFault', 'Bool', 'C04b: LSHH-103 without LSH-102, latched until RESET'),
+    ('Alm_PSH', 'Bool', 'HMI alarm C03'), ('Alm_LSH', 'Bool', 'HMI alarm C04'),
+    ('Alm_LSHH', 'Bool', 'HMI alarm C05'),
+    ('FirstOut', 'Int', 'C06a / 0007 D5: 0 none, 1 E-STOP, 2 PSH, 3 LSHH, 4 power-up'),
+] + [(n, 'Bool', c) for n, c in SCRUB_CAUSES]
 SCRUB_TON = ['T_DrnOn', 'T_DrnOff', 'T_DrnMax', 'T_LshFlt']
 
 
 def scrubber_fb():
-    healthy_reset = ('&', '#ResetPulse', '#PSH', '#LSHH', '#EStopOK')
+    healthy_reset = ('&', '#Reset', '#PSH', '#LSHH', '"Sys".EStopOK')
     nets = [
+        ('@ALARM', None),
         rung('C04 — LSH-102 high level alarm', ('!', '#LSH'), ('=', '#Alm_LSH')),
         rung('C03 — PSH-101 alarm', ('!', '#PSH'), ('=', '#Alm_PSH')),
         rung('C05 — LSHH-103 alarm', ('!', '#LSHH'), ('=', '#Alm_LSHH')),
+        ('@TRIP', None),
         rung('C03 / C05 / C01 — RESET once every cause is gone',
              healthy_reset, ('R', '#Tripped'), ('R', '#FlareTrip')),
         rung('S-01 / C01 / C03 / C05 — suction trip (also at power-up)',
-             ('|', ('!', '#PSH'), ('!', '#LSHH'), ('!', '#EStopOK'), '#FirstScan'),
+             ('|', ('!', '#PSH'), ('!', '#LSHH'), ('!', '"Sys".EStopOK'), '"Sys".FirstScan'),
              ('S', '#Tripped')),
         rung('S-01 / C01 / C03 — flare trip (also at power-up); LSHH does not open the flare',
-             ('|', ('!', '#PSH'), ('!', '#EStopOK'), '#FirstScan'),
+             ('|', ('!', '#PSH'), ('!', '"Sys".EStopOK'), '"Sys".FirstScan'),
              ('S', '#FlareTrip')),
         rung('E5 — XV-401 flare (NO) energised = closed while no flare trip',
              ('!', '#FlareTrip'), ('=', '#FlareCmd')),
@@ -432,29 +437,33 @@ def scrubber_fb():
         rung('S-01 — HMI: no trip latched', ('&', ('!', '#Tripped'), ('!', '#FlareTrip')),
              ('=', '#ValvesNormal')),
         # ---- الدرين: بيمشي مع المستوى، مش ماسك مع التريب -----------------
+        ('@DRAIN', None),
         rung('C04 / C05 — high level: LSH-102 or LSHH-103 open',
              ('|', ('!', '#LSH'), ('!', '#LSHH')), ('=', '#LevelHigh')),
         rung('C04 — drain demand after TDRN_ON of high level',
-             ('&', '#LevelHigh', ('TON', '#T_DrnOn', '#TDrnOn')), ('S', '#DrnDemand')),
+             ('&', '#LevelHigh', ('TON', '#T_DrnOn', '"Par".TDrnOn_V')), ('S', '#DrnDemand')),
         rung('C04 — drain demand off after TDRN_OFF without high level',
-             ('&', ('!', '#LevelHigh'), ('TON', '#T_DrnOff', '#TDrnOff')), ('R', '#DrnDemand')),
+             ('&', ('!', '#LevelHigh'), ('TON', '#T_DrnOff', '"Par".TDrnOff_V')),
+             ('R', '#DrnDemand')),
         rung('C04a — drain open continuously for TDRN_MAX: close and alarm',
-             ('&', '#DrainCmd', ('TON', '#T_DrnMax', '#TDrnMax')), ('S', '#F_DrainTO')),
+             ('&', '#DrainCmd', ('TON', '#T_DrnMax', '"Par".TDrnMax_V')), ('S', '#F_DrainTO')),
         rung('C04a — RESET clears the drain timeout (drain follows level again)',
-             '#ResetPulse', ('R', '#F_DrainTO')),
+             '#Reset', ('R', '#F_DrainTO')),
         rung('E6 — XV-402 drain (NC) energised = open: demand, no E-STOP, no timeout',
-             ('&', '#DrnDemand', '#EStopOK', ('!', '#F_DrainTO')), ('=', '#DrainCmd')),
+             ('&', '#DrnDemand', '"Sys".EStopOK', ('!', '#F_DrainTO')), ('=', '#DrainCmd')),
+        ('@LSH', None),
         rung('C04b — LSHH-103 open while LSH-102 healthy for 5 s: LSH-102 fault',
              ('&', '#LSH', ('!', '#LSHH'), ('TON', '#T_LshFlt', 'T#5S')), ('S', '#F_LshFault')),
         rung('C04b — RESET clears the LSH-102 fault once the switches agree',
-             ('&', '#ResetPulse', ('|', ('!', '#LSH'), '#LSHH')), ('R', '#F_LshFault')),
+             ('&', '#Reset', ('|', ('!', '#LSH'), '#LSHH')), ('R', '#F_LshFault')),
+        ('@CAUSE', None),
     ]
     # C06a: التسجيل الأول، والمسح في الآخر يكسب.
     # Common بيمنع ResetPulse في FirstScan؛ ومفيش تسجيل بعد شبكة المسح.
-    causes = [('#Cause_EStop', ('!', '#EStopOK'), 'E-STOP'),
+    causes = [('#Cause_EStop', ('!', '"Sys".EStopOK'), 'E-STOP'),
               ('#Cause_PSH', ('!', '#PSH'), 'PSH-101'),
               ('#Cause_LSHH', ('!', '#LSHH'), 'LSHH-103'),
-              ('#Cause_PwrUp', '#FirstScan', 'power-up')]
+              ('#Cause_PwrUp', '"Sys".FirstScan', 'power-up')]
     for target, condition, text in causes:
         nets.append(rung('C06a / F44 / 0007 D5 — latch cause: ' + text,
                          condition, ('S', target)))
@@ -466,14 +475,20 @@ def scrubber_fb():
     nets.append(rung('C06a / F44 / 0007 D5 — healthy RESET clears all causes and first-out last',
                      healthy_reset,
                      *[('R', target) for target, _, _ in causes], ('MOVE', '0', '#FirstOut')))
+    # 0008: بادئة قسم في عنوان كل network — زي البيرنر.
+    tagged = []
+    tag = ''
+    for title, body in nets:
+        if title.startswith('@'):
+            tag = title[1:]
+            continue
+        tagged.append(('[%s] %s' % (tag, title) if tag else title, body))
+    nets = tagged
     iface = interface([
-        ('Input', [member(n, 'Bool', retain=None, comment=c) for n, c in SCRUB_IN] +
-         [member(n, 'Time', retain=None, comment=c) for n, c in SCRUB_PAR]),
-        ('Output', [member(n, 'Bool', retain=False, comment=c) for n, c in SCRUB_OUT + SCRUB_CAUSES] +
-         [member('FirstOut', 'Int', retain=False,
-                 comment='C06a / 0007 D5: 0 none, 1 E-STOP, 2 PSH, 3 LSHH, 4 power-up')]),
+        ('Input', [member(n, 'Bool', retain=None, comment=c) for n, c in SCRUB_IN]),
+        ('Output', [member(n, 'Bool', retain=False, comment=c) for n, c in SCRUB_OUT]),
         ('InOut', []),
-        ('Static', [member(n, t, retain=False) for n, t in SCRUB_STAT] +
+        ('Static', [member(n, t, retain=False, comment=c) for n, t, c in SCRUB_STAT] +
          [TON_FULL % t for t in SCRUB_TON]),
         ('Temp', []), ('Constant', [])])
     return code_block('SW.Blocks.FB', 'Scrubber', 2, iface, nets,
@@ -482,12 +497,10 @@ def scrubber_fb():
 
 def scrubber_db():
     iface = interface([
-        ('Input', [member(n, 'Bool', retain=False) for n, _ in SCRUB_IN] +
-         [member(n, 'Time', retain=False) for n, _ in SCRUB_PAR]),
-        ('Output', [member(n, 'Bool', retain=False) for n, _ in SCRUB_OUT + SCRUB_CAUSES] +
-         [member('FirstOut', 'Int', retain=False)]),
+        ('Input', [member(n, 'Bool', retain=False) for n, _ in SCRUB_IN]),
+        ('Output', [member(n, 'Bool', retain=False) for n, _ in SCRUB_OUT]),
         ('InOut', []),
-        ('Static', [member(n, t, retain=False) for n, t in SCRUB_STAT] +
+        ('Static', [member(n, t, retain=False) for n, t, _ in SCRUB_STAT] +
          [member(t, 'TON_TIME', short_ton=True) for t in SCRUB_TON])])
     return db_block('SW.Blocks.InstanceDB', 'Scrubber_DB', 5, iface, instance_of='Scrubber')
 
@@ -820,14 +833,11 @@ def burner_params(br):
 
 
 def main_ob():
-    scrub_io = ['"PSH_101"', '"LSH_102"', '"LSHH_103"', '"Sys".EStopOK', '"Sys".ResetPulse',
-                '"Sys".FirstScan']
-    scrub_par = ['"Par".%s_V' % n for n, _ in SCRUB_PAR]
+    scrub_io = ['"PSH_101"', '"LSH_102"', '"LSHH_103"', '"Sys".ResetPulse']
     nets = [
         call('decisions/0006 — Common: E-STOP latch, RESET edge, parameters', 'Common', 'FC'),
         call('C03 .. C06a — scrubber', 'Scrubber', 'FB', 'Scrubber_DB',
-             [(n, 'Input', 'Bool', op) for (n, _), op in zip(SCRUB_IN, scrub_io)] +
-             [(n, 'Input', 'Time', op) for (n, _), op in zip(SCRUB_PAR, scrub_par)]),
+             [(n, 'Input', 'Bool', op) for (n, _), op in zip(SCRUB_IN, scrub_io)]),
         call('C07* — BR01 / TK01', 'Burner', 'FB', 'BR01_DB', burner_params('BR01')),
         call('C08* — BR02 / TK02', 'Burner', 'FB', 'BR02_DB', burner_params('BR02')),
         call('E1 .. E7 — outputs', 'Outputs', 'FC'),

@@ -1,0 +1,14 @@
+PASS Burner 47 ladder graphs equivalent with documented input substitutions
+PASS Scrubber 26 ladder graphs equivalent with documented input substitutions
+PASS Common 27 ladder graphs equivalent with documented input substitutions
+PASS Outputs 7 ladder graphs equivalent with documented input substitutions
+PASS HmiMap 22 ladder graphs equivalent with documented input substitutions
+PASS Startup 1 ladder graphs equivalent with documented input substitutions
+PASS Burner interface 10 / 2
+PASS Scrubber interface 4 / 3
+PASS BR01_DB Use24h true
+PASS BR02_DB Use24h false
+PASS Main input wiring Scrubber_DB 4
+PASS Main input wiring BR01_DB 10
+PASS Main input wiring BR02_DB 10
+PASS: interfaces-only verification
