@@ -15,34 +15,17 @@
     <Member Name="Auto" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
     <Member Name="StartPB" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
     <Member Name="StopOK" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
+    <Member Name="Reset" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
     <Member Name="LevelOK" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
     <Member Name="RunFb" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
     <Member Name="Lockout" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
     <Member Name="Fuel" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
     <Member Name="TeA" Datatype="Int" Remanence="NonRetain" Accessibility="Public" />
     <Member Name="TeB" Datatype="Int" Remanence="NonRetain" Accessibility="Public" />
-    <Member Name="Use24h" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
-    <Member Name="EStopOK" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
-    <Member Name="ResetPulse" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
-    <Member Name="FirstScan" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
-    <Member Name="SP" Datatype="Int" Remanence="NonRetain" Accessibility="Public" />
-    <Member Name="HYST" Datatype="Int" Remanence="NonRetain" Accessibility="Public" />
-    <Member Name="STG" Datatype="Int" Remanence="NonRetain" Accessibility="Public" />
-    <Member Name="TStart" Datatype="Time" Remanence="NonRetain" Accessibility="Public" />
   </Section>
   <Section Name="Output">
     <Member Name="HeatReq" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
     <Member Name="Stage2" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
-    <Member Name="State" Datatype="Int" Remanence="NonRetain" Accessibility="Public" />
-    <Member Name="Enabled" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
-    <Member Name="Tmax" Datatype="Int" Remanence="NonRetain" Accessibility="Public" />
-    <Member Name="F_EStop" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
-    <Member Name="F_TC" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
-    <Member Name="F_Lockout" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
-    <Member Name="F_NoStart" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
-    <Member Name="F_RunLost" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
-    <Member Name="F_RunWrong" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
-    <Member Name="ParPending" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
   </Section>
   <Section Name="InOut" />
   <Section Name="Static">
@@ -72,6 +55,17 @@
     <Member Name="TOn" Datatype="Int" Remanence="NonRetain" Accessibility="Public" />
     <Member Name="TStg" Datatype="Int" Remanence="NonRetain" Accessibility="Public" />
     <Member Name="TStgOff" Datatype="Int" Remanence="NonRetain" Accessibility="Public" />
+    <Member Name="State" Datatype="Int" Remanence="NonRetain" Accessibility="Public" />
+    <Member Name="Enabled" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
+    <Member Name="Tmax" Datatype="Int" Remanence="NonRetain" Accessibility="Public" />
+    <Member Name="F_EStop" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
+    <Member Name="F_TC" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
+    <Member Name="F_Lockout" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
+    <Member Name="F_NoStart" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
+    <Member Name="F_RunLost" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
+    <Member Name="F_RunWrong" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
+    <Member Name="ParPending" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
+    <Member Name="Use24h" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><StartValue>true</StartValue></Member>
     <Member Name="T_PwrUp" Datatype="TON_TIME" Remanence="NonRetain" Accessibility="Public" />
     <Member Name="T_TcBad" Datatype="TON_TIME" Remanence="NonRetain" Accessibility="Public" />
     <Member Name="T_24h" Datatype="TON_TIME" Remanence="NonRetain" Accessibility="Public" />

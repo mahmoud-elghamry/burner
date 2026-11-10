@@ -499,34 +499,17 @@ BR_IN = [
     ('Auto', 'Bool', 'AUTO/MAN selector, 1 = AUTO'),
     ('StartPB', 'Bool', 'START push button (NO)'),
     ('StopOK', 'Bool', 'STOP push button (NC): 1 = released'),
+    ('Reset', 'Bool', 'RESET push button, one scan (Sys.ResetPulse)'),
     ('LevelOK', 'Bool', 'Tank LSL reached (C07a)'),
     ('RunFb', 'Bool', 'Burner RUN feedback'),
     ('Lockout', 'Bool', 'Burner lockout signal (C07e)'),
     ('Fuel', 'Bool', 'Fuel mode (BR02 Rfuel2, R-12); FALSE for BR01'),
     ('TeA', 'Int', 'Thermocouple A raw, 0.1 degC'),
     ('TeB', 'Int', 'Thermocouple B raw, 0.1 degC'),
-    ('Use24h', 'Bool', '24 h forced stop enabled (C07h, BR01 only)'),
-    ('EStopOK', 'Bool', 'Sys.EStopOK'),
-    ('ResetPulse', 'Bool', 'Sys.ResetPulse'),
-    ('FirstScan', 'Bool', 'Sys.FirstScan'),
-    ('SP', 'Int', 'Par.SP_V'),
-    ('HYST', 'Int', 'Par.HYST_V'),
-    ('STG', 'Int', 'Par.STG_V'),
-    ('TStart', 'Time', 'Par.TStart_V'),
 ]
 BR_OUT = [
     ('HeatReq', 'Bool', 'Heat request TL / L (E1 / E3)'),
     ('Stage2', 'Bool', '2nd stage TR / T2 (E2 / E4)'),
-    ('State', 'Int', '0 IDLE, 1 STARTING, 2 RUNNING, 3 FAULT'),
-    ('Enabled', 'Bool', 'START given and not taken back (B-01)'),
-    ('Tmax', 'Int', 'Higher of the two thermocouples, 0.1 degC'),
-    ('F_EStop', 'Bool', 'Fault C01'),
-    ('F_TC', 'Bool', 'Fault C0xd thermocouple'),
-    ('F_Lockout', 'Bool', 'Fault C0xe lockout'),
-    ('F_NoStart', 'Bool', 'Fault C0xf failed to start'),
-    ('F_RunLost', 'Bool', 'Fault C0xg stopped by itself'),
-    ('F_RunWrong', 'Bool', 'Fault R-09 RUN without request'),
-    ('ParPending', 'Bool', 'R-11 / D6 / 0007: a validated entry differs from its active copy'),
 ]
 BR_STAT = [
     ('StartEdge', 'Bool'), ('StartMem', 'Bool'), ('AutoChg', 'Bool'), ('AutoMem', 'Bool'),
@@ -535,6 +518,12 @@ BR_STAT = [
     ('Ready', 'Bool'), ('Active', 'Bool'), ('Pause24', 'Bool'), ('RunWrong', 'Bool'),
     ('NoStart', 'Bool'), ('PwrUpDone', 'Bool'), ('TcSlow', 'Bool'), ('SP_Act', 'Int'), ('HYST_Act', 'Int'), ('STG_Act', 'Int'),
     ('TStart_Act', 'Time'), ('TOn', 'Int'), ('TStg', 'Int'), ('TStgOff', 'Int'),
+    # Diagnostics stay in the DB for the HMI and alarms, but are no longer
+    # visible pins on the OB1 call (2026-11-11, manager's simplification).
+    ('State', 'Int'), ('Enabled', 'Bool'), ('Tmax', 'Int'),
+    ('F_EStop', 'Bool'), ('F_TC', 'Bool'), ('F_Lockout', 'Bool'),
+    ('F_NoStart', 'Bool'), ('F_RunLost', 'Bool'), ('F_RunWrong', 'Bool'),
+    ('ParPending', 'Bool'), ('Use24h', 'Bool'),
 ]
 BR_TON = ['T_PwrUp', 'T_TcBad', 'T_24h', 'T_Pause', 'T_RunOff', 'T_Start']
 
@@ -549,8 +538,8 @@ def burner_fb():
     active = ('|', st(STARTING), st(RUNNING))
     nets = [
         # ---- الزراير ------------------------------------------------------
-        rung('R-05 — START edge: not on first scan, only after seen released, STOP wins',
-             ('&', '#StartPB', ('!', '#StartMem'), ('!', '#FirstScan'), '#StopOK'),
+        rung('R-05 - START edge: not on first scan, only after seen released, STOP wins',
+             ('&', '#StartPB', ('!', '#StartMem'), ('!', '"Sys".FirstScan'), '#StopOK'),
              ('=', '#StartEdge')),
         rung('R-05 — START edge memory', '#StartPB', ('=', '#StartMem')),
         rung('R-02 — AUTO/MAN changed',
@@ -570,8 +559,8 @@ def burner_fb():
              ('=', '#TcOkB')),
         rung('C0xd — both channels valid, each checked before MAX', ('&', '#TcOkA', '#TcOkB'),
              ('=', '#TcOk')),
-        rung('R-10 — power-up window (TC card calibrating) is over after 10 s',
-             ('&', ('!', '#FirstScan'), ('TON', '#T_PwrUp', 'T#10S')), ('=', '#PwrUpDone')),
+        rung('R-10 - power-up window (TC card calibrating) is over after 10 s',
+             ('&', ('!', '"Sys".FirstScan'), ('TON', '#T_PwrUp', 'T#10S')), ('=', '#PwrUpDone')),
         # مراجعة 2026-10-28: المهلة كانت دايمًا، فسلك سايب أقل من 10 ث كان بيوقّف
         # ويولّع من غير عطل. دلوقتي المهلة بعد رجوع الكهربا بس (R-10)، وبعدها فوري.
         # تايمر جوه فرع توازي مش مسموح ("network is not supported")، فرانجين.
@@ -585,21 +574,21 @@ def burner_fb():
         rung('C0xb — temperature = higher channel (B)', ('Lt', 'Int', '#TeA', '#TeB'),
              ('MOVE', '#TeB', '#Tmax')),
         # ---- الأرقام ------------------------------------------------------
-        rung('R-11 / D6 / 0007 — not Enabled: take all four parameters', ('!', '#Enabled'),
-             ('MOVE', '#SP', '#SP_Act'), ('MOVE', '#HYST', '#HYST_Act'),
-             ('MOVE', '#STG', '#STG_Act'),
-             ('MOVE', '#TStart', '#TStart_Act')),
-        rung('R-11 / D6 / 0007 — not Active: take TStart', ('!', '#Active'),
-             ('MOVE', '#TStart', '#TStart_Act')),
-        rung('R-11 / D6 / 0007 — lower SP applies at once', ('Le', 'Int', '#SP', '#SP_Act'),
-             ('MOVE', '#SP', '#SP_Act')),
-        rung('R-11 / D6 / 0007 — higher HYST applies at once',
-             ('Ge', 'Int', '#HYST', '#HYST_Act'), ('MOVE', '#HYST', '#HYST_Act')),
-        rung('R-11 / D6 / 0007 — higher STG (less 2nd stage) applies at once',
-             ('Ge', 'Int', '#STG', '#STG_Act'), ('MOVE', '#STG', '#STG_Act')),
-        rung('R-11 / D6 / 0007 — pending while any entry differs from its active copy',
-             ('|', ('Ne', 'Int', '#SP', '#SP_Act'), ('Ne', 'Int', '#HYST', '#HYST_Act'),
-              ('Ne', 'Int', '#STG', '#STG_Act'), ('Ne', 'Time', '#TStart', '#TStart_Act')),
+        rung('R-11 / D6 / 0007 - not Enabled: take all four parameters', ('!', '#Enabled'),
+             ('MOVE', '"Par".SP_V', '#SP_Act'), ('MOVE', '"Par".HYST_V', '#HYST_Act'),
+             ('MOVE', '"Par".STG_V', '#STG_Act'),
+             ('MOVE', '"Par".TStart_V', '#TStart_Act')),
+        rung('R-11 / D6 / 0007 - not Active: take TStart', ('!', '#Active'),
+             ('MOVE', '"Par".TStart_V', '#TStart_Act')),
+        rung('R-11 / D6 / 0007 - lower SP applies at once', ('Le', 'Int', '"Par".SP_V', '#SP_Act'),
+             ('MOVE', '"Par".SP_V', '#SP_Act')),
+        rung('R-11 / D6 / 0007 - higher HYST applies at once',
+             ('Ge', 'Int', '"Par".HYST_V', '#HYST_Act'), ('MOVE', '"Par".HYST_V', '#HYST_Act')),
+        rung('R-11 / D6 / 0007 - higher STG (less 2nd stage) applies at once',
+             ('Ge', 'Int', '"Par".STG_V', '#STG_Act'), ('MOVE', '"Par".STG_V', '#STG_Act')),
+        rung('R-11 / D6 / 0007 - pending while any entry differs from its active copy',
+             ('|', ('Ne', 'Int', '"Par".SP_V', '#SP_Act'), ('Ne', 'Int', '"Par".HYST_V', '#HYST_Act'),
+              ('Ne', 'Int', '"Par".STG_V', '#STG_Act'), ('Ne', 'Time', '"Par".TStart_V', '#TStart_Act')),
              ('=', '#ParPending')),
         rung('C0xb / C0xc — restart and 2nd-stage limits', None,
              ('SUB', 'Int', '#SP_Act', '#HYST_Act', '#TOn'),
@@ -615,8 +604,8 @@ def burner_fb():
                              ('&', ('!', '#Auto'), ('Lt', 'Int', '#Tmax', '#SP_Act')))),
              ('=', '#HeatNeed')),
         # ---- الشروط والتايمرات ----------------------------------------------
-        rung('C0xa / C0xd / C01 / C0xe / C07h — ready to fire',
-             ('&', '#LevelOK', '#TcOk', '#EStopOK', ('!', '#Lockout'), ('!', '#Pause24')),
+        rung('C0xa / C0xd / C01 / C0xe / C07h - ready to fire',
+             ('&', '#LevelOK', '#TcOk', '"Sys".EStopOK', ('!', '#Lockout'), ('!', '#Pause24')),
              ('=', '#Ready')),
         rung('C07h / R-08 — 24 h of continuous request: forced stop',
              ('&', '#Use24h', '#Active', ('TON', '#T_24h', 'T#24H')), ('S', '#Pause24')),
@@ -655,12 +644,12 @@ def burner_fb():
         # بيرجّعوا IDLE والسماح لسه موجود، فالبيرنر يولّع تاني من غير START جديد (B-02).
         rung('B-02 — FAULT takes the START back (before RESET, D-09)', st(FAULT),
              ('R', '#Enabled')),
-        rung('R-06 / R-07 — RESET leaves FAULT only when every cause is gone',
-             ('&', st(FAULT), '#ResetPulse', '#EStopOK', ('!', '#Lockout'), '#TcOk',
+        rung('R-06 / R-07 - RESET leaves FAULT only when every cause is gone',
+             ('&', st(FAULT), '#Reset', '"Sys".EStopOK', ('!', '#Lockout'), '#TcOk',
               ('!', '#RunFb')),
              ('MOVE', IDLE, '#State'), ('R', '#F_EStop'), ('R', '#F_TC'), ('R', '#F_Lockout'),
              ('R', '#F_NoStart'), ('R', '#F_RunLost'), ('R', '#F_RunWrong')),
-        rung('C01 — E-STOP', ('!', '#EStopOK'), ('MOVE', FAULT, '#State'), ('S', '#F_EStop')),
+        rung('C01 - E-STOP', ('!', '"Sys".EStopOK'), ('MOVE', FAULT, '#State'), ('S', '#F_EStop')),
         rung('C0xe — burner lockout', '#Lockout', ('MOVE', FAULT, '#State'),
              ('S', '#F_Lockout')),
         rung('C0xd — thermocouple fault', '#TcBad', ('MOVE', FAULT, '#State'), ('S', '#F_TC')),
@@ -684,13 +673,16 @@ def burner_fb():
                       comment='One burner, docs/التشغيل.md §2 and decisions/0006')
 
 
-def burner_db(name, number):
+def burner_db(name, number, use24h=False):
+    stat = [member(n, t, retain=False,
+                   start=('true' if use24h else 'false') if n == 'Use24h' else None)
+            for n, t in BR_STAT]
+    stat += [member(t, 'TON_TIME', short_ton=True) for t in BR_TON]
     iface = interface([
         ('Input', [member(n, t, retain=False) for n, t, _ in BR_IN]),
         ('Output', [member(n, t, retain=False) for n, t, _ in BR_OUT]),
         ('InOut', []),
-        ('Static', [member(n, t, retain=False) for n, t in BR_STAT] +
-         [member(t, 'TON_TIME', short_ton=True) for t in BR_TON])])
+        ('Static', stat)])
     return db_block('SW.Blocks.InstanceDB', name, number, iface, instance_of='Burner')
 
 
@@ -817,14 +809,13 @@ def startup_ob():
 
 def burner_params(br):
     if br == 'BR01':
-        io = ['"S4_BR01_Auto"', '"S1_BR01_Start"', '"S3_BR01_Stop"', '"LSL_TK01"',
-              '"BR01_Run"', '"BR01_Fault"', 'FALSE', '"TE_501_Raw"', '"TE_502_Raw"', 'TRUE']
+        io = ['"S4_BR01_Auto"', '"S1_BR01_Start"', '"S3_BR01_Stop"', '"Sys".ResetPulse',
+              '"LSL_TK01"', '"BR01_Run"', '"BR01_Fault"', 'FALSE',
+              '"TE_501_Raw"', '"TE_502_Raw"']
     else:
-        io = ['"S5_BR02_Auto"', '"S6_BR02_Start"', '"S7_BR02_Stop"', '"LSL_TK02"',
-              '"BR02_Run"', '"BR02_Fault"', '"Rfuel2_BR02_DieselMode"', '"TE_503_Raw"',
-              '"TE_504_Raw"', 'FALSE']
-    io += ['"Sys".EStopOK', '"Sys".ResetPulse', '"Sys".FirstScan',
-           '"Par".SP_V', '"Par".HYST_V', '"Par".STG_V', '"Par".TStart_V']
+        io = ['"S5_BR02_Auto"', '"S6_BR02_Start"', '"S7_BR02_Stop"', '"Sys".ResetPulse',
+              '"LSL_TK02"', '"BR02_Run"', '"BR02_Fault"', '"Rfuel2_BR02_DieselMode"',
+              '"TE_503_Raw"', '"TE_504_Raw"']
     return [(n, 'Input', t, op) for (n, t, _), op in zip(BR_IN, io)]
 
 
@@ -860,7 +851,7 @@ BLOCKS = [
     ('Common.xml', common_fc),
     ('Scrubber.xml', scrubber_fb), ('Scrubber_DB.xml', scrubber_db),
     ('Burner.xml', burner_fb),
-    ('BR01_DB.xml', lambda: burner_db('BR01_DB', 3)),
+    ('BR01_DB.xml', lambda: burner_db('BR01_DB', 3, use24h=True)),
     ('BR02_DB.xml', lambda: burner_db('BR02_DB', 4)),
     ('Outputs.xml', outputs_fc),
     ('HmiMap.xml', hmi_map_fc),

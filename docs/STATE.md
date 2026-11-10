@@ -1,4 +1,4 @@
-# الحالة — 2026-11-03
+# الحالة — 2026-11-11
 
 التاريخ القديم للملف ده في git والأدلة في `docs/evidence/`. هنا الوضع الحالي بس.
 
@@ -9,7 +9,7 @@
 | قراية المدخلات (الرسم، وورقة الحرارة، والإيميل، والكتالوجات) | `inputs/` | `evidence/2026-10-26-inputs-read.md`، و`2026-10-27-original-sources-review.md` |
 | **الـ C&E Rev. A**: 27 صف (`C01`…`C08g`، و`C04a`/`C04b`/`C06a`)، وParameters (8)، وIO List (31 نقطة). **الدرين NC وكل حساس بيحرّك صمامه** (اجتماع 2026-11-02) | `deliverables/PH-LCP-01-CE_RevA.xlsx` من `tools/build_ce.py` | `evidence/2026-11-02-scrubber-drain-nc.md` |
 | **وصف التشغيل**: الأوضاع، وSTART/STOP، وRESET، والشاشة §5، والقواعد R-01…R-12 | `docs/التشغيل.md` | — |
-| القرارات 0001…0007 (0004 لسه proposed) | `docs/decisions/` | — |
+| القرارات 0001…0008 (0004 لسه proposed) | `docs/decisions/` | — |
 | **مشروع TIA**: CPU 1214C وكارت TC وكارت DI، وجدول التاجات `IO` (31) | `tia/Burner/` | `evidence/2026-10-27-tia-hardware-created.md` |
 | **البرنامج**: 13 بلوك (OB1 وOB100 وFC1…FC3 وFB1 وFB2 وDB1…DB6)، كومبايل 0 errors. Scrubber بالدرين NC اتعمله import 2026-11-02 | `tools/build_blocks.py` ← `build/blocks/` | `evidence/2026-11-02-plcsim-drain-nc.md` |
 | **PLCSIM**: 18 سيناريو PASS (83 خطوة) على البرنامج الحالي 2026-11-02، ومعاهم `T7b` للدرين. `T7d` (مهلة الدرين 10 د) بيتشغّل بالاسم | `tools/plcsim/run_scenarios.py` | `evidence/2026-11-02-plcsim-drain-nc.md` |
@@ -20,11 +20,12 @@
 **إنذارات الشاشة (0007 P6).** Openness V15.1 مالوش API لإنذارات أو مستخدمين Comfort (اتأكد من الـ DLL
 2026-11-02)، فالـ 22 إنذار (ومعاهم `C04a` و`C04b`) بيدخلوا بزرار Import في TIA من ملف Excel.
 الشكل من Export حقيقي (`build/alarms_sample.xlsx`): 21 Fault (`No Acknowledgement`) وWarning واحد (`Common.x4`، `Warnings`).
-نصوص الـ22 إنذار وInfo اتبسطوا للمشغّل يوم 11-03، من `tools/build_alarms.py` في `build/hmi/Alarms_LCP01.xlsx`؛ أقصى عنوان 36/40، وجدول §5 مطابق، وفحص docs طلع OK.
-الشرح (Info text) بقى **عربي مصري** للفني، والعنوان فضل إنجليزي (طلب المستخدم 11-03، `evidence/2026-11-03-alarm-info-arabic.md`)؛ **لسه:** نتأكد إن الشاشة بتعرض العربي صح، ومراجعة Astra للترجمة.
-الدليل: `evidence/2026-11-03-alarm-ui-plain-english.md`. **باقي TIA:** backup ثم Import بنفس IDs من غير حذف أولًا، وبعده export ومقارنة الـ22 صف.
-- الـ alarm view والألوان بالإيد (الاتنين ظاهرين ومن غير Ack)، ثم اختبار المحاكي؛ مفيش تحقق TIA للنصوص الجديدة هنا.
-- المستخدم `Engineer`، والصلاحية على حقول Settings.
+نصوص الـ22 إنذار وInfo اتبسطوا للمشغّل يوم 11-03، من `tools/build_alarms.py` في `build/hmi/Alarms_LCP01.xlsx`؛ أقصى عنوان 36/40، وجدول §5 مطابق، وفحص docs طلع OK. الشرح (Info text) بقى **عربي مصري** للفني، والعنوان فضل إنجليزي (طلب المستخدم 11-03، `evidence/2026-11-03-alarm-info-arabic.md`)؛ **لسه:** نتأكد إن الشاشة بتعرض العربي صح، ومراجعة Astra للترجمة.
+الدليل: `evidence/2026-11-03-alarm-ui-plain-english.md`. **باقي TIA:** backup ثم Import بنفس IDs من غير حذف أولًا، وبعده export ومقارنة الـ22 صف. الـ alarm view والألوان بالإيد (ظاهرين ومن غير Ack)، ثم اختبار المحاكي؛ مفيش تحقق TIA للنصوص. المستخدم `Engineer` والصلاحية على حقول Settings.
+
+**تبسيط نداء `Burner` (`0008`، 11-11):** الـ FB بقى **10 مداخل و2 مخارج فيزيائية** على `Main`؛ التشخيص و`Use24h` انتقلوا `Static` في `BR01_DB`/`BR02_DB`، و`Sys`/`Par` بتتقرا جوه الـ FB. **اتولّد XML بس — لسه محتاج import وكومبايل والـ18 سيناريو PLCSIM** (TIA كان مفتوح).
+
+**الشاشة الحقيقية V17 (`F52`):** `Start Center V17.0.0.7`، والماك مطابق لـ `.2`، والمشروع V15.1 — الحل OS update لصورة `CP_4_V15_1.fwf` (موجودة على الجهاز)؛ ولو رفضت، TIA V17.
 
 ## فاضل ⏳ (بالترتيب)
 

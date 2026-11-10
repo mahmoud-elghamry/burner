@@ -237,81 +237,39 @@
     </Access>
     <Access Scope="GlobalVariable" UId="26">
       <Symbol>
-        <Component Name="LSL_TK01" />
+        <Component Name="Sys" />
+        <Component Name="ResetPulse" />
       </Symbol>
     </Access>
     <Access Scope="GlobalVariable" UId="27">
       <Symbol>
-        <Component Name="BR01_Run" />
+        <Component Name="LSL_TK01" />
       </Symbol>
     </Access>
     <Access Scope="GlobalVariable" UId="28">
       <Symbol>
+        <Component Name="BR01_Run" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="29">
+      <Symbol>
         <Component Name="BR01_Fault" />
       </Symbol>
     </Access>
-    <Access Scope="LiteralConstant" UId="29">
+    <Access Scope="LiteralConstant" UId="30">
       <Constant>
         <ConstantType>Bool</ConstantType>
         <ConstantValue>FALSE</ConstantValue>
       </Constant>
     </Access>
-    <Access Scope="GlobalVariable" UId="30">
+    <Access Scope="GlobalVariable" UId="31">
       <Symbol>
         <Component Name="TE_501_Raw" />
       </Symbol>
     </Access>
-    <Access Scope="GlobalVariable" UId="31">
+    <Access Scope="GlobalVariable" UId="32">
       <Symbol>
         <Component Name="TE_502_Raw" />
-      </Symbol>
-    </Access>
-    <Access Scope="LiteralConstant" UId="32">
-      <Constant>
-        <ConstantType>Bool</ConstantType>
-        <ConstantValue>TRUE</ConstantValue>
-      </Constant>
-    </Access>
-    <Access Scope="GlobalVariable" UId="33">
-      <Symbol>
-        <Component Name="Sys" />
-        <Component Name="EStopOK" />
-      </Symbol>
-    </Access>
-    <Access Scope="GlobalVariable" UId="34">
-      <Symbol>
-        <Component Name="Sys" />
-        <Component Name="ResetPulse" />
-      </Symbol>
-    </Access>
-    <Access Scope="GlobalVariable" UId="35">
-      <Symbol>
-        <Component Name="Sys" />
-        <Component Name="FirstScan" />
-      </Symbol>
-    </Access>
-    <Access Scope="GlobalVariable" UId="36">
-      <Symbol>
-        <Component Name="Par" />
-        <Component Name="SP_V" />
-      </Symbol>
-    </Access>
-    <Access Scope="GlobalVariable" UId="37">
-      <Symbol>
-        <Component Name="Par" />
-        <Component Name="HYST_V" />
-      </Symbol>
-    </Access>
-    <Access Scope="GlobalVariable" UId="38">
-      <Symbol>
-        <Component Name="Par" />
-        <Component Name="STG_V" />
-      </Symbol>
-    </Access>
-    <Access Scope="GlobalVariable" UId="39">
-      <Symbol>
-        <Component Name="Par" />
-        <Component Name="TStart_V" />
       </Symbol>
     </Access>
     <Call UId="21">
@@ -322,95 +280,60 @@
           <Parameter Name="Auto" Section="Input" Type="Bool" />
           <Parameter Name="StartPB" Section="Input" Type="Bool" />
           <Parameter Name="StopOK" Section="Input" Type="Bool" />
+          <Parameter Name="Reset" Section="Input" Type="Bool" />
           <Parameter Name="LevelOK" Section="Input" Type="Bool" />
           <Parameter Name="RunFb" Section="Input" Type="Bool" />
           <Parameter Name="Lockout" Section="Input" Type="Bool" />
           <Parameter Name="Fuel" Section="Input" Type="Bool" />
           <Parameter Name="TeA" Section="Input" Type="Int" />
           <Parameter Name="TeB" Section="Input" Type="Int" />
-          <Parameter Name="Use24h" Section="Input" Type="Bool" />
-          <Parameter Name="EStopOK" Section="Input" Type="Bool" />
-          <Parameter Name="ResetPulse" Section="Input" Type="Bool" />
-          <Parameter Name="FirstScan" Section="Input" Type="Bool" />
-          <Parameter Name="SP" Section="Input" Type="Int" />
-          <Parameter Name="HYST" Section="Input" Type="Int" />
-          <Parameter Name="STG" Section="Input" Type="Int" />
-          <Parameter Name="TStart" Section="Input" Type="Time" />
       </CallInfo>
     </Call>
   </Parts>
   <Wires>
-    <Wire UId="40">
+    <Wire UId="33">
       <Powerrail />
       <NameCon UId="21" Name="en" />
     </Wire>
-    <Wire UId="41">
+    <Wire UId="34">
       <IdentCon UId="23" />
       <NameCon UId="21" Name="Auto" />
     </Wire>
-    <Wire UId="42">
+    <Wire UId="35">
       <IdentCon UId="24" />
       <NameCon UId="21" Name="StartPB" />
     </Wire>
-    <Wire UId="43">
+    <Wire UId="36">
       <IdentCon UId="25" />
       <NameCon UId="21" Name="StopOK" />
     </Wire>
-    <Wire UId="44">
+    <Wire UId="37">
       <IdentCon UId="26" />
+      <NameCon UId="21" Name="Reset" />
+    </Wire>
+    <Wire UId="38">
+      <IdentCon UId="27" />
       <NameCon UId="21" Name="LevelOK" />
     </Wire>
-    <Wire UId="45">
-      <IdentCon UId="27" />
+    <Wire UId="39">
+      <IdentCon UId="28" />
       <NameCon UId="21" Name="RunFb" />
     </Wire>
-    <Wire UId="46">
-      <IdentCon UId="28" />
+    <Wire UId="40">
+      <IdentCon UId="29" />
       <NameCon UId="21" Name="Lockout" />
     </Wire>
-    <Wire UId="47">
-      <IdentCon UId="29" />
+    <Wire UId="41">
+      <IdentCon UId="30" />
       <NameCon UId="21" Name="Fuel" />
     </Wire>
-    <Wire UId="48">
-      <IdentCon UId="30" />
+    <Wire UId="42">
+      <IdentCon UId="31" />
       <NameCon UId="21" Name="TeA" />
     </Wire>
-    <Wire UId="49">
-      <IdentCon UId="31" />
-      <NameCon UId="21" Name="TeB" />
-    </Wire>
-    <Wire UId="50">
+    <Wire UId="43">
       <IdentCon UId="32" />
-      <NameCon UId="21" Name="Use24h" />
-    </Wire>
-    <Wire UId="51">
-      <IdentCon UId="33" />
-      <NameCon UId="21" Name="EStopOK" />
-    </Wire>
-    <Wire UId="52">
-      <IdentCon UId="34" />
-      <NameCon UId="21" Name="ResetPulse" />
-    </Wire>
-    <Wire UId="53">
-      <IdentCon UId="35" />
-      <NameCon UId="21" Name="FirstScan" />
-    </Wire>
-    <Wire UId="54">
-      <IdentCon UId="36" />
-      <NameCon UId="21" Name="SP" />
-    </Wire>
-    <Wire UId="55">
-      <IdentCon UId="37" />
-      <NameCon UId="21" Name="HYST" />
-    </Wire>
-    <Wire UId="56">
-      <IdentCon UId="38" />
-      <NameCon UId="21" Name="STG" />
-    </Wire>
-    <Wire UId="57">
-      <IdentCon UId="39" />
-      <NameCon UId="21" Name="TStart" />
+      <NameCon UId="21" Name="TeB" />
     </Wire>
   </Wires>
 </FlgNet></NetworkSource>
@@ -460,80 +383,38 @@
     </Access>
     <Access Scope="GlobalVariable" UId="26">
       <Symbol>
-        <Component Name="LSL_TK02" />
-      </Symbol>
-    </Access>
-    <Access Scope="GlobalVariable" UId="27">
-      <Symbol>
-        <Component Name="BR02_Run" />
-      </Symbol>
-    </Access>
-    <Access Scope="GlobalVariable" UId="28">
-      <Symbol>
-        <Component Name="BR02_Fault" />
-      </Symbol>
-    </Access>
-    <Access Scope="GlobalVariable" UId="29">
-      <Symbol>
-        <Component Name="Rfuel2_BR02_DieselMode" />
-      </Symbol>
-    </Access>
-    <Access Scope="GlobalVariable" UId="30">
-      <Symbol>
-        <Component Name="TE_503_Raw" />
-      </Symbol>
-    </Access>
-    <Access Scope="GlobalVariable" UId="31">
-      <Symbol>
-        <Component Name="TE_504_Raw" />
-      </Symbol>
-    </Access>
-    <Access Scope="LiteralConstant" UId="32">
-      <Constant>
-        <ConstantType>Bool</ConstantType>
-        <ConstantValue>FALSE</ConstantValue>
-      </Constant>
-    </Access>
-    <Access Scope="GlobalVariable" UId="33">
-      <Symbol>
-        <Component Name="Sys" />
-        <Component Name="EStopOK" />
-      </Symbol>
-    </Access>
-    <Access Scope="GlobalVariable" UId="34">
-      <Symbol>
         <Component Name="Sys" />
         <Component Name="ResetPulse" />
       </Symbol>
     </Access>
-    <Access Scope="GlobalVariable" UId="35">
+    <Access Scope="GlobalVariable" UId="27">
       <Symbol>
-        <Component Name="Sys" />
-        <Component Name="FirstScan" />
+        <Component Name="LSL_TK02" />
       </Symbol>
     </Access>
-    <Access Scope="GlobalVariable" UId="36">
+    <Access Scope="GlobalVariable" UId="28">
       <Symbol>
-        <Component Name="Par" />
-        <Component Name="SP_V" />
+        <Component Name="BR02_Run" />
       </Symbol>
     </Access>
-    <Access Scope="GlobalVariable" UId="37">
+    <Access Scope="GlobalVariable" UId="29">
       <Symbol>
-        <Component Name="Par" />
-        <Component Name="HYST_V" />
+        <Component Name="BR02_Fault" />
       </Symbol>
     </Access>
-    <Access Scope="GlobalVariable" UId="38">
+    <Access Scope="GlobalVariable" UId="30">
       <Symbol>
-        <Component Name="Par" />
-        <Component Name="STG_V" />
+        <Component Name="Rfuel2_BR02_DieselMode" />
       </Symbol>
     </Access>
-    <Access Scope="GlobalVariable" UId="39">
+    <Access Scope="GlobalVariable" UId="31">
       <Symbol>
-        <Component Name="Par" />
-        <Component Name="TStart_V" />
+        <Component Name="TE_503_Raw" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="32">
+      <Symbol>
+        <Component Name="TE_504_Raw" />
       </Symbol>
     </Access>
     <Call UId="21">
@@ -544,95 +425,60 @@
           <Parameter Name="Auto" Section="Input" Type="Bool" />
           <Parameter Name="StartPB" Section="Input" Type="Bool" />
           <Parameter Name="StopOK" Section="Input" Type="Bool" />
+          <Parameter Name="Reset" Section="Input" Type="Bool" />
           <Parameter Name="LevelOK" Section="Input" Type="Bool" />
           <Parameter Name="RunFb" Section="Input" Type="Bool" />
           <Parameter Name="Lockout" Section="Input" Type="Bool" />
           <Parameter Name="Fuel" Section="Input" Type="Bool" />
           <Parameter Name="TeA" Section="Input" Type="Int" />
           <Parameter Name="TeB" Section="Input" Type="Int" />
-          <Parameter Name="Use24h" Section="Input" Type="Bool" />
-          <Parameter Name="EStopOK" Section="Input" Type="Bool" />
-          <Parameter Name="ResetPulse" Section="Input" Type="Bool" />
-          <Parameter Name="FirstScan" Section="Input" Type="Bool" />
-          <Parameter Name="SP" Section="Input" Type="Int" />
-          <Parameter Name="HYST" Section="Input" Type="Int" />
-          <Parameter Name="STG" Section="Input" Type="Int" />
-          <Parameter Name="TStart" Section="Input" Type="Time" />
       </CallInfo>
     </Call>
   </Parts>
   <Wires>
-    <Wire UId="40">
+    <Wire UId="33">
       <Powerrail />
       <NameCon UId="21" Name="en" />
     </Wire>
-    <Wire UId="41">
+    <Wire UId="34">
       <IdentCon UId="23" />
       <NameCon UId="21" Name="Auto" />
     </Wire>
-    <Wire UId="42">
+    <Wire UId="35">
       <IdentCon UId="24" />
       <NameCon UId="21" Name="StartPB" />
     </Wire>
-    <Wire UId="43">
+    <Wire UId="36">
       <IdentCon UId="25" />
       <NameCon UId="21" Name="StopOK" />
     </Wire>
-    <Wire UId="44">
+    <Wire UId="37">
       <IdentCon UId="26" />
+      <NameCon UId="21" Name="Reset" />
+    </Wire>
+    <Wire UId="38">
+      <IdentCon UId="27" />
       <NameCon UId="21" Name="LevelOK" />
     </Wire>
-    <Wire UId="45">
-      <IdentCon UId="27" />
+    <Wire UId="39">
+      <IdentCon UId="28" />
       <NameCon UId="21" Name="RunFb" />
     </Wire>
-    <Wire UId="46">
-      <IdentCon UId="28" />
+    <Wire UId="40">
+      <IdentCon UId="29" />
       <NameCon UId="21" Name="Lockout" />
     </Wire>
-    <Wire UId="47">
-      <IdentCon UId="29" />
+    <Wire UId="41">
+      <IdentCon UId="30" />
       <NameCon UId="21" Name="Fuel" />
     </Wire>
-    <Wire UId="48">
-      <IdentCon UId="30" />
+    <Wire UId="42">
+      <IdentCon UId="31" />
       <NameCon UId="21" Name="TeA" />
     </Wire>
-    <Wire UId="49">
-      <IdentCon UId="31" />
-      <NameCon UId="21" Name="TeB" />
-    </Wire>
-    <Wire UId="50">
+    <Wire UId="43">
       <IdentCon UId="32" />
-      <NameCon UId="21" Name="Use24h" />
-    </Wire>
-    <Wire UId="51">
-      <IdentCon UId="33" />
-      <NameCon UId="21" Name="EStopOK" />
-    </Wire>
-    <Wire UId="52">
-      <IdentCon UId="34" />
-      <NameCon UId="21" Name="ResetPulse" />
-    </Wire>
-    <Wire UId="53">
-      <IdentCon UId="35" />
-      <NameCon UId="21" Name="FirstScan" />
-    </Wire>
-    <Wire UId="54">
-      <IdentCon UId="36" />
-      <NameCon UId="21" Name="SP" />
-    </Wire>
-    <Wire UId="55">
-      <IdentCon UId="37" />
-      <NameCon UId="21" Name="HYST" />
-    </Wire>
-    <Wire UId="56">
-      <IdentCon UId="38" />
-      <NameCon UId="21" Name="STG" />
-    </Wire>
-    <Wire UId="57">
-      <IdentCon UId="39" />
-      <NameCon UId="21" Name="TStart" />
+      <NameCon UId="21" Name="TeB" />
     </Wire>
   </Wires>
 </FlgNet></NetworkSource>
