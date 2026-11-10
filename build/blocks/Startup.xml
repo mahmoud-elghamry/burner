@@ -30,7 +30,7 @@
           <MultilingualTextItem ID="7" CompositionName="Items">
             <AttributeList>
               <Culture>en-US</Culture>
-              <Text>Startup OB (decisions/0006)</Text>
+              <Text>Sets the first-scan marker at startup; Main clears it after the first cycle.</Text>
             </AttributeList>
           </MultilingualTextItem>
         </ObjectList>
@@ -83,7 +83,7 @@
               <MultilingualTextItem ID="3" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text>Set the shared first-scan marker for startup handling; Main clears it after the first complete cycle. Reference: C02.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -93,7 +93,7 @@
               <MultilingualTextItem ID="5" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>C02 — power-up: first-scan flag (scrubber trips, burners need START)</Text>
+                  <Text>Mark the first program scan</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>

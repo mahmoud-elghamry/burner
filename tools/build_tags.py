@@ -8,6 +8,7 @@ import sys
 from datetime import datetime, timezone
 from pathlib import Path
 from xml.etree import ElementTree as ET
+from panel_text import IO_COMMENTS
 
 from openpyxl import load_workbook
 
@@ -189,7 +190,7 @@ def build_xml(tags: list[dict[str, str]]) -> ET.ElementTree:
         next_id += 1
         item_attributes = ET.SubElement(item_text, "AttributeList")
         ET.SubElement(item_attributes, "Culture").text = "en-US"
-        ET.SubElement(item_attributes, "Text").text = item["comment"]
+        ET.SubElement(item_attributes, "Text").text = IO_COMMENTS[item["name"]]
 
     return ET.ElementTree(document)
 

@@ -30,7 +30,7 @@
           <MultilingualTextItem ID="25" CompositionName="Items">
             <AttributeList>
               <Culture>en-US</Culture>
-              <Text>Calls the blocks in a fixed order; no logic here (decisions/0006)</Text>
+              <Text>Program sequence: common conditions, scrubber, both burners, outputs, then alarm display.</Text>
             </AttributeList>
           </MultilingualTextItem>
         </ObjectList>
@@ -59,7 +59,7 @@
               <MultilingualTextItem ID="3" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text>Common runs first so the later blocks use updated shared conditions. Reference: Operating specification / program sequence.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -69,7 +69,7 @@
               <MultilingualTextItem ID="5" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>decisions/0006 — Common: E-STOP latch, RESET edge, parameters</Text>
+                  <Text>Process E-STOP, RESET and settings</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -144,7 +144,7 @@
               <MultilingualTextItem ID="8" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text>Read PSH-101, LSH-102, LSHH-103 and RESET; update the trip before burner calls. Reference: C03 / C06a.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -154,7 +154,7 @@
               <MultilingualTextItem ID="A" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>C03 .. C06a — scrubber</Text>
+                  <Text>Control the scrubber</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -290,7 +290,7 @@
               <MultilingualTextItem ID="D" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text>Same Burner FB with BR01_DB; gas-only fuel input and daily-stop option configured for this burner. Reference: C07.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -300,7 +300,7 @@
               <MultilingualTextItem ID="F" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>C07* — BR01 / TK01</Text>
+                  <Text>Control burner BR01 on tank TK01</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -435,7 +435,7 @@
               <MultilingualTextItem ID="12" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text>Same Burner FB with independent BR02_DB; fuel comes from the BR02 selector. Reference: C08.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -445,7 +445,7 @@
               <MultilingualTextItem ID="14" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>C08* — BR02 / TK02</Text>
+                  <Text>Control burner BR02 on tank TK02</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -476,7 +476,7 @@
               <MultilingualTextItem ID="17" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text>Only Outputs writes physical Q tags; burner requests and scrubber commands are already calculated. Reference: E1 / E7.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -486,7 +486,7 @@
               <MultilingualTextItem ID="19" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>E1 .. E7 — outputs</Text>
+                  <Text>Write the physical outputs</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -517,7 +517,7 @@
               <MultilingualTextItem ID="1C" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text>Copy status into alarm words for display; this call does not trip equipment or acknowledge alarms. Reference: H-05.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -527,7 +527,7 @@
               <MultilingualTextItem ID="1E" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>0007 / H-05 — HMI alarms (writes HmiAlm only)</Text>
+                  <Text>Update the HMI alarm bits</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -580,7 +580,7 @@
               <MultilingualTextItem ID="21" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text>Clear FirstScan only after all blocks have used it. Reference: C02.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -590,7 +590,7 @@
               <MultilingualTextItem ID="23" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>C02 — first scan done</Text>
+                  <Text>Finish the first-scan processing</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>

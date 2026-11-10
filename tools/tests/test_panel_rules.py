@@ -66,7 +66,7 @@ def scan_common(memory):
 def memory(br1=False, br2=False):
     result = {'"Sys".' + n: False for n, _ in B.SYS}
     result.update({'"S0_EStopStatus"': True, '"S2_FaultReset"': False,
-                   '"Sys".EStopOK': True, '"BR01_DB".Enabled': br1, '"BR02_DB".Enabled': br2})
+                   '"Sys".EStopOK': True, '"BR01_DB".StartEnabled': br1, '"BR02_DB".StartEnabled': br2})
     for n, typ, default, low, high, comment in B.PARAMS:
         result['"Par".' + n] = value(default, {})
         result['"Par".' + n + '_V'] = value(default, {})
@@ -128,6 +128,18 @@ class BurnerPermissive(unittest.TestCase):
 
 
 class HmiContracts(unittest.TestCase):
+    def test_v15_fields_do_not_create_duplicate_info_text_entries(self):
+        # Seven generated nonempty IOField HelpTexts produced six V15.1
+        # duplicate-entry-order compile errors. Keep source descriptions on
+        # the tags and the visible ranges, outside this unsupported import path.
+        import build_hmi as H
+        for screen in [H.burner('BR01'), H.burner('BR02'), H.settings()]:
+            for field in ET.fromstring(screen.xml()).iter('Hmi.Screen.IOField'):
+                for text in field.findall('./ObjectList/MultilingualText'):
+                    if text.get('CompositionName') == 'HelpText':
+                        value = text.find('.//AttributeList/Text')
+                        self.assertFalse(''.join(value.itertext()).strip())
+
     def test_bindings_and_object_names_are_complete(self):
         import build_hmi as H
         names = {name for name, db, member in H.TAGS}
@@ -142,15 +154,32 @@ class HmiContracts(unittest.TestCase):
                 self.assertIn(name.text, names, screen.name)
         self.assertEqual(H.WRITABLE, {'Par_' + p[0] for p in B.PARAMS})
 
-    def test_fault_badges_use_existing_words_with_independent_bits(self):
+    def test_operator_lamps_distinguish_healthy_inputs_from_commands(self):
         import build_hmi as H
+        def lamps(screen):
+            result = {}
+            for obj in ET.fromstring(screen.xml()).iter('Hmi.Screen.Circle'):
+                animation = obj.find('./ObjectList/Hmi.Dynamic.RangeAppearanceAnimation')
+                if animation is None:
+                    continue  # A drawing circle is not an input/output indicator.
+                tag = animation.findtext('.//LinkList/Tag/Name')
+                result[tag] = {int(r.findtext('./AttributeList/LowerLimit')):
+                               r.findtext('./AttributeList/BackColor')
+                               for r in animation.findall('./ObjectList/Hmi.Dynamic.Range')}
+            return result
         for br in ['BR01', 'BR02']:
-            root = ET.fromstring(H.burner(br).xml())
-            bits = []
-            for animation in root.findall('.//Hmi.Dynamic.SingleBitVisibilityAnimation'):
-                if animation.findtext('.//LinkList/Tag/Name') == 'Alm_' + br:
-                    bits.append(int(animation.findtext('./AttributeList/BitPosition')))
-            self.assertEqual(sorted(bits), [0, 1, 2, 3, 4, 5, 7])
+            colors = lamps(H.burner(br))
+            for suffix in ['_LevelOK', '_TcOkA', '_TcOkB']:
+                self.assertEqual(colors[br + suffix], {0: H.RED, 1: H.GREEN})
+            for suffix in ['_RunFb', '_HeatReq', '_Stage2']:
+                self.assertEqual(colors[br + suffix], {0: H.GREY, 1: H.GREEN})
+            self.assertEqual(colors[br + '_Lockout'], {0: H.GREY, 1: H.RED})
+        colors = lamps(H.scrubber())
+        for tag in ['Scrub_PSH', 'Scrub_LSHH']:
+            self.assertEqual(colors[tag], {0: H.RED, 1: H.GREEN})
+        self.assertEqual(colors['Scrub_LSH'], {0: H.AMBER, 1: H.GREEN})
+        for tag in ['Scrub_FlareCmd', 'Scrub_DrainCmd', 'Scrub_SuctionCmd']:
+            self.assertEqual(colors[tag], {0: H.GREY, 1: H.GREEN})
 
     def test_alarm_words_are_continuous_and_ids_are_stable(self):
         import build_hmi as H

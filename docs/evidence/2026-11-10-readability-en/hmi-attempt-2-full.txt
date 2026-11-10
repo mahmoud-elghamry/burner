@@ -1,0 +1,180 @@
+HMI target: HMI_RT_1
+OK   Tags_LCP01.xml
+OK   Screen_Alarms.xml
+OK   Screen_BR01.xml
+OK   Screen_BR02.xml
+OK   Screen_Root_screen.xml
+OK   Screen_Scrubber.xml
+OK   Screen_Settings.xml
+HMI compile: state=Error errors=6 warnings=162
+  Error: HMI_1 
+    Warning:  Internal WARNING (detail: CollectScreenItemKeysWithZOrder(): instance screenitem {15732791-10093} not found).
+    Warning:  Internal WARNING (detail: CollectScreenItemKeysWithZOrder(): instance screenitem {15732791-10120} not found).
+    Warning:  Internal WARNING (detail: CollectScreenItemKeysWithZOrder(): instance screenitem {15732791-9528} not found).
+    Warning:  Internal WARNING (detail: CollectScreenItemKeysWithZOrder(): instance screenitem {15732791-9538} not found).
+    Warning:  Internal WARNING (detail: CollectScreenItemKeysWithZOrder(): instance screenitem {15732791-10139} not found).
+    Warning:  Internal WARNING (detail: CollectScreenItemKeysWithZOrder(): instance screenitem {15732791-10140} not found).
+    Warning:  Internal WARNING (detail: CollectScreenItemKeysWithZOrder(): instance screenitem {15732791-10141} not found).
+    Warning:  Internal WARNING (detail: CollectScreenItemKeysWithZOrder(): instance screenitem {15732791-9602} not found).
+    Warning:  Internal WARNING (detail: CollectScreenItemKeysWithZOrder(): instance screenitem {15732791-9587} not found).
+    Warning:  Internal WARNING (detail: CollectScreenItemKeysWithZOrder(): instance screenitem {15732791-9569} not found).
+    Warning:  Internal WARNING (detail: CollectScreenItemKeysWithZOrder(): instance screenitem {15732791-9578} not found).
+    Warning:  Internal WARNING (detail: CollectScreenItemKeysWithZOrder(): instance screenitem {15732791-9596} not found).
+    Warning:  Internal WARNING (detail: CollectScreenItemKeysWithZOrder(): instance screenitem {15732791-9611} not found).
+    Warning:  Internal WARNING (detail: CollectScreenItemKeysWithZOrder(): instance screenitem {15732791-10230} not found).
+    Warning:  Internal WARNING (detail: CollectScreenItemKeysWithZOrder(): instance screenitem {15732791-10257} not found).
+    Warning:  Internal WARNING (detail: CollectScreenItemKeysWithZOrder(): instance screenitem {15732791-9758} not found).
+    Warning:  Internal WARNING (detail: CollectScreenItemKeysWithZOrder(): instance screenitem {15732791-9768} not found).
+    Warning:  Internal WARNING (detail: CollectScreenItemKeysWithZOrder(): instance screenitem {15732791-9777} not found).
+    Warning:  Internal WARNING (detail: CollectScreenItemKeysWithZOrder(): instance screenitem {15732791-9815} not found).
+    Warning:  Internal WARNING (detail: CollectScreenItemKeysWithZOrder(): instance screenitem {15732791-9840} not found).
+    Warning:  Internal WARNING (detail: CollectScreenItemKeysWithZOrder(): instance screenitem {15732791-9865} not found).
+    Warning:  Internal WARNING (detail: CollectScreenItemKeysWithZOrder(): instance screenitem {15732791-10276} not found).
+    Warning:  Internal WARNING (detail: CollectScreenItemKeysWithZOrder(): instance screenitem {15732791-10279} not found).
+    Warning:  Internal WARNING (detail: CollectScreenItemKeysWithZOrder(): instance screenitem {15732791-10280} not found).
+    Warning:  Internal WARNING (detail: CollectScreenItemKeysWithZOrder(): instance screenitem {15732791-9606} not found).
+    Warning:  Internal WARNING (detail: CollectScreenItemKeysWithZOrder(): instance screenitem {15732791-9591} not found).
+    Warning:  Internal WARNING (detail: CollectScreenItemKeysWithZOrder(): instance screenitem {15732791-9573} not found).
+    Warning:  Internal WARNING (detail: CollectScreenItemKeysWithZOrder(): instance screenitem {15732791-9582} not found).
+    Warning:  Internal WARNING (detail: CollectScreenItemKeysWithZOrder(): instance screenitem {15732791-10293} not found).
+    Warning:  Internal WARNING (detail: CollectScreenItemKeysWithZOrder(): instance screenitem {15732791-10296} not found).
+    Warning:  Internal WARNING (detail: CollectScreenItemKeysWithZOrder(): instance screenitem {15732791-10297} not found).
+    Warning:  Internal WARNING (detail: CollectScreenItemKeysWithZOrder(): instance screenitem {15732791-9732} not found).
+    Warning:  Internal WARNING (detail: CollectScreenItemKeysWithZOrder(): instance screenitem {15732791-9717} not found).
+    Warning:  Internal WARNING (detail: CollectScreenItemKeysWithZOrder(): instance screenitem {15732791-9699} not found).
+    Warning:  Internal WARNING (detail: CollectScreenItemKeysWithZOrder(): instance screenitem {15732791-9708} not found).
+    Warning:  Internal WARNING (detail: CollectScreenItemKeysWithZOrder(): instance screenitem {15732791-10161} not found).
+    Warning:  Internal WARNING (detail: CollectScreenItemKeysWithZOrder(): instance screenitem {15732791-10188} not found).
+    Warning:  Internal WARNING (detail: CollectScreenItemKeysWithZOrder(): instance screenitem {15732791-9655} not found).
+    Warning:  Internal WARNING (detail: CollectScreenItemKeysWithZOrder(): instance screenitem {15732791-9665} not found).
+    Warning:  Internal WARNING (detail: CollectScreenItemKeysWithZOrder(): instance screenitem {15732791-10207} not found).
+    Warning:  Internal WARNING (detail: CollectScreenItemKeysWithZOrder(): instance screenitem {15732791-10208} not found).
+    Warning:  Internal WARNING (detail: CollectScreenItemKeysWithZOrder(): instance screenitem {15732791-10209} not found).
+    Warning:  Internal WARNING (detail: CollectScreenItemKeysWithZOrder(): instance screenitem {15732791-9728} not found).
+    Warning:  Internal WARNING (detail: CollectScreenItemKeysWithZOrder(): instance screenitem {15732791-9713} not found).
+    Warning:  Internal WARNING (detail: CollectScreenItemKeysWithZOrder(): instance screenitem {15732791-9695} not found).
+    Warning:  Internal WARNING (detail: CollectScreenItemKeysWithZOrder(): instance screenitem {15732791-9704} not found).
+    Warning:  Internal WARNING (detail: CollectScreenItemKeysWithZOrder(): instance screenitem {15732791-9722} not found).
+    Warning:  Internal WARNING (detail: CollectScreenItemKeysWithZOrder(): instance screenitem {15732791-9737} not found).
+    Warning:  Internal WARNING (detail: CollectScreenItemKeysWithZOrder(): instance screenitem {15732791-10317} not found).
+    Warning:  Internal WARNING (detail: CollectScreenItemKeysWithZOrder(): instance screenitem {15732791-10344} not found).
+    Warning:  Internal WARNING (detail: CollectScreenItemKeysWithZOrder(): instance screenitem {15732791-9762} not found).
+    Warning:  Internal WARNING (detail: CollectScreenItemKeysWithZOrder(): instance screenitem {15732791-9772} not found).
+    Warning:  Internal WARNING (detail: CollectScreenItemKeysWithZOrder(): instance screenitem {15732791-9781} not found).
+    Warning:  Internal WARNING (detail: CollectScreenItemKeysWithZOrder(): instance screenitem {15732791-9981} not found).
+    Warning:  Internal WARNING (detail: CollectScreenItemKeysWithZOrder(): instance screenitem {15732791-10355} not found).
+    Warning:  Internal WARNING (detail: CollectScreenItemKeysWithZOrder(): instance screenitem {15732791-9827} not found).
+    Warning:  Internal WARNING (detail: CollectScreenItemKeysWithZOrder(): instance screenitem {15732791-9852} not found).
+    Warning:  Internal WARNING (detail: CollectScreenItemKeysWithZOrder(): instance screenitem {15732791-9877} not found).
+    Warning:  Internal WARNING (detail: CollectScreenItemKeysWithZOrder(): instance screenitem {15732791-10374} not found).
+    Warning:  Internal WARNING (detail: CollectScreenItemKeysWithZOrder(): instance screenitem {15732791-9896} not found).
+    Warning:  Internal WARNING (detail: CollectScreenItemKeysWithZOrder(): instance screenitem {15732791-9904} not found).
+    Warning:  Internal WARNING (detail: CollectScreenItemKeysWithZOrder(): instance screenitem {15732791-9911} not found).
+    Warning:  Internal WARNING (detail: CollectScreenItemKeysWithZOrder(): instance screenitem {15732791-9918} not found).
+    Warning:  Internal WARNING (detail: CollectScreenItemKeysWithZOrder(): instance screenitem {15732791-9925} not found).
+    Warning:  Internal WARNING (detail: CollectScreenItemKeysWithZOrder(): instance screenitem {15732791-9932} not found).
+    Warning:  Internal WARNING (detail: CollectScreenItemKeysWithZOrder(): instance screenitem {15732791-9939} not found).
+    Warning:  Internal WARNING (detail: CollectScreenItemKeysWithZOrder(): instance screenitem {15732791-10055} not found).
+    Warning:  Internal WARNING (detail: CollectScreenItemKeysWithZOrder(): instance screenitem {15732791-10088} not found).
+    Warning:  Internal WARNING (detail: proxy relation from VIEW_OUT {15732791-9504} to object {15732787-9505} was skipped, failed to get target object key from target id).
+    Warning:  Internal WARNING (detail: proxy relation from VIEW_OUT {15732791-9510} to object {15732787-9511} was skipped, failed to get target object key from target id).
+    Warning:  Internal WARNING (detail: proxy relation from VIEW_OUT {15732791-9515} to object {15732787-9516} was skipped, failed to get target object key from target id).
+    Warning:  Internal WARNING (detail: proxy relation from VIEW_OUT {15732791-9518} to object {15732787-9516} was skipped, failed to get target object key from target id).
+    Warning:  Internal WARNING (detail: proxy relation from VIEW_OUT {15732791-9632} to object {15732787-9633} was skipped, failed to get target object key from target id).
+    Warning:  Internal WARNING (detail: proxy relation from VIEW_OUT {15732791-9638} to object {15732787-9639} was skipped, failed to get target object key from target id).
+    Warning:  Internal WARNING (detail: proxy relation from VIEW_OUT {15732791-9643} to object {15732787-9644} was skipped, failed to get target object key from target id).
+    Warning:  Internal WARNING (detail: proxy relation from VIEW_OUT {15732791-9646} to object {15732787-9644} was skipped, failed to get target object key from target id).
+    Warning:  Internal WARNING (detail: proxy relation from VIEW_OUT {15732791-9946} to object {15732787-9947} was skipped, failed to get target object key from target id).
+    Warning:  Internal WARNING (detail: proxy relation from VIEW_OUT {15732791-9951} to object {15732787-9952} was skipped, failed to get target object key from target id).
+    Warning:  Internal WARNING (detail: proxy relation from VIEW_OUT {15732791-9956} to object {15732787-9957} was skipped, failed to get target object key from target id).
+    Warning:  Internal WARNING (detail: proxy relation from VIEW_OUT {15732791-9961} to object {15732787-9962} was skipped, failed to get target object key from target id).
+    Warning:  Internal WARNING (detail: proxy relation from VIEW_OUT {15732791-9966} to object {15732787-9967} was skipped, failed to get target object key from target id).
+    Warning:  Internal WARNING (detail: proxy relation from VIEW_OUT {15732791-9971} to object {15732787-9972} was skipped, failed to get target object key from target id).
+    Warning:  Internal WARNING (detail: proxy relation from VIEW_OUT {15732791-9976} to object {15732787-9977} was skipped, failed to get target object key from target id).
+    Warning:  Internal WARNING (detail: direct relation from INFO_HANDLER_ENTRY {15732775-9900} to object VIEW_IN {15732791-9896} was skipped, failed to get target object key from target id).
+    Warning:  Internal WARNING (detail: direct relation from INFO_HANDLER_ENTRY {15732775-9907} to object VIEW_IN {15732791-9904} was skipped, failed to get target object key from target id).
+    Error:  Internal ERROR (detail: LinkerClass.EvaluateInfoTextEntryRelations(): duplicate entry order key).
+    Warning:  Internal WARNING (detail: direct relation from INFO_HANDLER_ENTRY {15732775-9914} to object VIEW_IN {15732791-9911} was skipped, failed to get target object key from target id).
+    Error:  Internal ERROR (detail: LinkerClass.EvaluateInfoTextEntryRelations(): duplicate entry order key).
+    Warning:  Internal WARNING (detail: direct relation from INFO_HANDLER_ENTRY {15732775-9921} to object VIEW_IN {15732791-9918} was skipped, failed to get target object key from target id).
+    Error:  Internal ERROR (detail: LinkerClass.EvaluateInfoTextEntryRelations(): duplicate entry order key).
+    Warning:  Internal WARNING (detail: direct relation from INFO_HANDLER_ENTRY {15732775-9928} to object VIEW_IN {15732791-9925} was skipped, failed to get target object key from target id).
+    Error:  Internal ERROR (detail: LinkerClass.EvaluateInfoTextEntryRelations(): duplicate entry order key).
+    Warning:  Internal WARNING (detail: direct relation from INFO_HANDLER_ENTRY {15732775-9935} to object VIEW_IN {15732791-9932} was skipped, failed to get target object key from target id).
+    Error:  Internal ERROR (detail: LinkerClass.EvaluateInfoTextEntryRelations(): duplicate entry order key).
+    Warning:  Internal WARNING (detail: direct relation from INFO_HANDLER_ENTRY {15732775-9942} to object VIEW_IN {15732791-9939} was skipped, failed to get target object key from target id).
+    Error:  Internal ERROR (detail: LinkerClass.EvaluateInfoTextEntryRelations(): duplicate entry order key).
+    Warning:  Internal WARNING (detail: proxy relation from SYMB {15732832-9526} to object {15732787-9524} was skipped, failed to get target object key from target id).
+    Warning:  Internal WARNING (detail: proxy relation from SYMB {15732832-9529} to object {15732787-9524} was skipped, failed to get target object key from target id).
+    Warning:  Internal WARNING (detail: proxy relation from SYMB {15732832-9536} to object {15732787-9534} was skipped, failed to get target object key from target id).
+    Warning:  Internal WARNING (detail: proxy relation from SYMB {15732832-9539} to object {15732787-9534} was skipped, failed to get target object key from target id).
+    Warning:  Internal WARNING (detail: proxy relation from SYMB {15732832-9546} to object {15732787-9544} was skipped, failed to get target object key from target id).
+    Warning:  Internal WARNING (detail: proxy relation from SYMB {15732832-9550} to object {15732787-9544} was skipped, failed to get target object key from target id).
+    Warning:  Internal WARNING (detail: proxy relation from SYMB {15732832-9556} to object {15732787-9555} was skipped, failed to get target object key from target id).
+    Warning:  Internal WARNING (detail: proxy relation from SYMB {15732832-9561} to object {15732787-9555} was skipped, failed to get target object key from target id).
+    Warning:  Internal WARNING (detail: proxy relation from SYMB {15732832-9571} to object {15732787-9570} was skipped, failed to get target object key from target id).
+    Warning:  Internal WARNING (detail: proxy relation from SYMB {15732832-9574} to object {15732787-9570} was skipped, failed to get target object key from target id).
+    Warning:  Internal WARNING (detail: proxy relation from SYMB {15732832-9580} to object {15732787-9579} was skipped, failed to get target object key from target id).
+    Warning:  Internal WARNING (detail: proxy relation from SYMB {15732832-9583} to object {15732787-9579} was skipped, failed to get target object key from target id).
+    Warning:  Internal WARNING (detail: proxy relation from SYMB {15732832-9589} to object {15732787-9588} was skipped, failed to get target object key from target id).
+    Warning:  Internal WARNING (detail: proxy relation from SYMB {15732832-9592} to object {15732787-9588} was skipped, failed to get target object key from target id).
+    Warning:  Internal WARNING (detail: proxy relation from SYMB {15732832-9598} to object {15732787-9597} was skipped, failed to get target object key from target id).
+    Warning:  Internal WARNING (detail: proxy relation from SYMB {15732832-9604} to object {15732787-9603} was skipped, failed to get target object key from target id).
+    Warning:  Internal WARNING (detail: proxy relation from SYMB {15732832-9607} to object {15732787-9603} was skipped, failed to get target object key from target id).
+    Warning:  Internal WARNING (detail: proxy relation from SYMB {15732832-9613} to object {15732787-9612} was skipped, failed to get target object key from target id).
+    Warning:  Internal WARNING (detail: proxy relation from SYMB {15732832-9653} to object {15732787-9651} was skipped, failed to get target object key from target id).
+    Warning:  Internal WARNING (detail: proxy relation from SYMB {15732832-9656} to object {15732787-9651} was skipped, failed to get target object key from target id).
+    Warning:  Internal WARNING (detail: proxy relation from SYMB {15732832-9663} to object {15732787-9661} was skipped, failed to get target object key from target id).
+    Warning:  Internal WARNING (detail: proxy relation from SYMB {15732832-9666} to object {15732787-9661} was skipped, failed to get target object key from target id).
+    Warning:  Internal WARNING (detail: proxy relation from SYMB {15732832-9673} to object {15732787-9671} was skipped, failed to get target object key from target id).
+    Warning:  Internal WARNING (detail: proxy relation from SYMB {15732832-9677} to object {15732787-9671} was skipped, failed to get target object key from target id).
+    Warning:  Internal WARNING (detail: proxy relation from SYMB {15732832-9683} to object {15732787-9682} was skipped, failed to get target object key from target id).
+    Warning:  Internal WARNING (detail: proxy relation from SYMB {15732832-9687} to object {15732787-9682} was skipped, failed to get target object key from target id).
+    Warning:  Internal WARNING (detail: proxy relation from SYMB {15732832-9697} to object {15732787-9696} was skipped, failed to get target object key from target id).
+    Warning:  Internal WARNING (detail: proxy relation from SYMB {15732832-9700} to object {15732787-9696} was skipped, failed to get target object key from target id).
+    Warning:  Internal WARNING (detail: proxy relation from SYMB {15732832-9706} to object {15732787-9705} was skipped, failed to get target object key from target id).
+    Warning:  Internal WARNING (detail: proxy relation from SYMB {15732832-9709} to object {15732787-9705} was skipped, failed to get target object key from target id).
+    Warning:  Internal WARNING (detail: proxy relation from SYMB {15732832-9715} to object {15732787-9714} was skipped, failed to get target object key from target id).
+    Warning:  Internal WARNING (detail: proxy relation from SYMB {15732832-9718} to object {15732787-9714} was skipped, failed to get target object key from target id).
+    Warning:  Internal WARNING (detail: proxy relation from SYMB {15732832-9724} to object {15732787-9723} was skipped, failed to get target object key from target id).
+    Warning:  Internal WARNING (detail: proxy relation from SYMB {15732832-9730} to object {15732787-9729} was skipped, failed to get target object key from target id).
+    Warning:  Internal WARNING (detail: proxy relation from SYMB {15732832-9733} to object {15732787-9729} was skipped, failed to get target object key from target id).
+    Warning:  Internal WARNING (detail: proxy relation from SYMB {15732832-9739} to object {15732787-9738} was skipped, failed to get target object key from target id).
+    Warning:  Internal WARNING (detail: proxy relation from SYMB {15732832-9760} to object {15732787-9759} was skipped, failed to get target object key from target id).
+    Warning:  Internal WARNING (detail: proxy relation from SYMB {15732832-9763} to object {15732787-9759} was skipped, failed to get target object key from target id).
+    Warning:  Internal WARNING (detail: proxy relation from SYMB {15732832-9770} to object {15732787-9769} was skipped, failed to get target object key from target id).
+    Warning:  Internal WARNING (detail: proxy relation from SYMB {15732832-9773} to object {15732787-9769} was skipped, failed to get target object key from target id).
+    Warning:  Internal WARNING (detail: proxy relation from SYMB {15732832-9779} to object {15732787-9778} was skipped, failed to get target object key from target id).
+    Warning:  Internal WARNING (detail: proxy relation from SYMB {15732832-9782} to object {15732787-9778} was skipped, failed to get target object key from target id).
+    Warning:  Internal WARNING (detail: proxy relation from SYMB {15732832-9789} to object {15732787-9787} was skipped, failed to get target object key from target id).
+    Warning:  Internal WARNING (detail: proxy relation from SYMB {15732832-9793} to object {15732787-9787} was skipped, failed to get target object key from target id).
+    Warning:  Internal WARNING (detail: proxy relation from SYMB {15732832-9817} to object {15732787-9816} was skipped, failed to get target object key from target id).
+    Warning:  Internal WARNING (detail: proxy relation from SYMB {15732832-9821} to object {15732787-9816} was skipped, failed to get target object key from target id).
+    Warning:  Internal WARNING (detail: proxy relation from SYMB {15732832-9825} to object {15732787-9816} was skipped, failed to get target object key from target id).
+    Warning:  Internal WARNING (detail: proxy relation from SYMB {15732832-9828} to object {15732787-9816} was skipped, failed to get target object key from target id).
+    Warning:  Internal WARNING (detail: proxy relation from SYMB {15732832-9832} to object {15732787-9816} was skipped, failed to get target object key from target id).
+    Warning:  Internal WARNING (detail: proxy relation from SYMB {15732832-9836} to object {15732787-9816} was skipped, failed to get target object key from target id).
+    Warning:  Internal WARNING (detail: proxy relation from SYMB {15732832-9842} to object {15732787-9841} was skipped, failed to get target object key from target id).
+    Warning:  Internal WARNING (detail: proxy relation from SYMB {15732832-9846} to object {15732787-9841} was skipped, failed to get target object key from target id).
+    Warning:  Internal WARNING (detail: proxy relation from SYMB {15732832-9850} to object {15732787-9841} was skipped, failed to get target object key from target id).
+    Warning:  Internal WARNING (detail: proxy relation from SYMB {15732832-9853} to object {15732787-9841} was skipped, failed to get target object key from target id).
+    Warning:  Internal WARNING (detail: proxy relation from SYMB {15732832-9857} to object {15732787-9841} was skipped, failed to get target object key from target id).
+    Warning:  Internal WARNING (detail: proxy relation from SYMB {15732832-9861} to object {15732787-9841} was skipped, failed to get target object key from target id).
+    Warning:  Internal WARNING (detail: proxy relation from SYMB {15732832-9867} to object {15732787-9866} was skipped, failed to get target object key from target id).
+    Warning:  Internal WARNING (detail: proxy relation from SYMB {15732832-9871} to object {15732787-9866} was skipped, failed to get target object key from target id).
+    Warning:  Internal WARNING (detail: proxy relation from SYMB {15732832-9875} to object {15732787-9866} was skipped, failed to get target object key from target id).
+    Warning:  Internal WARNING (detail: proxy relation from SYMB {15732832-9878} to object {15732787-9866} was skipped, failed to get target object key from target id).
+    Warning:  Internal WARNING (detail: proxy relation from SYMB {15732832-9882} to object {15732787-9866} was skipped, failed to get target object key from target id).
+    Warning:  Internal WARNING (detail: proxy relation from SYMB {15732832-9886} to object {15732787-9866} was skipped, failed to get target object key from target id).
+    Warning:  Internal WARNING (detail: proxy relation from SYMB {15732832-9983} to object {15732787-9982} was skipped, failed to get target object key from target id).
+    Warning:  Internal WARNING (detail: proxy relation from SYMB {15732832-9990} to object {15732787-9988} was skipped, failed to get target object key from target id).
+    Warning:  Internal WARNING (detail: proxy relation from SYMB {15732832-9995} to object {15732787-9988} was skipped, failed to get target object key from target id).
+    Warning:  Internal WARNING (detail: proxy relation from SYMB {15732832-9999} to object {15732787-9988} was skipped, failed to get target object key from target id).
+    Warning:  Internal WARNING (detail: proxy relation from SYMB {15732832-10003} to object {15732787-9988} was skipped, failed to get target object key from target id).
+    Warning:  Internal WARNING (detail: proxy relation from SYMB {15732832-10007} to object {15732787-9988} was skipped, failed to get target object key from target id).
+    Warning:  Internal WARNING (detail: proxy relation from SYMB {15732832-10011} to object {15732787-9988} was skipped, failed to get target object key from target id).
+    Warning:  Internal WARNING (detail: proxy relation from SYMB {15732832-10018} to object {15732787-10016} was skipped, failed to get target object key from target id).
+    Warning:  Internal WARNING (detail: proxy relation from SYMB {15732832-10025} to object {15732787-10023} was skipped, failed to get target object key from target id).
+    Warning:  Internal WARNING (detail: proxy relation from SYMB {15732832-10029} to object {15732787-10023} was skipped, failed to get target object key from target id).
+  Error:  Compiling aborted (errors: 6; warnings: 162)
+NOT SAVED (import failures or compile errors)

@@ -12,37 +12,37 @@
       <InstanceOfType>FB</InstanceOfType>
       <Interface><Sections xmlns="http://www.siemens.com/automation/Openness/SW/Interface/v3">
   <Section Name="Input">
-    <Member Name="PSH" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
-    <Member Name="LSH" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
-    <Member Name="LSHH" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
-    <Member Name="Reset" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
+    <Member Name="PSH" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">PSH-101 healthy input; contact closed</MultiLanguageText></Comment></Member>
+    <Member Name="LSH" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">LSH-102 healthy input</MultiLanguageText></Comment></Member>
+    <Member Name="LSHH" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">LSHH-103 healthy input</MultiLanguageText></Comment></Member>
+    <Member Name="Reset" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">One-scan common RESET pulse</MultiLanguageText></Comment></Member>
   </Section>
   <Section Name="Output">
-    <Member Name="FlareCmd" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
-    <Member Name="DrainCmd" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
-    <Member Name="SuctionCmd" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
+    <Member Name="FlareCmd" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">XV-401 command; energized closes NO valve</MultiLanguageText></Comment></Member>
+    <Member Name="DrainCmd" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">XV-402 command; energized opens NC valve</MultiLanguageText></Comment></Member>
+    <Member Name="SuctionCmd" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">XV-403 command; energized opens NC valve</MultiLanguageText></Comment></Member>
   </Section>
   <Section Name="InOut" />
   <Section Name="Static">
-    <Member Name="Tripped" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
-    <Member Name="FlareTrip" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
-    <Member Name="ValvesNormal" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
-    <Member Name="LevelHigh" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
-    <Member Name="DrnDemand" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
-    <Member Name="F_DrainTO" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
-    <Member Name="F_LshFault" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
-    <Member Name="Alm_PSH" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
-    <Member Name="Alm_LSH" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
-    <Member Name="Alm_LSHH" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
-    <Member Name="FirstOut" Datatype="Int" Remanence="NonRetain" Accessibility="Public" />
-    <Member Name="Cause_EStop" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
-    <Member Name="Cause_PSH" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
-    <Member Name="Cause_LSHH" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
-    <Member Name="Cause_PwrUp" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
-    <Member Name="T_DrnOn" Datatype="TON_TIME" Remanence="NonRetain" Accessibility="Public" />
-    <Member Name="T_DrnOff" Datatype="TON_TIME" Remanence="NonRetain" Accessibility="Public" />
-    <Member Name="T_DrnMax" Datatype="TON_TIME" Remanence="NonRetain" Accessibility="Public" />
-    <Member Name="T_LshFlt" Datatype="TON_TIME" Remanence="NonRetain" Accessibility="Public" />
+    <Member Name="Tripped" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Saved scrubber trip; removes suction OPEN command and cancels both burner START permissions.</MultiLanguageText></Comment></Member>
+    <Member Name="FlareTrip" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Saved flare trip; removes the XV-401 CLOSE command until healthy RESET.</MultiLanguageText></Comment></Member>
+    <Member Name="ValveCommandsNormal" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">No flare or suction trip saved; command pattern only, not valve position or drain status.</MultiLanguageText></Comment></Member>
+    <Member Name="LevelHigh" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">LSH or LSHH is not healthy; includes signal loss</MultiLanguageText></Comment></Member>
+    <Member Name="DrainDemand" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Drain demand after high-level ON delay</MultiLanguageText></Comment></Member>
+    <Member Name="F_DrainTO" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Latched drain-open timeout; inhibits drain command</MultiLanguageText></Comment></Member>
+    <Member Name="F_LshFault" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">LSHH unhealthy while LSH healthy for 5 s</MultiLanguageText></Comment></Member>
+    <Member Name="Alm_PSH" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">HMI alarm derived from PSH input</MultiLanguageText></Comment></Member>
+    <Member Name="Alm_LSH" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">HMI alarm derived from LSH input</MultiLanguageText></Comment></Member>
+    <Member Name="Alm_LSHH" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">HMI alarm derived from LSHH input</MultiLanguageText></Comment></Member>
+    <Member Name="FirstOut" Datatype="Int" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">First latched cause code: 0 none, 1 E-STOP, 2 PSH, 3 LSHH, 4 power-up</MultiLanguageText></Comment></Member>
+    <Member Name="Cause_EStop" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Latched E-STOP trip cause; clears on healthy RESET</MultiLanguageText></Comment></Member>
+    <Member Name="Cause_PSH" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Latched PSH-101 trip cause</MultiLanguageText></Comment></Member>
+    <Member Name="Cause_LSHH" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Latched LSHH-103 trip cause</MultiLanguageText></Comment></Member>
+    <Member Name="Cause_PwrUp" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Latched power-up trip cause</MultiLanguageText></Comment></Member>
+    <Member Name="T_DrnOn" Datatype="TON_TIME" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">High-level delay before drain demand</MultiLanguageText></Comment></Member>
+    <Member Name="T_DrnOff" Datatype="TON_TIME" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Level-clear delay before drain demand resets</MultiLanguageText></Comment></Member>
+    <Member Name="T_DrnMax" Datatype="TON_TIME" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Maximum continuous drain-open duration</MultiLanguageText></Comment></Member>
+    <Member Name="T_LshFlt" Datatype="TON_TIME" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">LSH/LSHH disagreement qualification timer</MultiLanguageText></Comment></Member>
   </Section>
 </Sections></Interface>
       <MemoryLayout>Optimized</MemoryLayout>
@@ -56,7 +56,7 @@
           <MultilingualTextItem ID="2" CompositionName="Items">
             <AttributeList>
               <Culture>en-US</Culture>
-              <Text />
+              <Text>Independent scrubber memory. Saved causes are separate from live inputs.</Text>
             </AttributeList>
           </MultilingualTextItem>
         </ObjectList>
@@ -66,7 +66,7 @@
           <MultilingualTextItem ID="4" CompositionName="Items">
             <AttributeList>
               <Culture>en-US</Culture>
-              <Text />
+              <Text>Scrubber_DB</Text>
             </AttributeList>
           </MultilingualTextItem>
         </ObjectList>

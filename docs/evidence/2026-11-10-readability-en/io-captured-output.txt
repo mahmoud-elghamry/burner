@@ -1,0 +1,26 @@
+project opened: Burner
+PLC: PLC_1
+
+=== IMPORTING TAG TABLES (overwrite) ===
+  imported: IO (31 tags)
+
+=== COMPILING (hardware) ===
+state=Success  errors=0  warnings=0
+  [Information] (no text)   @ PLC_1
+      [Information] (no text)   @ Hardware configuration
+          [Information] Hardware was not compiled. The configuration is up-to-date.
+  [Success] Compiling finished (errors: 0; warnings: 0)
+
+=== COMPILING (PLC software) ===
+state=Success  errors=0  warnings=0
+  [Information] (no text)   @ PLC_1
+      [Information] (no text)   @ Program blocks
+          [Information] No block was compiled. All blocks are up-to-date.
+  [Success] Compiling finished (errors: 0; warnings: 0)
+
+=== COMPILING (inconsistent blocks) ===
+
+=== CHECKING BLOCK CONSISTENCY ===
+  consistent 13/13
+
+CLEAN. PROJECT SAVED.

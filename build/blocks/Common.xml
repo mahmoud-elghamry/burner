@@ -31,7 +31,7 @@
           <MultilingualTextItem ID="8E" CompositionName="Items">
             <AttributeList>
               <Culture>en-US</Culture>
-              <Text>E-STOP latch, RESET edge, parameter check (decisions/0006)</Text>
+              <Text>Common E-STOP permission, RESET press detection and setting validation.</Text>
             </AttributeList>
           </MultilingualTextItem>
         </ObjectList>
@@ -115,7 +115,7 @@
               <MultilingualTextItem ID="3" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text>One-scan pulse from S2; suppressed on first scan. Reference: R-06.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -125,7 +125,7 @@
               <MultilingualTextItem ID="5" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>R-06 — RESET edge (not on first scan)</Text>
+                  <Text>Detect a new RESET press</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -177,7 +177,7 @@
               <MultilingualTextItem ID="8" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text>Save S2 for detecting the next new press. Reference: R-06.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -187,7 +187,7 @@
               <MultilingualTextItem ID="A" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>R-06 — RESET edge memory</Text>
+                  <Text>Remember the RESET button state</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -241,7 +241,7 @@
               <MultilingualTextItem ID="D" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text>An open E-STOP status contact clears the common permission. Reference: C01.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -251,7 +251,7 @@
               <MultilingualTextItem ID="F" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>C01 — E-STOP pressed (NC1 open) drops the latch</Text>
+                  <Text>Remove the E-STOP permission</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -341,7 +341,7 @@
               <MultilingualTextItem ID="12" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text>Need the E-STOP status input healthy plus RESET or first scan; burner START remains separate. Reference: C01.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -351,7 +351,7 @@
               <MultilingualTextItem ID="14" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>C01 — E-STOP latch back after RESET (or at power-up if released)</Text>
+                  <Text>Restore the common E-STOP permission</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -406,7 +406,7 @@
               <MultilingualTextItem ID="17" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text>Alarm follows the absence of the common E-STOP permission. Reference: C01.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -416,7 +416,7 @@
               <MultilingualTextItem ID="19" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>C01 — E-STOP alarm</Text>
+                  <Text>Show E-STOP active or awaiting RESET</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -469,7 +469,7 @@
               <MultilingualTextItem ID="1C" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text>RESET clears the message; a continuing invalid write can set it again later in this scan. Reference: R-11.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -479,7 +479,7 @@
               <MultilingualTextItem ID="1E" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>R-11 — RESET clears the parameter alarm</Text>
+                  <Text>Clear the rejected-setting alarm</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -493,13 +493,13 @@
     <Access Scope="GlobalVariable" UId="22">
       <Symbol>
         <Component Name="BR01_DB" />
-        <Component Name="Enabled" />
+        <Component Name="StartEnabled" />
       </Symbol>
     </Access>
     <Access Scope="GlobalVariable" UId="24">
       <Symbol>
         <Component Name="BR02_DB" />
-        <Component Name="Enabled" />
+        <Component Name="StartEnabled" />
       </Symbol>
     </Access>
     <Access Scope="GlobalVariable" UId="26">
@@ -551,7 +551,7 @@
               <MultilingualTextItem ID="21" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text>Both stored START permissions must be OFF, including AUTO waiting for heat. Reference: R-11.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -561,7 +561,7 @@
               <MultilingualTextItem ID="23" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>R-11 / 0009 — settings allowed only after STOP for both burners</Text>
+                  <Text>Allow settings only after both burners STOP</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -688,7 +688,7 @@
               <MultilingualTextItem ID="26" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text>At first scan only, an out-of-range accepted value is restored to its defined default. Reference: R-11.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -698,7 +698,7 @@
               <MultilingualTextItem ID="28" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>R-11 — SP: stored value bad after power-up -&gt; default</Text>
+                  <Text>Stop temperature: restore the startup default if corrupt</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -817,7 +817,7 @@
               <MultilingualTextItem ID="2B" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text>Copy the entry to the in-use value only when both START permissions are OFF and the entry is within its limits. Reference: R-11.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -827,7 +827,7 @@
               <MultilingualTextItem ID="2D" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>R-11 — SP: both STOP and entry in range -&gt; accepted</Text>
+                  <Text>Stop temperature: accept a valid entry after both STOP</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -996,7 +996,7 @@
               <MultilingualTextItem ID="30" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text>Out-of-range or changed while either burner remains enabled: restore the old value and show the rejection alarm. Reference: R-11.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -1006,7 +1006,7 @@
               <MultilingualTextItem ID="32" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>R-11 — SP: invalid or changed while enabled -&gt; old value back, alarm</Text>
+                  <Text>Stop temperature: reject an invalid or locked entry</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -1133,7 +1133,7 @@
               <MultilingualTextItem ID="35" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text>At first scan only, an out-of-range accepted value is restored to its defined default. Reference: R-11.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -1143,7 +1143,7 @@
               <MultilingualTextItem ID="37" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>R-11 — HYST: stored value bad after power-up -&gt; default</Text>
+                  <Text>Restart temperature gap: restore the startup default if corrupt</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -1262,7 +1262,7 @@
               <MultilingualTextItem ID="3A" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text>Copy the entry to the in-use value only when both START permissions are OFF and the entry is within its limits. Reference: R-11.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -1272,7 +1272,7 @@
               <MultilingualTextItem ID="3C" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>R-11 — HYST: both STOP and entry in range -&gt; accepted</Text>
+                  <Text>Restart temperature gap: accept a valid entry after both STOP</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -1441,7 +1441,7 @@
               <MultilingualTextItem ID="3F" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text>Out-of-range or changed while either burner remains enabled: restore the old value and show the rejection alarm. Reference: R-11.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -1451,7 +1451,7 @@
               <MultilingualTextItem ID="41" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>R-11 — HYST: invalid or changed while enabled -&gt; old value back, alarm</Text>
+                  <Text>Restart temperature gap: reject an invalid or locked entry</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -1578,7 +1578,7 @@
               <MultilingualTextItem ID="44" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text>At first scan only, an out-of-range accepted value is restored to its defined default. Reference: R-11.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -1588,7 +1588,7 @@
               <MultilingualTextItem ID="46" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>R-11 — STG: stored value bad after power-up -&gt; default</Text>
+                  <Text>Stage 2 temperature offset: restore the startup default if corrupt</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -1707,7 +1707,7 @@
               <MultilingualTextItem ID="49" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text>Copy the entry to the in-use value only when both START permissions are OFF and the entry is within its limits. Reference: R-11.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -1717,7 +1717,7 @@
               <MultilingualTextItem ID="4B" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>R-11 — STG: both STOP and entry in range -&gt; accepted</Text>
+                  <Text>Stage 2 temperature offset: accept a valid entry after both STOP</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -1886,7 +1886,7 @@
               <MultilingualTextItem ID="4E" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text>Out-of-range or changed while either burner remains enabled: restore the old value and show the rejection alarm. Reference: R-11.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -1896,7 +1896,7 @@
               <MultilingualTextItem ID="50" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>R-11 — STG: invalid or changed while enabled -&gt; old value back, alarm</Text>
+                  <Text>Stage 2 temperature offset: reject an invalid or locked entry</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -2020,7 +2020,7 @@
               <MultilingualTextItem ID="53" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text>At first scan only, an out-of-range accepted value is restored to its defined default. Reference: R-11.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -2030,7 +2030,7 @@
               <MultilingualTextItem ID="55" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>R-11 — TStart: stored value bad after power-up -&gt; default</Text>
+                  <Text>Burner start timeout: restore the startup default if corrupt</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -2147,7 +2147,7 @@
               <MultilingualTextItem ID="58" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text>Copy the entry to the in-use value only when both START permissions are OFF and the entry is within its limits. Reference: R-11.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -2157,7 +2157,7 @@
               <MultilingualTextItem ID="5A" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>R-11 — TStart: both STOP and entry in range -&gt; accepted</Text>
+                  <Text>Burner start timeout: accept a valid entry after both STOP</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -2324,7 +2324,7 @@
               <MultilingualTextItem ID="5D" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text>Out-of-range or changed while either burner remains enabled: restore the old value and show the rejection alarm. Reference: R-11.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -2334,7 +2334,7 @@
               <MultilingualTextItem ID="5F" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>R-11 — TStart: invalid or changed while enabled -&gt; old value back, alarm</Text>
+                  <Text>Burner start timeout: reject an invalid or locked entry</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -2458,7 +2458,7 @@
               <MultilingualTextItem ID="62" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text>At first scan only, an out-of-range accepted value is restored to its defined default. Reference: R-11.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -2468,7 +2468,7 @@
               <MultilingualTextItem ID="64" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>R-11 — TDrnOn: stored value bad after power-up -&gt; default</Text>
+                  <Text>Drain opening delay: restore the startup default if corrupt</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -2585,7 +2585,7 @@
               <MultilingualTextItem ID="67" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text>Copy the entry to the in-use value only when both START permissions are OFF and the entry is within its limits. Reference: R-11.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -2595,7 +2595,7 @@
               <MultilingualTextItem ID="69" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>R-11 — TDrnOn: both STOP and entry in range -&gt; accepted</Text>
+                  <Text>Drain opening delay: accept a valid entry after both STOP</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -2762,7 +2762,7 @@
               <MultilingualTextItem ID="6C" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text>Out-of-range or changed while either burner remains enabled: restore the old value and show the rejection alarm. Reference: R-11.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -2772,7 +2772,7 @@
               <MultilingualTextItem ID="6E" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>R-11 — TDrnOn: invalid or changed while enabled -&gt; old value back, alarm</Text>
+                  <Text>Drain opening delay: reject an invalid or locked entry</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -2896,7 +2896,7 @@
               <MultilingualTextItem ID="71" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text>At first scan only, an out-of-range accepted value is restored to its defined default. Reference: R-11.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -2906,7 +2906,7 @@
               <MultilingualTextItem ID="73" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>R-11 — TDrnOff: stored value bad after power-up -&gt; default</Text>
+                  <Text>Drain closing delay: restore the startup default if corrupt</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -3023,7 +3023,7 @@
               <MultilingualTextItem ID="76" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text>Copy the entry to the in-use value only when both START permissions are OFF and the entry is within its limits. Reference: R-11.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -3033,7 +3033,7 @@
               <MultilingualTextItem ID="78" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>R-11 — TDrnOff: both STOP and entry in range -&gt; accepted</Text>
+                  <Text>Drain closing delay: accept a valid entry after both STOP</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -3200,7 +3200,7 @@
               <MultilingualTextItem ID="7B" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text>Out-of-range or changed while either burner remains enabled: restore the old value and show the rejection alarm. Reference: R-11.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -3210,7 +3210,7 @@
               <MultilingualTextItem ID="7D" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>R-11 — TDrnOff: invalid or changed while enabled -&gt; old value back, alarm</Text>
+                  <Text>Drain closing delay: reject an invalid or locked entry</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -3334,7 +3334,7 @@
               <MultilingualTextItem ID="80" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text>At first scan only, an out-of-range accepted value is restored to its defined default. Reference: R-11.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -3344,7 +3344,7 @@
               <MultilingualTextItem ID="82" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>R-11 — TDrnMax: stored value bad after power-up -&gt; default</Text>
+                  <Text>Maximum drain opening time: restore the startup default if corrupt</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -3461,7 +3461,7 @@
               <MultilingualTextItem ID="85" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text>Copy the entry to the in-use value only when both START permissions are OFF and the entry is within its limits. Reference: R-11.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -3471,7 +3471,7 @@
               <MultilingualTextItem ID="87" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>R-11 — TDrnMax: both STOP and entry in range -&gt; accepted</Text>
+                  <Text>Maximum drain opening time: accept a valid entry after both STOP</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -3638,7 +3638,7 @@
               <MultilingualTextItem ID="8A" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text>Out-of-range or changed while either burner remains enabled: restore the old value and show the rejection alarm. Reference: R-11.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -3648,7 +3648,7 @@
               <MultilingualTextItem ID="8C" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>R-11 — TDrnMax: invalid or changed while enabled -&gt; old value back, alarm</Text>
+                  <Text>Maximum drain opening time: reject an invalid or locked entry</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>

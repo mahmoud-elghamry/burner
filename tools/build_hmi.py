@@ -21,6 +21,7 @@ ROOT = os.path.dirname(HERE)
 OUT = os.path.join(ROOT, 'build', 'hmi')
 sys.path.insert(0, HERE)
 import build_blocks as B  # noqa: E402
+import panel_text as P  # noqa: E402
 
 CONN = 'HMI_Connection_1'
 TEMPLATE = 'Template_1'          # اللي عمله الـ wizard
@@ -82,6 +83,10 @@ TAGS += [('Par_' + n + '_V', 'Par', n + '_V') for n, *_ in B.PARAMS]
 TAGS += [('Sys_' + m, 'Sys', m) for m in
          ['EStopOK', 'Alm_EStop', 'Alm_ParRejected', 'SettingsEditable']]
 TAGS += [('Alm_' + w, 'HmiAlm', w) for w in ['Common', 'BR01', 'BR02']]
+# Preserve public aliases while following clarified PLC member names.
+TAGS = [(name, db, P.SYMBOL_RENAMES.get(
+    'Burner' if db.startswith('BR0') else 'Scrubber' if db == 'Scrubber_DB' else db, {}
+).get(member_name, member_name)) for name, db, member_name in TAGS]
 # H-01: الحقول اللي بتكتب. أي Input على تاج مش هنا = السكريبت يقف.
 WRITABLE = {'Par_' + n for n, *_ in B.PARAMS}
 
@@ -90,6 +95,23 @@ for name, db, m in TAGS:
     if m not in MEMBERS[db]:
         sys.exit('build_hmi: %s.%s not in build_blocks.py' % (db, m))
     TAG_TYPE[name] = MEMBERS[db][m]
+
+
+def _tag_comment(name, db, member_name):
+    if db == 'HmiAlm':
+        bits = sorted((bit, title) for word, bit, _signal, title, _clears, _ref
+                      in B.HMI_ALARMS if word == member_name)
+        if len(bits) != 8 or [bit for bit, _title in bits] != list(range(8)):
+            raise ValueError('Incomplete alarm-bit meanings for ' + member_name)
+        return ('%s alarm display word; each bit 1 displays its alarm. ' % member_name +
+                '; '.join('x%d %s' % (bit, title) for bit, title in bits))
+    group = ('Burner' if db.startswith('BR0') else
+             'Scrubber' if db == 'Scrubber_DB' else db)
+    text = P.MEMBER_TEXT.get(group, {}).get(member_name)
+    if not text:
+        raise ValueError('No English HMI comment for %s -> %s.%s' % (name, db, member_name))
+    context = db[:-3] if db.startswith('BR0') else 'Scrubber' if db == 'Scrubber_DB' else None
+    return '%s: %s' % (context, text) if context else text
 
 
 class Ids(object):
@@ -144,7 +166,8 @@ def tag_table():
             '</LinkList><ObjectList>%s%s%s</ObjectList></Hmi.Tag.Tag>\n'
             % (ids(), 'Continuous' if name in ('Alm_Common', 'Alm_BR01', 'Alm_BR02') else 'Visible',
                TYPES[t], name, CONN, db, m, t, HMI_TYPE.get(t, t),
-               mltext(ids, 'Comment'), mltext(ids, 'DisplayName'), mltext(ids, 'TagValue')))
+               mltext(ids, 'Comment', _tag_comment(name, db, m)),
+               mltext(ids, 'DisplayName'), mltext(ids, 'TagValue')))
     out.append('  </ObjectList></Hmi.Tag.TagTable>\n</Document>\n')
     return ''.join(out)
 
@@ -251,7 +274,7 @@ class Screen(object):
 
     def io(self, x, y, w, h, tag, write=False, shift=1, length=5, size=13):
         if write and tag not in WRITABLE:
-            sys.exit('build_hmi: %s is not one of the four writable settings (H-01)' % tag)
+            sys.exit('build_hmi: %s is not one of the seven writable settings (H-01)' % tag)
         self.items.append(
             '<Hmi.Screen.IOField ID="%s" CompositionName="ScreenItems"><AttributeList>'
             '<AboveUpperLimitColor>237, 88, 97</AboveUpperLimitColor><BackColor>%s</BackColor>'
@@ -278,11 +301,12 @@ class Screen(object):
             % (self.ids(), WHITE if write else BG, BLUE if write else BG, 2 if write else 0,
                length, INK, 's' + '9' * length, h, x, 'InOutput' if write else 'Output',
                self.oname('IO', tag), shift, 1 if write else -1, y, w,
-               self.font(size, True), mltext(self.ids, 'HelpText'), self.ids(), self.ids(), tag))
+               self.font(size, True), mltext(self.ids, 'HelpText'),
+               self.ids(), self.ids(), tag))
 
-    def lamp(self, x, y, tag, label, on=GREEN, w=140):
-        """دايرة + كلمة. الدايرة رمادي لما التاج 0، وبلون on لما 1."""
-        anim = self.anim_range(tag, [(0, 0, GREY, INK), (1, 1, on, INK)])
+    def lamp(self, x, y, tag, label, on=GREEN, off=GREY, w=140):
+        """Digital status lamp: choose active and inactive colors per signal meaning."""
+        anim = self.anim_range(tag, [(0, 0, off, INK), (1, 1, on, INK)])
         self.items.append(
             '<Hmi.Screen.Circle ID="%s" CompositionName="ScreenItems"><AttributeList>'
             '<BackColor>%s</BackColor><BackFillStyle>Solid</BackFillStyle><BorderColor>80, 80, 80</BorderColor>'
@@ -385,16 +409,37 @@ def temp(s, x, y, tag, ok_tag, label, w=150):
     # العيّنة مفيهاش Animations على IOField: النص المعتم فوقه بيغطي الرقم لما القناة تبقى بايظة.
     s.text(x + 70, y, 52, 20, '----', size=12, bold=True, fore=RED, back=BG, align='Right',
            anims=[s.anim_vis(ok_tag, False)])
-    s.text(x + 124, y, 26, 20, 'C', size=11)
+    s.text(x + 124, y, 26, 20, '°C', size=11)
 
 
-BR_STATE = [(0, 'IDLE', GREY), (1, 'START', AMBER), (2, 'RUN', GREEN), (3, 'FAULT', RED)]
+BR_STATE = [(0, 'IDLE', GREY), (1, 'STARTING', AMBER), (2, 'RUNNING', GREEN), (3, 'FAULT', RED)]
 FIRST = [(1, 'E-STOP', RED), (2, 'PSH-101', RED), (3, 'LSHH-103', RED), (4, 'POWER-UP', AMBER)]
 
 
 def panel(s, x, y, w, h, title):
     s.rect(x, y, w, h, WHITE, PANEL_BORDER, name=title)
     s.text(x + 4, y + 2, w - 8, 20, title, size=12, bold=True)
+
+
+def tank_icon(s, x, y, name):
+    """Tank outline for identification only; it is not a level graphic."""
+    s.rect(x + 7, y + 6, 30, 26, WHITE, PANEL_BORDER, name=name + ' tank')
+    s.rect(x + 17, y + 1, 10, 5, WHITE, PANEL_BORDER, name=name + ' neck')
+
+
+def fault_hint(s, x, y, w, state_tag, normal_back=WHITE):
+    s.text(x, y, w, 18, 'Check Alarms', size=10, bold=True,
+           fore=normal_back, back=normal_back,
+           anims=[s.anim_range(state_tag, [(0, 2, normal_back, normal_back), (3, 3, RED, WHITE)])])
+
+
+def command_row(s, x, y, tag, drawing_tag, on_word, off_word, w=148):
+    s.lamp(x, y, tag, drawing_tag, on=GREEN, off=GREY, w=w - 42)
+    state_x = x + w - 42
+    s.text(state_x, y, 40, 18, on_word, size=10, bold=True,
+           anims=[s.anim_vis(tag, True)])
+    s.text(state_x, y, 40, 18, off_word, size=10, bold=True, fore=INK,
+           anims=[s.anim_vis(tag, False)])
 
 
 # ======================================================================
@@ -404,34 +449,30 @@ def overview():
     s = Screen('Root screen', 1, 'Overview')
     frame(s)
     pw, y, h = 156, 30, 202
-    # Scrubber
     x = 2
     panel(s, x, y, pw, h, 'SCRUBBER')
-    segments(s, x + 4, y + 24, pw - 8, 'Scrub_Tripped',
-             [(0, 'NORMAL', GREEN), (1, 'TRIP', RED)])
-    s.text(x + 4, y + 46, pw - 8, 18, 'First cause:', size=11)
-    segments(s, x + 4, y + 64, pw - 8, 'Scrub_FirstOut', FIRST, cols=1, h=16)
-    s.text(x + 4, y + 140, pw - 8, 18, 'RESET required', size=11, bold=True, fore=RED,
+    s.text(x + 4, y + 23, pw - 8, 18, 'INPUTS: green = OK', size=10, bold=True, fore=INK)
+    s.lamp(x + 4, y + 42, 'Scrub_PSH', 'Pressure', on=GREEN, off=RED, w=148)
+    s.lamp(x + 4, y + 62, 'Scrub_LSH', 'High level', on=GREEN, off=AMBER, w=148)
+    s.lamp(x + 4, y + 82, 'Scrub_LSHH', 'Very high level', on=GREEN, off=RED, w=148)
+    s.text(x + 4, y + 103, pw - 8, 18, 'OUTPUT COMMANDS', size=10, bold=True, fore=INK)
+    command_row(s, x + 4, y + 121, 'Scrub_FlareCmd', 'XV-401 flare', 'CLOSE', 'OPEN')
+    command_row(s, x + 4, y + 141, 'Scrub_DrainCmd', 'XV-402 drain', 'OPEN', 'CLOSE')
+    command_row(s, x + 4, y + 161, 'Scrub_SuctionCmd', 'XV-403 suction', 'OPEN', 'CLOSE')
+    s.text(x + 4, y + 181, pw - 8, 18, 'TRIP: RESET required', size=10,
+           bold=True, fore=WHITE, back=RED,
            anims=[s.anim_vis('Scrub_Tripped', True)])
-    s.text(x + 4, y + 160, pw - 8, 18, 'Valves: normal', size=11,
-           anims=[s.anim_vis('Scrub_ValvesNormal', True)])
-    s.text(x + 4, y + 160, pw - 8, 18, 'Valves: safe position', size=11, bold=True, fore=RED,
-           anims=[s.anim_vis('Scrub_ValvesNormal', False)])
-    s.text(x + 4, y + 180, pw - 8, 18, 'Drain: OPEN (high level)', size=11, bold=True,
-           fore=AMBER, anims=[s.anim_vis('Scrub_DrainCmd', True)])
-    # البيرنرين
+
     for i, (br, tk) in enumerate([('BR01', 'TK01'), ('BR02', 'TK02')]):
         x = 2 + (i + 1) * (pw + 3)
         panel(s, x, y, pw, h, '%s  %s' % (br, tk))
-        segments(s, x + 4, y + 24, pw - 8, br + '_State', BR_STATE)
-        temp(s, x + 4, y + 66, br + '_Tmax', br + '_TcOk', 'T max')
-        s.text(x + 4, y + 90, 70, 18, 'AUTO', size=11, bold=True,
-               anims=[s.anim_vis(br + '_Auto', True)])
-        s.text(x + 4, y + 90, 70, 18, 'MAN', size=11, bold=True, fore=BLUE,
-               anims=[s.anim_vis(br + '_Auto', False)])
-        s.lamp(x + 4, y + 110, br + '_HeatReq', 'Heat request')
-        s.lamp(x + 4, y + 130, br + '_Stage2', '2nd stage request')
-        s.lamp(x + 4, y + 150, br + '_RunFb', 'RUN feedback')
+        tank_icon(s, x + 108, y + 22, tk)
+        temp(s, x + 4, y + 62, br + '_Tmax', br + '_TcOk', 'Max temp')
+        s.lamp(x + 4, y + 88, br + '_LevelOK', 'Level OK', on=GREEN, off=RED, w=148)
+        s.lamp(x + 4, y + 109, br + '_RunFb', 'RUN input', on=GREEN, off=GREY, w=148)
+        s.lamp(x + 4, y + 130, br + '_HeatReq', 'Heat request', on=GREEN, off=GREY, w=148)
+        s.lamp(x + 4, y + 151, br + '_Stage2', 'Stage 2 request', on=GREEN, off=GREY, w=148)
+        fault_hint(s, x + 4, y + 181, pw - 8, br + '_State')
     return s
 
 
@@ -439,81 +480,50 @@ def burner(br):
     tk, te = ('TK01', ('TE-501', 'TE-502')) if br == 'BR01' else ('TK02', ('TE-503', 'TE-504'))
     s = Screen(br, 2 if br == 'BR01' else 3, '%s  %s' % (br, tk))
     frame(s)
-    y = 30
-    segments(s, 4, y, 472, br + '_State', BR_STATE, cols=4)
-    # الحرارة والحدود الحالية. Stop-at is the shared accepted value.
-    x, y = 4, 54
-    panel(s, x, y, 156, 178, 'Temperature  C')
-    temp(s, x + 4, y + 24, br + '_TeA', br + '_TcOkA', te[0])
-    temp(s, x + 4, y + 46, br + '_TeB', br + '_TcOkB', te[1])
-    temp(s, x + 4, y + 68, br + '_Tmax', br + '_TcOk', 'T max')
-    for j, (tag, label) in enumerate([('Par_SP_V', 'Stop at'), (br + '_TOn', 'Restart at'),
-                                      ('_TStg', '2nd below'), ('_TStgOff', '2nd off at')]):
-        s.text(x + 4, y + 94 + j * 20, 70, 20, label, size=11)
-        io_tag = tag if tag.startswith('Par_') or tag.startswith(br + '_') else br + tag
-        s.io(x + 74, y + 94 + j * 20, 52, 20, io_tag, size=12)
-    # الإشارات
-    x = 162
-    panel(s, x, y, 156, 178, 'Signals')
-    rows = [('_Auto', 'AUTO mode', GREEN), ('_Enabled', 'START given', GREEN),
-            ('_HeatReq', 'Heat request', GREEN), ('_Stage2', '2nd stage request', GREEN),
-            ('_RunFb', 'RUN feedback', GREEN), ('_LevelOK', 'Tank level OK', GREEN),
-            ('_Lockout', 'Lockout signal', RED)]
-    rows += [('_Pause24', '24 h stop active', AMBER)] if br == 'BR01' else \
-        [('_Fuel', 'Fuel mode', BLUE)]
-    for j, (tag, label, color) in enumerate(rows):
-        s.lamp(x + 4, y + 24 + j * 19, br + tag, label, on=color)
-    # أعطال من بتات كلمة الإنذار المشتركة
-    x = 320
-    panel(s, x, y, 156, 178, 'Faults (RESET)')
-    faults = [('E-STOP', 0), ('Thermocouple', 1), ('Burner lockout', 2),
-              ('Failed to start', 3), ('Stopped by itself', 4), ('RUN w/o request', 5),
-              ('Scrubber trip', 7)]
-    for j, (label, bit) in enumerate(faults):
-        s.fault_badge(x + 4, y + 24 + j * 19, 148, 'Alm_' + br, bit, label)
-    s.text(x + 4, y + 158, 148, 18, 'TC starting up', size=11, fore=AMBER,
-           anims=[s.anim_vis(br + '_PwrUpDone', False)])
+    fault_hint(s, 4, 30, 472, br + '_State', normal_back=BG)
+    y = 54
+    panel(s, 4, y, 204, 178, 'Tank temperature (°C)')
+    temp(s, 8, y + 24, br + '_TeA', br + '_TcOkA', te[0])
+    temp(s, 8, y + 48, br + '_TeB', br + '_TcOkB', te[1])
+    temp(s, 8, y + 72, br + '_Tmax', br + '_TcOk', 'Max temp')
+    s.lamp(164, y + 24, br + '_TcOkA', 'OK', on=GREEN, off=RED, w=40)
+    s.lamp(164, y + 48, br + '_TcOkB', 'OK', on=GREEN, off=RED, w=40)
+    tank_icon(s, 159, y + 124, tk)
+
+    x = 216
+    panel(s, x, y, 260, 178, 'Burner signals')
+    rows = [('_LevelOK', 'Level OK', GREEN, RED),
+            ('_RunFb', 'RUN input', GREEN, GREY),
+            ('_HeatReq', 'Heat request', GREEN, GREY),
+            ('_Stage2', 'Stage 2 request', GREEN, GREY),
+            ('_Lockout', 'Lockout input', RED, GREY),
+            ('_Auto', 'AUTO mode', GREEN, GREY)]
+    for j, (tag, label, active, inactive) in enumerate(rows):
+        s.lamp(x + 6, y + 24 + j * 24, br + tag, label,
+               on=active, off=inactive, w=248)
     return s
 
 
 def scrubber():
     s = Screen('Scrubber', 4, 'Scrubber')
     frame(s)
-    y = 30
-    segments(s, 4, y, 472, 'Scrub_Tripped', [(0, 'NORMAL', GREEN), (1, 'TRIP', RED)], cols=2)
-    x, y = 4, 54
-    panel(s, x, y, 156, 178, 'Sensors (now)')
-    s.lamp(x + 4, y + 24, 'Scrub_PSH', 'PSH-101 healthy')
-    s.lamp(x + 4, y + 44, 'Scrub_LSH', 'LSH-102 healthy')
-    s.lamp(x + 4, y + 64, 'Scrub_LSHH', 'LSHH-103 healthy')
-    s.lamp(x + 4, y + 84, 'Sys_EStopOK', 'E-STOP released')
-    s.lamp(x + 4, y + 112, 'Scrub_F_DrainTO', 'Drain timeout', on=RED)
-    s.lamp(x + 4, y + 132, 'Scrub_F_LshFault', 'LSH-102 fault', on=RED)
-    x = 162
-    panel(s, x, y, 156, 178, 'Trip causes (RESET)')
-    s.text(x + 4, y + 22, 148, 18, 'First:', size=11)
-    segments(s, x + 4, y + 40, 148, 'Scrub_FirstOut', FIRST, cols=1, h=16)
-    s.lamp(x + 4, y + 114, 'Scrub_Cause_EStop', 'E-STOP', on=RED)
-    s.lamp(x + 4, y + 132, 'Scrub_Cause_PSH', 'PSH-101', on=RED)
-    s.lamp(x + 4, y + 150, 'Scrub_Cause_LSHH', 'LSHH-103', on=RED)
-    s.lamp(x + 80, y + 114, 'Scrub_Cause_PwrUp', 'Power-up', on=AMBER, w=72)
-    x = 320
-    panel(s, x, y, 156, 178, 'Valve commands')
-    # كل صمام بأمره: الأمر 1 = الملف شغال. الفلير NO، والدرين والساكشن NC.
-    for j, (tag, cmd, on_word, off_word, on_fore, off_fore) in enumerate([
-            ('XV-401 flare', 'Scrub_FlareCmd', 'CLOSE', 'OPEN', INK, RED),
-            ('XV-402 drain', 'Scrub_DrainCmd', 'OPEN', 'CLOSE', AMBER, INK),
-            ('XV-403 suction', 'Scrub_SuctionCmd', 'OPEN', 'CLOSE', INK, RED)]):
-        yy = y + 24 + j * 22
-        s.text(x + 4, yy, 96, 20, tag, size=11)
-        s.text(x + 100, yy, 52, 20, on_word, size=11, bold=True, fore=on_fore,
-               anims=[s.anim_vis(cmd, True)])
-        s.text(x + 100, yy, 52, 20, off_word, size=11, bold=True, fore=off_fore,
-               anims=[s.anim_vis(cmd, False)])
-    s.text(x + 4, y + 96, 148, 34, 'Command only: no valve position feedback.', size=10,
-           fore=GREY)
-    s.text(x + 4, y + 140, 148, 18, 'RESET required', size=12, bold=True, fore=RED,
-           anims=[s.anim_vis('Scrub_Tripped', True)])
+    s.text(4, 30, 472, 18, 'TRIP: RESET required', size=11, bold=True,
+           fore=WHITE, back=RED, anims=[s.anim_vis('Scrub_Tripped', True)])
+    y = 54
+    x = 4
+    panel(s, x, y, 220, 178, 'Inputs: green = healthy')
+    s.lamp(x + 8, y + 28, 'Scrub_PSH', 'PSH-101 Pressure', on=GREEN, off=RED, w=204)
+    s.lamp(x + 8, y + 58, 'Scrub_LSH', 'LSH-102 High level', on=GREEN, off=AMBER, w=204)
+    s.lamp(x + 8, y + 88, 'Scrub_LSHH', 'LSHH-103 Very high level', on=GREEN, off=RED, w=204)
+    s.lamp(x + 8, y + 118, 'Sys_EStopOK', 'E-STOP ready', on=GREEN, off=RED, w=204)
+
+    x = 232
+    panel(s, x, y, 244, 178, 'Valve commands')
+    command_row(s, x + 8, y + 28, 'Scrub_FlareCmd', 'XV-401 flare', 'CLOSE', 'OPEN', w=224)
+    command_row(s, x + 8, y + 58, 'Scrub_DrainCmd', 'XV-402 drain', 'OPEN', 'CLOSE', w=224)
+    command_row(s, x + 8, y + 88, 'Scrub_SuctionCmd', 'XV-403 suction', 'OPEN', 'CLOSE', w=224)
+    s.text(x + 8, y + 124, 224, 34, 'Commands only; no valve position feedback.',
+           size=10, fore=INK)
     return s
 
 
@@ -529,14 +539,14 @@ def settings():
     s = Screen('Settings', 6, 'Settings')
     frame(s)
     y = 30
-    s.text(8, y, 110, 18, 'Setting', size=11, bold=True)
-    s.text(120, y, 76, 18, 'New', size=11, bold=True, align='Right')
+    s.text(8, y, 110, 18, 'Parameter', size=11, bold=True)
+    s.text(120, y, 76, 18, 'Entry', size=11, bold=True, align='Right')
     s.text(200, y, 90, 18, 'Range', size=11, bold=True)
-    s.text(292, y, 76, 18, 'Accepted', size=11, bold=True, align='Right')
-    rows = [('SP', 'Stop at  C', 1, '40.0 - 90.0'), ('HYST', 'Restart below  C', 1, '3.0 - 10.0'),
-            ('STG', '2nd stage below  C', 1, '5.0 - 30.0'), ('TStart', 'Start time  ms', 0, '90000 - 300000'),
-            ('TDrnOn', 'Drain open  ms', 0, '1000 - 30000'), ('TDrnOff', 'Drain close  ms', 0, '0 - 60000'),
-            ('TDrnMax', 'Drain max  ms', 0, '60000 - 3600000')]
+    s.text(292, y, 76, 18, 'In use', size=11, bold=True, align='Right')
+    rows = [('SP', 'Stop at °C', 1, '40.0 - 90.0'), ('HYST', 'Restart gap °C', 1, '3.0 - 10.0'),
+            ('STG', 'Stage 2 offset °C', 1, '5.0 - 30.0'), ('TStart', 'Start timeout ms', 0, '90000 - 300000'),
+            ('TDrnOn', 'Drain on delay ms', 0, '1000 - 30000'), ('TDrnOff', 'Drain off delay ms', 0, '0 - 60000'),
+            ('TDrnMax', 'Drain max time ms', 0, '60000 - 3600000')]
     for j, (n, label, shift, rng) in enumerate(rows):
         yy = y + 20 + j * 22
         length = 5 if shift else 7
@@ -544,13 +554,13 @@ def settings():
         s.io(120, yy, 76, 20, 'Par_' + n, write=True, shift=shift, length=length)
         s.text(200, yy, 90, 20, rng, size=10, fore=GREY)
         s.io(292, yy, 76, 20, 'Par_' + n + '_V', shift=shift, length=length)
-    s.text(372, y + 22, 104, 32, 'Editing allowed', size=10, bold=True, fore=GREEN,
+    s.text(372, y + 22, 104, 32, 'Settings editable', size=10, bold=True, fore=GREEN,
            anims=[s.anim_vis('Sys_SettingsEditable', True)])
     s.text(372, y + 22, 104, 48, 'STOP both burners first', size=10, bold=True, fore=AMBER,
            anims=[s.anim_vis('Sys_SettingsEditable', False)])
     s.text(8, y + 178, 360, 20, 'Setting rejected: STOP both / check range', size=11,
            bold=True, fore=WHITE, back=RED, anims=[s.anim_vis('Sys_Alm_ParRejected', True)])
-    s.text(372, y + 130, 104, 40, 'Settings need log-on (user Engineer).', size=10, fore=GREY)
+    s.text(372, y + 130, 104, 40, 'Engineer access', size=10, fore=GREY)
     return s
 
 

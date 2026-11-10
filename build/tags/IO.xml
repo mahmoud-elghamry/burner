@@ -2,7 +2,7 @@
 <Document>
   <Engineering version="V15.1" />
   <DocumentInfo>
-    <Created>2026-11-02T00:55:51.358264Z</Created>
+    <Created>2026-11-10T14:07:26.670284Z</Created>
     <ExportSetting>WithDefaults</ExportSetting>
     <InstalledProducts>
       <Product>
@@ -40,7 +40,7 @@
               <MultilingualTextItem ID="3" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>Scrubber high pressure</Text>
+                  <Text>PSH-101 healthy input; 1 = contact closed, 0 = trip/lost signal in PLC logic</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -59,7 +59,7 @@
               <MultilingualTextItem ID="6" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>Scrubber high level</Text>
+                  <Text>LSH-102 healthy input; 0 is treated as high-level signal</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -78,7 +78,7 @@
               <MultilingualTextItem ID="9" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>Scrubber high-high level</Text>
+                  <Text>LSHH-103 healthy input; 0 is treated as high-high-level signal</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -97,7 +97,7 @@
               <MultilingualTextItem ID="12" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>BR01 run feedback</Text>
+                  <Text>BR01 burner RUN feedback; 1 = RUN indicated</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -116,7 +116,7 @@
               <MultilingualTextItem ID="15" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>BR01 START push button</Text>
+                  <Text>BR01 START push button input; NO contact 1 = pressed.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -135,7 +135,7 @@
               <MultilingualTextItem ID="18" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>BR01 fault (lockout)</Text>
+                  <Text>BR01 control-box lockout input; code treats 1 as lockout</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -154,7 +154,7 @@
               <MultilingualTextItem ID="21" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>BR01 STOP push button</Text>
+                  <Text>BR01 STOP NC input; code treats 1 = released/healthy</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -173,7 +173,7 @@
               <MultilingualTextItem ID="24" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>E-STOP status (NC1)</Text>
+                  <Text>E-STOP NC1 status; code treats 1 = released</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -192,7 +192,7 @@
               <MultilingualTextItem ID="27" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>FAULT RESET push button</Text>
+                  <Text>Panel RESET button; 1 = pressed. A new press generates a one-scan reset pulse.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -211,7 +211,7 @@
               <MultilingualTextItem ID="30" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>TK01 low level</Text>
+                  <Text>TK01 low-level switch input; code uses BOOL=1 as level permissive</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -230,7 +230,7 @@
               <MultilingualTextItem ID="33" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>TK02 low level</Text>
+                  <Text>TK02 low-level switch input; code uses BOOL=1 as level permissive</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -249,7 +249,7 @@
               <MultilingualTextItem ID="36" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>BR02 run feedback</Text>
+                  <Text>BR02 burner RUN feedback; 1 = RUN indicated</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -268,7 +268,7 @@
               <MultilingualTextItem ID="39" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>BR02 fault (lockout)</Text>
+                  <Text>BR02 control-box lockout input; code treats 1 as lockout</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -287,7 +287,7 @@
               <MultilingualTextItem ID="42" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>BR02 diesel mode</Text>
+                  <Text>BR02 diesel-mode input; 1 = diesel mode selected.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -306,7 +306,7 @@
               <MultilingualTextItem ID="45" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>BR01 AUTO/MAN selector (closed = AUTO)</Text>
+                  <Text>BR01 AUTO/MAN selector; code uses 1 = AUTO</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -325,7 +325,7 @@
               <MultilingualTextItem ID="48" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>BR02 AUTO/MAN selector (closed = AUTO)</Text>
+                  <Text>BR02 AUTO/MAN selector; code uses 1 = AUTO</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -344,7 +344,7 @@
               <MultilingualTextItem ID="51" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>BR02 START push button</Text>
+                  <Text>BR02 START push button input; NO contact 1 = pressed.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -363,7 +363,7 @@
               <MultilingualTextItem ID="54" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>BR02 STOP push button</Text>
+                  <Text>BR02 STOP NC input; code treats 1 = released/healthy</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -382,7 +382,7 @@
               <MultilingualTextItem ID="57" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>BR01 heat request (TL) + H1 1st stage lamp</Text>
+                  <Text>BR01 TL heat-request command; 1 = output energized</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -401,7 +401,7 @@
               <MultilingualTextItem ID="60" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>BR01 2nd stage (TR) + H2 2nd stage lamp</Text>
+                  <Text>BR01 TR second-stage command; 1 = output energized</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -420,7 +420,7 @@
               <MultilingualTextItem ID="63" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>XV-401 Flare SV (NO)</Text>
+                  <Text>XV-401 flare NO-valve command; 1 energized = closed</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -439,7 +439,7 @@
               <MultilingualTextItem ID="66" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>XV-402 Drain SV (NC)</Text>
+                  <Text>XV-402 drain NC-valve command; 1 energized = open</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -458,7 +458,7 @@
               <MultilingualTextItem ID="69" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>XV-403 Suction SV (NC)</Text>
+                  <Text>XV-403 suction NC-valve command; 1 energized = open</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -477,7 +477,7 @@
               <MultilingualTextItem ID="72" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>BR02 start (L)</Text>
+                  <Text>BR02 L heat-request command; 1 = output energized</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -496,7 +496,7 @@
               <MultilingualTextItem ID="75" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>BR02 high fire (T2)</Text>
+                  <Text>BR02 T2 second-stage command; 1 = output energized</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -515,7 +515,7 @@
               <MultilingualTextItem ID="78" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>BR02 1st stage lamp H5</Text>
+                  <Text>BR02 H5 first-stage lamp output; 1 = lamp command on</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -534,7 +534,7 @@
               <MultilingualTextItem ID="81" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>BR02 2nd stage lamp H6</Text>
+                  <Text>BR02 H6 second-stage lamp output; 1 = lamp command on</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -553,7 +553,7 @@
               <MultilingualTextItem ID="84" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>TK01 inlet oil temperature</Text>
+                  <Text>TK01 inlet oil thermocouple raw value in 0.1 °C; validate before use</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -572,7 +572,7 @@
               <MultilingualTextItem ID="87" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>TK01 outlet oil temperature</Text>
+                  <Text>TK01 outlet oil thermocouple raw value in 0.1 °C; validate before use</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -591,7 +591,7 @@
               <MultilingualTextItem ID="90" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>TK02 inlet oil temperature</Text>
+                  <Text>TK02 inlet oil thermocouple raw value in 0.1 °C; validate before use</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -610,7 +610,7 @@
               <MultilingualTextItem ID="93" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>TK02 outlet oil temperature</Text>
+                  <Text>TK02 outlet oil thermocouple raw value in 0.1 °C; validate before use</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
