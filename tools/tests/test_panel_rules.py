@@ -47,84 +47,281 @@ def rules(make):
         return make()
 
 
-def scan_common(memory):
-    for title, expr, outputs in rules(B.common_fc):
-        active = expression(expr, memory)
+def val(token, m):
+    """Operand value; a symbol that was never written reads FALSE / 0 like a fresh DB."""
+    if isinstance(token, str) and (token.startswith('#') or token.startswith('"')):
+        return m.get(token, False)
+    return value(token, m)
+
+
+def power(expr, m, src=True):
+    """Power flow through a rung expression. A TON passes power when its IN has
+    power and the test has marked that timer as elapsed: m['elapsed'] = {'#T_x'}."""
+    if expr is None:
+        return src
+    if isinstance(expr, str):
+        return src and bool(val(expr, m))
+    op, *args = expr
+    if op == '!':
+        return src and not bool(val(args[0], m)) if isinstance(args[0], str) \
+            else src and not power(args[0], m)
+    if op == '&':
+        for sub in args:
+            src = power(sub, m, src)
+        return src
+    if op == '|':
+        return any(power(sub, m, src) for sub in args)
+    if op in ('Eq', 'Ne', 'Lt', 'Le', 'Gt', 'Ge'):
+        a, b = val(args[1], m), val(args[2], m)
+        return src and {'Eq': a == b, 'Ne': a != b, 'Lt': a < b, 'Le': a <= b,
+                        'Gt': a > b, 'Ge': a >= b}[op]
+    if op == 'TON':
+        return src and args[0] in m.get('elapsed', set())
+    raise AssertionError('Unsupported rule expression: %r' % (expr,))
+
+
+def scan(make, m, prefix=''):
+    """One scan of a block. prefix turns '#X' into '"BR01_DB".X' style names."""
+    def name(op):
+        return prefix + op[1:] if prefix and op.startswith('#') else op
+
+    def ren(e):
+        if isinstance(e, str):
+            return name(e)
+        if isinstance(e, tuple) and e and e[0] == 'TON':
+            return ('TON', name(e[1]), e[2])
+        if isinstance(e, tuple):
+            return (e[0],) + tuple(ren(x) for x in e[1:])
+        return e
+    for title, expr, outputs in rules(make):
+        active = power(ren(expr), m)
         for op, *args in outputs:
+            args = [ren(x) for x in args]
             if op == '=':
-                memory[args[0]] = active
-            elif active and op == 'S':
-                memory[args[0]] = True
-            elif active and op == 'R':
-                memory[args[0]] = False
-            elif active and op == 'MOVE':
-                memory[args[1]] = value(args[0], memory)
-            elif op not in ('S', 'R', 'MOVE'):
+                m[args[0]] = active
+            elif op == 'S' and active:
+                m[args[0]] = True
+            elif op == 'R' and active:
+                m[args[0]] = False
+            elif op == 'MOVE' and active:
+                m[args[1]] = val(args[0], m)
+            elif op in ('SUB', 'ADD') and active:
+                a, b = val(args[1], m), val(args[2], m)
+                m[args[3]] = a - b if op == 'SUB' else a + b
+            elif op not in ('S', 'R', 'MOVE', 'SUB', 'ADD'):
                 raise AssertionError('Unsupported rule output: %r' % (op,))
 
 
-def memory(br1=False, br2=False):
-    result = {'"Sys".' + n: False for n, _ in B.SYS}
-    result.update({'"S0_EStopStatus"': True, '"S2_FaultReset"': False,
-                   '"Sys".EStopOK': True, '"BR01_DB".StartEnabled': br1, '"BR02_DB".StartEnabled': br2})
+def plant():
+    """Healthy panel, both burners stopped, tanks cold (50.0 degC), AUTO."""
+    m = {'"S0_EStopStatus"': True, '"Sys".EStopOK': True, 'elapsed': set()}
     for n, typ, default, low, high, comment in B.PARAMS:
-        result['"Par".' + n] = value(default, {})
-        result['"Par".' + n + '_V'] = value(default, {})
-    return result
+        m['"Par".' + n] = value(default, {})
+    m.update({'#PSH': True, '#LSH': True, '#LSHH': True})
+    for br in ('BR01', 'BR02'):
+        p = '"%s_DB".' % br
+        m.update({p + 'Auto': True, p + 'StopOK': True, p + 'LevelOK': True,
+                  p + 'TeA': 500, p + 'TeB': 500})
+    return m
 
 
-class SettingsRules(unittest.TestCase):
-    def test_all_parameters_accept_only_with_both_start_permissions_off(self):
+def burner(m, br='BR01', n=1):
+    for _ in range(n):
+        scan(B.burner_fb, m, '"%s_DB".' % br)
+
+
+def press_start(m, br='BR01'):
+    m['"%s_DB".StartPB' % br] = True
+    burner(m, br)
+    m['"%s_DB".StartPB' % br] = False
+    burner(m, br)
+
+
+class CommonRules(unittest.TestCase):
+    def test_settings_are_kept_inside_their_range(self):
         for n, typ, default, low, high, comment in B.PARAMS:
-            for br1, br2 in [(False, False), (True, False), (False, True), (True, True)]:
-                with self.subTest(parameter=n, br1=br1, br2=br2):
-                    m = memory(br1, br2)
-                    p, v = '"Par".' + n, '"Par".' + n + '_V'
-                    previous = m[v]
-                    candidate = previous + (1000 if typ == 'Time' else 1)
-                    m[p] = candidate
-                    scan_common(m)
-                    editable = not br1 and not br2
-                    self.assertEqual(m[v], candidate if editable else previous)
-                    self.assertEqual(m[p], candidate if editable else previous)
-                    self.assertEqual(m['"Sys".Alm_ParRejected'], not editable)
+            for entry, expected in [(int(low) - 1, int(low)), (int(high) + 1, int(high)),
+                                    (int(default), int(default))]:
+                with self.subTest(parameter=n, entry=entry):
+                    m = plant()
+                    m['"Par".' + n] = entry
+                    scan(B.common_fc, m)
+                    self.assertEqual(m['"Par".' + n], expected)
 
-    def test_no_false_rejection_for_unchanged_values_while_enabled(self):
-        m = memory(True, True)
-        scan_common(m)
-        self.assertFalse(m['"Sys".Alm_ParRejected'])
+    def test_estop_needs_release_and_reset(self):
+        m = plant()
+        m['"S0_EStopStatus"'] = False
+        scan(B.common_fc, m)
+        self.assertFalse(m['"Sys".EStopOK'])
+        m['"S0_EStopStatus"'] = True
+        scan(B.common_fc, m)
+        self.assertFalse(m['"Sys".EStopOK'])
+        m['"S2_FaultReset"'] = True
+        scan(B.common_fc, m)
+        self.assertTrue(m['"Sys".EStopOK'])
 
-    def test_out_of_range_is_restored_for_each_parameter(self):
-        for n, typ, default, low, high, comment in B.PARAMS:
-            with self.subTest(parameter=n):
-                m = memory()
-                p, v = '"Par".' + n, '"Par".' + n + '_V'
-                previous = m[v]
-                m[p] = value(high, {}) + 1
-                scan_common(m)
-                self.assertEqual(m[p], previous)
-                self.assertEqual(m[v], previous)
-                self.assertTrue(m['"Sys".Alm_ParRejected'])
 
-    def test_corrupt_retained_values_restore_defaults_on_first_scan(self):
-        m = memory()
+class ScrubberRules(unittest.TestCase):
+    def test_drain_follows_the_level_without_delay(self):
+        m = plant()
+        m['#LSH'] = False
+        scan(B.scrubber_fb, m)
+        self.assertTrue(m['#DrainCmd'])
+        m['#LSH'] = True
+        scan(B.scrubber_fb, m)
+        self.assertFalse(m['#DrainCmd'])
+
+    def test_drain_time_limit_closes_and_reset_reopens(self):
+        m = plant()
+        m['#LSH'] = False
+        scan(B.scrubber_fb, m)
+        m['elapsed'] = {'#T_DrnMax'}
+        scan(B.scrubber_fb, m)
+        m['elapsed'] = set()
+        scan(B.scrubber_fb, m)
+        self.assertFalse(m['#DrainCmd'])
+        m['#Reset'] = True
+        scan(B.scrubber_fb, m)
+        m['#Reset'] = False
+        scan(B.scrubber_fb, m)
+        self.assertTrue(m['#DrainCmd'])
+
+    def test_pressure_trip_keeps_its_cause_until_reset(self):
+        m = plant()
+        m['#PSH'] = False
+        scan(B.scrubber_fb, m)
+        m['#PSH'] = True
+        scan(B.scrubber_fb, m)
+        self.assertFalse(m['#FlareCmd'])      # flare open
+        self.assertFalse(m['#SuctionCmd'])    # suction closed
+        self.assertTrue(m['#Cause_PSH'])
+        m['#Reset'] = True
+        scan(B.scrubber_fb, m)
+        self.assertTrue(m['#FlareCmd'] and m['#SuctionCmd'])
+        self.assertFalse(m['#Cause_PSH'])
+
+    def test_very_high_level_trips_suction_not_flare_and_opens_drain(self):
+        m = plant()
+        m['#LSHH'] = False
+        scan(B.scrubber_fb, m)
+        self.assertTrue(m['#FlareCmd'])
+        self.assertFalse(m['#SuctionCmd'])
+        self.assertTrue(m['#DrainCmd'])
+
+    def test_power_up_trips_until_reset(self):
+        m = plant()
         m['"Sys".FirstScan'] = True
-        for n, typ, default, low, high, comment in B.PARAMS:
-            m['"Par".' + n] = m['"Par".' + n + '_V'] = value(high, {}) + 1
-        scan_common(m)
-        for n, typ, default, low, high, comment in B.PARAMS:
-            self.assertEqual(m['"Par".' + n], value(default, {}))
-            self.assertEqual(m['"Par".' + n + '_V'], value(default, {}))
+        scan(B.scrubber_fb, m)
+        m['"Sys".FirstScan'] = False
+        scan(B.scrubber_fb, m)
+        self.assertFalse(m['#SuctionCmd'])
+        self.assertFalse(m['#FlareCmd'])
 
 
-class BurnerPermissive(unittest.TestCase):
-    def test_scrubber_trip_blocks_ready(self):
-        expr = next(expr for title, expr, outs in rules(B.burner_fb) if 'ready to fire' in title)
-        m = {'#LevelOK': True, '#TcOk': True, '"Sys".EStopOK': True,
-             '#Lockout': False, '#Pause24': False, '"Scrubber_DB".Tripped': True}
-        self.assertFalse(expression(expr, m))
-        m['"Scrubber_DB".Tripped'] = False
-        self.assertTrue(expression(expr, m))
+class BurnerRules(unittest.TestCase):
+    P = '"BR01_DB".'
+
+    def test_start_gives_heat_request_and_stop_removes_it(self):
+        m = plant()
+        burner(m)
+        self.assertFalse(m[self.P + 'HeatReq'])
+        press_start(m)
+        self.assertTrue(m[self.P + 'HeatReq'])
+        m[self.P + 'StopOK'] = False
+        burner(m)
+        self.assertFalse(m[self.P + 'HeatReq'])
+
+    def test_every_trip_needs_a_new_start(self):
+        trips = {'lockout': (self.P + 'Lockout', True),
+                 'scrubber': ('"Scrubber_DB".Tripped', True),
+                 'estop': ('"Sys".EStopOK', False),
+                 'fuel': (self.P + 'Fuel', True)}
+        for label, (key, bad) in trips.items():
+            with self.subTest(trip=label):
+                m = plant()
+                press_start(m)
+                good = m.get(key, False)
+                m[key] = bad
+                burner(m)
+                self.assertFalse(m[self.P + 'HeatReq'])
+                if label != 'fuel':
+                    m[key] = good
+                burner(m, n=2)
+                self.assertFalse(m[self.P + 'HeatReq'], 'restarted without START')
+                press_start(m)
+                self.assertTrue(m[self.P + 'HeatReq'])
+
+    def test_thermocouple_fault_after_10_s(self):
+        m = plant()
+        press_start(m)
+        m[self.P + 'TeA'] = 32767
+        burner(m)
+        self.assertFalse(m[self.P + 'HeatReq'])       # no valid temperature: no heat
+        self.assertFalse(m[self.P + 'TcBad'])
+        m['elapsed'] = {self.P + 'T_TcBad'}
+        burner(m)
+        self.assertTrue(m[self.P + 'TcBad'])
+        self.assertFalse(m[self.P + 'StartEnabled'])
+
+    def test_stage2_waits_for_run_and_its_timer_and_stops_at_62(self):
+        m = plant()
+        press_start(m)
+        m[self.P + 'RunFb'] = True
+        burner(m)
+        self.assertFalse(m[self.P + 'Stage2'])
+        m['elapsed'] = {self.P + 'T_Stage2'}
+        burner(m)
+        self.assertTrue(m[self.P + 'Stage2'])
+        m[self.P + 'TeA'] = 610
+        burner(m)
+        self.assertTrue(m[self.P + 'Stage2'])
+        m[self.P + 'TeA'] = 620
+        burner(m)
+        self.assertFalse(m[self.P + 'Stage2'])
+
+    def test_auto_hysteresis_stops_at_sp_and_restarts_at_sp_minus_hyst(self):
+        m = plant()
+        press_start(m)
+        m[self.P + 'TeA'] = m[self.P + 'TeB'] = 700
+        burner(m)
+        self.assertFalse(m[self.P + 'HeatReq'])
+        self.assertTrue(m[self.P + 'StartEnabled'])
+        m[self.P + 'TeA'] = m[self.P + 'TeB'] = 660
+        burner(m)
+        self.assertFalse(m[self.P + 'HeatReq'])
+        m[self.P + 'TeA'] = m[self.P + 'TeB'] = 650
+        burner(m)
+        self.assertTrue(m[self.P + 'HeatReq'])
+
+    def test_man_runs_one_cycle(self):
+        m = plant()
+        m[self.P + 'Auto'] = False
+        press_start(m)
+        self.assertTrue(m[self.P + 'HeatReq'])
+        m[self.P + 'TeA'] = m[self.P + 'TeB'] = 700
+        burner(m)
+        self.assertFalse(m[self.P + 'StartEnabled'])
+        m[self.P + 'TeA'] = m[self.P + 'TeB'] = 500
+        burner(m, n=2)
+        self.assertFalse(m[self.P + 'HeatReq'])
+
+    def test_low_tank_level_waits_in_auto(self):
+        m = plant()
+        press_start(m)
+        m[self.P + 'LevelOK'] = False
+        burner(m)
+        self.assertFalse(m[self.P + 'HeatReq'])
+        m[self.P + 'LevelOK'] = True
+        burner(m)
+        self.assertTrue(m[self.P + 'HeatReq'])
+
+    def test_run_alarms_are_alarms_only(self):
+        m = plant()
+        press_start(m)
+        m['elapsed'] = {self.P + 'T_NoRun'}
+        burner(m)
+        self.assertTrue(m[self.P + 'NoRun'])
+        self.assertTrue(m[self.P + 'HeatReq'])
 
 
 class HmiContracts(unittest.TestCase):
@@ -143,7 +340,7 @@ class HmiContracts(unittest.TestCase):
     def test_bindings_and_object_names_are_complete(self):
         import build_hmi as H
         names = {name for name, db, member in H.TAGS}
-        self.assertEqual(len(names), 74)
+        self.assertEqual(len(names), 58)
         for screen in [H.overview(), H.burner('BR01'), H.burner('BR02'), H.scrubber(), H.settings(), H.alarms()]:
             root = ET.fromstring(screen.xml())
             objects = root.findall('.//ObjectName')
@@ -189,10 +386,9 @@ class HmiContracts(unittest.TestCase):
             name = item.findtext('./AttributeList/Name')
             expected = 'Continuous' if name.startswith('Alm_') else 'Visible'
             self.assertEqual(item.findtext('./AttributeList/AcquisitionTriggerMode'), expected)
-        expected_ids = {('Common', n): 1 + n for n in range(8)}
-        expected_ids.update({('BR01', n): 9 + n for n in range(7)})
-        expected_ids.update({('BR02', n): 16 + n for n in range(7)})
-        expected_ids.update({('BR01', 7): 23, ('BR02', 7): 24})
+        expected_ids = {('Common', n): 1 + n for n in range(6)}
+        expected_ids.update({('BR01', n): 7 + n for n in range(5)})
+        expected_ids.update({('BR02', n): 12 + n for n in range(5)})
         self.assertEqual({(w, b): A.alarm_id(w, b) for w, b, *_ in B.HMI_ALARMS}, expected_ids)
 
 

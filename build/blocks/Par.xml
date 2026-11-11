@@ -10,20 +10,9 @@
       <HeaderVersion>0.1</HeaderVersion>
       <Interface><Sections xmlns="http://www.siemens.com/automation/Openness/SW/Interface/v3">
   <Section Name="Static">
-    <Member Name="SP" Datatype="Int" Remanence="Retain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Operator entry: stop temperature, in 0.1 degC.</MultiLanguageText></Comment><StartValue>700</StartValue></Member>
-    <Member Name="HYST" Datatype="Int" Remanence="Retain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Operator entry: restart difference below stop temperature, in 0.1 degC.</MultiLanguageText></Comment><StartValue>50</StartValue></Member>
-    <Member Name="STG" Datatype="Int" Remanence="Retain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Operator entry: stage 2 ON difference below stop temperature, in 0.1 degC.</MultiLanguageText></Comment><StartValue>100</StartValue></Member>
-    <Member Name="TStart" Datatype="Time" Remanence="Retain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Operator entry: maximum wait for RUN after the heat request, in milliseconds.</MultiLanguageText></Comment><StartValue>T#2M</StartValue></Member>
-    <Member Name="TDrnOn" Datatype="Time" Remanence="Retain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Operator entry: high-level delay before requesting drain OPEN, in milliseconds.</MultiLanguageText></Comment><StartValue>T#3S</StartValue></Member>
-    <Member Name="TDrnOff" Datatype="Time" Remanence="Retain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Operator entry: normal-level delay before removing drain OPEN, in milliseconds.</MultiLanguageText></Comment><StartValue>T#5S</StartValue></Member>
-    <Member Name="TDrnMax" Datatype="Time" Remanence="Retain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Operator entry: maximum continuous drain OPEN command, in milliseconds.</MultiLanguageText></Comment><StartValue>T#10M</StartValue></Member>
-    <Member Name="SP_V" Datatype="Int" Remanence="Retain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Accepted stop temperature used by control, in 0.1 degC.</MultiLanguageText></Comment><StartValue>700</StartValue></Member>
-    <Member Name="HYST_V" Datatype="Int" Remanence="Retain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Accepted restart difference below stop temperature, in 0.1 degC.</MultiLanguageText></Comment><StartValue>50</StartValue></Member>
-    <Member Name="STG_V" Datatype="Int" Remanence="Retain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Accepted stage 2 ON difference below stop temperature, in 0.1 degC.</MultiLanguageText></Comment><StartValue>100</StartValue></Member>
-    <Member Name="TStart_V" Datatype="Time" Remanence="Retain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Accepted maximum wait for RUN, in milliseconds.</MultiLanguageText></Comment><StartValue>T#2M</StartValue></Member>
-    <Member Name="TDrnOn_V" Datatype="Time" Remanence="Retain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Accepted delay before requesting drain OPEN, in milliseconds.</MultiLanguageText></Comment><StartValue>T#3S</StartValue></Member>
-    <Member Name="TDrnOff_V" Datatype="Time" Remanence="Retain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Accepted delay before removing drain OPEN, in milliseconds.</MultiLanguageText></Comment><StartValue>T#5S</StartValue></Member>
-    <Member Name="TDrnMax_V" Datatype="Time" Remanence="Retain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Accepted maximum continuous drain OPEN command, in milliseconds.</MultiLanguageText></Comment><StartValue>T#10M</StartValue></Member>
+    <Member Name="SP" Datatype="Int" Remanence="Retain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Stop temperature, 0.1 degC (700 = 70.0 degC). HMI entry; PLC keeps it inside 400..900.</MultiLanguageText></Comment><StartValue>700</StartValue></Member>
+    <Member Name="HYST" Datatype="Int" Remanence="Retain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Restart difference below SP, 0.1 degC (50 = 5.0 degC). PLC keeps it inside 30..100.</MultiLanguageText></Comment><StartValue>50</StartValue></Member>
+    <Member Name="STG" Datatype="Int" Remanence="Retain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Stage 2 runs below SP - STG, 0.1 degC (100 = 10.0 degC). PLC keeps it inside 50..300.</MultiLanguageText></Comment><StartValue>100</StartValue></Member>
   </Section>
 </Sections></Interface>
       <MemoryLayout>Optimized</MemoryLayout>
@@ -38,7 +27,7 @@
           <MultilingualTextItem ID="2" CompositionName="Items">
             <AttributeList>
               <Culture>en-US</Culture>
-              <Text>Operator entries and accepted settings. Temperatures: 0.1 degC. TIME values: milliseconds.</Text>
+              <Text>The three HMI settings SP, HYST, STG in 0.1 degC. All times are fixed in the blocks.</Text>
             </AttributeList>
           </MultilingualTextItem>
         </ObjectList>

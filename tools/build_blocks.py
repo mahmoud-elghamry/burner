@@ -266,12 +266,19 @@ HEAD = ('<?xml version="1.0" encoding="utf-8"?>\n<Document>\n'
 
 def code_block(tag, name, number, iface, networks, extra_attrs='', comment=''):
     ids = L.IdGen(1)
-    descriptions = P.NETWORK_TEXT[name]
-    if len(descriptions) != len(networks) or set(descriptions) != {title for title, _ in networks}:
+    # Rev. B: a title 'Short title :: explanation' carries its own English text;
+    # otherwise the text comes from panel_text.NETWORK_TEXT (whole block, no gaps).
+    inline = all(' :: ' in t for t, _ in networks)
+    descriptions = {} if inline else P.NETWORK_TEXT[name]
+    if not inline and (len(descriptions) != len(networks) or
+                       set(descriptions) != {title for title, _ in networks}):
         raise ValueError('Network text does not cover the current ' + name + ' networks')
     units = []
     for source_title, flg in networks:
-        title, explanation = descriptions[source_title]
+        if inline:
+            title, explanation = source_title.split(' :: ', 1)
+        else:
+            title, explanation = descriptions[source_title]
         unit = L.compile_unit(ids, flg, title)
         # Keep the shared ladxml serializer unchanged: its first empty Text is
         # the network Comment; the following multilingual object is the Title.
@@ -325,39 +332,33 @@ def db_block(tag, name, number, iface, instance_of=None):
 # ======================================================================
 #  Par و Sys — Global DBs
 # ======================================================================
-# الحرارة كلها بعُشر الدرجة، زي قراءة كارت الـ TC (700 = 70.0 °C).
-# (اسم، نوع، افتراضي، أقل، أعلى، وصف) — المدى من شيت Parameters في الـ C&E.
+# Rev. B (docs/تبسيط الكود.md): تلات إعدادات بس على الشاشة. الحرارة بعُشر الدرجة
+# زي كارت الـ TC (700 = 70.0 °C). الأوقات كلها ثابتة جوه البلوكات.
+# (اسم، نوع، افتراضي، أقل، أعلى، وصف) — المدى من شيت Parameters في الـ C&E Rev. B.
 PARAMS = [
-    ('SP', 'Int', '700', '400', '900', 'Setpoint, 0.1 degC (C07b)'),
-    ('HYST', 'Int', '50', '30', '100', 'Restart hysteresis, 0.1 degC (C07b)'),
-    ('STG', 'Int', '100', '50', '300', '2nd stage below SP - STG, 0.1 degC (C07c)'),
-    ('TStart', 'Time', 'T#2M', 'T#90S', 'T#5M', 'Max. time heat request -> RUN (C07f)'),
-    ('TDrnOn', 'Time', 'T#3S', 'T#1S', 'T#30S', 'Scrubber high level before drain opens (C04)'),
-    ('TDrnOff', 'Time', 'T#5S', 'T#0S', 'T#60S', 'Scrubber level gone before drain closes (C04)'),
-    ('TDrnMax', 'Time', 'T#10M', 'T#1M', 'T#60M', 'Scrubber drain max. continuous open time (C04a)'),
+    ('SP', 'Int', '700', '400', '900', 'Stop temperature, 0.1 degC (C07b)'),
+    ('HYST', 'Int', '50', '30', '100', 'Restart difference below SP, 0.1 degC (C07b)'),
+    ('STG', 'Int', '100', '50', '300', 'Stage 2 below SP - STG, 0.1 degC (C07c)'),
 ]
+PAR_TEXT = {
+    'SP': 'Stop temperature, 0.1 degC (700 = 70.0 degC). HMI entry; PLC keeps it inside 400..900.',
+    'HYST': 'Restart difference below SP, 0.1 degC (50 = 5.0 degC). PLC keeps it inside 30..100.',
+    'STG': 'Stage 2 runs below SP - STG, 0.1 degC (100 = 10.0 degC). PLC keeps it inside 50..300.',
+}
 
 
 def par_db():
-    mems = []
-    for n, t, d, lo, hi, txt in PARAMS:
-        mems.append(member(n, t, d, retain=True, comment=P.MEMBER_TEXT['Par'][n]))
-    for n, t, d, lo, hi, txt in PARAMS:
-        mems.append(member(n + '_V', t, d, retain=True,
-                           comment=P.MEMBER_TEXT['Par'][n + '_V']))
+    mems = [member(n, t, d, retain=True, comment=PAR_TEXT[n]) for n, t, d, lo, hi, txt in PARAMS]
     return db_block('SW.Blocks.GlobalDB', 'Par', 1, interface([('Static', mems)]))
 
 
 SYS = [
-    ('FirstScan', 'Set by OB100, cleared at the end of Main (C02)'),
-    ('EStopOK', 'E-STOP latch: 1 = released and RESET given (C01)'),
-    ('ResetPulse', 'RESET S2 rising edge, one scan (R-06)'),
-    ('ResetMem', 'RESET edge memory (R-06)'),
-    ('Alm_EStop', 'HMI alarm: E-STOP (C01)'),
-    ('Alm_ParRejected', 'R-11: entry rejected (out of range or a burner still enabled)'),
-    ('SettingsEditable', 'R-11 / 0009: both burners have no START permission'),
+    ('FirstScan', 'Startup flag: set by OB100, cleared at the end of Main'),
+    ('EStopOK', 'E-STOP released and RESET given (or released at power-up)'),
+    ('ResetPulse', 'One-scan pulse on a new press of RESET S2'),
+    ('ResetMem', 'RESET S2 state from the previous scan'),
+    ('Alm_EStop', 'HMI alarm: E-STOP pressed or waiting for RESET'),
 ]
-SYS = [(n, P.MEMBER_TEXT['Sys'][n]) for n, _ in SYS]
 
 
 def sys_db():
@@ -365,157 +366,98 @@ def sys_db():
     return db_block('SW.Blocks.GlobalDB', 'Sys', 2, interface([('Static', mems)]))
 
 
+def N(title, explanation):
+    """Network title with its English explanation (shown in TIA under the title)."""
+    return '%s :: %s' % (title, explanation)
+
+
 # ======================================================================
-#  Common (FC1)
+#  Common (FC1) — الطوارئ وزرار RESET وحدود الإعدادات
 # ======================================================================
 def common_fc():
     nets = [
-        rung('R-06 — RESET edge (not on first scan)',
+        rung(N('RESET: new press', 'One-scan pulse when S2 is pressed; ignored on the first scan. C01.'),
              ('&', '"S2_FaultReset"', ('!', '"Sys".ResetMem'), ('!', '"Sys".FirstScan')),
              ('=', '"Sys".ResetPulse')),
-        rung('R-06 — RESET edge memory', '"S2_FaultReset"', ('=', '"Sys".ResetMem')),
-        rung('C01 — E-STOP pressed (NC1 open) drops the latch',
+        rung(N('RESET: remember the button', 'Save S2 for the next scan.'),
+             '"S2_FaultReset"', ('=', '"Sys".ResetMem')),
+        rung(N('E-STOP pressed', 'E-STOP status contact open: remove EStopOK. C01.'),
              ('!', '"S0_EStopStatus"'), ('R', '"Sys".EStopOK')),
-        rung('C01 — E-STOP latch back after RESET (or at power-up if released)',
+        rung(N('E-STOP released and RESET', 'E-STOP released plus RESET (or at power-up): EStopOK back. Burners still need START. C01.'),
              ('&', '"S0_EStopStatus"', ('|', '"Sys".ResetPulse', '"Sys".FirstScan')),
              ('S', '"Sys".EStopOK')),
-        rung('C01 — E-STOP alarm', ('!', '"Sys".EStopOK'), ('=', '"Sys".Alm_EStop')),
-        rung('R-11 — RESET clears the parameter alarm', '"Sys".ResetPulse',
-             ('R', '"Sys".Alm_ParRejected')),
-        rung('R-11 / 0009 — settings allowed only after STOP for both burners',
-             ('&', ('!', '"BR01_DB".StartEnabled'), ('!', '"BR02_DB".StartEnabled')),
-             ('=', '"Sys".SettingsEditable')),
+        rung(N('E-STOP alarm', 'Shown while EStopOK is off. C01.'),
+             ('!', '"Sys".EStopOK'), ('=', '"Sys".Alm_EStop')),
     ]
     for n, t, d, lo, hi, txt in PARAMS:
-        p, v = '"Par".%s' % n, '"Par".%s_V' % n
+        p = '"Par".%s' % n
         nets += [
-            rung('R-11 — %s: stored value bad after power-up -> default' % n,
-                 ('&', '"Sys".FirstScan', ('|', ('Lt', t, v, lo), ('Gt', t, v, hi))),
-                 ('MOVE', d, v)),
-            rung('R-11 — %s: both STOP and entry in range -> accepted' % n,
-                 ('&', '"Sys".SettingsEditable', ('Ge', t, p, lo), ('Le', t, p, hi)), ('MOVE', p, v)),
-            rung('R-11 — %s: invalid or changed while enabled -> old value back, alarm' % n,
-                 ('|', ('Lt', t, p, lo), ('Gt', t, p, hi),
-                  ('&', ('!', '"Sys".SettingsEditable'), ('Ne', t, p, v))),
-                 ('MOVE', v, p), ('S', '"Sys".Alm_ParRejected')),
+            rung(N('%s below its minimum' % n, '%s below %s: use %s. Sheet Parameters.' % (n, lo, lo)),
+                 ('Lt', t, p, lo), ('MOVE', lo, p)),
+            rung(N('%s above its maximum' % n, '%s above %s: use %s. Sheet Parameters.' % (n, hi, hi)),
+                 ('Gt', t, p, hi), ('MOVE', hi, p)),
         ]
     iface = interface([('Input', []), ('Output', []), ('InOut', []), ('Temp', []),
                        ('Constant', []), ('Return', ['<Member Name="Ret_Val" Datatype="Void" />'])])
-    return code_block('SW.Blocks.FC', 'Common', 1, iface, nets,
-                      comment='E-STOP latch, RESET edge, parameter check (decisions/0006)')
+    return code_block('SW.Blocks.FC', 'Common', 1, iface, nets)
 
 
 # ======================================================================
 #  Scrubber (FB2)
 # ======================================================================
-SCRUB_IN = [('PSH', 'PSH-101 healthy (contact closed)'),
-            ('LSH', 'LSH-102 healthy'),
-            ('LSHH', 'LSHH-103 healthy'),
-            ('Reset', 'RESET push button, one scan (Sys.ResetPulse)')]
-SCRUB_OUT = [('FlareCmd', 'Q0.2 XV-401 (NO): 1 = energised = closed'),
-             ('DrainCmd', 'Q0.3 XV-402 (NC): 1 = energised = open (C04 / C05)'),
-             ('SuctionCmd', 'Q0.4 XV-403 (NC): 1 = energised = open')]
-SCRUB_CAUSES = [('Cause_EStop', 'C06a / F44: E-STOP cause, latched until healthy RESET'),
-                ('Cause_PSH', 'C06a / F44: PSH-101 cause, latched until healthy RESET'),
-                ('Cause_LSHH', 'C06a / F44: LSHH-103 cause, latched until healthy RESET'),
-                ('Cause_PwrUp', 'C06a / F44: power-up cause, latched until healthy RESET')]
+SCRUB_IN = [('PSH', 'PSH-101 healthy: 1 = contact closed (normal pressure)'),
+            ('LSH', 'LSH-102 healthy: 1 = level below high'),
+            ('LSHH', 'LSHH-103 healthy: 1 = level below very high'),
+            ('Reset', 'RESET pulse (Sys.ResetPulse)')]
+SCRUB_OUT = [('FlareCmd', 'XV-401 flare (NO): 1 = energised = closed'),
+             ('DrainCmd', 'XV-402 drain (NC): 1 = energised = open'),
+             ('SuctionCmd', 'XV-403 suction (NC): 1 = energised = open')]
 SCRUB_STAT = [
-    ('Tripped', 'Bool', 'Suction trip latch C01/C02/C03/C05: XV-403 closed until RESET'),
-    ('FlareTrip', 'Bool', 'Flare trip latch C01/C02/C03: XV-401 open until RESET'),
-    ('ValveCommandsNormal', 'Bool', 'No trip latched: flare closed and suction open (HMI)'),
-    ('LevelHigh', 'Bool', 'LSH-102 or LSHH-103 open'),
-    ('DrainDemand', 'Bool', 'Drain demand after TDRN_ON of high level'),
-    ('F_DrainTO', 'Bool', 'C04a: drain open too long, latched until RESET'),
-    ('F_LshFault', 'Bool', 'C04b: LSHH-103 without LSH-102, latched until RESET'),
-    ('Alm_PSH', 'Bool', 'HMI alarm C03'), ('Alm_LSH', 'Bool', 'HMI alarm C04'),
-    ('Alm_LSHH', 'Bool', 'HMI alarm C05'),
-    ('FirstOut', 'Int', 'C06a / 0007 D5: 0 none, 1 E-STOP, 2 PSH, 3 LSHH, 4 power-up'),
-] + [(n, 'Bool', c) for n, c in SCRUB_CAUSES]
-SCRUB_TON = ['T_DrnOn', 'T_DrnOff', 'T_DrnMax', 'T_LshFlt']
-SCRUB_IN = [(n, P.MEMBER_TEXT['Scrubber'][n]) for n, _ in SCRUB_IN]
-SCRUB_OUT = [(n, P.MEMBER_TEXT['Scrubber'][n]) for n, _ in SCRUB_OUT]
-SCRUB_STAT = [(n, t, P.MEMBER_TEXT['Scrubber'][n]) for n, t, _ in SCRUB_STAT]
+    ('Tripped', 'Bool', 'Scrubber trip (PSH, LSHH, E-STOP, power-up): suction closed, both burners stopped, until RESET'),
+    ('FlareTrip', 'Bool', 'Flare trip (PSH, E-STOP, power-up): flare open until RESET'),
+    ('Cause_PSH', 'Bool', 'PSH-101 tripped the scrubber; kept for the HMI until RESET (C06a)'),
+    ('Cause_LSHH', 'Bool', 'LSHH-103 tripped the scrubber; kept for the HMI until RESET (C06a)'),
+    ('F_DrainTO', 'Bool', 'Drain open 10 min without stop: drain closed until RESET (C04a)'),
+]
+SCRUB_TON = [('T_DrnMax', 'Drain open time, 10 min limit (C04a)')]
 
 
 def scrubber_fb():
     healthy_reset = ('&', '#Reset', '#PSH', '#LSHH', '"Sys".EStopOK')
     nets = [
-        ('@ALARM', None),
-        rung('C04 — LSH-102 high level alarm', ('!', '#LSH'), ('=', '#Alm_LSH')),
-        rung('C03 — PSH-101 alarm', ('!', '#PSH'), ('=', '#Alm_PSH')),
-        rung('C05 — LSHH-103 alarm', ('!', '#LSHH'), ('=', '#Alm_LSHH')),
-        ('@TRIP', None),
-        rung('C03 / C05 / C01 — RESET once every cause is gone',
-             healthy_reset, ('R', '#Tripped'), ('R', '#FlareTrip')),
-        rung('S-01 / C01 / C03 / C05 — suction trip (also at power-up)',
+        rung(N('RESET the scrubber trip', 'RESET with pressure, very high level and E-STOP healthy clears both trips and the saved causes. C03 / C05.'),
+             healthy_reset, ('R', '#Tripped'), ('R', '#FlareTrip'),
+             ('R', '#Cause_PSH'), ('R', '#Cause_LSHH')),
+        rung(N('Scrubber trip', 'High pressure, very high level, E-STOP or power-up: trip. C01 / C02 / C03 / C05.'),
              ('|', ('!', '#PSH'), ('!', '#LSHH'), ('!', '"Sys".EStopOK'), '"Sys".FirstScan'),
              ('S', '#Tripped')),
-        rung('S-01 / C01 / C03 — flare trip (also at power-up); LSHH does not open the flare',
+        rung(N('Flare trip', 'High pressure, E-STOP or power-up open the flare. Very high level alone does not. C01 / C02 / C03.'),
              ('|', ('!', '#PSH'), ('!', '"Sys".EStopOK'), '"Sys".FirstScan'),
              ('S', '#FlareTrip')),
-        rung('E5 — XV-401 flare (NO) energised = closed while no flare trip',
+        rung(N('Save cause: high pressure', 'Keep PSH-101 for the HMI even if the pressure comes back. C06a.'),
+             ('!', '#PSH'), ('S', '#Cause_PSH')),
+        rung(N('Save cause: very high level', 'Keep LSHH-103 for the HMI even if the level comes back. C06a.'),
+             ('!', '#LSHH'), ('S', '#Cause_LSHH')),
+        rung(N('XV-401 flare', 'Normally open valve: energise to close while there is no flare trip. E5.'),
              ('!', '#FlareTrip'), ('=', '#FlareCmd')),
-        rung('E7 — XV-403 suction (NC) energised = open while no suction trip',
+        rung(N('XV-403 suction', 'Normally closed valve: energise to open while there is no scrubber trip. E7.'),
              ('!', '#Tripped'), ('=', '#SuctionCmd')),
-        rung('S-01 — HMI: no trip latched', ('&', ('!', '#Tripped'), ('!', '#FlareTrip')),
-             ('=', '#ValveCommandsNormal')),
-        # ---- الدرين: بيمشي مع المستوى، مش ماسك مع التريب -----------------
-        ('@DRAIN', None),
-        rung('C04 / C05 — high level: LSH-102 or LSHH-103 open',
-             ('|', ('!', '#LSH'), ('!', '#LSHH')), ('=', '#LevelHigh')),
-        rung('C04 — drain demand after TDRN_ON of high level',
-             ('&', '#LevelHigh', ('TON', '#T_DrnOn', '"Par".TDrnOn_V')), ('S', '#DrainDemand')),
-        rung('C04 — drain demand off after TDRN_OFF without high level',
-             ('&', ('!', '#LevelHigh'), ('TON', '#T_DrnOff', '"Par".TDrnOff_V')),
-             ('R', '#DrainDemand')),
-        rung('C04a — drain open continuously for TDRN_MAX: close and alarm',
-             ('&', '#DrainCmd', ('TON', '#T_DrnMax', '"Par".TDrnMax_V')), ('S', '#F_DrainTO')),
-        rung('C04a — RESET clears the drain timeout (drain follows level again)',
+        rung(N('XV-402 drain', 'Normally closed valve: open while LSH-102 or LSHH-103 shows high level. Not during E-STOP or after the 10 min limit. C04 / C05 / E6.'),
+             ('&', ('|', ('!', '#LSH'), ('!', '#LSHH')), '"Sys".EStopOK', ('!', '#F_DrainTO')),
+             ('=', '#DrainCmd')),
+        rung(N('Drain open too long', 'Drain open 10 min without a stop: close it and alarm. Protects against a broken LSH-102 wire. C04a.'),
+             ('&', '#DrainCmd', ('TON', '#T_DrnMax', 'T#10M')), ('S', '#F_DrainTO')),
+        rung(N('RESET the drain limit', 'RESET lets the drain follow the level again. C04a.'),
              '#Reset', ('R', '#F_DrainTO')),
-        rung('E6 — XV-402 drain (NC) energised = open: demand, no E-STOP, no timeout',
-             ('&', '#DrainDemand', '"Sys".EStopOK', ('!', '#F_DrainTO')), ('=', '#DrainCmd')),
-        ('@LSH', None),
-        rung('C04b — LSHH-103 open while LSH-102 healthy for 5 s: LSH-102 fault',
-             ('&', '#LSH', ('!', '#LSHH'), ('TON', '#T_LshFlt', 'T#5S')), ('S', '#F_LshFault')),
-        rung('C04b — RESET clears the LSH-102 fault once the switches agree',
-             ('&', '#Reset', ('|', ('!', '#LSH'), '#LSHH')), ('R', '#F_LshFault')),
-        ('@CAUSE', None),
     ]
-    # C06a: التسجيل الأول، والمسح في الآخر يكسب.
-    # Common بيمنع ResetPulse في FirstScan؛ ومفيش تسجيل بعد شبكة المسح.
-    causes = [('#Cause_EStop', ('!', '"Sys".EStopOK'), 'E-STOP'),
-              ('#Cause_PSH', ('!', '#PSH'), 'PSH-101'),
-              ('#Cause_LSHH', ('!', '#LSHH'), 'LSHH-103'),
-              ('#Cause_PwrUp', '"Sys".FirstScan', 'power-up')]
-    for target, condition, text in causes:
-        nets.append(rung('C06a / F44 / 0007 D5 — latch cause: ' + text,
-                         condition, ('S', target)))
-    # كل MOVE متحرس بـ FirstOut=0. أول شبكة تكسب لو أكتر من سبب ظهر مع بعض.
-    for number, (_, condition, text) in enumerate(causes, 1):
-        nets.append(rung('C06a / F44 / 0007 D5 — first-out %d: %s (only if none)' % (number, text),
-                         ('&', ('Eq', 'Int', '#FirstOut', '0'), condition),
-                         ('MOVE', str(number), '#FirstOut')))
-    nets.append(rung('C06a / F44 / 0007 D5 — healthy RESET clears all causes and first-out last',
-                     healthy_reset,
-                     *[('R', target) for target, _, _ in causes], ('MOVE', '0', '#FirstOut')))
-    # 0008: بادئة قسم في عنوان كل network — زي البيرنر.
-    tagged = []
-    tag = ''
-    for title, body in nets:
-        if title.startswith('@'):
-            tag = title[1:]
-            continue
-        tagged.append(('[%s] %s' % (tag, title) if tag else title, body))
-    nets = tagged
     iface = interface([
         ('Input', [member(n, 'Bool', retain=None, comment=c) for n, c in SCRUB_IN]),
         ('Output', [member(n, 'Bool', retain=False, comment=c) for n, c in SCRUB_OUT]),
         ('InOut', []),
         ('Static', [member(n, t, retain=False, comment=c) for n, t, c in SCRUB_STAT] +
-         [member(t, 'TON_TIME', comment=P.MEMBER_TEXT['Scrubber'][t]) for t in SCRUB_TON]),
+         [member(t, 'TON_TIME', comment=c) for t, c in SCRUB_TON]),
         ('Temp', []), ('Constant', [])])
-    return code_block('SW.Blocks.FB', 'Scrubber', 2, iface, nets,
-                      comment='Gas scrubber, docs/التشغيل.md §1')
+    return code_block('SW.Blocks.FB', 'Scrubber', 2, iface, nets)
 
 
 def scrubber_db():
@@ -524,7 +466,7 @@ def scrubber_db():
         ('Output', [member(n, 'Bool', retain=False, comment=c) for n, c in SCRUB_OUT]),
         ('InOut', []),
         ('Static', [member(n, t, retain=False, comment=c) for n, t, c in SCRUB_STAT] +
-         [member(t, 'TON_TIME', short_ton=True, comment=P.MEMBER_TEXT['Scrubber'][t]) for t in SCRUB_TON])])
+         [member(t, 'TON_TIME', short_ton=True, comment=c) for t, c in SCRUB_TON])])
     return db_block('SW.Blocks.InstanceDB', 'Scrubber_DB', 5, iface, instance_of='Scrubber')
 
 
@@ -532,179 +474,136 @@ def scrubber_db():
 #  Burner (FB1) — نفس البلوك لـ BR01 وBR02
 # ======================================================================
 BR_IN = [
-    ('Auto', 'Bool', 'AUTO/MAN selector, 1 = AUTO'),
-    ('StartPB', 'Bool', 'START push button (NO)'),
+    ('Auto', 'Bool', 'AUTO/MAN selector: 1 = AUTO'),
+    ('StartPB', 'Bool', 'START push button (NO): 1 = pressed'),
     ('StopOK', 'Bool', 'STOP push button (NC): 1 = released'),
-    ('Reset', 'Bool', 'RESET push button, one scan (Sys.ResetPulse)'),
-    ('LevelOK', 'Bool', 'Tank LSL reached (C07a)'),
-    ('RunFb', 'Bool', 'Burner RUN feedback'),
-    ('Lockout', 'Bool', 'Burner lockout signal (C07e)'),
-    ('Fuel', 'Bool', 'Fuel mode (BR02 Rfuel2, R-12); FALSE for BR01'),
-    ('TeA', 'Int', 'Thermocouple A raw, 0.1 degC'),
-    ('TeB', 'Int', 'Thermocouple B raw, 0.1 degC'),
+    ('LevelOK', 'Bool', 'Tank low-level switch: 1 = level OK (C0xa)'),
+    ('RunFb', 'Bool', 'RUN from the burner control box: 1 = firing'),
+    ('Lockout', 'Bool', 'LOCKOUT from the burner control box: 1 = locked out (C0xe)'),
+    ('Fuel', 'Bool', 'BR02 fuel selector: 1 = diesel. BR01: FALSE'),
+    ('TeA', 'Int', 'Thermocouple A, 0.1 degC'),
+    ('TeB', 'Int', 'Thermocouple B, 0.1 degC'),
 ]
 BR_OUT = [
-    ('HeatReq', 'Bool', 'Heat request TL / L (E1 / E3)'),
-    ('Stage2', 'Bool', '2nd stage TR / T2 (E2 / E4)'),
+    ('HeatReq', 'Bool', 'Heat request to the burner: TL / L (E1 / E3)'),
+    ('Stage2', 'Bool', 'Stage 2 request to the burner: TR / T2 (E2 / E4)'),
 ]
 BR_STAT = [
-    ('StartEdge', 'Bool'), ('StartMem', 'Bool'), ('AutoChg', 'Bool'), ('AutoMem', 'Bool'),
-    ('FuelChg', 'Bool'), ('FuelMem', 'Bool'), ('TcOkA', 'Bool'), ('TcOkB', 'Bool'),
-    ('TcOk', 'Bool'), ('TcBad', 'Bool'), ('Demand', 'Bool'), ('HeatNeed', 'Bool'),
-    ('ReadyToStart', 'Bool'), ('Pause24', 'Bool'), ('RunWrong', 'Bool'),
-    ('NoStart', 'Bool'), ('PwrUpDone', 'Bool'), ('InvalidTempTimerDone', 'Bool'),
-    ('AutoRestartTemp', 'Int'), ('SecondStageOnTemp', 'Int'), ('SecondStageOffTemp', 'Int'),
-    # Diagnostics stay in the DB for the HMI and alarms, but are no longer
-    # visible pins on the OB1 call (2026-11-11, manager's simplification).
-    ('BurnerState', 'Int'), ('StartEnabled', 'Bool'), ('ControlTemp', 'Int'),
-    ('F_EStop', 'Bool'), ('F_TC', 'Bool'), ('F_Lockout', 'Bool'),
-    ('F_NoStart', 'Bool'), ('F_RunLost', 'Bool'), ('F_RunWrong', 'Bool'),
-    ('F_Scrubber', 'Bool'), ('Use24h', 'Bool'),
+    ('StartEdge', 'Bool', 'New START press, one scan'),
+    ('StartMem', 'Bool', 'START button state from the previous scan'),
+    ('FuelChg', 'Bool', 'Fuel selector changed, one scan'),
+    ('FuelMem', 'Bool', 'Fuel selector state from the previous scan'),
+    ('TcOkA', 'Bool', 'Thermocouple A inside -20.0 .. 150.0 degC'),
+    ('TcOkB', 'Bool', 'Thermocouple B inside -20.0 .. 150.0 degC'),
+    ('TcOk', 'Bool', 'Both thermocouples valid'),
+    ('TcBad', 'Bool', 'Thermocouple fault: invalid for 10 s (C0xd)'),
+    ('ControlTemp', 'Int', 'Higher of the two thermocouples, 0.1 degC'),
+    ('AutoRestartTemp', 'Int', 'AUTO restart temperature = SP - HYST, 0.1 degC'),
+    ('SecondStageOnTemp', 'Int', 'Stage 2 ON below SP - STG, 0.1 degC'),
+    ('SecondStageOffTemp', 'Int', 'Stage 2 OFF at SP - STG + 2.0 degC, 0.1 degC'),
+    ('Demand', 'Bool', 'AUTO: heat demand between restart temperature and SP'),
+    ('HeatNeed', 'Bool', 'Heat is needed in the selected mode'),
+    ('Trip', 'Bool', 'Burner must stop and needs a new START: E-STOP, scrubber trip, lockout, thermocouple fault or fuel change'),
+    ('StartEnabled', 'Bool', 'START accepted; cleared by STOP or Trip'),
+    ('Pause24', 'Bool', 'Daily stop after 24 h of request (BR01, C07h)'),
+    ('Use24h', 'Bool', 'Daily stop used for this burner (BR01 only)'),
+    ('NoRun', 'Bool', 'Alarm: heat request without RUN for 120 s (C0xf)'),
+    ('RunWrong', 'Bool', 'Alarm: RUN without heat request for 30 s (C0xg)'),
 ]
-BR_TON = ['T_PwrUp', 'T_TcBad', 'T_24h', 'T_Pause', 'T_RunOff', 'T_Start']
-BR_COMMENTS = P.MEMBER_TEXT['Burner']
-BR_IN = [(n, t, BR_COMMENTS[n]) for n, t, _ in BR_IN]
-BR_OUT = [(n, t, BR_COMMENTS[n]) for n, t, _ in BR_OUT]
-
-IDLE, STARTING, RUNNING, FAULT = '0', '1', '2', '3'
-
-
-def st(n):
-    return ('Eq', 'Int', '#BurnerState', n)
+BR_TON = [
+    ('T_TcBad', 'Thermocouple invalid time, 10 s'),
+    ('T_24h', 'Heat request time for the daily stop, 24 h'),
+    ('T_Pause', 'RUN off time to end the daily stop, 60 s'),
+    ('T_Stage2', 'Time on stage 1 after RUN before stage 2, 30 s'),
+    ('T_NoRun', 'Heat request without RUN, 120 s'),
+    ('T_RunWrong', 'RUN without heat request, 30 s'),
+]
 
 
 def burner_fb():
-    active = ('|', st(STARTING), st(RUNNING))
     nets = [
         # ---- الزراير ------------------------------------------------------
-        rung('BUTTONS | R-05 - START edge: not on first scan, only after seen released, STOP wins',
+        rung(N('START: new press', 'One-scan pulse on a new START press; not on the first scan and not while STOP is pressed.'),
              ('&', '#StartPB', ('!', '#StartMem'), ('!', '"Sys".FirstScan'), '#StopOK'),
              ('=', '#StartEdge')),
-        rung('BUTTONS | R-05 — START edge memory', '#StartPB', ('=', '#StartMem')),
-        rung('BUTTONS | R-02 — AUTO/MAN changed',
-             ('|', ('&', '#Auto', ('!', '#AutoMem')), ('&', ('!', '#Auto'), '#AutoMem')),
-             ('=', '#AutoChg')),
-        rung('BUTTONS | R-02 — AUTO/MAN memory', '#Auto', ('=', '#AutoMem')),
-        rung('BUTTONS | R-12 — fuel mode changed',
+        rung(N('START: remember the button', 'Save START for the next scan.'),
+             '#StartPB', ('=', '#StartMem')),
+        rung(N('Fuel selector changed', 'Either direction counts. BR01 has a fixed FALSE. C08h.'),
              ('|', ('&', '#Fuel', ('!', '#FuelMem')), ('&', ('!', '#Fuel'), '#FuelMem')),
              ('=', '#FuelChg')),
-        rung('BUTTONS | R-12 — fuel mode memory', '#Fuel', ('=', '#FuelMem')),
+        rung(N('Fuel selector: remember', 'Save the fuel selector for the next scan.'),
+             '#Fuel', ('=', '#FuelMem')),
         # ---- الحرارة ------------------------------------------------------
-        rung('TEMPERATURE | C0xd — channel A valid: -20.0 .. 150.0 degC (32767 / -32768 fall outside)',
-             ('&', ('Ge', 'Int', '#TeA', '-200'), ('Le', 'Int', '#TeA', '1500')),
-             ('=', '#TcOkA')),
-        rung('TEMPERATURE | C0xd — channel B valid',
-             ('&', ('Ge', 'Int', '#TeB', '-200'), ('Le', 'Int', '#TeB', '1500')),
-             ('=', '#TcOkB')),
-        rung('TEMPERATURE | C0xd — both channels valid, each checked before MAX', ('&', '#TcOkA', '#TcOkB'),
-             ('=', '#TcOk')),
-        rung('TEMPERATURE | R-10 - power-up window (TC card calibrating) is over after 10 s',
-             ('&', ('!', '"Sys".FirstScan'), ('TON', '#T_PwrUp', 'T#10S')), ('=', '#PwrUpDone')),
-        # مراجعة 2026-10-28: المهلة كانت دايمًا، فسلك سايب أقل من 10 ث كان بيوقّف
-        # ويولّع من غير عطل. دلوقتي المهلة بعد رجوع الكهربا بس (R-10)، وبعدها فوري.
-        # تايمر جوه فرع توازي مش مسموح ("network is not supported")، فرانجين.
-        rung('TEMPERATURE | C0xd / R-10 — invalid for 10 s', ('&', ('!', '#TcOk'),
-                                                ('TON', '#T_TcBad', 'T#10S')),
-             ('=', '#InvalidTempTimerDone')),
-        rung('TEMPERATURE | C0xd / R-10 — invalid = fault: at once, or after 10 s right after power-up',
-             ('&', ('!', '#TcOk'), ('|', '#PwrUpDone', '#InvalidTempTimerDone')), ('=', '#TcBad')),
-        rung('TEMPERATURE | C0xb — temperature = higher channel (A)', ('Ge', 'Int', '#TeA', '#TeB'),
-             ('MOVE', '#TeA', '#ControlTemp')),
-        rung('TEMPERATURE | C0xb — temperature = higher channel (B)', ('Lt', 'Int', '#TeA', '#TeB'),
-             ('MOVE', '#TeB', '#ControlTemp')),
-        # ---- الأرقام ------------------------------------------------------
-        rung('TEMPERATURE | C0xb / C0xc — restart and 2nd-stage limits', None,
-             ('SUB', 'Int', '"Par".SP_V', '"Par".HYST_V', '#AutoRestartTemp'),
-             ('SUB', 'Int', '"Par".SP_V', '"Par".STG_V', '#SecondStageOnTemp')),
-        rung('TEMPERATURE | C0xc / F41 — 2nd stage back to 1st at SP - STG + 2.0 degC', None,
+        rung(N('Thermocouple A valid', '-20.0 .. 150.0 degC; a broken sensor reads outside. C0xd.'),
+             ('&', ('Ge', 'Int', '#TeA', '-200'), ('Le', 'Int', '#TeA', '1500')), ('=', '#TcOkA')),
+        rung(N('Thermocouple B valid', 'Same limits for sensor B. C0xd.'),
+             ('&', ('Ge', 'Int', '#TeB', '-200'), ('Le', 'Int', '#TeB', '1500')), ('=', '#TcOkB')),
+        rung(N('Both thermocouples valid', 'Both are needed to heat. C0xd.'),
+             ('&', '#TcOkA', '#TcOkB'), ('=', '#TcOk')),
+        rung(N('Thermocouple fault', 'Not valid for 10 s (also right after power-up, while the card starts): fault. C0xd.'),
+             ('&', ('!', '#TcOk'), ('TON', '#T_TcBad', 'T#10S')), ('=', '#TcBad')),
+        rung(N('Temperature = sensor A', 'Use A when A is the higher one. C0xb.'),
+             ('Ge', 'Int', '#TeA', '#TeB'), ('MOVE', '#TeA', '#ControlTemp')),
+        rung(N('Temperature = sensor B', 'Use B when B is the higher one. C0xb.'),
+             ('Lt', 'Int', '#TeA', '#TeB'), ('MOVE', '#TeB', '#ControlTemp')),
+        rung(N('Restart and stage 2 temperatures', 'Restart = SP - HYST. Stage 2 ON below SP - STG. C0xb / C0xc.'), None,
+             ('SUB', 'Int', '"Par".SP', '"Par".HYST', '#AutoRestartTemp'),
+             ('SUB', 'Int', '"Par".SP', '"Par".STG', '#SecondStageOnTemp')),
+        rung(N('Stage 2 OFF temperature', 'Stage 2 ON temperature + 2.0 degC, so relay R2 / R7 does not chatter. C0xc.'), None,
              ('ADD', 'Int', '#SecondStageOnTemp', '20', '#SecondStageOffTemp')),
-        rung('TEMPERATURE | C0xb — AUTO demand on at T <= SP - HYST', ('Le', 'Int', '#ControlTemp', '#AutoRestartTemp'),
-             ('S', '#Demand')),
-        rung('TEMPERATURE | C0xb — AUTO demand off at T >= SP, or no valid temperature',
-             ('|', ('Ge', 'Int', '#ControlTemp', '"Par".SP_V'), ('!', '#TcOk')), ('R', '#Demand')),
-        rung('TEMPERATURE | B-01 — heat needed: AUTO = hysteresis, MAN = below SP',
+        rung(N('AUTO: heat demand ON', 'At or below the restart temperature. C0xb.'),
+             ('Le', 'Int', '#ControlTemp', '#AutoRestartTemp'), ('S', '#Demand')),
+        rung(N('AUTO: heat demand OFF', 'At or above SP, or no valid temperature. C0xb.'),
+             ('|', ('Ge', 'Int', '#ControlTemp', '"Par".SP'), ('!', '#TcOk')), ('R', '#Demand')),
+        rung(N('Heat needed', 'AUTO: the demand above. MAN: temperature below SP.'),
              ('&', '#TcOk', ('|', ('&', '#Auto', '#Demand'),
-                             ('&', ('!', '#Auto'), ('Lt', 'Int', '#ControlTemp', '"Par".SP_V')))),
+                             ('&', ('!', '#Auto'), ('Lt', 'Int', '#ControlTemp', '"Par".SP')))),
              ('=', '#HeatNeed')),
-        # ---- الشروط والتايمرات ----------------------------------------------
-        rung('PERMISSIVES | C0xa / C0xd / C01 / C0xe / C07h / C03 / C05 - ready to fire',
-             ('&', '#LevelOK', '#TcOk', '"Sys".EStopOK', ('!', '#Lockout'), ('!', '#Pause24'),
-              ('!', '"Scrubber_DB".Tripped')),
-             ('=', '#ReadyToStart')),
-        rung('PERMISSIVES | C07h / R-08 — 24 h of continuous request: forced stop',
-             ('&', '#Use24h', '#HeatReq', ('TON', '#T_24h', 'T#24H')), ('S', '#Pause24')),
-        rung('PERMISSIVES | R-08 — restart allowed after RUN has been off 60 s',
-             ('&', '#Pause24', ('!', '#RunFb'), ('TON', '#T_Pause', 'T#60S')),
-             ('R', '#Pause24')),
-        rung('PERMISSIVES | R-09 — RUN on without our request for 30 s',
-             ('&', '#RunFb', ('!', '#HeatReq'), ('TON', '#T_RunOff', 'T#30S')),
-             ('=', '#RunWrong')),
-        rung('PERMISSIVES | C0xf — no RUN within T_START', ('&', st(STARTING),
-                                             ('TON', '#T_Start', '"Par".TStart_V')),
-             ('=', '#NoStart')),
-        # ---- السماح (START / STOP) -----------------------------------------
-        rung('START_STOP | R-01 / B-01 — START accepted: IDLE, ready, and in MAN only if heat is needed',
-             ('&', '#StartEdge', st(IDLE), '#ReadyToStart', ('|', '#Auto', '#HeatNeed')),
+        # ---- START / STOP ------------------------------------------------
+        rung(N('Burner trip', 'E-STOP, scrubber trip, burner lockout, thermocouple fault or fuel change: stop; a new START is needed. C01 / C03 / C05 / C0xd / C0xe / C08h.'),
+             ('|', ('!', '"Sys".EStopOK'), '"Scrubber_DB".Tripped', '#Lockout', '#TcBad', '#FuelChg'),
+             ('=', '#Trip')),
+        rung(N('START accepted', 'New START with no trip and tank level OK. In MAN only if heat is needed.'),
+             ('&', '#StartEdge', ('!', '#Trip'), '#LevelOK', ('|', '#Auto', '#HeatNeed')),
              ('S', '#StartEnabled')),
-        rung('START_STOP | B-01 / R-02 / R-12 / R-13 — STOP, mode/fuel change or scrubber trip cancel START',
-             ('|', ('!', '#StopOK'), '#AutoChg', '#FuelChg', '"Scrubber_DB".Tripped'), ('R', '#StartEnabled')),
-        # ---- الحالات (الأولوية بالترتيب: الأخير بيكسب) ------------------------
-        rung('START_STOP | B-01 — IDLE -> STARTING (R-09: not if RUN is already on)',
-             ('&', st(IDLE), '#StartEnabled', '#ReadyToStart', '#HeatNeed', ('!', '#RunFb')),
-             ('MOVE', STARTING, '#BurnerState')),
-        rung('START_STOP | B-01 — STARTING -> RUNNING on RUN', ('&', st(STARTING), '#RunFb'),
-             ('MOVE', RUNNING, '#BurnerState')),
-        rung('START_STOP | C03 / C05 / R-13 — scrubber trip while starting or running: FAULT',
-             ('&', active, '"Sys".EStopOK', '"Scrubber_DB".Tripped'),
-             ('MOVE', FAULT, '#BurnerState'), ('S', '#F_Scrubber')),
-        rung('START_STOP | C0xa / C0xb / C07h / B-01 — STARTING or RUNNING -> IDLE',
-             ('&', active, ('|', ('!', '#ReadyToStart'), ('!', '#HeatNeed'), ('!', '#StartEnabled'))),
-             ('MOVE', IDLE, '#BurnerState')),
-        rung('START_STOP | R-03 — MAN: one cycle; any stop needs a new START',
-             ('&', ('!', '#Auto'), st(IDLE), '#HeatReq'), ('R', '#StartEnabled')),
-        rung('START_STOP | C0xf — failed to start', ('&', st(STARTING), '#NoStart'),
-             ('MOVE', FAULT, '#BurnerState'), ('S', '#F_NoStart')),
-        rung('START_STOP | C0xg — RUN lost while running, no lockout, not stopped by us',
-             ('&', st(RUNNING), ('!', '#RunFb'), ('!', '#Lockout')),
-             ('MOVE', FAULT, '#BurnerState'), ('S', '#F_RunLost')),
-        # D-09 (2026-11-02): لازم قبل الـ RESET. لو بعده، عطل وRESET في نفس الـ scan كانوا
-        # بيرجّعوا IDLE والسماح لسه موجود، فالبيرنر يولّع تاني من غير START جديد (B-02).
-        rung('FAULT_RESET | B-02 — FAULT takes the START back (before RESET, D-09)', st(FAULT),
-             ('R', '#StartEnabled')),
-        rung('FAULT_RESET | R-06 / R-07 - RESET leaves FAULT only when every cause is gone',
-             ('&', st(FAULT), '#Reset', '"Sys".EStopOK', ('!', '#Lockout'), '#TcOk',
-              ('!', '#RunFb'), ('!', '"Scrubber_DB".Tripped')),
-             ('MOVE', IDLE, '#BurnerState'), ('R', '#F_EStop'), ('R', '#F_TC'), ('R', '#F_Lockout'),
-             ('R', '#F_NoStart'), ('R', '#F_RunLost'), ('R', '#F_RunWrong'), ('R', '#F_Scrubber')),
-        rung('FAULT_RESET | C01 - E-STOP', ('!', '"Sys".EStopOK'), ('MOVE', FAULT, '#BurnerState'), ('S', '#F_EStop')),
-        rung('FAULT_RESET | C0xe — burner lockout', '#Lockout', ('MOVE', FAULT, '#BurnerState'),
-             ('S', '#F_Lockout')),
-        rung('FAULT_RESET | C0xd — thermocouple fault', '#TcBad', ('MOVE', FAULT, '#BurnerState'), ('S', '#F_TC')),
-        rung('FAULT_RESET | R-09 — RUN without request', '#RunWrong', ('MOVE', FAULT, '#BurnerState'),
-             ('S', '#F_RunWrong')),
-        # ---- المخارج ------------------------------------------------------
-        rung('OUTPUTS | E1 / E3 — heat request while STARTING or RUNNING', active,
-             ('=', '#HeatReq')),
-        rung('OUTPUTS | C0xc — 2nd stage on: RUNNING and T < SP - STG',
-             ('&', st(RUNNING), ('Lt', 'Int', '#ControlTemp', '#SecondStageOnTemp')), ('S', '#Stage2')),
-        rung('OUTPUTS | C0xc / F41 — 2nd stage off at SP - STG + 2 degC, or when not RUNNING',
-             ('|', ('Ge', 'Int', '#ControlTemp', '#SecondStageOffTemp'), ('Ne', 'Int', '#BurnerState', RUNNING)),
+        rung(N('STOP or trip', 'STOP pressed or burner trip cancels START.'),
+             ('|', ('!', '#StopOK'), '#Trip'), ('R', '#StartEnabled')),
+        rung(N('Daily stop after 24 h', 'BR01 only: 24 h of continuous heat request stops the burner. RS100 manual 5.10, C07h.'),
+             ('&', '#Use24h', '#HeatReq', ('TON', '#T_24h', 'T#24H')), ('S', '#Pause24')),
+        rung(N('Daily stop ends', 'After RUN has been off for 60 s the burner may start again. C07h.'),
+             ('&', '#Pause24', ('!', '#RunFb'), ('TON', '#T_Pause', 'T#60S')), ('R', '#Pause24')),
+        rung(N('Heat request', 'START accepted, tank level OK, no daily stop and heat needed. Goes to TL / L. C0xa / C0xb.'),
+             ('&', '#StartEnabled', '#LevelOK', ('!', '#Pause24'), '#HeatNeed'), ('=', '#HeatReq')),
+        rung(N('MAN: one heating cycle', 'In MAN, when the heat request stops, START is cancelled; press START again.'),
+             ('&', ('!', '#Auto'), ('!', '#HeatReq')), ('R', '#StartEnabled')),
+        # ---- المرحلة التانية -----------------------------------------------
+        rung(N('Stage 2 ON', 'Heat request, RUN for 30 s and temperature below SP - STG. Goes to TR / T2. C0xc.'),
+             ('&', '#HeatReq', '#RunFb', ('TON', '#T_Stage2', 'T#30S'),
+              ('Lt', 'Int', '#ControlTemp', '#SecondStageOnTemp')),
+             ('S', '#Stage2')),
+        rung(N('Stage 2 OFF', 'At SP - STG + 2.0 degC, or no heat request, or no RUN. C0xc.'),
+             ('|', ('Ge', 'Int', '#ControlTemp', '#SecondStageOffTemp'), ('!', '#HeatReq'), ('!', '#RunFb')),
              ('R', '#Stage2')),
+        # ---- إنذارات بس ---------------------------------------------------
+        rung(N('Alarm: no RUN', 'Heat request without RUN for 120 s: alarm only (broken TL / L wire, no burner supply). C0xf.'),
+             ('&', '#HeatReq', ('!', '#RunFb'), ('TON', '#T_NoRun', 'T#120S')), ('=', '#NoRun')),
+        rung(N('Alarm: RUN without request', 'RUN without heat request for 30 s: alarm only (stuck relay R1 / R6). C0xg.'),
+             ('&', '#RunFb', ('!', '#HeatReq'), ('TON', '#T_RunWrong', 'T#30S')), ('=', '#RunWrong')),
     ]
-    stat = [member(n, t, retain=False, comment=BR_COMMENTS[n]) for n, t in BR_STAT] + [member(t, 'TON_TIME', comment=BR_COMMENTS[t]) for t in BR_TON]
+    stat = ([member(n, t, retain=False, comment=c) for n, t, c in BR_STAT] +
+            [member(t, 'TON_TIME', comment=c) for t, c in BR_TON])
     iface = interface([
         ('Input', [member(n, t, retain=None, comment=c) for n, t, c in BR_IN]),
         ('Output', [member(n, t, retain=False, comment=c) for n, t, c in BR_OUT]),
         ('InOut', []), ('Static', stat), ('Temp', []), ('Constant', [])])
-    return code_block('SW.Blocks.FB', 'Burner', 1, iface, nets,
-                      comment='One burner, docs/التشغيل.md §2 and decisions/0006')
+    return code_block('SW.Blocks.FB', 'Burner', 1, iface, nets)
 
 
 def burner_db(name, number, use24h=False):
-    stat = [member(n, t, retain=False, comment=BR_COMMENTS.get(n),
+    stat = [member(n, t, retain=False, comment=c,
                    start=('true' if use24h else 'false') if n == 'Use24h' else None)
-            for n, t in BR_STAT]
-    stat += [member(t, 'TON_TIME', short_ton=True, comment=BR_COMMENTS[t]) for t in BR_TON]
+            for n, t, c in BR_STAT]
+    stat += [member(t, 'TON_TIME', short_ton=True, comment=c) for t, c in BR_TON]
     iface = interface([
         ('Input', [member(n, t, retain=False, comment=c) for n, t, c in BR_IN]),
         ('Output', [member(n, t, retain=False, comment=c) for n, t, c in BR_OUT]),
@@ -718,91 +617,64 @@ def burner_db(name, number, use24h=False):
 # ======================================================================
 def outputs_fc():
     nets = [
-        rung('E1 — BR01 heat request TL (R1, H1)',
+        rung(N('BR01: heat request TL', 'Relay R1 and lamp H1. Only with E-STOP healthy. E1.'),
              ('&', '"BR01_DB".HeatReq', '"Sys".EStopOK'), ('=', '"BR01_TL_Cmd"')),
-        rung('E2 — BR01 2nd stage TR (R2, H2)',
+        rung(N('BR01: stage 2 TR', 'Relay R2 and lamp H2. E2.'),
              ('&', '"BR01_DB".Stage2', '"Sys".EStopOK'), ('=', '"BR01_TR_Cmd"')),
-        rung('E3 / F13 — BR02 start L (R6) and 1st stage lamp H5 (R8)',
+        rung(N('BR02: heat request L', 'Relay R6 and stage 1 lamp H5 (R8). E3.'),
              ('&', '"BR02_DB".HeatReq', '"Sys".EStopOK'),
              ('=', '"BR02_L_Cmd"'), ('=', '"BR02_Stage1Lamp_Cmd"')),
-        rung('E4 / F13 — BR02 high fire T2 (R7) and 2nd stage lamp H6 (R9)',
+        rung(N('BR02: stage 2 T2', 'Relay R7 and stage 2 lamp H6 (R9). E4.'),
              ('&', '"BR02_DB".Stage2', '"Sys".EStopOK'),
              ('=', '"BR02_T2_Cmd"'), ('=', '"BR02_Stage2Lamp_Cmd"')),
-        rung('E5 — XV-401 flare (NO): energised = closed', '"Scrubber_DB".FlareCmd',
-             ('=', '"XV_401_Cmd"')),
-        rung('E6 — XV-402 drain (NC): energised = open (C04 / C05)', '"Scrubber_DB".DrainCmd',
-             ('=', '"XV_402_Cmd"')),
-        rung('E7 — XV-403 suction (NC): energised = open', '"Scrubber_DB".SuctionCmd',
-             ('=', '"XV_403_Cmd"')),
+        rung(N('XV-401 flare', 'Output ON closes the normally open flare valve. E5.'),
+             '"Scrubber_DB".FlareCmd', ('=', '"XV_401_Cmd"')),
+        rung(N('XV-402 drain', 'Output ON opens the normally closed drain valve. E6.'),
+             '"Scrubber_DB".DrainCmd', ('=', '"XV_402_Cmd"')),
+        rung(N('XV-403 suction', 'Output ON opens the normally closed suction valve. E7.'),
+             '"Scrubber_DB".SuctionCmd', ('=', '"XV_403_Cmd"')),
     ]
     iface = interface([('Input', []), ('Output', []), ('InOut', []), ('Temp', []),
                        ('Constant', []), ('Return', ['<Member Name="Ret_Val" Datatype="Void" />'])])
-    return code_block('SW.Blocks.FC', 'Outputs', 2, iface, nets,
-                      comment='The only block that writes %Q (decisions/0006 rule 3)')
+    return code_block('SW.Blocks.FC', 'Outputs', 2, iface, nets)
 
 
 # ======================================================================
-#  HMI — جدول واحد للبتات وتعليقات الـ DB وشبكات النقل (0007، التشغيل §5)
+#  HMI — جدول واحد للبتات وتعليقات الـ DB وشبكات النقل
 # ======================================================================
 # (Word، bit، إشارة PLC، النص، بيختفي إمتى، المرجع).
 # '!' قبل المعامل = كونتاكت NC. البت = 1 يعني الإنذار ظاهر. لا Ack.
 HMI_ALARMS = [
     ('Common', 0, '"Sys".Alm_EStop', 'E-STOP active: reset required',
      'Release E-STOP and RESET', 'C01'),
-    ('Common', 1, '"Scrubber_DB".Cause_PSH', 'Scrubber high pressure: reset required',
-     'RESET with all scrubber trip causes healthy', 'C03 / C06a (PH proposal: cause memory)'),
-    ('Common', 2, '"Scrubber_DB".Cause_LSHH', 'Scrubber very high level: reset required',
-     'RESET with all scrubber trip causes healthy', 'C05 / C06a (PH proposal: cause memory)'),
-    ('Common', 3, '"Scrubber_DB".Cause_PwrUp', 'Scrubber waiting for first RESET',
-     'RESET with all scrubber trip causes healthy', 'S-01 / C06a (PH proposal)'),
-    ('Common', 4, '"Scrubber_DB".Alm_LSH', 'Scrubber high level (LSH-102)',
-     'Automatically when level returns', 'C04 (Client)'),
-    ('Common', 5, '"Sys".Alm_ParRejected', 'Setting rejected',
-     'STOP both; check range; RESET clears alarm', 'R-11 / 0009'),
-    ('Common', 6, '"Scrubber_DB".F_DrainTO', 'Scrubber drain time limit reached',
+    ('Common', 1, '"Scrubber_DB".Tripped', 'Scrubber tripped: reset required',
+     'RESET with pressure, very high level and E-STOP healthy', 'C02 / C03 / C05'),
+    ('Common', 2, '"Scrubber_DB".Cause_PSH', 'Scrubber trip: high pressure',
+     'RESET with all scrubber trip causes healthy', 'C03 / C06a'),
+    ('Common', 3, '"Scrubber_DB".Cause_LSHH', 'Scrubber trip: very high level',
+     'RESET with all scrubber trip causes healthy', 'C05 / C06a'),
+    ('Common', 4, '!"Scrubber_DB".LSH', 'Scrubber high level (LSH-102)',
+     'Automatically when level returns', 'C04'),
+    ('Common', 5, '"Scrubber_DB".F_DrainTO', 'Scrubber drain time limit reached',
      'RESET (drain follows level again)', 'C04a'),
-    ('Common', 7, '"Scrubber_DB".F_LshFault', 'Scrubber level switch disagreement',
-     'RESET after the contradictory level-input combination is gone', 'C04b'),
-    ('BR01', 0, '"BR01_DB".F_EStop', 'BR01 E-STOP trip saved',
-     'RESET after fault causes clear; START to run', 'C01'),
-    ('BR01', 1, '"BR01_DB".F_TC', 'BR01 temperature input fault',
-     'RESET after repair', 'C07d'),
-    ('BR01', 2, '"BR01_DB".F_Lockout', 'BR01 burner lockout',
-     'RESET after burner control box lockout cleared', 'C07e'),
-    ('BR01', 3, '"BR01_DB".F_NoStart', 'BR01 RUN not received in time',
-     'RESET after fault causes clear', 'C07f'),
-    ('BR01', 4, '"BR01_DB".F_RunLost', 'BR01 RUN input lost',
-     'RESET after fault causes clear', 'C07g'),
-    ('BR01', 5, '"BR01_DB".F_RunWrong', 'BR01 RUN without request',
-     'RESET with RUN off and fault causes clear', 'R-09'),
-    ('BR01', 6, '!"BR01_DB".LevelOK', 'TK01 level too low for BR01',
-     'Automatically when level returns', 'C07a (PH proposal: alarm; Client: permissive)'),
-    ('BR01', 7, '"BR01_DB".F_Scrubber', 'BR01 stopped by scrubber trip',
-     'RESET after scrubber trip clears; START to run', 'C03 / C05 / R-13'),
-    ('BR02', 0, '"BR02_DB".F_EStop', 'BR02 E-STOP trip saved',
-     'RESET after fault causes clear; START to run', 'C01'),
-    ('BR02', 1, '"BR02_DB".F_TC', 'BR02 temperature input fault',
-     'RESET after repair', 'C08d'),
-    ('BR02', 2, '"BR02_DB".F_Lockout', 'BR02 burner lockout',
-     'RESET after burner control box lockout cleared', 'C08e'),
-    ('BR02', 3, '"BR02_DB".F_NoStart', 'BR02 RUN not received in time',
-     'RESET after fault causes clear', 'C08f'),
-    ('BR02', 4, '"BR02_DB".F_RunLost', 'BR02 RUN input lost',
-     'RESET after fault causes clear', 'C08g'),
-    ('BR02', 5, '"BR02_DB".F_RunWrong', 'BR02 RUN without request',
-     'RESET with RUN off and fault causes clear', 'R-09'),
-    ('BR02', 6, '!"BR02_DB".LevelOK', 'TK02 level too low for BR02',
-     'Automatically when level returns', 'C08a (PH proposal: alarm; Client: permissive)'),
-    ('BR02', 7, '"BR02_DB".F_Scrubber', 'BR02 stopped by scrubber trip',
-     'RESET after scrubber trip clears; START to run', 'C03 / C05 / R-13'),
-]
+] + [a for br, tk, c in (('BR01', 'TK01', 'C07'), ('BR02', 'TK02', 'C08')) for a in [
+    (br, 0, '"%s_DB".Lockout' % br, '%s burner lockout' % br,
+     'Reset at the burner box, then START', c + 'e'),
+    (br, 1, '"%s_DB".TcBad' % br, '%s temperature input fault' % br,
+     'Automatically when both sensors are valid; then START', c + 'd'),
+    (br, 2, '"%s_DB".NoRun' % br, '%s RUN not received' % br,
+     'Automatically when RUN arrives or the request stops', c + 'f'),
+    (br, 3, '"%s_DB".RunWrong' % br, '%s RUN without request' % br,
+     'Automatically when RUN goes off', c + 'g'),
+    (br, 4, '!"%s_DB".LevelOK' % br, '%s level too low for %s' % (tk, br),
+     'Automatically when level returns', c + 'a'),
+]]
 
 
 def hmi_alm_db():
     mems = [member(word, 'Word', retain=False,
-                   comment='0007 / H-05: ' + '; '.join(
-                       'x%d %s [%s]' % (bit, text, source)
-                       for w, bit, _, text, _, source in HMI_ALARMS if w == word))
+                   comment='; '.join('x%d %s [%s]' % (bit, text, source)
+                                     for w, bit, _, text, _, source in HMI_ALARMS if w == word))
             for word in ('Common', 'BR01', 'BR02')]
     return db_block('SW.Blocks.GlobalDB', 'HmiAlm', 6, interface([('Static', mems)]))
 
@@ -811,13 +683,11 @@ def hmi_map_fc():
     nets = []
     for word, bit, operand, text, clears, source in HMI_ALARMS:
         expr = ('!', operand[1:]) if operand.startswith('!') else operand
-        nets.append(rung('%s / 0007 H-05 — %s.x%d: %s; clears: %s' %
-                         (source, word, bit, text, clears), expr,
-                         ('=', '"HmiAlm".%s.%%X%d' % (word, bit))))
+        nets.append(rung(N('Alarm %s.x%d: %s' % (word, bit, text), 'Clears: %s. %s.' % (clears, source)),
+                         expr, ('=', '"HmiAlm".%s.%%X%d' % (word, bit))))
     iface = interface([('Input', []), ('Output', []), ('InOut', []), ('Temp', []),
                        ('Constant', []), ('Return', ['<Member Name="Ret_Val" Datatype="Void" />'])])
-    return code_block('SW.Blocks.FC', 'HmiMap', 3, iface, nets,
-                      comment='0007 / H-05: alarm display map only; writes HmiAlm only, no Ack')
+    return code_block('SW.Blocks.FC', 'HmiMap', 3, iface, nets)
 
 
 # ======================================================================
@@ -825,7 +695,7 @@ def hmi_map_fc():
 # ======================================================================
 def startup_ob():
     # MOVE على Bool مش مسموح في LAD، وSys مش retain فـ FirstScan = 0 هنا دايمًا
-    nets = [rung('C02 — power-up: first-scan flag (scrubber trips, burners need START)',
+    nets = [rung(N('Power-up: first scan', 'Set FirstScan: the scrubber trips and the burners need START. C02.'),
                  ('!', '"Sys".FirstScan'), ('S', '"Sys".FirstScan'))]
     iface = interface([
         ('Input', ['<Member Name="LostRetentive" Datatype="Bool" Accessibility="Public" '
@@ -840,11 +710,11 @@ def startup_ob():
 
 def burner_params(br):
     if br == 'BR01':
-        io = ['"S4_BR01_Auto"', '"S1_BR01_Start"', '"S3_BR01_Stop"', '"Sys".ResetPulse',
+        io = ['"S4_BR01_Auto"', '"S1_BR01_Start"', '"S3_BR01_Stop"',
               '"LSL_TK01"', '"BR01_Run"', '"BR01_Fault"', 'FALSE',
               '"TE_501_Raw"', '"TE_502_Raw"']
     else:
-        io = ['"S5_BR02_Auto"', '"S6_BR02_Start"', '"S7_BR02_Stop"', '"Sys".ResetPulse',
+        io = ['"S5_BR02_Auto"', '"S6_BR02_Start"', '"S7_BR02_Stop"',
               '"LSL_TK02"', '"BR02_Run"', '"BR02_Fault"', '"Rfuel2_BR02_DieselMode"',
               '"TE_503_Raw"', '"TE_504_Raw"']
     return [(n, 'Input', t, op) for (n, t, _), op in zip(BR_IN, io)]
@@ -853,14 +723,14 @@ def burner_params(br):
 def main_ob():
     scrub_io = ['"PSH_101"', '"LSH_102"', '"LSHH_103"', '"Sys".ResetPulse']
     nets = [
-        call('decisions/0006 — Common: E-STOP latch, RESET edge, parameters', 'Common', 'FC'),
-        call('C03 .. C06a — scrubber', 'Scrubber', 'FB', 'Scrubber_DB',
+        call(N('Common: E-STOP and RESET', 'E-STOP, RESET and setting limits first, so the other blocks use them.'), 'Common', 'FC'),
+        call(N('Scrubber', 'PSH-101, LSH-102, LSHH-103: trips and valve commands, before the burners.'), 'Scrubber', 'FB', 'Scrubber_DB',
              [(n, 'Input', 'Bool', op) for (n, _), op in zip(SCRUB_IN, scrub_io)]),
-        call('C07* — BR01 / TK01', 'Burner', 'FB', 'BR01_DB', burner_params('BR01')),
-        call('C08* — BR02 / TK02', 'Burner', 'FB', 'BR02_DB', burner_params('BR02')),
-        call('E1 .. E7 — outputs', 'Outputs', 'FC'),
-        call('0007 / H-05 — HMI alarms (writes HmiAlm only)', 'HmiMap', 'FC'),
-        rung('C02 — first scan done', '"Sys".FirstScan', ('R', '"Sys".FirstScan')),
+        call(N('Burner BR01 on tank TK01', 'Burner block with BR01_DB; BR01 has no fuel selector and uses the daily stop.'), 'Burner', 'FB', 'BR01_DB', burner_params('BR01')),
+        call(N('Burner BR02 on tank TK02', 'Same burner block with BR02_DB.'), 'Burner', 'FB', 'BR02_DB', burner_params('BR02')),
+        call(N('Outputs', 'The only block that writes the Q outputs.'), 'Outputs', 'FC'),
+        call(N('HMI alarms', 'Copies the alarm bits for the panel; no control here.'), 'HmiMap', 'FC'),
+        rung(N('First scan done', 'Clear FirstScan after all blocks have used it. C02.'), '"Sys".FirstScan', ('R', '"Sys".FirstScan')),
     ]
     iface = interface([
         ('Input', ['<Member Name="Initial_Call" Datatype="Bool" Accessibility="Public" '

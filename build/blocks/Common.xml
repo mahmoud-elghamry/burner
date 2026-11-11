@@ -26,12 +26,12 @@
       <SetENOAutomatically>False</SetENOAutomatically>
     </AttributeList>
     <ObjectList>
-      <MultilingualText ID="8D" CompositionName="Comment">
+      <MultilingualText ID="38" CompositionName="Comment">
         <ObjectList>
-          <MultilingualTextItem ID="8E" CompositionName="Items">
+          <MultilingualTextItem ID="39" CompositionName="Items">
             <AttributeList>
               <Culture>en-US</Culture>
-              <Text>Common E-STOP permission, RESET press detection and setting validation.</Text>
+              <Text>E-STOP permission, RESET press and setting limits (C&amp;E Rev. B).</Text>
             </AttributeList>
           </MultilingualTextItem>
         </ObjectList>
@@ -115,7 +115,7 @@
               <MultilingualTextItem ID="3" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>One-scan pulse from S2; suppressed on first scan. Reference: R-06.</Text>
+                  <Text>One-scan pulse when S2 is pressed; ignored on the first scan. C01.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -125,7 +125,7 @@
               <MultilingualTextItem ID="5" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>Detect a new RESET press</Text>
+                  <Text>RESET: new press</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -177,7 +177,7 @@
               <MultilingualTextItem ID="8" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>Save S2 for detecting the next new press. Reference: R-06.</Text>
+                  <Text>Save S2 for the next scan.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -187,7 +187,7 @@
               <MultilingualTextItem ID="A" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>Remember the RESET button state</Text>
+                  <Text>RESET: remember the button</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -241,7 +241,7 @@
               <MultilingualTextItem ID="D" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>An open E-STOP status contact clears the common permission. Reference: C01.</Text>
+                  <Text>E-STOP status contact open: remove EStopOK. C01.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -251,7 +251,7 @@
               <MultilingualTextItem ID="F" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>Remove the E-STOP permission</Text>
+                  <Text>E-STOP pressed</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -341,7 +341,7 @@
               <MultilingualTextItem ID="12" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>Need the E-STOP status input healthy plus RESET or first scan; burner START remains separate. Reference: C01.</Text>
+                  <Text>E-STOP released plus RESET (or at power-up): EStopOK back. Burners still need START. C01.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -351,7 +351,7 @@
               <MultilingualTextItem ID="14" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>Restore the common E-STOP permission</Text>
+                  <Text>E-STOP released and RESET</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -406,7 +406,7 @@
               <MultilingualTextItem ID="17" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>Alarm follows the absence of the common E-STOP permission. Reference: C01.</Text>
+                  <Text>Shown while EStopOK is off. C01.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -416,7 +416,7 @@
               <MultilingualTextItem ID="19" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>Show E-STOP active or awaiting RESET</Text>
+                  <Text>E-STOP alarm</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -429,35 +429,59 @@
   <Parts>
     <Access Scope="GlobalVariable" UId="22">
       <Symbol>
-        <Component Name="Sys" />
-        <Component Name="ResetPulse" />
+        <Component Name="Par" />
+        <Component Name="SP" />
       </Symbol>
     </Access>
-    <Access Scope="GlobalVariable" UId="24">
+    <Access Scope="LiteralConstant" UId="23">
+      <Constant>
+        <ConstantType>Int</ConstantType>
+        <ConstantValue>400</ConstantValue>
+      </Constant>
+    </Access>
+    <Access Scope="LiteralConstant" UId="25">
+      <Constant>
+        <ConstantType>Int</ConstantType>
+        <ConstantValue>400</ConstantValue>
+      </Constant>
+    </Access>
+    <Access Scope="GlobalVariable" UId="26">
       <Symbol>
-        <Component Name="Sys" />
-        <Component Name="Alm_ParRejected" />
+        <Component Name="Par" />
+        <Component Name="SP" />
       </Symbol>
     </Access>
-    <Part Name="Contact" UId="21" />
-    <Part Name="RCoil" UId="23" />
+    <Part Name="Lt" UId="21">
+      <TemplateValue Name="SrcType" Type="Type">Int</TemplateValue>
+    </Part>
+    <Part Name="Move" UId="24" DisabledENO="false">
+      <TemplateValue Name="Card" Type="Cardinality">1</TemplateValue>
+    </Part>
   </Parts>
   <Wires>
-    <Wire UId="25">
-      <Powerrail />
-      <NameCon UId="21" Name="in" />
-    </Wire>
-    <Wire UId="26">
-      <IdentCon UId="22" />
-      <NameCon UId="21" Name="operand" />
-    </Wire>
     <Wire UId="27">
-      <NameCon UId="21" Name="out" />
-      <NameCon UId="23" Name="in" />
+      <Powerrail />
+      <NameCon UId="21" Name="pre" />
     </Wire>
     <Wire UId="28">
-      <NameCon UId="23" Name="operand" />
-      <IdentCon UId="24" />
+      <IdentCon UId="22" />
+      <NameCon UId="21" Name="in1" />
+    </Wire>
+    <Wire UId="29">
+      <IdentCon UId="23" />
+      <NameCon UId="21" Name="in2" />
+    </Wire>
+    <Wire UId="30">
+      <NameCon UId="21" Name="out" />
+      <NameCon UId="24" Name="en" />
+    </Wire>
+    <Wire UId="31">
+      <IdentCon UId="25" />
+      <NameCon UId="24" Name="in" />
+    </Wire>
+    <Wire UId="32">
+      <NameCon UId="24" Name="out1" />
+      <IdentCon UId="26" />
     </Wire>
   </Wires>
 </FlgNet></NetworkSource>
@@ -469,7 +493,7 @@
               <MultilingualTextItem ID="1C" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>RESET clears the message; a continuing invalid write can set it again later in this scan. Reference: R-11.</Text>
+                  <Text>SP below 400: use 400. Sheet Parameters.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -479,7 +503,7 @@
               <MultilingualTextItem ID="1E" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>Clear the rejected-setting alarm</Text>
+                  <Text>SP below its minimum</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -492,53 +516,58 @@
   <Parts>
     <Access Scope="GlobalVariable" UId="22">
       <Symbol>
-        <Component Name="BR01_DB" />
-        <Component Name="StartEnabled" />
+        <Component Name="Par" />
+        <Component Name="SP" />
       </Symbol>
     </Access>
-    <Access Scope="GlobalVariable" UId="24">
-      <Symbol>
-        <Component Name="BR02_DB" />
-        <Component Name="StartEnabled" />
-      </Symbol>
+    <Access Scope="LiteralConstant" UId="23">
+      <Constant>
+        <ConstantType>Int</ConstantType>
+        <ConstantValue>900</ConstantValue>
+      </Constant>
+    </Access>
+    <Access Scope="LiteralConstant" UId="25">
+      <Constant>
+        <ConstantType>Int</ConstantType>
+        <ConstantValue>900</ConstantValue>
+      </Constant>
     </Access>
     <Access Scope="GlobalVariable" UId="26">
       <Symbol>
-        <Component Name="Sys" />
-        <Component Name="SettingsEditable" />
+        <Component Name="Par" />
+        <Component Name="SP" />
       </Symbol>
     </Access>
-    <Part Name="Contact" UId="21">
-      <Negated Name="operand" />
+    <Part Name="Gt" UId="21">
+      <TemplateValue Name="SrcType" Type="Type">Int</TemplateValue>
     </Part>
-    <Part Name="Contact" UId="23">
-      <Negated Name="operand" />
+    <Part Name="Move" UId="24" DisabledENO="false">
+      <TemplateValue Name="Card" Type="Cardinality">1</TemplateValue>
     </Part>
-    <Part Name="Coil" UId="25" />
   </Parts>
   <Wires>
     <Wire UId="27">
       <Powerrail />
-      <NameCon UId="21" Name="in" />
+      <NameCon UId="21" Name="pre" />
     </Wire>
     <Wire UId="28">
       <IdentCon UId="22" />
-      <NameCon UId="21" Name="operand" />
+      <NameCon UId="21" Name="in1" />
     </Wire>
     <Wire UId="29">
-      <NameCon UId="21" Name="out" />
-      <NameCon UId="23" Name="in" />
+      <IdentCon UId="23" />
+      <NameCon UId="21" Name="in2" />
     </Wire>
     <Wire UId="30">
-      <IdentCon UId="24" />
-      <NameCon UId="23" Name="operand" />
+      <NameCon UId="21" Name="out" />
+      <NameCon UId="24" Name="en" />
     </Wire>
     <Wire UId="31">
-      <NameCon UId="23" Name="out" />
-      <NameCon UId="25" Name="in" />
+      <IdentCon UId="25" />
+      <NameCon UId="24" Name="in" />
     </Wire>
     <Wire UId="32">
-      <NameCon UId="25" Name="operand" />
+      <NameCon UId="24" Name="out1" />
       <IdentCon UId="26" />
     </Wire>
   </Wires>
@@ -551,7 +580,7 @@
               <MultilingualTextItem ID="21" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>Both stored START permissions must be OFF, including AUTO waiting for heat. Reference: R-11.</Text>
+                  <Text>SP above 900: use 900. Sheet Parameters.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -561,7 +590,7 @@
               <MultilingualTextItem ID="23" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>Allow settings only after both burners STOP</Text>
+                  <Text>SP above its maximum</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -574,109 +603,59 @@
   <Parts>
     <Access Scope="GlobalVariable" UId="22">
       <Symbol>
-        <Component Name="Sys" />
-        <Component Name="FirstScan" />
+        <Component Name="Par" />
+        <Component Name="HYST" />
       </Symbol>
     </Access>
-    <Access Scope="GlobalVariable" UId="24">
-      <Symbol>
-        <Component Name="Par" />
-        <Component Name="SP_V" />
-      </Symbol>
+    <Access Scope="LiteralConstant" UId="23">
+      <Constant>
+        <ConstantType>Int</ConstantType>
+        <ConstantValue>30</ConstantValue>
+      </Constant>
     </Access>
     <Access Scope="LiteralConstant" UId="25">
       <Constant>
         <ConstantType>Int</ConstantType>
-        <ConstantValue>400</ConstantValue>
+        <ConstantValue>30</ConstantValue>
       </Constant>
     </Access>
-    <Access Scope="GlobalVariable" UId="27">
+    <Access Scope="GlobalVariable" UId="26">
       <Symbol>
         <Component Name="Par" />
-        <Component Name="SP_V" />
+        <Component Name="HYST" />
       </Symbol>
     </Access>
-    <Access Scope="LiteralConstant" UId="28">
-      <Constant>
-        <ConstantType>Int</ConstantType>
-        <ConstantValue>900</ConstantValue>
-      </Constant>
-    </Access>
-    <Access Scope="LiteralConstant" UId="31">
-      <Constant>
-        <ConstantType>Int</ConstantType>
-        <ConstantValue>700</ConstantValue>
-      </Constant>
-    </Access>
-    <Access Scope="GlobalVariable" UId="32">
-      <Symbol>
-        <Component Name="Par" />
-        <Component Name="SP_V" />
-      </Symbol>
-    </Access>
-    <Part Name="Contact" UId="21" />
-    <Part Name="Lt" UId="23">
+    <Part Name="Lt" UId="21">
       <TemplateValue Name="SrcType" Type="Type">Int</TemplateValue>
     </Part>
-    <Part Name="Gt" UId="26">
-      <TemplateValue Name="SrcType" Type="Type">Int</TemplateValue>
-    </Part>
-    <Part Name="O" UId="29">
-      <TemplateValue Name="Card" Type="Cardinality">2</TemplateValue>
-    </Part>
-    <Part Name="Move" UId="30" DisabledENO="false">
+    <Part Name="Move" UId="24" DisabledENO="false">
       <TemplateValue Name="Card" Type="Cardinality">1</TemplateValue>
     </Part>
   </Parts>
   <Wires>
-    <Wire UId="33">
+    <Wire UId="27">
       <Powerrail />
-      <NameCon UId="21" Name="in" />
+      <NameCon UId="21" Name="pre" />
     </Wire>
-    <Wire UId="34">
+    <Wire UId="28">
       <IdentCon UId="22" />
-      <NameCon UId="21" Name="operand" />
+      <NameCon UId="21" Name="in1" />
     </Wire>
-    <Wire UId="35">
+    <Wire UId="29">
+      <IdentCon UId="23" />
+      <NameCon UId="21" Name="in2" />
+    </Wire>
+    <Wire UId="30">
       <NameCon UId="21" Name="out" />
-      <NameCon UId="23" Name="pre" />
-      <NameCon UId="26" Name="pre" />
+      <NameCon UId="24" Name="en" />
     </Wire>
-    <Wire UId="36">
-      <IdentCon UId="24" />
-      <NameCon UId="23" Name="in1" />
-    </Wire>
-    <Wire UId="37">
+    <Wire UId="31">
       <IdentCon UId="25" />
-      <NameCon UId="23" Name="in2" />
+      <NameCon UId="24" Name="in" />
     </Wire>
-    <Wire UId="38">
-      <IdentCon UId="27" />
-      <NameCon UId="26" Name="in1" />
-    </Wire>
-    <Wire UId="39">
-      <IdentCon UId="28" />
-      <NameCon UId="26" Name="in2" />
-    </Wire>
-    <Wire UId="40">
-      <NameCon UId="23" Name="out" />
-      <NameCon UId="29" Name="in1" />
-    </Wire>
-    <Wire UId="41">
-      <NameCon UId="26" Name="out" />
-      <NameCon UId="29" Name="in2" />
-    </Wire>
-    <Wire UId="42">
-      <NameCon UId="29" Name="out" />
-      <NameCon UId="30" Name="en" />
-    </Wire>
-    <Wire UId="43">
-      <IdentCon UId="31" />
-      <NameCon UId="30" Name="in" />
-    </Wire>
-    <Wire UId="44">
-      <NameCon UId="30" Name="out1" />
-      <IdentCon UId="32" />
+    <Wire UId="32">
+      <NameCon UId="24" Name="out1" />
+      <IdentCon UId="26" />
     </Wire>
   </Wires>
 </FlgNet></NetworkSource>
@@ -688,7 +667,7 @@
               <MultilingualTextItem ID="26" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>At first scan only, an out-of-range accepted value is restored to its defined default. Reference: R-11.</Text>
+                  <Text>HYST below 30: use 30. Sheet Parameters.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -698,7 +677,7 @@
               <MultilingualTextItem ID="28" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>Stop temperature: restore the startup default if corrupt</Text>
+                  <Text>HYST below its minimum</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -711,101 +690,59 @@
   <Parts>
     <Access Scope="GlobalVariable" UId="22">
       <Symbol>
-        <Component Name="Sys" />
-        <Component Name="SettingsEditable" />
+        <Component Name="Par" />
+        <Component Name="HYST" />
       </Symbol>
     </Access>
-    <Access Scope="GlobalVariable" UId="24">
-      <Symbol>
-        <Component Name="Par" />
-        <Component Name="SP" />
-      </Symbol>
+    <Access Scope="LiteralConstant" UId="23">
+      <Constant>
+        <ConstantType>Int</ConstantType>
+        <ConstantValue>100</ConstantValue>
+      </Constant>
     </Access>
     <Access Scope="LiteralConstant" UId="25">
       <Constant>
         <ConstantType>Int</ConstantType>
-        <ConstantValue>400</ConstantValue>
+        <ConstantValue>100</ConstantValue>
       </Constant>
     </Access>
-    <Access Scope="GlobalVariable" UId="27">
+    <Access Scope="GlobalVariable" UId="26">
       <Symbol>
         <Component Name="Par" />
-        <Component Name="SP" />
+        <Component Name="HYST" />
       </Symbol>
     </Access>
-    <Access Scope="LiteralConstant" UId="28">
-      <Constant>
-        <ConstantType>Int</ConstantType>
-        <ConstantValue>900</ConstantValue>
-      </Constant>
-    </Access>
-    <Access Scope="GlobalVariable" UId="30">
-      <Symbol>
-        <Component Name="Par" />
-        <Component Name="SP" />
-      </Symbol>
-    </Access>
-    <Access Scope="GlobalVariable" UId="31">
-      <Symbol>
-        <Component Name="Par" />
-        <Component Name="SP_V" />
-      </Symbol>
-    </Access>
-    <Part Name="Contact" UId="21" />
-    <Part Name="Ge" UId="23">
+    <Part Name="Gt" UId="21">
       <TemplateValue Name="SrcType" Type="Type">Int</TemplateValue>
     </Part>
-    <Part Name="Le" UId="26">
-      <TemplateValue Name="SrcType" Type="Type">Int</TemplateValue>
-    </Part>
-    <Part Name="Move" UId="29" DisabledENO="false">
+    <Part Name="Move" UId="24" DisabledENO="false">
       <TemplateValue Name="Card" Type="Cardinality">1</TemplateValue>
     </Part>
   </Parts>
   <Wires>
-    <Wire UId="32">
+    <Wire UId="27">
       <Powerrail />
-      <NameCon UId="21" Name="in" />
+      <NameCon UId="21" Name="pre" />
     </Wire>
-    <Wire UId="33">
+    <Wire UId="28">
       <IdentCon UId="22" />
-      <NameCon UId="21" Name="operand" />
+      <NameCon UId="21" Name="in1" />
     </Wire>
-    <Wire UId="34">
+    <Wire UId="29">
+      <IdentCon UId="23" />
+      <NameCon UId="21" Name="in2" />
+    </Wire>
+    <Wire UId="30">
       <NameCon UId="21" Name="out" />
-      <NameCon UId="23" Name="pre" />
+      <NameCon UId="24" Name="en" />
     </Wire>
-    <Wire UId="35">
-      <IdentCon UId="24" />
-      <NameCon UId="23" Name="in1" />
-    </Wire>
-    <Wire UId="36">
+    <Wire UId="31">
       <IdentCon UId="25" />
-      <NameCon UId="23" Name="in2" />
+      <NameCon UId="24" Name="in" />
     </Wire>
-    <Wire UId="37">
-      <NameCon UId="23" Name="out" />
-      <NameCon UId="26" Name="pre" />
-    </Wire>
-    <Wire UId="38">
-      <IdentCon UId="27" />
-      <NameCon UId="26" Name="in1" />
-    </Wire>
-    <Wire UId="39">
-      <IdentCon UId="28" />
-      <NameCon UId="26" Name="in2" />
-    </Wire>
-    <Wire UId="40">
-      <NameCon UId="26" Name="out" />
-      <NameCon UId="29" Name="en" />
-    </Wire>
-    <Wire UId="41">
-      <IdentCon UId="30" />
-      <NameCon UId="29" Name="in" />
-    </Wire>
-    <Wire UId="42">
-      <NameCon UId="29" Name="out1" />
-      <IdentCon UId="31" />
+    <Wire UId="32">
+      <NameCon UId="24" Name="out1" />
+      <IdentCon UId="26" />
     </Wire>
   </Wires>
 </FlgNet></NetworkSource>
@@ -817,7 +754,7 @@
               <MultilingualTextItem ID="2B" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>Copy the entry to the in-use value only when both START permissions are OFF and the entry is within its limits. Reference: R-11.</Text>
+                  <Text>HYST above 100: use 100. Sheet Parameters.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -827,7 +764,7 @@
               <MultilingualTextItem ID="2D" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>Stop temperature: accept a valid entry after both STOP</Text>
+                  <Text>HYST above its maximum</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -841,150 +778,58 @@
     <Access Scope="GlobalVariable" UId="22">
       <Symbol>
         <Component Name="Par" />
-        <Component Name="SP" />
+        <Component Name="STG" />
       </Symbol>
     </Access>
     <Access Scope="LiteralConstant" UId="23">
       <Constant>
         <ConstantType>Int</ConstantType>
-        <ConstantValue>400</ConstantValue>
+        <ConstantValue>50</ConstantValue>
       </Constant>
     </Access>
-    <Access Scope="GlobalVariable" UId="25">
-      <Symbol>
-        <Component Name="Par" />
-        <Component Name="SP" />
-      </Symbol>
-    </Access>
-    <Access Scope="LiteralConstant" UId="26">
+    <Access Scope="LiteralConstant" UId="25">
       <Constant>
         <ConstantType>Int</ConstantType>
-        <ConstantValue>900</ConstantValue>
+        <ConstantValue>50</ConstantValue>
       </Constant>
     </Access>
-    <Access Scope="GlobalVariable" UId="28">
-      <Symbol>
-        <Component Name="Sys" />
-        <Component Name="SettingsEditable" />
-      </Symbol>
-    </Access>
-    <Access Scope="GlobalVariable" UId="30">
+    <Access Scope="GlobalVariable" UId="26">
       <Symbol>
         <Component Name="Par" />
-        <Component Name="SP" />
-      </Symbol>
-    </Access>
-    <Access Scope="GlobalVariable" UId="31">
-      <Symbol>
-        <Component Name="Par" />
-        <Component Name="SP_V" />
-      </Symbol>
-    </Access>
-    <Access Scope="GlobalVariable" UId="34">
-      <Symbol>
-        <Component Name="Par" />
-        <Component Name="SP_V" />
-      </Symbol>
-    </Access>
-    <Access Scope="GlobalVariable" UId="35">
-      <Symbol>
-        <Component Name="Par" />
-        <Component Name="SP" />
-      </Symbol>
-    </Access>
-    <Access Scope="GlobalVariable" UId="37">
-      <Symbol>
-        <Component Name="Sys" />
-        <Component Name="Alm_ParRejected" />
+        <Component Name="STG" />
       </Symbol>
     </Access>
     <Part Name="Lt" UId="21">
       <TemplateValue Name="SrcType" Type="Type">Int</TemplateValue>
     </Part>
-    <Part Name="Gt" UId="24">
-      <TemplateValue Name="SrcType" Type="Type">Int</TemplateValue>
-    </Part>
-    <Part Name="Contact" UId="27">
-      <Negated Name="operand" />
-    </Part>
-    <Part Name="Ne" UId="29">
-      <TemplateValue Name="SrcType" Type="Type">Int</TemplateValue>
-    </Part>
-    <Part Name="O" UId="32">
-      <TemplateValue Name="Card" Type="Cardinality">3</TemplateValue>
-    </Part>
-    <Part Name="Move" UId="33" DisabledENO="false">
+    <Part Name="Move" UId="24" DisabledENO="false">
       <TemplateValue Name="Card" Type="Cardinality">1</TemplateValue>
     </Part>
-    <Part Name="SCoil" UId="36" />
   </Parts>
   <Wires>
-    <Wire UId="38">
+    <Wire UId="27">
       <Powerrail />
       <NameCon UId="21" Name="pre" />
-      <NameCon UId="24" Name="pre" />
-      <NameCon UId="27" Name="in" />
     </Wire>
-    <Wire UId="39">
+    <Wire UId="28">
       <IdentCon UId="22" />
       <NameCon UId="21" Name="in1" />
     </Wire>
-    <Wire UId="40">
+    <Wire UId="29">
       <IdentCon UId="23" />
       <NameCon UId="21" Name="in2" />
     </Wire>
-    <Wire UId="41">
-      <IdentCon UId="25" />
-      <NameCon UId="24" Name="in1" />
-    </Wire>
-    <Wire UId="42">
-      <IdentCon UId="26" />
-      <NameCon UId="24" Name="in2" />
-    </Wire>
-    <Wire UId="43">
-      <IdentCon UId="28" />
-      <NameCon UId="27" Name="operand" />
-    </Wire>
-    <Wire UId="44">
-      <NameCon UId="27" Name="out" />
-      <NameCon UId="29" Name="pre" />
-    </Wire>
-    <Wire UId="45">
-      <IdentCon UId="30" />
-      <NameCon UId="29" Name="in1" />
-    </Wire>
-    <Wire UId="46">
-      <IdentCon UId="31" />
-      <NameCon UId="29" Name="in2" />
-    </Wire>
-    <Wire UId="47">
+    <Wire UId="30">
       <NameCon UId="21" Name="out" />
-      <NameCon UId="32" Name="in1" />
+      <NameCon UId="24" Name="en" />
     </Wire>
-    <Wire UId="48">
-      <NameCon UId="24" Name="out" />
-      <NameCon UId="32" Name="in2" />
+    <Wire UId="31">
+      <IdentCon UId="25" />
+      <NameCon UId="24" Name="in" />
     </Wire>
-    <Wire UId="49">
-      <NameCon UId="29" Name="out" />
-      <NameCon UId="32" Name="in3" />
-    </Wire>
-    <Wire UId="50">
-      <NameCon UId="32" Name="out" />
-      <NameCon UId="33" Name="en" />
-      <NameCon UId="36" Name="in" />
-    </Wire>
-    <Wire UId="51">
-      <IdentCon UId="34" />
-      <NameCon UId="33" Name="in" />
-    </Wire>
-    <Wire UId="52">
-      <NameCon UId="33" Name="out1" />
-      <IdentCon UId="35" />
-    </Wire>
-    <Wire UId="53">
-      <NameCon UId="36" Name="operand" />
-      <IdentCon UId="37" />
+    <Wire UId="32">
+      <NameCon UId="24" Name="out1" />
+      <IdentCon UId="26" />
     </Wire>
   </Wires>
 </FlgNet></NetworkSource>
@@ -996,7 +841,7 @@
               <MultilingualTextItem ID="30" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>Out-of-range or changed while either burner remains enabled: restore the old value and show the rejection alarm. Reference: R-11.</Text>
+                  <Text>STG below 50: use 50. Sheet Parameters.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -1006,7 +851,7 @@
               <MultilingualTextItem ID="32" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>Stop temperature: reject an invalid or locked entry</Text>
+                  <Text>STG below its minimum</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -1019,109 +864,59 @@
   <Parts>
     <Access Scope="GlobalVariable" UId="22">
       <Symbol>
-        <Component Name="Sys" />
-        <Component Name="FirstScan" />
+        <Component Name="Par" />
+        <Component Name="STG" />
       </Symbol>
     </Access>
-    <Access Scope="GlobalVariable" UId="24">
-      <Symbol>
-        <Component Name="Par" />
-        <Component Name="HYST_V" />
-      </Symbol>
+    <Access Scope="LiteralConstant" UId="23">
+      <Constant>
+        <ConstantType>Int</ConstantType>
+        <ConstantValue>300</ConstantValue>
+      </Constant>
     </Access>
     <Access Scope="LiteralConstant" UId="25">
       <Constant>
         <ConstantType>Int</ConstantType>
-        <ConstantValue>30</ConstantValue>
+        <ConstantValue>300</ConstantValue>
       </Constant>
     </Access>
-    <Access Scope="GlobalVariable" UId="27">
+    <Access Scope="GlobalVariable" UId="26">
       <Symbol>
         <Component Name="Par" />
-        <Component Name="HYST_V" />
+        <Component Name="STG" />
       </Symbol>
     </Access>
-    <Access Scope="LiteralConstant" UId="28">
-      <Constant>
-        <ConstantType>Int</ConstantType>
-        <ConstantValue>100</ConstantValue>
-      </Constant>
-    </Access>
-    <Access Scope="LiteralConstant" UId="31">
-      <Constant>
-        <ConstantType>Int</ConstantType>
-        <ConstantValue>50</ConstantValue>
-      </Constant>
-    </Access>
-    <Access Scope="GlobalVariable" UId="32">
-      <Symbol>
-        <Component Name="Par" />
-        <Component Name="HYST_V" />
-      </Symbol>
-    </Access>
-    <Part Name="Contact" UId="21" />
-    <Part Name="Lt" UId="23">
+    <Part Name="Gt" UId="21">
       <TemplateValue Name="SrcType" Type="Type">Int</TemplateValue>
     </Part>
-    <Part Name="Gt" UId="26">
-      <TemplateValue Name="SrcType" Type="Type">Int</TemplateValue>
-    </Part>
-    <Part Name="O" UId="29">
-      <TemplateValue Name="Card" Type="Cardinality">2</TemplateValue>
-    </Part>
-    <Part Name="Move" UId="30" DisabledENO="false">
+    <Part Name="Move" UId="24" DisabledENO="false">
       <TemplateValue Name="Card" Type="Cardinality">1</TemplateValue>
     </Part>
   </Parts>
   <Wires>
-    <Wire UId="33">
+    <Wire UId="27">
       <Powerrail />
-      <NameCon UId="21" Name="in" />
+      <NameCon UId="21" Name="pre" />
     </Wire>
-    <Wire UId="34">
+    <Wire UId="28">
       <IdentCon UId="22" />
-      <NameCon UId="21" Name="operand" />
+      <NameCon UId="21" Name="in1" />
     </Wire>
-    <Wire UId="35">
+    <Wire UId="29">
+      <IdentCon UId="23" />
+      <NameCon UId="21" Name="in2" />
+    </Wire>
+    <Wire UId="30">
       <NameCon UId="21" Name="out" />
-      <NameCon UId="23" Name="pre" />
-      <NameCon UId="26" Name="pre" />
+      <NameCon UId="24" Name="en" />
     </Wire>
-    <Wire UId="36">
-      <IdentCon UId="24" />
-      <NameCon UId="23" Name="in1" />
-    </Wire>
-    <Wire UId="37">
+    <Wire UId="31">
       <IdentCon UId="25" />
-      <NameCon UId="23" Name="in2" />
+      <NameCon UId="24" Name="in" />
     </Wire>
-    <Wire UId="38">
-      <IdentCon UId="27" />
-      <NameCon UId="26" Name="in1" />
-    </Wire>
-    <Wire UId="39">
-      <IdentCon UId="28" />
-      <NameCon UId="26" Name="in2" />
-    </Wire>
-    <Wire UId="40">
-      <NameCon UId="23" Name="out" />
-      <NameCon UId="29" Name="in1" />
-    </Wire>
-    <Wire UId="41">
-      <NameCon UId="26" Name="out" />
-      <NameCon UId="29" Name="in2" />
-    </Wire>
-    <Wire UId="42">
-      <NameCon UId="29" Name="out" />
-      <NameCon UId="30" Name="en" />
-    </Wire>
-    <Wire UId="43">
-      <IdentCon UId="31" />
-      <NameCon UId="30" Name="in" />
-    </Wire>
-    <Wire UId="44">
-      <NameCon UId="30" Name="out1" />
-      <IdentCon UId="32" />
+    <Wire UId="32">
+      <NameCon UId="24" Name="out1" />
+      <IdentCon UId="26" />
     </Wire>
   </Wires>
 </FlgNet></NetworkSource>
@@ -1133,7 +928,7 @@
               <MultilingualTextItem ID="35" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>At first scan only, an out-of-range accepted value is restored to its defined default. Reference: R-11.</Text>
+                  <Text>STG above 300: use 300. Sheet Parameters.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -1143,2521 +938,16 @@
               <MultilingualTextItem ID="37" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>Restart temperature gap: restore the startup default if corrupt</Text>
+                  <Text>STG above its maximum</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
           </MultilingualText>
         </ObjectList>
       </SW.Blocks.CompileUnit>
-      <SW.Blocks.CompileUnit ID="38" CompositionName="CompileUnits">
-        <AttributeList>
-          <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
-  <Parts>
-    <Access Scope="GlobalVariable" UId="22">
-      <Symbol>
-        <Component Name="Sys" />
-        <Component Name="SettingsEditable" />
-      </Symbol>
-    </Access>
-    <Access Scope="GlobalVariable" UId="24">
-      <Symbol>
-        <Component Name="Par" />
-        <Component Name="HYST" />
-      </Symbol>
-    </Access>
-    <Access Scope="LiteralConstant" UId="25">
-      <Constant>
-        <ConstantType>Int</ConstantType>
-        <ConstantValue>30</ConstantValue>
-      </Constant>
-    </Access>
-    <Access Scope="GlobalVariable" UId="27">
-      <Symbol>
-        <Component Name="Par" />
-        <Component Name="HYST" />
-      </Symbol>
-    </Access>
-    <Access Scope="LiteralConstant" UId="28">
-      <Constant>
-        <ConstantType>Int</ConstantType>
-        <ConstantValue>100</ConstantValue>
-      </Constant>
-    </Access>
-    <Access Scope="GlobalVariable" UId="30">
-      <Symbol>
-        <Component Name="Par" />
-        <Component Name="HYST" />
-      </Symbol>
-    </Access>
-    <Access Scope="GlobalVariable" UId="31">
-      <Symbol>
-        <Component Name="Par" />
-        <Component Name="HYST_V" />
-      </Symbol>
-    </Access>
-    <Part Name="Contact" UId="21" />
-    <Part Name="Ge" UId="23">
-      <TemplateValue Name="SrcType" Type="Type">Int</TemplateValue>
-    </Part>
-    <Part Name="Le" UId="26">
-      <TemplateValue Name="SrcType" Type="Type">Int</TemplateValue>
-    </Part>
-    <Part Name="Move" UId="29" DisabledENO="false">
-      <TemplateValue Name="Card" Type="Cardinality">1</TemplateValue>
-    </Part>
-  </Parts>
-  <Wires>
-    <Wire UId="32">
-      <Powerrail />
-      <NameCon UId="21" Name="in" />
-    </Wire>
-    <Wire UId="33">
-      <IdentCon UId="22" />
-      <NameCon UId="21" Name="operand" />
-    </Wire>
-    <Wire UId="34">
-      <NameCon UId="21" Name="out" />
-      <NameCon UId="23" Name="pre" />
-    </Wire>
-    <Wire UId="35">
-      <IdentCon UId="24" />
-      <NameCon UId="23" Name="in1" />
-    </Wire>
-    <Wire UId="36">
-      <IdentCon UId="25" />
-      <NameCon UId="23" Name="in2" />
-    </Wire>
-    <Wire UId="37">
-      <NameCon UId="23" Name="out" />
-      <NameCon UId="26" Name="pre" />
-    </Wire>
-    <Wire UId="38">
-      <IdentCon UId="27" />
-      <NameCon UId="26" Name="in1" />
-    </Wire>
-    <Wire UId="39">
-      <IdentCon UId="28" />
-      <NameCon UId="26" Name="in2" />
-    </Wire>
-    <Wire UId="40">
-      <NameCon UId="26" Name="out" />
-      <NameCon UId="29" Name="en" />
-    </Wire>
-    <Wire UId="41">
-      <IdentCon UId="30" />
-      <NameCon UId="29" Name="in" />
-    </Wire>
-    <Wire UId="42">
-      <NameCon UId="29" Name="out1" />
-      <IdentCon UId="31" />
-    </Wire>
-  </Wires>
-</FlgNet></NetworkSource>
-          <ProgrammingLanguage>LAD</ProgrammingLanguage>
-        </AttributeList>
+      <MultilingualText ID="3A" CompositionName="Title">
         <ObjectList>
-          <MultilingualText ID="39" CompositionName="Comment">
-            <ObjectList>
-              <MultilingualTextItem ID="3A" CompositionName="Items">
-                <AttributeList>
-                  <Culture>en-US</Culture>
-                  <Text>Copy the entry to the in-use value only when both START permissions are OFF and the entry is within its limits. Reference: R-11.</Text>
-                </AttributeList>
-              </MultilingualTextItem>
-            </ObjectList>
-          </MultilingualText>
-          <MultilingualText ID="3B" CompositionName="Title">
-            <ObjectList>
-              <MultilingualTextItem ID="3C" CompositionName="Items">
-                <AttributeList>
-                  <Culture>en-US</Culture>
-                  <Text>Restart temperature gap: accept a valid entry after both STOP</Text>
-                </AttributeList>
-              </MultilingualTextItem>
-            </ObjectList>
-          </MultilingualText>
-        </ObjectList>
-      </SW.Blocks.CompileUnit>
-      <SW.Blocks.CompileUnit ID="3D" CompositionName="CompileUnits">
-        <AttributeList>
-          <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
-  <Parts>
-    <Access Scope="GlobalVariable" UId="22">
-      <Symbol>
-        <Component Name="Par" />
-        <Component Name="HYST" />
-      </Symbol>
-    </Access>
-    <Access Scope="LiteralConstant" UId="23">
-      <Constant>
-        <ConstantType>Int</ConstantType>
-        <ConstantValue>30</ConstantValue>
-      </Constant>
-    </Access>
-    <Access Scope="GlobalVariable" UId="25">
-      <Symbol>
-        <Component Name="Par" />
-        <Component Name="HYST" />
-      </Symbol>
-    </Access>
-    <Access Scope="LiteralConstant" UId="26">
-      <Constant>
-        <ConstantType>Int</ConstantType>
-        <ConstantValue>100</ConstantValue>
-      </Constant>
-    </Access>
-    <Access Scope="GlobalVariable" UId="28">
-      <Symbol>
-        <Component Name="Sys" />
-        <Component Name="SettingsEditable" />
-      </Symbol>
-    </Access>
-    <Access Scope="GlobalVariable" UId="30">
-      <Symbol>
-        <Component Name="Par" />
-        <Component Name="HYST" />
-      </Symbol>
-    </Access>
-    <Access Scope="GlobalVariable" UId="31">
-      <Symbol>
-        <Component Name="Par" />
-        <Component Name="HYST_V" />
-      </Symbol>
-    </Access>
-    <Access Scope="GlobalVariable" UId="34">
-      <Symbol>
-        <Component Name="Par" />
-        <Component Name="HYST_V" />
-      </Symbol>
-    </Access>
-    <Access Scope="GlobalVariable" UId="35">
-      <Symbol>
-        <Component Name="Par" />
-        <Component Name="HYST" />
-      </Symbol>
-    </Access>
-    <Access Scope="GlobalVariable" UId="37">
-      <Symbol>
-        <Component Name="Sys" />
-        <Component Name="Alm_ParRejected" />
-      </Symbol>
-    </Access>
-    <Part Name="Lt" UId="21">
-      <TemplateValue Name="SrcType" Type="Type">Int</TemplateValue>
-    </Part>
-    <Part Name="Gt" UId="24">
-      <TemplateValue Name="SrcType" Type="Type">Int</TemplateValue>
-    </Part>
-    <Part Name="Contact" UId="27">
-      <Negated Name="operand" />
-    </Part>
-    <Part Name="Ne" UId="29">
-      <TemplateValue Name="SrcType" Type="Type">Int</TemplateValue>
-    </Part>
-    <Part Name="O" UId="32">
-      <TemplateValue Name="Card" Type="Cardinality">3</TemplateValue>
-    </Part>
-    <Part Name="Move" UId="33" DisabledENO="false">
-      <TemplateValue Name="Card" Type="Cardinality">1</TemplateValue>
-    </Part>
-    <Part Name="SCoil" UId="36" />
-  </Parts>
-  <Wires>
-    <Wire UId="38">
-      <Powerrail />
-      <NameCon UId="21" Name="pre" />
-      <NameCon UId="24" Name="pre" />
-      <NameCon UId="27" Name="in" />
-    </Wire>
-    <Wire UId="39">
-      <IdentCon UId="22" />
-      <NameCon UId="21" Name="in1" />
-    </Wire>
-    <Wire UId="40">
-      <IdentCon UId="23" />
-      <NameCon UId="21" Name="in2" />
-    </Wire>
-    <Wire UId="41">
-      <IdentCon UId="25" />
-      <NameCon UId="24" Name="in1" />
-    </Wire>
-    <Wire UId="42">
-      <IdentCon UId="26" />
-      <NameCon UId="24" Name="in2" />
-    </Wire>
-    <Wire UId="43">
-      <IdentCon UId="28" />
-      <NameCon UId="27" Name="operand" />
-    </Wire>
-    <Wire UId="44">
-      <NameCon UId="27" Name="out" />
-      <NameCon UId="29" Name="pre" />
-    </Wire>
-    <Wire UId="45">
-      <IdentCon UId="30" />
-      <NameCon UId="29" Name="in1" />
-    </Wire>
-    <Wire UId="46">
-      <IdentCon UId="31" />
-      <NameCon UId="29" Name="in2" />
-    </Wire>
-    <Wire UId="47">
-      <NameCon UId="21" Name="out" />
-      <NameCon UId="32" Name="in1" />
-    </Wire>
-    <Wire UId="48">
-      <NameCon UId="24" Name="out" />
-      <NameCon UId="32" Name="in2" />
-    </Wire>
-    <Wire UId="49">
-      <NameCon UId="29" Name="out" />
-      <NameCon UId="32" Name="in3" />
-    </Wire>
-    <Wire UId="50">
-      <NameCon UId="32" Name="out" />
-      <NameCon UId="33" Name="en" />
-      <NameCon UId="36" Name="in" />
-    </Wire>
-    <Wire UId="51">
-      <IdentCon UId="34" />
-      <NameCon UId="33" Name="in" />
-    </Wire>
-    <Wire UId="52">
-      <NameCon UId="33" Name="out1" />
-      <IdentCon UId="35" />
-    </Wire>
-    <Wire UId="53">
-      <NameCon UId="36" Name="operand" />
-      <IdentCon UId="37" />
-    </Wire>
-  </Wires>
-</FlgNet></NetworkSource>
-          <ProgrammingLanguage>LAD</ProgrammingLanguage>
-        </AttributeList>
-        <ObjectList>
-          <MultilingualText ID="3E" CompositionName="Comment">
-            <ObjectList>
-              <MultilingualTextItem ID="3F" CompositionName="Items">
-                <AttributeList>
-                  <Culture>en-US</Culture>
-                  <Text>Out-of-range or changed while either burner remains enabled: restore the old value and show the rejection alarm. Reference: R-11.</Text>
-                </AttributeList>
-              </MultilingualTextItem>
-            </ObjectList>
-          </MultilingualText>
-          <MultilingualText ID="40" CompositionName="Title">
-            <ObjectList>
-              <MultilingualTextItem ID="41" CompositionName="Items">
-                <AttributeList>
-                  <Culture>en-US</Culture>
-                  <Text>Restart temperature gap: reject an invalid or locked entry</Text>
-                </AttributeList>
-              </MultilingualTextItem>
-            </ObjectList>
-          </MultilingualText>
-        </ObjectList>
-      </SW.Blocks.CompileUnit>
-      <SW.Blocks.CompileUnit ID="42" CompositionName="CompileUnits">
-        <AttributeList>
-          <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
-  <Parts>
-    <Access Scope="GlobalVariable" UId="22">
-      <Symbol>
-        <Component Name="Sys" />
-        <Component Name="FirstScan" />
-      </Symbol>
-    </Access>
-    <Access Scope="GlobalVariable" UId="24">
-      <Symbol>
-        <Component Name="Par" />
-        <Component Name="STG_V" />
-      </Symbol>
-    </Access>
-    <Access Scope="LiteralConstant" UId="25">
-      <Constant>
-        <ConstantType>Int</ConstantType>
-        <ConstantValue>50</ConstantValue>
-      </Constant>
-    </Access>
-    <Access Scope="GlobalVariable" UId="27">
-      <Symbol>
-        <Component Name="Par" />
-        <Component Name="STG_V" />
-      </Symbol>
-    </Access>
-    <Access Scope="LiteralConstant" UId="28">
-      <Constant>
-        <ConstantType>Int</ConstantType>
-        <ConstantValue>300</ConstantValue>
-      </Constant>
-    </Access>
-    <Access Scope="LiteralConstant" UId="31">
-      <Constant>
-        <ConstantType>Int</ConstantType>
-        <ConstantValue>100</ConstantValue>
-      </Constant>
-    </Access>
-    <Access Scope="GlobalVariable" UId="32">
-      <Symbol>
-        <Component Name="Par" />
-        <Component Name="STG_V" />
-      </Symbol>
-    </Access>
-    <Part Name="Contact" UId="21" />
-    <Part Name="Lt" UId="23">
-      <TemplateValue Name="SrcType" Type="Type">Int</TemplateValue>
-    </Part>
-    <Part Name="Gt" UId="26">
-      <TemplateValue Name="SrcType" Type="Type">Int</TemplateValue>
-    </Part>
-    <Part Name="O" UId="29">
-      <TemplateValue Name="Card" Type="Cardinality">2</TemplateValue>
-    </Part>
-    <Part Name="Move" UId="30" DisabledENO="false">
-      <TemplateValue Name="Card" Type="Cardinality">1</TemplateValue>
-    </Part>
-  </Parts>
-  <Wires>
-    <Wire UId="33">
-      <Powerrail />
-      <NameCon UId="21" Name="in" />
-    </Wire>
-    <Wire UId="34">
-      <IdentCon UId="22" />
-      <NameCon UId="21" Name="operand" />
-    </Wire>
-    <Wire UId="35">
-      <NameCon UId="21" Name="out" />
-      <NameCon UId="23" Name="pre" />
-      <NameCon UId="26" Name="pre" />
-    </Wire>
-    <Wire UId="36">
-      <IdentCon UId="24" />
-      <NameCon UId="23" Name="in1" />
-    </Wire>
-    <Wire UId="37">
-      <IdentCon UId="25" />
-      <NameCon UId="23" Name="in2" />
-    </Wire>
-    <Wire UId="38">
-      <IdentCon UId="27" />
-      <NameCon UId="26" Name="in1" />
-    </Wire>
-    <Wire UId="39">
-      <IdentCon UId="28" />
-      <NameCon UId="26" Name="in2" />
-    </Wire>
-    <Wire UId="40">
-      <NameCon UId="23" Name="out" />
-      <NameCon UId="29" Name="in1" />
-    </Wire>
-    <Wire UId="41">
-      <NameCon UId="26" Name="out" />
-      <NameCon UId="29" Name="in2" />
-    </Wire>
-    <Wire UId="42">
-      <NameCon UId="29" Name="out" />
-      <NameCon UId="30" Name="en" />
-    </Wire>
-    <Wire UId="43">
-      <IdentCon UId="31" />
-      <NameCon UId="30" Name="in" />
-    </Wire>
-    <Wire UId="44">
-      <NameCon UId="30" Name="out1" />
-      <IdentCon UId="32" />
-    </Wire>
-  </Wires>
-</FlgNet></NetworkSource>
-          <ProgrammingLanguage>LAD</ProgrammingLanguage>
-        </AttributeList>
-        <ObjectList>
-          <MultilingualText ID="43" CompositionName="Comment">
-            <ObjectList>
-              <MultilingualTextItem ID="44" CompositionName="Items">
-                <AttributeList>
-                  <Culture>en-US</Culture>
-                  <Text>At first scan only, an out-of-range accepted value is restored to its defined default. Reference: R-11.</Text>
-                </AttributeList>
-              </MultilingualTextItem>
-            </ObjectList>
-          </MultilingualText>
-          <MultilingualText ID="45" CompositionName="Title">
-            <ObjectList>
-              <MultilingualTextItem ID="46" CompositionName="Items">
-                <AttributeList>
-                  <Culture>en-US</Culture>
-                  <Text>Stage 2 temperature offset: restore the startup default if corrupt</Text>
-                </AttributeList>
-              </MultilingualTextItem>
-            </ObjectList>
-          </MultilingualText>
-        </ObjectList>
-      </SW.Blocks.CompileUnit>
-      <SW.Blocks.CompileUnit ID="47" CompositionName="CompileUnits">
-        <AttributeList>
-          <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
-  <Parts>
-    <Access Scope="GlobalVariable" UId="22">
-      <Symbol>
-        <Component Name="Sys" />
-        <Component Name="SettingsEditable" />
-      </Symbol>
-    </Access>
-    <Access Scope="GlobalVariable" UId="24">
-      <Symbol>
-        <Component Name="Par" />
-        <Component Name="STG" />
-      </Symbol>
-    </Access>
-    <Access Scope="LiteralConstant" UId="25">
-      <Constant>
-        <ConstantType>Int</ConstantType>
-        <ConstantValue>50</ConstantValue>
-      </Constant>
-    </Access>
-    <Access Scope="GlobalVariable" UId="27">
-      <Symbol>
-        <Component Name="Par" />
-        <Component Name="STG" />
-      </Symbol>
-    </Access>
-    <Access Scope="LiteralConstant" UId="28">
-      <Constant>
-        <ConstantType>Int</ConstantType>
-        <ConstantValue>300</ConstantValue>
-      </Constant>
-    </Access>
-    <Access Scope="GlobalVariable" UId="30">
-      <Symbol>
-        <Component Name="Par" />
-        <Component Name="STG" />
-      </Symbol>
-    </Access>
-    <Access Scope="GlobalVariable" UId="31">
-      <Symbol>
-        <Component Name="Par" />
-        <Component Name="STG_V" />
-      </Symbol>
-    </Access>
-    <Part Name="Contact" UId="21" />
-    <Part Name="Ge" UId="23">
-      <TemplateValue Name="SrcType" Type="Type">Int</TemplateValue>
-    </Part>
-    <Part Name="Le" UId="26">
-      <TemplateValue Name="SrcType" Type="Type">Int</TemplateValue>
-    </Part>
-    <Part Name="Move" UId="29" DisabledENO="false">
-      <TemplateValue Name="Card" Type="Cardinality">1</TemplateValue>
-    </Part>
-  </Parts>
-  <Wires>
-    <Wire UId="32">
-      <Powerrail />
-      <NameCon UId="21" Name="in" />
-    </Wire>
-    <Wire UId="33">
-      <IdentCon UId="22" />
-      <NameCon UId="21" Name="operand" />
-    </Wire>
-    <Wire UId="34">
-      <NameCon UId="21" Name="out" />
-      <NameCon UId="23" Name="pre" />
-    </Wire>
-    <Wire UId="35">
-      <IdentCon UId="24" />
-      <NameCon UId="23" Name="in1" />
-    </Wire>
-    <Wire UId="36">
-      <IdentCon UId="25" />
-      <NameCon UId="23" Name="in2" />
-    </Wire>
-    <Wire UId="37">
-      <NameCon UId="23" Name="out" />
-      <NameCon UId="26" Name="pre" />
-    </Wire>
-    <Wire UId="38">
-      <IdentCon UId="27" />
-      <NameCon UId="26" Name="in1" />
-    </Wire>
-    <Wire UId="39">
-      <IdentCon UId="28" />
-      <NameCon UId="26" Name="in2" />
-    </Wire>
-    <Wire UId="40">
-      <NameCon UId="26" Name="out" />
-      <NameCon UId="29" Name="en" />
-    </Wire>
-    <Wire UId="41">
-      <IdentCon UId="30" />
-      <NameCon UId="29" Name="in" />
-    </Wire>
-    <Wire UId="42">
-      <NameCon UId="29" Name="out1" />
-      <IdentCon UId="31" />
-    </Wire>
-  </Wires>
-</FlgNet></NetworkSource>
-          <ProgrammingLanguage>LAD</ProgrammingLanguage>
-        </AttributeList>
-        <ObjectList>
-          <MultilingualText ID="48" CompositionName="Comment">
-            <ObjectList>
-              <MultilingualTextItem ID="49" CompositionName="Items">
-                <AttributeList>
-                  <Culture>en-US</Culture>
-                  <Text>Copy the entry to the in-use value only when both START permissions are OFF and the entry is within its limits. Reference: R-11.</Text>
-                </AttributeList>
-              </MultilingualTextItem>
-            </ObjectList>
-          </MultilingualText>
-          <MultilingualText ID="4A" CompositionName="Title">
-            <ObjectList>
-              <MultilingualTextItem ID="4B" CompositionName="Items">
-                <AttributeList>
-                  <Culture>en-US</Culture>
-                  <Text>Stage 2 temperature offset: accept a valid entry after both STOP</Text>
-                </AttributeList>
-              </MultilingualTextItem>
-            </ObjectList>
-          </MultilingualText>
-        </ObjectList>
-      </SW.Blocks.CompileUnit>
-      <SW.Blocks.CompileUnit ID="4C" CompositionName="CompileUnits">
-        <AttributeList>
-          <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
-  <Parts>
-    <Access Scope="GlobalVariable" UId="22">
-      <Symbol>
-        <Component Name="Par" />
-        <Component Name="STG" />
-      </Symbol>
-    </Access>
-    <Access Scope="LiteralConstant" UId="23">
-      <Constant>
-        <ConstantType>Int</ConstantType>
-        <ConstantValue>50</ConstantValue>
-      </Constant>
-    </Access>
-    <Access Scope="GlobalVariable" UId="25">
-      <Symbol>
-        <Component Name="Par" />
-        <Component Name="STG" />
-      </Symbol>
-    </Access>
-    <Access Scope="LiteralConstant" UId="26">
-      <Constant>
-        <ConstantType>Int</ConstantType>
-        <ConstantValue>300</ConstantValue>
-      </Constant>
-    </Access>
-    <Access Scope="GlobalVariable" UId="28">
-      <Symbol>
-        <Component Name="Sys" />
-        <Component Name="SettingsEditable" />
-      </Symbol>
-    </Access>
-    <Access Scope="GlobalVariable" UId="30">
-      <Symbol>
-        <Component Name="Par" />
-        <Component Name="STG" />
-      </Symbol>
-    </Access>
-    <Access Scope="GlobalVariable" UId="31">
-      <Symbol>
-        <Component Name="Par" />
-        <Component Name="STG_V" />
-      </Symbol>
-    </Access>
-    <Access Scope="GlobalVariable" UId="34">
-      <Symbol>
-        <Component Name="Par" />
-        <Component Name="STG_V" />
-      </Symbol>
-    </Access>
-    <Access Scope="GlobalVariable" UId="35">
-      <Symbol>
-        <Component Name="Par" />
-        <Component Name="STG" />
-      </Symbol>
-    </Access>
-    <Access Scope="GlobalVariable" UId="37">
-      <Symbol>
-        <Component Name="Sys" />
-        <Component Name="Alm_ParRejected" />
-      </Symbol>
-    </Access>
-    <Part Name="Lt" UId="21">
-      <TemplateValue Name="SrcType" Type="Type">Int</TemplateValue>
-    </Part>
-    <Part Name="Gt" UId="24">
-      <TemplateValue Name="SrcType" Type="Type">Int</TemplateValue>
-    </Part>
-    <Part Name="Contact" UId="27">
-      <Negated Name="operand" />
-    </Part>
-    <Part Name="Ne" UId="29">
-      <TemplateValue Name="SrcType" Type="Type">Int</TemplateValue>
-    </Part>
-    <Part Name="O" UId="32">
-      <TemplateValue Name="Card" Type="Cardinality">3</TemplateValue>
-    </Part>
-    <Part Name="Move" UId="33" DisabledENO="false">
-      <TemplateValue Name="Card" Type="Cardinality">1</TemplateValue>
-    </Part>
-    <Part Name="SCoil" UId="36" />
-  </Parts>
-  <Wires>
-    <Wire UId="38">
-      <Powerrail />
-      <NameCon UId="21" Name="pre" />
-      <NameCon UId="24" Name="pre" />
-      <NameCon UId="27" Name="in" />
-    </Wire>
-    <Wire UId="39">
-      <IdentCon UId="22" />
-      <NameCon UId="21" Name="in1" />
-    </Wire>
-    <Wire UId="40">
-      <IdentCon UId="23" />
-      <NameCon UId="21" Name="in2" />
-    </Wire>
-    <Wire UId="41">
-      <IdentCon UId="25" />
-      <NameCon UId="24" Name="in1" />
-    </Wire>
-    <Wire UId="42">
-      <IdentCon UId="26" />
-      <NameCon UId="24" Name="in2" />
-    </Wire>
-    <Wire UId="43">
-      <IdentCon UId="28" />
-      <NameCon UId="27" Name="operand" />
-    </Wire>
-    <Wire UId="44">
-      <NameCon UId="27" Name="out" />
-      <NameCon UId="29" Name="pre" />
-    </Wire>
-    <Wire UId="45">
-      <IdentCon UId="30" />
-      <NameCon UId="29" Name="in1" />
-    </Wire>
-    <Wire UId="46">
-      <IdentCon UId="31" />
-      <NameCon UId="29" Name="in2" />
-    </Wire>
-    <Wire UId="47">
-      <NameCon UId="21" Name="out" />
-      <NameCon UId="32" Name="in1" />
-    </Wire>
-    <Wire UId="48">
-      <NameCon UId="24" Name="out" />
-      <NameCon UId="32" Name="in2" />
-    </Wire>
-    <Wire UId="49">
-      <NameCon UId="29" Name="out" />
-      <NameCon UId="32" Name="in3" />
-    </Wire>
-    <Wire UId="50">
-      <NameCon UId="32" Name="out" />
-      <NameCon UId="33" Name="en" />
-      <NameCon UId="36" Name="in" />
-    </Wire>
-    <Wire UId="51">
-      <IdentCon UId="34" />
-      <NameCon UId="33" Name="in" />
-    </Wire>
-    <Wire UId="52">
-      <NameCon UId="33" Name="out1" />
-      <IdentCon UId="35" />
-    </Wire>
-    <Wire UId="53">
-      <NameCon UId="36" Name="operand" />
-      <IdentCon UId="37" />
-    </Wire>
-  </Wires>
-</FlgNet></NetworkSource>
-          <ProgrammingLanguage>LAD</ProgrammingLanguage>
-        </AttributeList>
-        <ObjectList>
-          <MultilingualText ID="4D" CompositionName="Comment">
-            <ObjectList>
-              <MultilingualTextItem ID="4E" CompositionName="Items">
-                <AttributeList>
-                  <Culture>en-US</Culture>
-                  <Text>Out-of-range or changed while either burner remains enabled: restore the old value and show the rejection alarm. Reference: R-11.</Text>
-                </AttributeList>
-              </MultilingualTextItem>
-            </ObjectList>
-          </MultilingualText>
-          <MultilingualText ID="4F" CompositionName="Title">
-            <ObjectList>
-              <MultilingualTextItem ID="50" CompositionName="Items">
-                <AttributeList>
-                  <Culture>en-US</Culture>
-                  <Text>Stage 2 temperature offset: reject an invalid or locked entry</Text>
-                </AttributeList>
-              </MultilingualTextItem>
-            </ObjectList>
-          </MultilingualText>
-        </ObjectList>
-      </SW.Blocks.CompileUnit>
-      <SW.Blocks.CompileUnit ID="51" CompositionName="CompileUnits">
-        <AttributeList>
-          <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
-  <Parts>
-    <Access Scope="GlobalVariable" UId="22">
-      <Symbol>
-        <Component Name="Sys" />
-        <Component Name="FirstScan" />
-      </Symbol>
-    </Access>
-    <Access Scope="GlobalVariable" UId="24">
-      <Symbol>
-        <Component Name="Par" />
-        <Component Name="TStart_V" />
-      </Symbol>
-    </Access>
-    <Access Scope="TypedConstant" UId="25">
-      <Constant>
-        <ConstantValue>T#90S</ConstantValue>
-      </Constant>
-    </Access>
-    <Access Scope="GlobalVariable" UId="27">
-      <Symbol>
-        <Component Name="Par" />
-        <Component Name="TStart_V" />
-      </Symbol>
-    </Access>
-    <Access Scope="TypedConstant" UId="28">
-      <Constant>
-        <ConstantValue>T#5M</ConstantValue>
-      </Constant>
-    </Access>
-    <Access Scope="TypedConstant" UId="31">
-      <Constant>
-        <ConstantValue>T#2M</ConstantValue>
-      </Constant>
-    </Access>
-    <Access Scope="GlobalVariable" UId="32">
-      <Symbol>
-        <Component Name="Par" />
-        <Component Name="TStart_V" />
-      </Symbol>
-    </Access>
-    <Part Name="Contact" UId="21" />
-    <Part Name="Lt" UId="23">
-      <TemplateValue Name="SrcType" Type="Type">Time</TemplateValue>
-    </Part>
-    <Part Name="Gt" UId="26">
-      <TemplateValue Name="SrcType" Type="Type">Time</TemplateValue>
-    </Part>
-    <Part Name="O" UId="29">
-      <TemplateValue Name="Card" Type="Cardinality">2</TemplateValue>
-    </Part>
-    <Part Name="Move" UId="30" DisabledENO="false">
-      <TemplateValue Name="Card" Type="Cardinality">1</TemplateValue>
-    </Part>
-  </Parts>
-  <Wires>
-    <Wire UId="33">
-      <Powerrail />
-      <NameCon UId="21" Name="in" />
-    </Wire>
-    <Wire UId="34">
-      <IdentCon UId="22" />
-      <NameCon UId="21" Name="operand" />
-    </Wire>
-    <Wire UId="35">
-      <NameCon UId="21" Name="out" />
-      <NameCon UId="23" Name="pre" />
-      <NameCon UId="26" Name="pre" />
-    </Wire>
-    <Wire UId="36">
-      <IdentCon UId="24" />
-      <NameCon UId="23" Name="in1" />
-    </Wire>
-    <Wire UId="37">
-      <IdentCon UId="25" />
-      <NameCon UId="23" Name="in2" />
-    </Wire>
-    <Wire UId="38">
-      <IdentCon UId="27" />
-      <NameCon UId="26" Name="in1" />
-    </Wire>
-    <Wire UId="39">
-      <IdentCon UId="28" />
-      <NameCon UId="26" Name="in2" />
-    </Wire>
-    <Wire UId="40">
-      <NameCon UId="23" Name="out" />
-      <NameCon UId="29" Name="in1" />
-    </Wire>
-    <Wire UId="41">
-      <NameCon UId="26" Name="out" />
-      <NameCon UId="29" Name="in2" />
-    </Wire>
-    <Wire UId="42">
-      <NameCon UId="29" Name="out" />
-      <NameCon UId="30" Name="en" />
-    </Wire>
-    <Wire UId="43">
-      <IdentCon UId="31" />
-      <NameCon UId="30" Name="in" />
-    </Wire>
-    <Wire UId="44">
-      <NameCon UId="30" Name="out1" />
-      <IdentCon UId="32" />
-    </Wire>
-  </Wires>
-</FlgNet></NetworkSource>
-          <ProgrammingLanguage>LAD</ProgrammingLanguage>
-        </AttributeList>
-        <ObjectList>
-          <MultilingualText ID="52" CompositionName="Comment">
-            <ObjectList>
-              <MultilingualTextItem ID="53" CompositionName="Items">
-                <AttributeList>
-                  <Culture>en-US</Culture>
-                  <Text>At first scan only, an out-of-range accepted value is restored to its defined default. Reference: R-11.</Text>
-                </AttributeList>
-              </MultilingualTextItem>
-            </ObjectList>
-          </MultilingualText>
-          <MultilingualText ID="54" CompositionName="Title">
-            <ObjectList>
-              <MultilingualTextItem ID="55" CompositionName="Items">
-                <AttributeList>
-                  <Culture>en-US</Culture>
-                  <Text>Burner start timeout: restore the startup default if corrupt</Text>
-                </AttributeList>
-              </MultilingualTextItem>
-            </ObjectList>
-          </MultilingualText>
-        </ObjectList>
-      </SW.Blocks.CompileUnit>
-      <SW.Blocks.CompileUnit ID="56" CompositionName="CompileUnits">
-        <AttributeList>
-          <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
-  <Parts>
-    <Access Scope="GlobalVariable" UId="22">
-      <Symbol>
-        <Component Name="Sys" />
-        <Component Name="SettingsEditable" />
-      </Symbol>
-    </Access>
-    <Access Scope="GlobalVariable" UId="24">
-      <Symbol>
-        <Component Name="Par" />
-        <Component Name="TStart" />
-      </Symbol>
-    </Access>
-    <Access Scope="TypedConstant" UId="25">
-      <Constant>
-        <ConstantValue>T#90S</ConstantValue>
-      </Constant>
-    </Access>
-    <Access Scope="GlobalVariable" UId="27">
-      <Symbol>
-        <Component Name="Par" />
-        <Component Name="TStart" />
-      </Symbol>
-    </Access>
-    <Access Scope="TypedConstant" UId="28">
-      <Constant>
-        <ConstantValue>T#5M</ConstantValue>
-      </Constant>
-    </Access>
-    <Access Scope="GlobalVariable" UId="30">
-      <Symbol>
-        <Component Name="Par" />
-        <Component Name="TStart" />
-      </Symbol>
-    </Access>
-    <Access Scope="GlobalVariable" UId="31">
-      <Symbol>
-        <Component Name="Par" />
-        <Component Name="TStart_V" />
-      </Symbol>
-    </Access>
-    <Part Name="Contact" UId="21" />
-    <Part Name="Ge" UId="23">
-      <TemplateValue Name="SrcType" Type="Type">Time</TemplateValue>
-    </Part>
-    <Part Name="Le" UId="26">
-      <TemplateValue Name="SrcType" Type="Type">Time</TemplateValue>
-    </Part>
-    <Part Name="Move" UId="29" DisabledENO="false">
-      <TemplateValue Name="Card" Type="Cardinality">1</TemplateValue>
-    </Part>
-  </Parts>
-  <Wires>
-    <Wire UId="32">
-      <Powerrail />
-      <NameCon UId="21" Name="in" />
-    </Wire>
-    <Wire UId="33">
-      <IdentCon UId="22" />
-      <NameCon UId="21" Name="operand" />
-    </Wire>
-    <Wire UId="34">
-      <NameCon UId="21" Name="out" />
-      <NameCon UId="23" Name="pre" />
-    </Wire>
-    <Wire UId="35">
-      <IdentCon UId="24" />
-      <NameCon UId="23" Name="in1" />
-    </Wire>
-    <Wire UId="36">
-      <IdentCon UId="25" />
-      <NameCon UId="23" Name="in2" />
-    </Wire>
-    <Wire UId="37">
-      <NameCon UId="23" Name="out" />
-      <NameCon UId="26" Name="pre" />
-    </Wire>
-    <Wire UId="38">
-      <IdentCon UId="27" />
-      <NameCon UId="26" Name="in1" />
-    </Wire>
-    <Wire UId="39">
-      <IdentCon UId="28" />
-      <NameCon UId="26" Name="in2" />
-    </Wire>
-    <Wire UId="40">
-      <NameCon UId="26" Name="out" />
-      <NameCon UId="29" Name="en" />
-    </Wire>
-    <Wire UId="41">
-      <IdentCon UId="30" />
-      <NameCon UId="29" Name="in" />
-    </Wire>
-    <Wire UId="42">
-      <NameCon UId="29" Name="out1" />
-      <IdentCon UId="31" />
-    </Wire>
-  </Wires>
-</FlgNet></NetworkSource>
-          <ProgrammingLanguage>LAD</ProgrammingLanguage>
-        </AttributeList>
-        <ObjectList>
-          <MultilingualText ID="57" CompositionName="Comment">
-            <ObjectList>
-              <MultilingualTextItem ID="58" CompositionName="Items">
-                <AttributeList>
-                  <Culture>en-US</Culture>
-                  <Text>Copy the entry to the in-use value only when both START permissions are OFF and the entry is within its limits. Reference: R-11.</Text>
-                </AttributeList>
-              </MultilingualTextItem>
-            </ObjectList>
-          </MultilingualText>
-          <MultilingualText ID="59" CompositionName="Title">
-            <ObjectList>
-              <MultilingualTextItem ID="5A" CompositionName="Items">
-                <AttributeList>
-                  <Culture>en-US</Culture>
-                  <Text>Burner start timeout: accept a valid entry after both STOP</Text>
-                </AttributeList>
-              </MultilingualTextItem>
-            </ObjectList>
-          </MultilingualText>
-        </ObjectList>
-      </SW.Blocks.CompileUnit>
-      <SW.Blocks.CompileUnit ID="5B" CompositionName="CompileUnits">
-        <AttributeList>
-          <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
-  <Parts>
-    <Access Scope="GlobalVariable" UId="22">
-      <Symbol>
-        <Component Name="Par" />
-        <Component Name="TStart" />
-      </Symbol>
-    </Access>
-    <Access Scope="TypedConstant" UId="23">
-      <Constant>
-        <ConstantValue>T#90S</ConstantValue>
-      </Constant>
-    </Access>
-    <Access Scope="GlobalVariable" UId="25">
-      <Symbol>
-        <Component Name="Par" />
-        <Component Name="TStart" />
-      </Symbol>
-    </Access>
-    <Access Scope="TypedConstant" UId="26">
-      <Constant>
-        <ConstantValue>T#5M</ConstantValue>
-      </Constant>
-    </Access>
-    <Access Scope="GlobalVariable" UId="28">
-      <Symbol>
-        <Component Name="Sys" />
-        <Component Name="SettingsEditable" />
-      </Symbol>
-    </Access>
-    <Access Scope="GlobalVariable" UId="30">
-      <Symbol>
-        <Component Name="Par" />
-        <Component Name="TStart" />
-      </Symbol>
-    </Access>
-    <Access Scope="GlobalVariable" UId="31">
-      <Symbol>
-        <Component Name="Par" />
-        <Component Name="TStart_V" />
-      </Symbol>
-    </Access>
-    <Access Scope="GlobalVariable" UId="34">
-      <Symbol>
-        <Component Name="Par" />
-        <Component Name="TStart_V" />
-      </Symbol>
-    </Access>
-    <Access Scope="GlobalVariable" UId="35">
-      <Symbol>
-        <Component Name="Par" />
-        <Component Name="TStart" />
-      </Symbol>
-    </Access>
-    <Access Scope="GlobalVariable" UId="37">
-      <Symbol>
-        <Component Name="Sys" />
-        <Component Name="Alm_ParRejected" />
-      </Symbol>
-    </Access>
-    <Part Name="Lt" UId="21">
-      <TemplateValue Name="SrcType" Type="Type">Time</TemplateValue>
-    </Part>
-    <Part Name="Gt" UId="24">
-      <TemplateValue Name="SrcType" Type="Type">Time</TemplateValue>
-    </Part>
-    <Part Name="Contact" UId="27">
-      <Negated Name="operand" />
-    </Part>
-    <Part Name="Ne" UId="29">
-      <TemplateValue Name="SrcType" Type="Type">Time</TemplateValue>
-    </Part>
-    <Part Name="O" UId="32">
-      <TemplateValue Name="Card" Type="Cardinality">3</TemplateValue>
-    </Part>
-    <Part Name="Move" UId="33" DisabledENO="false">
-      <TemplateValue Name="Card" Type="Cardinality">1</TemplateValue>
-    </Part>
-    <Part Name="SCoil" UId="36" />
-  </Parts>
-  <Wires>
-    <Wire UId="38">
-      <Powerrail />
-      <NameCon UId="21" Name="pre" />
-      <NameCon UId="24" Name="pre" />
-      <NameCon UId="27" Name="in" />
-    </Wire>
-    <Wire UId="39">
-      <IdentCon UId="22" />
-      <NameCon UId="21" Name="in1" />
-    </Wire>
-    <Wire UId="40">
-      <IdentCon UId="23" />
-      <NameCon UId="21" Name="in2" />
-    </Wire>
-    <Wire UId="41">
-      <IdentCon UId="25" />
-      <NameCon UId="24" Name="in1" />
-    </Wire>
-    <Wire UId="42">
-      <IdentCon UId="26" />
-      <NameCon UId="24" Name="in2" />
-    </Wire>
-    <Wire UId="43">
-      <IdentCon UId="28" />
-      <NameCon UId="27" Name="operand" />
-    </Wire>
-    <Wire UId="44">
-      <NameCon UId="27" Name="out" />
-      <NameCon UId="29" Name="pre" />
-    </Wire>
-    <Wire UId="45">
-      <IdentCon UId="30" />
-      <NameCon UId="29" Name="in1" />
-    </Wire>
-    <Wire UId="46">
-      <IdentCon UId="31" />
-      <NameCon UId="29" Name="in2" />
-    </Wire>
-    <Wire UId="47">
-      <NameCon UId="21" Name="out" />
-      <NameCon UId="32" Name="in1" />
-    </Wire>
-    <Wire UId="48">
-      <NameCon UId="24" Name="out" />
-      <NameCon UId="32" Name="in2" />
-    </Wire>
-    <Wire UId="49">
-      <NameCon UId="29" Name="out" />
-      <NameCon UId="32" Name="in3" />
-    </Wire>
-    <Wire UId="50">
-      <NameCon UId="32" Name="out" />
-      <NameCon UId="33" Name="en" />
-      <NameCon UId="36" Name="in" />
-    </Wire>
-    <Wire UId="51">
-      <IdentCon UId="34" />
-      <NameCon UId="33" Name="in" />
-    </Wire>
-    <Wire UId="52">
-      <NameCon UId="33" Name="out1" />
-      <IdentCon UId="35" />
-    </Wire>
-    <Wire UId="53">
-      <NameCon UId="36" Name="operand" />
-      <IdentCon UId="37" />
-    </Wire>
-  </Wires>
-</FlgNet></NetworkSource>
-          <ProgrammingLanguage>LAD</ProgrammingLanguage>
-        </AttributeList>
-        <ObjectList>
-          <MultilingualText ID="5C" CompositionName="Comment">
-            <ObjectList>
-              <MultilingualTextItem ID="5D" CompositionName="Items">
-                <AttributeList>
-                  <Culture>en-US</Culture>
-                  <Text>Out-of-range or changed while either burner remains enabled: restore the old value and show the rejection alarm. Reference: R-11.</Text>
-                </AttributeList>
-              </MultilingualTextItem>
-            </ObjectList>
-          </MultilingualText>
-          <MultilingualText ID="5E" CompositionName="Title">
-            <ObjectList>
-              <MultilingualTextItem ID="5F" CompositionName="Items">
-                <AttributeList>
-                  <Culture>en-US</Culture>
-                  <Text>Burner start timeout: reject an invalid or locked entry</Text>
-                </AttributeList>
-              </MultilingualTextItem>
-            </ObjectList>
-          </MultilingualText>
-        </ObjectList>
-      </SW.Blocks.CompileUnit>
-      <SW.Blocks.CompileUnit ID="60" CompositionName="CompileUnits">
-        <AttributeList>
-          <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
-  <Parts>
-    <Access Scope="GlobalVariable" UId="22">
-      <Symbol>
-        <Component Name="Sys" />
-        <Component Name="FirstScan" />
-      </Symbol>
-    </Access>
-    <Access Scope="GlobalVariable" UId="24">
-      <Symbol>
-        <Component Name="Par" />
-        <Component Name="TDrnOn_V" />
-      </Symbol>
-    </Access>
-    <Access Scope="TypedConstant" UId="25">
-      <Constant>
-        <ConstantValue>T#1S</ConstantValue>
-      </Constant>
-    </Access>
-    <Access Scope="GlobalVariable" UId="27">
-      <Symbol>
-        <Component Name="Par" />
-        <Component Name="TDrnOn_V" />
-      </Symbol>
-    </Access>
-    <Access Scope="TypedConstant" UId="28">
-      <Constant>
-        <ConstantValue>T#30S</ConstantValue>
-      </Constant>
-    </Access>
-    <Access Scope="TypedConstant" UId="31">
-      <Constant>
-        <ConstantValue>T#3S</ConstantValue>
-      </Constant>
-    </Access>
-    <Access Scope="GlobalVariable" UId="32">
-      <Symbol>
-        <Component Name="Par" />
-        <Component Name="TDrnOn_V" />
-      </Symbol>
-    </Access>
-    <Part Name="Contact" UId="21" />
-    <Part Name="Lt" UId="23">
-      <TemplateValue Name="SrcType" Type="Type">Time</TemplateValue>
-    </Part>
-    <Part Name="Gt" UId="26">
-      <TemplateValue Name="SrcType" Type="Type">Time</TemplateValue>
-    </Part>
-    <Part Name="O" UId="29">
-      <TemplateValue Name="Card" Type="Cardinality">2</TemplateValue>
-    </Part>
-    <Part Name="Move" UId="30" DisabledENO="false">
-      <TemplateValue Name="Card" Type="Cardinality">1</TemplateValue>
-    </Part>
-  </Parts>
-  <Wires>
-    <Wire UId="33">
-      <Powerrail />
-      <NameCon UId="21" Name="in" />
-    </Wire>
-    <Wire UId="34">
-      <IdentCon UId="22" />
-      <NameCon UId="21" Name="operand" />
-    </Wire>
-    <Wire UId="35">
-      <NameCon UId="21" Name="out" />
-      <NameCon UId="23" Name="pre" />
-      <NameCon UId="26" Name="pre" />
-    </Wire>
-    <Wire UId="36">
-      <IdentCon UId="24" />
-      <NameCon UId="23" Name="in1" />
-    </Wire>
-    <Wire UId="37">
-      <IdentCon UId="25" />
-      <NameCon UId="23" Name="in2" />
-    </Wire>
-    <Wire UId="38">
-      <IdentCon UId="27" />
-      <NameCon UId="26" Name="in1" />
-    </Wire>
-    <Wire UId="39">
-      <IdentCon UId="28" />
-      <NameCon UId="26" Name="in2" />
-    </Wire>
-    <Wire UId="40">
-      <NameCon UId="23" Name="out" />
-      <NameCon UId="29" Name="in1" />
-    </Wire>
-    <Wire UId="41">
-      <NameCon UId="26" Name="out" />
-      <NameCon UId="29" Name="in2" />
-    </Wire>
-    <Wire UId="42">
-      <NameCon UId="29" Name="out" />
-      <NameCon UId="30" Name="en" />
-    </Wire>
-    <Wire UId="43">
-      <IdentCon UId="31" />
-      <NameCon UId="30" Name="in" />
-    </Wire>
-    <Wire UId="44">
-      <NameCon UId="30" Name="out1" />
-      <IdentCon UId="32" />
-    </Wire>
-  </Wires>
-</FlgNet></NetworkSource>
-          <ProgrammingLanguage>LAD</ProgrammingLanguage>
-        </AttributeList>
-        <ObjectList>
-          <MultilingualText ID="61" CompositionName="Comment">
-            <ObjectList>
-              <MultilingualTextItem ID="62" CompositionName="Items">
-                <AttributeList>
-                  <Culture>en-US</Culture>
-                  <Text>At first scan only, an out-of-range accepted value is restored to its defined default. Reference: R-11.</Text>
-                </AttributeList>
-              </MultilingualTextItem>
-            </ObjectList>
-          </MultilingualText>
-          <MultilingualText ID="63" CompositionName="Title">
-            <ObjectList>
-              <MultilingualTextItem ID="64" CompositionName="Items">
-                <AttributeList>
-                  <Culture>en-US</Culture>
-                  <Text>Drain opening delay: restore the startup default if corrupt</Text>
-                </AttributeList>
-              </MultilingualTextItem>
-            </ObjectList>
-          </MultilingualText>
-        </ObjectList>
-      </SW.Blocks.CompileUnit>
-      <SW.Blocks.CompileUnit ID="65" CompositionName="CompileUnits">
-        <AttributeList>
-          <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
-  <Parts>
-    <Access Scope="GlobalVariable" UId="22">
-      <Symbol>
-        <Component Name="Sys" />
-        <Component Name="SettingsEditable" />
-      </Symbol>
-    </Access>
-    <Access Scope="GlobalVariable" UId="24">
-      <Symbol>
-        <Component Name="Par" />
-        <Component Name="TDrnOn" />
-      </Symbol>
-    </Access>
-    <Access Scope="TypedConstant" UId="25">
-      <Constant>
-        <ConstantValue>T#1S</ConstantValue>
-      </Constant>
-    </Access>
-    <Access Scope="GlobalVariable" UId="27">
-      <Symbol>
-        <Component Name="Par" />
-        <Component Name="TDrnOn" />
-      </Symbol>
-    </Access>
-    <Access Scope="TypedConstant" UId="28">
-      <Constant>
-        <ConstantValue>T#30S</ConstantValue>
-      </Constant>
-    </Access>
-    <Access Scope="GlobalVariable" UId="30">
-      <Symbol>
-        <Component Name="Par" />
-        <Component Name="TDrnOn" />
-      </Symbol>
-    </Access>
-    <Access Scope="GlobalVariable" UId="31">
-      <Symbol>
-        <Component Name="Par" />
-        <Component Name="TDrnOn_V" />
-      </Symbol>
-    </Access>
-    <Part Name="Contact" UId="21" />
-    <Part Name="Ge" UId="23">
-      <TemplateValue Name="SrcType" Type="Type">Time</TemplateValue>
-    </Part>
-    <Part Name="Le" UId="26">
-      <TemplateValue Name="SrcType" Type="Type">Time</TemplateValue>
-    </Part>
-    <Part Name="Move" UId="29" DisabledENO="false">
-      <TemplateValue Name="Card" Type="Cardinality">1</TemplateValue>
-    </Part>
-  </Parts>
-  <Wires>
-    <Wire UId="32">
-      <Powerrail />
-      <NameCon UId="21" Name="in" />
-    </Wire>
-    <Wire UId="33">
-      <IdentCon UId="22" />
-      <NameCon UId="21" Name="operand" />
-    </Wire>
-    <Wire UId="34">
-      <NameCon UId="21" Name="out" />
-      <NameCon UId="23" Name="pre" />
-    </Wire>
-    <Wire UId="35">
-      <IdentCon UId="24" />
-      <NameCon UId="23" Name="in1" />
-    </Wire>
-    <Wire UId="36">
-      <IdentCon UId="25" />
-      <NameCon UId="23" Name="in2" />
-    </Wire>
-    <Wire UId="37">
-      <NameCon UId="23" Name="out" />
-      <NameCon UId="26" Name="pre" />
-    </Wire>
-    <Wire UId="38">
-      <IdentCon UId="27" />
-      <NameCon UId="26" Name="in1" />
-    </Wire>
-    <Wire UId="39">
-      <IdentCon UId="28" />
-      <NameCon UId="26" Name="in2" />
-    </Wire>
-    <Wire UId="40">
-      <NameCon UId="26" Name="out" />
-      <NameCon UId="29" Name="en" />
-    </Wire>
-    <Wire UId="41">
-      <IdentCon UId="30" />
-      <NameCon UId="29" Name="in" />
-    </Wire>
-    <Wire UId="42">
-      <NameCon UId="29" Name="out1" />
-      <IdentCon UId="31" />
-    </Wire>
-  </Wires>
-</FlgNet></NetworkSource>
-          <ProgrammingLanguage>LAD</ProgrammingLanguage>
-        </AttributeList>
-        <ObjectList>
-          <MultilingualText ID="66" CompositionName="Comment">
-            <ObjectList>
-              <MultilingualTextItem ID="67" CompositionName="Items">
-                <AttributeList>
-                  <Culture>en-US</Culture>
-                  <Text>Copy the entry to the in-use value only when both START permissions are OFF and the entry is within its limits. Reference: R-11.</Text>
-                </AttributeList>
-              </MultilingualTextItem>
-            </ObjectList>
-          </MultilingualText>
-          <MultilingualText ID="68" CompositionName="Title">
-            <ObjectList>
-              <MultilingualTextItem ID="69" CompositionName="Items">
-                <AttributeList>
-                  <Culture>en-US</Culture>
-                  <Text>Drain opening delay: accept a valid entry after both STOP</Text>
-                </AttributeList>
-              </MultilingualTextItem>
-            </ObjectList>
-          </MultilingualText>
-        </ObjectList>
-      </SW.Blocks.CompileUnit>
-      <SW.Blocks.CompileUnit ID="6A" CompositionName="CompileUnits">
-        <AttributeList>
-          <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
-  <Parts>
-    <Access Scope="GlobalVariable" UId="22">
-      <Symbol>
-        <Component Name="Par" />
-        <Component Name="TDrnOn" />
-      </Symbol>
-    </Access>
-    <Access Scope="TypedConstant" UId="23">
-      <Constant>
-        <ConstantValue>T#1S</ConstantValue>
-      </Constant>
-    </Access>
-    <Access Scope="GlobalVariable" UId="25">
-      <Symbol>
-        <Component Name="Par" />
-        <Component Name="TDrnOn" />
-      </Symbol>
-    </Access>
-    <Access Scope="TypedConstant" UId="26">
-      <Constant>
-        <ConstantValue>T#30S</ConstantValue>
-      </Constant>
-    </Access>
-    <Access Scope="GlobalVariable" UId="28">
-      <Symbol>
-        <Component Name="Sys" />
-        <Component Name="SettingsEditable" />
-      </Symbol>
-    </Access>
-    <Access Scope="GlobalVariable" UId="30">
-      <Symbol>
-        <Component Name="Par" />
-        <Component Name="TDrnOn" />
-      </Symbol>
-    </Access>
-    <Access Scope="GlobalVariable" UId="31">
-      <Symbol>
-        <Component Name="Par" />
-        <Component Name="TDrnOn_V" />
-      </Symbol>
-    </Access>
-    <Access Scope="GlobalVariable" UId="34">
-      <Symbol>
-        <Component Name="Par" />
-        <Component Name="TDrnOn_V" />
-      </Symbol>
-    </Access>
-    <Access Scope="GlobalVariable" UId="35">
-      <Symbol>
-        <Component Name="Par" />
-        <Component Name="TDrnOn" />
-      </Symbol>
-    </Access>
-    <Access Scope="GlobalVariable" UId="37">
-      <Symbol>
-        <Component Name="Sys" />
-        <Component Name="Alm_ParRejected" />
-      </Symbol>
-    </Access>
-    <Part Name="Lt" UId="21">
-      <TemplateValue Name="SrcType" Type="Type">Time</TemplateValue>
-    </Part>
-    <Part Name="Gt" UId="24">
-      <TemplateValue Name="SrcType" Type="Type">Time</TemplateValue>
-    </Part>
-    <Part Name="Contact" UId="27">
-      <Negated Name="operand" />
-    </Part>
-    <Part Name="Ne" UId="29">
-      <TemplateValue Name="SrcType" Type="Type">Time</TemplateValue>
-    </Part>
-    <Part Name="O" UId="32">
-      <TemplateValue Name="Card" Type="Cardinality">3</TemplateValue>
-    </Part>
-    <Part Name="Move" UId="33" DisabledENO="false">
-      <TemplateValue Name="Card" Type="Cardinality">1</TemplateValue>
-    </Part>
-    <Part Name="SCoil" UId="36" />
-  </Parts>
-  <Wires>
-    <Wire UId="38">
-      <Powerrail />
-      <NameCon UId="21" Name="pre" />
-      <NameCon UId="24" Name="pre" />
-      <NameCon UId="27" Name="in" />
-    </Wire>
-    <Wire UId="39">
-      <IdentCon UId="22" />
-      <NameCon UId="21" Name="in1" />
-    </Wire>
-    <Wire UId="40">
-      <IdentCon UId="23" />
-      <NameCon UId="21" Name="in2" />
-    </Wire>
-    <Wire UId="41">
-      <IdentCon UId="25" />
-      <NameCon UId="24" Name="in1" />
-    </Wire>
-    <Wire UId="42">
-      <IdentCon UId="26" />
-      <NameCon UId="24" Name="in2" />
-    </Wire>
-    <Wire UId="43">
-      <IdentCon UId="28" />
-      <NameCon UId="27" Name="operand" />
-    </Wire>
-    <Wire UId="44">
-      <NameCon UId="27" Name="out" />
-      <NameCon UId="29" Name="pre" />
-    </Wire>
-    <Wire UId="45">
-      <IdentCon UId="30" />
-      <NameCon UId="29" Name="in1" />
-    </Wire>
-    <Wire UId="46">
-      <IdentCon UId="31" />
-      <NameCon UId="29" Name="in2" />
-    </Wire>
-    <Wire UId="47">
-      <NameCon UId="21" Name="out" />
-      <NameCon UId="32" Name="in1" />
-    </Wire>
-    <Wire UId="48">
-      <NameCon UId="24" Name="out" />
-      <NameCon UId="32" Name="in2" />
-    </Wire>
-    <Wire UId="49">
-      <NameCon UId="29" Name="out" />
-      <NameCon UId="32" Name="in3" />
-    </Wire>
-    <Wire UId="50">
-      <NameCon UId="32" Name="out" />
-      <NameCon UId="33" Name="en" />
-      <NameCon UId="36" Name="in" />
-    </Wire>
-    <Wire UId="51">
-      <IdentCon UId="34" />
-      <NameCon UId="33" Name="in" />
-    </Wire>
-    <Wire UId="52">
-      <NameCon UId="33" Name="out1" />
-      <IdentCon UId="35" />
-    </Wire>
-    <Wire UId="53">
-      <NameCon UId="36" Name="operand" />
-      <IdentCon UId="37" />
-    </Wire>
-  </Wires>
-</FlgNet></NetworkSource>
-          <ProgrammingLanguage>LAD</ProgrammingLanguage>
-        </AttributeList>
-        <ObjectList>
-          <MultilingualText ID="6B" CompositionName="Comment">
-            <ObjectList>
-              <MultilingualTextItem ID="6C" CompositionName="Items">
-                <AttributeList>
-                  <Culture>en-US</Culture>
-                  <Text>Out-of-range or changed while either burner remains enabled: restore the old value and show the rejection alarm. Reference: R-11.</Text>
-                </AttributeList>
-              </MultilingualTextItem>
-            </ObjectList>
-          </MultilingualText>
-          <MultilingualText ID="6D" CompositionName="Title">
-            <ObjectList>
-              <MultilingualTextItem ID="6E" CompositionName="Items">
-                <AttributeList>
-                  <Culture>en-US</Culture>
-                  <Text>Drain opening delay: reject an invalid or locked entry</Text>
-                </AttributeList>
-              </MultilingualTextItem>
-            </ObjectList>
-          </MultilingualText>
-        </ObjectList>
-      </SW.Blocks.CompileUnit>
-      <SW.Blocks.CompileUnit ID="6F" CompositionName="CompileUnits">
-        <AttributeList>
-          <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
-  <Parts>
-    <Access Scope="GlobalVariable" UId="22">
-      <Symbol>
-        <Component Name="Sys" />
-        <Component Name="FirstScan" />
-      </Symbol>
-    </Access>
-    <Access Scope="GlobalVariable" UId="24">
-      <Symbol>
-        <Component Name="Par" />
-        <Component Name="TDrnOff_V" />
-      </Symbol>
-    </Access>
-    <Access Scope="TypedConstant" UId="25">
-      <Constant>
-        <ConstantValue>T#0S</ConstantValue>
-      </Constant>
-    </Access>
-    <Access Scope="GlobalVariable" UId="27">
-      <Symbol>
-        <Component Name="Par" />
-        <Component Name="TDrnOff_V" />
-      </Symbol>
-    </Access>
-    <Access Scope="TypedConstant" UId="28">
-      <Constant>
-        <ConstantValue>T#60S</ConstantValue>
-      </Constant>
-    </Access>
-    <Access Scope="TypedConstant" UId="31">
-      <Constant>
-        <ConstantValue>T#5S</ConstantValue>
-      </Constant>
-    </Access>
-    <Access Scope="GlobalVariable" UId="32">
-      <Symbol>
-        <Component Name="Par" />
-        <Component Name="TDrnOff_V" />
-      </Symbol>
-    </Access>
-    <Part Name="Contact" UId="21" />
-    <Part Name="Lt" UId="23">
-      <TemplateValue Name="SrcType" Type="Type">Time</TemplateValue>
-    </Part>
-    <Part Name="Gt" UId="26">
-      <TemplateValue Name="SrcType" Type="Type">Time</TemplateValue>
-    </Part>
-    <Part Name="O" UId="29">
-      <TemplateValue Name="Card" Type="Cardinality">2</TemplateValue>
-    </Part>
-    <Part Name="Move" UId="30" DisabledENO="false">
-      <TemplateValue Name="Card" Type="Cardinality">1</TemplateValue>
-    </Part>
-  </Parts>
-  <Wires>
-    <Wire UId="33">
-      <Powerrail />
-      <NameCon UId="21" Name="in" />
-    </Wire>
-    <Wire UId="34">
-      <IdentCon UId="22" />
-      <NameCon UId="21" Name="operand" />
-    </Wire>
-    <Wire UId="35">
-      <NameCon UId="21" Name="out" />
-      <NameCon UId="23" Name="pre" />
-      <NameCon UId="26" Name="pre" />
-    </Wire>
-    <Wire UId="36">
-      <IdentCon UId="24" />
-      <NameCon UId="23" Name="in1" />
-    </Wire>
-    <Wire UId="37">
-      <IdentCon UId="25" />
-      <NameCon UId="23" Name="in2" />
-    </Wire>
-    <Wire UId="38">
-      <IdentCon UId="27" />
-      <NameCon UId="26" Name="in1" />
-    </Wire>
-    <Wire UId="39">
-      <IdentCon UId="28" />
-      <NameCon UId="26" Name="in2" />
-    </Wire>
-    <Wire UId="40">
-      <NameCon UId="23" Name="out" />
-      <NameCon UId="29" Name="in1" />
-    </Wire>
-    <Wire UId="41">
-      <NameCon UId="26" Name="out" />
-      <NameCon UId="29" Name="in2" />
-    </Wire>
-    <Wire UId="42">
-      <NameCon UId="29" Name="out" />
-      <NameCon UId="30" Name="en" />
-    </Wire>
-    <Wire UId="43">
-      <IdentCon UId="31" />
-      <NameCon UId="30" Name="in" />
-    </Wire>
-    <Wire UId="44">
-      <NameCon UId="30" Name="out1" />
-      <IdentCon UId="32" />
-    </Wire>
-  </Wires>
-</FlgNet></NetworkSource>
-          <ProgrammingLanguage>LAD</ProgrammingLanguage>
-        </AttributeList>
-        <ObjectList>
-          <MultilingualText ID="70" CompositionName="Comment">
-            <ObjectList>
-              <MultilingualTextItem ID="71" CompositionName="Items">
-                <AttributeList>
-                  <Culture>en-US</Culture>
-                  <Text>At first scan only, an out-of-range accepted value is restored to its defined default. Reference: R-11.</Text>
-                </AttributeList>
-              </MultilingualTextItem>
-            </ObjectList>
-          </MultilingualText>
-          <MultilingualText ID="72" CompositionName="Title">
-            <ObjectList>
-              <MultilingualTextItem ID="73" CompositionName="Items">
-                <AttributeList>
-                  <Culture>en-US</Culture>
-                  <Text>Drain closing delay: restore the startup default if corrupt</Text>
-                </AttributeList>
-              </MultilingualTextItem>
-            </ObjectList>
-          </MultilingualText>
-        </ObjectList>
-      </SW.Blocks.CompileUnit>
-      <SW.Blocks.CompileUnit ID="74" CompositionName="CompileUnits">
-        <AttributeList>
-          <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
-  <Parts>
-    <Access Scope="GlobalVariable" UId="22">
-      <Symbol>
-        <Component Name="Sys" />
-        <Component Name="SettingsEditable" />
-      </Symbol>
-    </Access>
-    <Access Scope="GlobalVariable" UId="24">
-      <Symbol>
-        <Component Name="Par" />
-        <Component Name="TDrnOff" />
-      </Symbol>
-    </Access>
-    <Access Scope="TypedConstant" UId="25">
-      <Constant>
-        <ConstantValue>T#0S</ConstantValue>
-      </Constant>
-    </Access>
-    <Access Scope="GlobalVariable" UId="27">
-      <Symbol>
-        <Component Name="Par" />
-        <Component Name="TDrnOff" />
-      </Symbol>
-    </Access>
-    <Access Scope="TypedConstant" UId="28">
-      <Constant>
-        <ConstantValue>T#60S</ConstantValue>
-      </Constant>
-    </Access>
-    <Access Scope="GlobalVariable" UId="30">
-      <Symbol>
-        <Component Name="Par" />
-        <Component Name="TDrnOff" />
-      </Symbol>
-    </Access>
-    <Access Scope="GlobalVariable" UId="31">
-      <Symbol>
-        <Component Name="Par" />
-        <Component Name="TDrnOff_V" />
-      </Symbol>
-    </Access>
-    <Part Name="Contact" UId="21" />
-    <Part Name="Ge" UId="23">
-      <TemplateValue Name="SrcType" Type="Type">Time</TemplateValue>
-    </Part>
-    <Part Name="Le" UId="26">
-      <TemplateValue Name="SrcType" Type="Type">Time</TemplateValue>
-    </Part>
-    <Part Name="Move" UId="29" DisabledENO="false">
-      <TemplateValue Name="Card" Type="Cardinality">1</TemplateValue>
-    </Part>
-  </Parts>
-  <Wires>
-    <Wire UId="32">
-      <Powerrail />
-      <NameCon UId="21" Name="in" />
-    </Wire>
-    <Wire UId="33">
-      <IdentCon UId="22" />
-      <NameCon UId="21" Name="operand" />
-    </Wire>
-    <Wire UId="34">
-      <NameCon UId="21" Name="out" />
-      <NameCon UId="23" Name="pre" />
-    </Wire>
-    <Wire UId="35">
-      <IdentCon UId="24" />
-      <NameCon UId="23" Name="in1" />
-    </Wire>
-    <Wire UId="36">
-      <IdentCon UId="25" />
-      <NameCon UId="23" Name="in2" />
-    </Wire>
-    <Wire UId="37">
-      <NameCon UId="23" Name="out" />
-      <NameCon UId="26" Name="pre" />
-    </Wire>
-    <Wire UId="38">
-      <IdentCon UId="27" />
-      <NameCon UId="26" Name="in1" />
-    </Wire>
-    <Wire UId="39">
-      <IdentCon UId="28" />
-      <NameCon UId="26" Name="in2" />
-    </Wire>
-    <Wire UId="40">
-      <NameCon UId="26" Name="out" />
-      <NameCon UId="29" Name="en" />
-    </Wire>
-    <Wire UId="41">
-      <IdentCon UId="30" />
-      <NameCon UId="29" Name="in" />
-    </Wire>
-    <Wire UId="42">
-      <NameCon UId="29" Name="out1" />
-      <IdentCon UId="31" />
-    </Wire>
-  </Wires>
-</FlgNet></NetworkSource>
-          <ProgrammingLanguage>LAD</ProgrammingLanguage>
-        </AttributeList>
-        <ObjectList>
-          <MultilingualText ID="75" CompositionName="Comment">
-            <ObjectList>
-              <MultilingualTextItem ID="76" CompositionName="Items">
-                <AttributeList>
-                  <Culture>en-US</Culture>
-                  <Text>Copy the entry to the in-use value only when both START permissions are OFF and the entry is within its limits. Reference: R-11.</Text>
-                </AttributeList>
-              </MultilingualTextItem>
-            </ObjectList>
-          </MultilingualText>
-          <MultilingualText ID="77" CompositionName="Title">
-            <ObjectList>
-              <MultilingualTextItem ID="78" CompositionName="Items">
-                <AttributeList>
-                  <Culture>en-US</Culture>
-                  <Text>Drain closing delay: accept a valid entry after both STOP</Text>
-                </AttributeList>
-              </MultilingualTextItem>
-            </ObjectList>
-          </MultilingualText>
-        </ObjectList>
-      </SW.Blocks.CompileUnit>
-      <SW.Blocks.CompileUnit ID="79" CompositionName="CompileUnits">
-        <AttributeList>
-          <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
-  <Parts>
-    <Access Scope="GlobalVariable" UId="22">
-      <Symbol>
-        <Component Name="Par" />
-        <Component Name="TDrnOff" />
-      </Symbol>
-    </Access>
-    <Access Scope="TypedConstant" UId="23">
-      <Constant>
-        <ConstantValue>T#0S</ConstantValue>
-      </Constant>
-    </Access>
-    <Access Scope="GlobalVariable" UId="25">
-      <Symbol>
-        <Component Name="Par" />
-        <Component Name="TDrnOff" />
-      </Symbol>
-    </Access>
-    <Access Scope="TypedConstant" UId="26">
-      <Constant>
-        <ConstantValue>T#60S</ConstantValue>
-      </Constant>
-    </Access>
-    <Access Scope="GlobalVariable" UId="28">
-      <Symbol>
-        <Component Name="Sys" />
-        <Component Name="SettingsEditable" />
-      </Symbol>
-    </Access>
-    <Access Scope="GlobalVariable" UId="30">
-      <Symbol>
-        <Component Name="Par" />
-        <Component Name="TDrnOff" />
-      </Symbol>
-    </Access>
-    <Access Scope="GlobalVariable" UId="31">
-      <Symbol>
-        <Component Name="Par" />
-        <Component Name="TDrnOff_V" />
-      </Symbol>
-    </Access>
-    <Access Scope="GlobalVariable" UId="34">
-      <Symbol>
-        <Component Name="Par" />
-        <Component Name="TDrnOff_V" />
-      </Symbol>
-    </Access>
-    <Access Scope="GlobalVariable" UId="35">
-      <Symbol>
-        <Component Name="Par" />
-        <Component Name="TDrnOff" />
-      </Symbol>
-    </Access>
-    <Access Scope="GlobalVariable" UId="37">
-      <Symbol>
-        <Component Name="Sys" />
-        <Component Name="Alm_ParRejected" />
-      </Symbol>
-    </Access>
-    <Part Name="Lt" UId="21">
-      <TemplateValue Name="SrcType" Type="Type">Time</TemplateValue>
-    </Part>
-    <Part Name="Gt" UId="24">
-      <TemplateValue Name="SrcType" Type="Type">Time</TemplateValue>
-    </Part>
-    <Part Name="Contact" UId="27">
-      <Negated Name="operand" />
-    </Part>
-    <Part Name="Ne" UId="29">
-      <TemplateValue Name="SrcType" Type="Type">Time</TemplateValue>
-    </Part>
-    <Part Name="O" UId="32">
-      <TemplateValue Name="Card" Type="Cardinality">3</TemplateValue>
-    </Part>
-    <Part Name="Move" UId="33" DisabledENO="false">
-      <TemplateValue Name="Card" Type="Cardinality">1</TemplateValue>
-    </Part>
-    <Part Name="SCoil" UId="36" />
-  </Parts>
-  <Wires>
-    <Wire UId="38">
-      <Powerrail />
-      <NameCon UId="21" Name="pre" />
-      <NameCon UId="24" Name="pre" />
-      <NameCon UId="27" Name="in" />
-    </Wire>
-    <Wire UId="39">
-      <IdentCon UId="22" />
-      <NameCon UId="21" Name="in1" />
-    </Wire>
-    <Wire UId="40">
-      <IdentCon UId="23" />
-      <NameCon UId="21" Name="in2" />
-    </Wire>
-    <Wire UId="41">
-      <IdentCon UId="25" />
-      <NameCon UId="24" Name="in1" />
-    </Wire>
-    <Wire UId="42">
-      <IdentCon UId="26" />
-      <NameCon UId="24" Name="in2" />
-    </Wire>
-    <Wire UId="43">
-      <IdentCon UId="28" />
-      <NameCon UId="27" Name="operand" />
-    </Wire>
-    <Wire UId="44">
-      <NameCon UId="27" Name="out" />
-      <NameCon UId="29" Name="pre" />
-    </Wire>
-    <Wire UId="45">
-      <IdentCon UId="30" />
-      <NameCon UId="29" Name="in1" />
-    </Wire>
-    <Wire UId="46">
-      <IdentCon UId="31" />
-      <NameCon UId="29" Name="in2" />
-    </Wire>
-    <Wire UId="47">
-      <NameCon UId="21" Name="out" />
-      <NameCon UId="32" Name="in1" />
-    </Wire>
-    <Wire UId="48">
-      <NameCon UId="24" Name="out" />
-      <NameCon UId="32" Name="in2" />
-    </Wire>
-    <Wire UId="49">
-      <NameCon UId="29" Name="out" />
-      <NameCon UId="32" Name="in3" />
-    </Wire>
-    <Wire UId="50">
-      <NameCon UId="32" Name="out" />
-      <NameCon UId="33" Name="en" />
-      <NameCon UId="36" Name="in" />
-    </Wire>
-    <Wire UId="51">
-      <IdentCon UId="34" />
-      <NameCon UId="33" Name="in" />
-    </Wire>
-    <Wire UId="52">
-      <NameCon UId="33" Name="out1" />
-      <IdentCon UId="35" />
-    </Wire>
-    <Wire UId="53">
-      <NameCon UId="36" Name="operand" />
-      <IdentCon UId="37" />
-    </Wire>
-  </Wires>
-</FlgNet></NetworkSource>
-          <ProgrammingLanguage>LAD</ProgrammingLanguage>
-        </AttributeList>
-        <ObjectList>
-          <MultilingualText ID="7A" CompositionName="Comment">
-            <ObjectList>
-              <MultilingualTextItem ID="7B" CompositionName="Items">
-                <AttributeList>
-                  <Culture>en-US</Culture>
-                  <Text>Out-of-range or changed while either burner remains enabled: restore the old value and show the rejection alarm. Reference: R-11.</Text>
-                </AttributeList>
-              </MultilingualTextItem>
-            </ObjectList>
-          </MultilingualText>
-          <MultilingualText ID="7C" CompositionName="Title">
-            <ObjectList>
-              <MultilingualTextItem ID="7D" CompositionName="Items">
-                <AttributeList>
-                  <Culture>en-US</Culture>
-                  <Text>Drain closing delay: reject an invalid or locked entry</Text>
-                </AttributeList>
-              </MultilingualTextItem>
-            </ObjectList>
-          </MultilingualText>
-        </ObjectList>
-      </SW.Blocks.CompileUnit>
-      <SW.Blocks.CompileUnit ID="7E" CompositionName="CompileUnits">
-        <AttributeList>
-          <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
-  <Parts>
-    <Access Scope="GlobalVariable" UId="22">
-      <Symbol>
-        <Component Name="Sys" />
-        <Component Name="FirstScan" />
-      </Symbol>
-    </Access>
-    <Access Scope="GlobalVariable" UId="24">
-      <Symbol>
-        <Component Name="Par" />
-        <Component Name="TDrnMax_V" />
-      </Symbol>
-    </Access>
-    <Access Scope="TypedConstant" UId="25">
-      <Constant>
-        <ConstantValue>T#1M</ConstantValue>
-      </Constant>
-    </Access>
-    <Access Scope="GlobalVariable" UId="27">
-      <Symbol>
-        <Component Name="Par" />
-        <Component Name="TDrnMax_V" />
-      </Symbol>
-    </Access>
-    <Access Scope="TypedConstant" UId="28">
-      <Constant>
-        <ConstantValue>T#60M</ConstantValue>
-      </Constant>
-    </Access>
-    <Access Scope="TypedConstant" UId="31">
-      <Constant>
-        <ConstantValue>T#10M</ConstantValue>
-      </Constant>
-    </Access>
-    <Access Scope="GlobalVariable" UId="32">
-      <Symbol>
-        <Component Name="Par" />
-        <Component Name="TDrnMax_V" />
-      </Symbol>
-    </Access>
-    <Part Name="Contact" UId="21" />
-    <Part Name="Lt" UId="23">
-      <TemplateValue Name="SrcType" Type="Type">Time</TemplateValue>
-    </Part>
-    <Part Name="Gt" UId="26">
-      <TemplateValue Name="SrcType" Type="Type">Time</TemplateValue>
-    </Part>
-    <Part Name="O" UId="29">
-      <TemplateValue Name="Card" Type="Cardinality">2</TemplateValue>
-    </Part>
-    <Part Name="Move" UId="30" DisabledENO="false">
-      <TemplateValue Name="Card" Type="Cardinality">1</TemplateValue>
-    </Part>
-  </Parts>
-  <Wires>
-    <Wire UId="33">
-      <Powerrail />
-      <NameCon UId="21" Name="in" />
-    </Wire>
-    <Wire UId="34">
-      <IdentCon UId="22" />
-      <NameCon UId="21" Name="operand" />
-    </Wire>
-    <Wire UId="35">
-      <NameCon UId="21" Name="out" />
-      <NameCon UId="23" Name="pre" />
-      <NameCon UId="26" Name="pre" />
-    </Wire>
-    <Wire UId="36">
-      <IdentCon UId="24" />
-      <NameCon UId="23" Name="in1" />
-    </Wire>
-    <Wire UId="37">
-      <IdentCon UId="25" />
-      <NameCon UId="23" Name="in2" />
-    </Wire>
-    <Wire UId="38">
-      <IdentCon UId="27" />
-      <NameCon UId="26" Name="in1" />
-    </Wire>
-    <Wire UId="39">
-      <IdentCon UId="28" />
-      <NameCon UId="26" Name="in2" />
-    </Wire>
-    <Wire UId="40">
-      <NameCon UId="23" Name="out" />
-      <NameCon UId="29" Name="in1" />
-    </Wire>
-    <Wire UId="41">
-      <NameCon UId="26" Name="out" />
-      <NameCon UId="29" Name="in2" />
-    </Wire>
-    <Wire UId="42">
-      <NameCon UId="29" Name="out" />
-      <NameCon UId="30" Name="en" />
-    </Wire>
-    <Wire UId="43">
-      <IdentCon UId="31" />
-      <NameCon UId="30" Name="in" />
-    </Wire>
-    <Wire UId="44">
-      <NameCon UId="30" Name="out1" />
-      <IdentCon UId="32" />
-    </Wire>
-  </Wires>
-</FlgNet></NetworkSource>
-          <ProgrammingLanguage>LAD</ProgrammingLanguage>
-        </AttributeList>
-        <ObjectList>
-          <MultilingualText ID="7F" CompositionName="Comment">
-            <ObjectList>
-              <MultilingualTextItem ID="80" CompositionName="Items">
-                <AttributeList>
-                  <Culture>en-US</Culture>
-                  <Text>At first scan only, an out-of-range accepted value is restored to its defined default. Reference: R-11.</Text>
-                </AttributeList>
-              </MultilingualTextItem>
-            </ObjectList>
-          </MultilingualText>
-          <MultilingualText ID="81" CompositionName="Title">
-            <ObjectList>
-              <MultilingualTextItem ID="82" CompositionName="Items">
-                <AttributeList>
-                  <Culture>en-US</Culture>
-                  <Text>Maximum drain opening time: restore the startup default if corrupt</Text>
-                </AttributeList>
-              </MultilingualTextItem>
-            </ObjectList>
-          </MultilingualText>
-        </ObjectList>
-      </SW.Blocks.CompileUnit>
-      <SW.Blocks.CompileUnit ID="83" CompositionName="CompileUnits">
-        <AttributeList>
-          <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
-  <Parts>
-    <Access Scope="GlobalVariable" UId="22">
-      <Symbol>
-        <Component Name="Sys" />
-        <Component Name="SettingsEditable" />
-      </Symbol>
-    </Access>
-    <Access Scope="GlobalVariable" UId="24">
-      <Symbol>
-        <Component Name="Par" />
-        <Component Name="TDrnMax" />
-      </Symbol>
-    </Access>
-    <Access Scope="TypedConstant" UId="25">
-      <Constant>
-        <ConstantValue>T#1M</ConstantValue>
-      </Constant>
-    </Access>
-    <Access Scope="GlobalVariable" UId="27">
-      <Symbol>
-        <Component Name="Par" />
-        <Component Name="TDrnMax" />
-      </Symbol>
-    </Access>
-    <Access Scope="TypedConstant" UId="28">
-      <Constant>
-        <ConstantValue>T#60M</ConstantValue>
-      </Constant>
-    </Access>
-    <Access Scope="GlobalVariable" UId="30">
-      <Symbol>
-        <Component Name="Par" />
-        <Component Name="TDrnMax" />
-      </Symbol>
-    </Access>
-    <Access Scope="GlobalVariable" UId="31">
-      <Symbol>
-        <Component Name="Par" />
-        <Component Name="TDrnMax_V" />
-      </Symbol>
-    </Access>
-    <Part Name="Contact" UId="21" />
-    <Part Name="Ge" UId="23">
-      <TemplateValue Name="SrcType" Type="Type">Time</TemplateValue>
-    </Part>
-    <Part Name="Le" UId="26">
-      <TemplateValue Name="SrcType" Type="Type">Time</TemplateValue>
-    </Part>
-    <Part Name="Move" UId="29" DisabledENO="false">
-      <TemplateValue Name="Card" Type="Cardinality">1</TemplateValue>
-    </Part>
-  </Parts>
-  <Wires>
-    <Wire UId="32">
-      <Powerrail />
-      <NameCon UId="21" Name="in" />
-    </Wire>
-    <Wire UId="33">
-      <IdentCon UId="22" />
-      <NameCon UId="21" Name="operand" />
-    </Wire>
-    <Wire UId="34">
-      <NameCon UId="21" Name="out" />
-      <NameCon UId="23" Name="pre" />
-    </Wire>
-    <Wire UId="35">
-      <IdentCon UId="24" />
-      <NameCon UId="23" Name="in1" />
-    </Wire>
-    <Wire UId="36">
-      <IdentCon UId="25" />
-      <NameCon UId="23" Name="in2" />
-    </Wire>
-    <Wire UId="37">
-      <NameCon UId="23" Name="out" />
-      <NameCon UId="26" Name="pre" />
-    </Wire>
-    <Wire UId="38">
-      <IdentCon UId="27" />
-      <NameCon UId="26" Name="in1" />
-    </Wire>
-    <Wire UId="39">
-      <IdentCon UId="28" />
-      <NameCon UId="26" Name="in2" />
-    </Wire>
-    <Wire UId="40">
-      <NameCon UId="26" Name="out" />
-      <NameCon UId="29" Name="en" />
-    </Wire>
-    <Wire UId="41">
-      <IdentCon UId="30" />
-      <NameCon UId="29" Name="in" />
-    </Wire>
-    <Wire UId="42">
-      <NameCon UId="29" Name="out1" />
-      <IdentCon UId="31" />
-    </Wire>
-  </Wires>
-</FlgNet></NetworkSource>
-          <ProgrammingLanguage>LAD</ProgrammingLanguage>
-        </AttributeList>
-        <ObjectList>
-          <MultilingualText ID="84" CompositionName="Comment">
-            <ObjectList>
-              <MultilingualTextItem ID="85" CompositionName="Items">
-                <AttributeList>
-                  <Culture>en-US</Culture>
-                  <Text>Copy the entry to the in-use value only when both START permissions are OFF and the entry is within its limits. Reference: R-11.</Text>
-                </AttributeList>
-              </MultilingualTextItem>
-            </ObjectList>
-          </MultilingualText>
-          <MultilingualText ID="86" CompositionName="Title">
-            <ObjectList>
-              <MultilingualTextItem ID="87" CompositionName="Items">
-                <AttributeList>
-                  <Culture>en-US</Culture>
-                  <Text>Maximum drain opening time: accept a valid entry after both STOP</Text>
-                </AttributeList>
-              </MultilingualTextItem>
-            </ObjectList>
-          </MultilingualText>
-        </ObjectList>
-      </SW.Blocks.CompileUnit>
-      <SW.Blocks.CompileUnit ID="88" CompositionName="CompileUnits">
-        <AttributeList>
-          <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
-  <Parts>
-    <Access Scope="GlobalVariable" UId="22">
-      <Symbol>
-        <Component Name="Par" />
-        <Component Name="TDrnMax" />
-      </Symbol>
-    </Access>
-    <Access Scope="TypedConstant" UId="23">
-      <Constant>
-        <ConstantValue>T#1M</ConstantValue>
-      </Constant>
-    </Access>
-    <Access Scope="GlobalVariable" UId="25">
-      <Symbol>
-        <Component Name="Par" />
-        <Component Name="TDrnMax" />
-      </Symbol>
-    </Access>
-    <Access Scope="TypedConstant" UId="26">
-      <Constant>
-        <ConstantValue>T#60M</ConstantValue>
-      </Constant>
-    </Access>
-    <Access Scope="GlobalVariable" UId="28">
-      <Symbol>
-        <Component Name="Sys" />
-        <Component Name="SettingsEditable" />
-      </Symbol>
-    </Access>
-    <Access Scope="GlobalVariable" UId="30">
-      <Symbol>
-        <Component Name="Par" />
-        <Component Name="TDrnMax" />
-      </Symbol>
-    </Access>
-    <Access Scope="GlobalVariable" UId="31">
-      <Symbol>
-        <Component Name="Par" />
-        <Component Name="TDrnMax_V" />
-      </Symbol>
-    </Access>
-    <Access Scope="GlobalVariable" UId="34">
-      <Symbol>
-        <Component Name="Par" />
-        <Component Name="TDrnMax_V" />
-      </Symbol>
-    </Access>
-    <Access Scope="GlobalVariable" UId="35">
-      <Symbol>
-        <Component Name="Par" />
-        <Component Name="TDrnMax" />
-      </Symbol>
-    </Access>
-    <Access Scope="GlobalVariable" UId="37">
-      <Symbol>
-        <Component Name="Sys" />
-        <Component Name="Alm_ParRejected" />
-      </Symbol>
-    </Access>
-    <Part Name="Lt" UId="21">
-      <TemplateValue Name="SrcType" Type="Type">Time</TemplateValue>
-    </Part>
-    <Part Name="Gt" UId="24">
-      <TemplateValue Name="SrcType" Type="Type">Time</TemplateValue>
-    </Part>
-    <Part Name="Contact" UId="27">
-      <Negated Name="operand" />
-    </Part>
-    <Part Name="Ne" UId="29">
-      <TemplateValue Name="SrcType" Type="Type">Time</TemplateValue>
-    </Part>
-    <Part Name="O" UId="32">
-      <TemplateValue Name="Card" Type="Cardinality">3</TemplateValue>
-    </Part>
-    <Part Name="Move" UId="33" DisabledENO="false">
-      <TemplateValue Name="Card" Type="Cardinality">1</TemplateValue>
-    </Part>
-    <Part Name="SCoil" UId="36" />
-  </Parts>
-  <Wires>
-    <Wire UId="38">
-      <Powerrail />
-      <NameCon UId="21" Name="pre" />
-      <NameCon UId="24" Name="pre" />
-      <NameCon UId="27" Name="in" />
-    </Wire>
-    <Wire UId="39">
-      <IdentCon UId="22" />
-      <NameCon UId="21" Name="in1" />
-    </Wire>
-    <Wire UId="40">
-      <IdentCon UId="23" />
-      <NameCon UId="21" Name="in2" />
-    </Wire>
-    <Wire UId="41">
-      <IdentCon UId="25" />
-      <NameCon UId="24" Name="in1" />
-    </Wire>
-    <Wire UId="42">
-      <IdentCon UId="26" />
-      <NameCon UId="24" Name="in2" />
-    </Wire>
-    <Wire UId="43">
-      <IdentCon UId="28" />
-      <NameCon UId="27" Name="operand" />
-    </Wire>
-    <Wire UId="44">
-      <NameCon UId="27" Name="out" />
-      <NameCon UId="29" Name="pre" />
-    </Wire>
-    <Wire UId="45">
-      <IdentCon UId="30" />
-      <NameCon UId="29" Name="in1" />
-    </Wire>
-    <Wire UId="46">
-      <IdentCon UId="31" />
-      <NameCon UId="29" Name="in2" />
-    </Wire>
-    <Wire UId="47">
-      <NameCon UId="21" Name="out" />
-      <NameCon UId="32" Name="in1" />
-    </Wire>
-    <Wire UId="48">
-      <NameCon UId="24" Name="out" />
-      <NameCon UId="32" Name="in2" />
-    </Wire>
-    <Wire UId="49">
-      <NameCon UId="29" Name="out" />
-      <NameCon UId="32" Name="in3" />
-    </Wire>
-    <Wire UId="50">
-      <NameCon UId="32" Name="out" />
-      <NameCon UId="33" Name="en" />
-      <NameCon UId="36" Name="in" />
-    </Wire>
-    <Wire UId="51">
-      <IdentCon UId="34" />
-      <NameCon UId="33" Name="in" />
-    </Wire>
-    <Wire UId="52">
-      <NameCon UId="33" Name="out1" />
-      <IdentCon UId="35" />
-    </Wire>
-    <Wire UId="53">
-      <NameCon UId="36" Name="operand" />
-      <IdentCon UId="37" />
-    </Wire>
-  </Wires>
-</FlgNet></NetworkSource>
-          <ProgrammingLanguage>LAD</ProgrammingLanguage>
-        </AttributeList>
-        <ObjectList>
-          <MultilingualText ID="89" CompositionName="Comment">
-            <ObjectList>
-              <MultilingualTextItem ID="8A" CompositionName="Items">
-                <AttributeList>
-                  <Culture>en-US</Culture>
-                  <Text>Out-of-range or changed while either burner remains enabled: restore the old value and show the rejection alarm. Reference: R-11.</Text>
-                </AttributeList>
-              </MultilingualTextItem>
-            </ObjectList>
-          </MultilingualText>
-          <MultilingualText ID="8B" CompositionName="Title">
-            <ObjectList>
-              <MultilingualTextItem ID="8C" CompositionName="Items">
-                <AttributeList>
-                  <Culture>en-US</Culture>
-                  <Text>Maximum drain opening time: reject an invalid or locked entry</Text>
-                </AttributeList>
-              </MultilingualTextItem>
-            </ObjectList>
-          </MultilingualText>
-        </ObjectList>
-      </SW.Blocks.CompileUnit>
-      <MultilingualText ID="8F" CompositionName="Title">
-        <ObjectList>
-          <MultilingualTextItem ID="90" CompositionName="Items">
+          <MultilingualTextItem ID="3B" CompositionName="Items">
             <AttributeList>
               <Culture>en-US</Culture>
               <Text>Common</Text>

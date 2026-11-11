@@ -59,7 +59,7 @@
               <MultilingualTextItem ID="3" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>Common runs first so the later blocks use updated shared conditions. Reference: Operating specification / program sequence.</Text>
+                  <Text>E-STOP, RESET and setting limits first, so the other blocks use them.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -69,7 +69,7 @@
               <MultilingualTextItem ID="5" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>Process E-STOP, RESET and settings</Text>
+                  <Text>Common: E-STOP and RESET</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -144,7 +144,7 @@
               <MultilingualTextItem ID="8" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>Read PSH-101, LSH-102, LSHH-103 and RESET; update the trip before burner calls. Reference: C03 / C06a.</Text>
+                  <Text>PSH-101, LSH-102, LSHH-103: trips and valve commands, before the burners.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -154,7 +154,7 @@
               <MultilingualTextItem ID="A" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>Control the scrubber</Text>
+                  <Text>Scrubber</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -182,37 +182,31 @@
     </Access>
     <Access Scope="GlobalVariable" UId="26">
       <Symbol>
-        <Component Name="Sys" />
-        <Component Name="ResetPulse" />
+        <Component Name="LSL_TK01" />
       </Symbol>
     </Access>
     <Access Scope="GlobalVariable" UId="27">
       <Symbol>
-        <Component Name="LSL_TK01" />
+        <Component Name="BR01_Run" />
       </Symbol>
     </Access>
     <Access Scope="GlobalVariable" UId="28">
       <Symbol>
-        <Component Name="BR01_Run" />
-      </Symbol>
-    </Access>
-    <Access Scope="GlobalVariable" UId="29">
-      <Symbol>
         <Component Name="BR01_Fault" />
       </Symbol>
     </Access>
-    <Access Scope="LiteralConstant" UId="30">
+    <Access Scope="LiteralConstant" UId="29">
       <Constant>
         <ConstantType>Bool</ConstantType>
         <ConstantValue>FALSE</ConstantValue>
       </Constant>
     </Access>
-    <Access Scope="GlobalVariable" UId="31">
+    <Access Scope="GlobalVariable" UId="30">
       <Symbol>
         <Component Name="TE_501_Raw" />
       </Symbol>
     </Access>
-    <Access Scope="GlobalVariable" UId="32">
+    <Access Scope="GlobalVariable" UId="31">
       <Symbol>
         <Component Name="TE_502_Raw" />
       </Symbol>
@@ -225,7 +219,6 @@
           <Parameter Name="Auto" Section="Input" Type="Bool" />
           <Parameter Name="StartPB" Section="Input" Type="Bool" />
           <Parameter Name="StopOK" Section="Input" Type="Bool" />
-          <Parameter Name="Reset" Section="Input" Type="Bool" />
           <Parameter Name="LevelOK" Section="Input" Type="Bool" />
           <Parameter Name="RunFb" Section="Input" Type="Bool" />
           <Parameter Name="Lockout" Section="Input" Type="Bool" />
@@ -236,48 +229,44 @@
     </Call>
   </Parts>
   <Wires>
-    <Wire UId="33">
+    <Wire UId="32">
       <Powerrail />
       <NameCon UId="21" Name="en" />
     </Wire>
-    <Wire UId="34">
+    <Wire UId="33">
       <IdentCon UId="23" />
       <NameCon UId="21" Name="Auto" />
     </Wire>
-    <Wire UId="35">
+    <Wire UId="34">
       <IdentCon UId="24" />
       <NameCon UId="21" Name="StartPB" />
     </Wire>
-    <Wire UId="36">
+    <Wire UId="35">
       <IdentCon UId="25" />
       <NameCon UId="21" Name="StopOK" />
     </Wire>
-    <Wire UId="37">
+    <Wire UId="36">
       <IdentCon UId="26" />
-      <NameCon UId="21" Name="Reset" />
-    </Wire>
-    <Wire UId="38">
-      <IdentCon UId="27" />
       <NameCon UId="21" Name="LevelOK" />
     </Wire>
-    <Wire UId="39">
-      <IdentCon UId="28" />
+    <Wire UId="37">
+      <IdentCon UId="27" />
       <NameCon UId="21" Name="RunFb" />
     </Wire>
-    <Wire UId="40">
-      <IdentCon UId="29" />
+    <Wire UId="38">
+      <IdentCon UId="28" />
       <NameCon UId="21" Name="Lockout" />
     </Wire>
-    <Wire UId="41">
-      <IdentCon UId="30" />
+    <Wire UId="39">
+      <IdentCon UId="29" />
       <NameCon UId="21" Name="Fuel" />
     </Wire>
-    <Wire UId="42">
-      <IdentCon UId="31" />
+    <Wire UId="40">
+      <IdentCon UId="30" />
       <NameCon UId="21" Name="TeA" />
     </Wire>
-    <Wire UId="43">
-      <IdentCon UId="32" />
+    <Wire UId="41">
+      <IdentCon UId="31" />
       <NameCon UId="21" Name="TeB" />
     </Wire>
   </Wires>
@@ -290,7 +279,7 @@
               <MultilingualTextItem ID="D" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>Same Burner FB with BR01_DB; gas-only fuel input and daily-stop option configured for this burner. Reference: C07.</Text>
+                  <Text>Burner block with BR01_DB; BR01 has no fuel selector and uses the daily stop.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -300,7 +289,7 @@
               <MultilingualTextItem ID="F" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>Control burner BR01 on tank TK01</Text>
+                  <Text>Burner BR01 on tank TK01</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -328,36 +317,30 @@
     </Access>
     <Access Scope="GlobalVariable" UId="26">
       <Symbol>
-        <Component Name="Sys" />
-        <Component Name="ResetPulse" />
+        <Component Name="LSL_TK02" />
       </Symbol>
     </Access>
     <Access Scope="GlobalVariable" UId="27">
       <Symbol>
-        <Component Name="LSL_TK02" />
+        <Component Name="BR02_Run" />
       </Symbol>
     </Access>
     <Access Scope="GlobalVariable" UId="28">
       <Symbol>
-        <Component Name="BR02_Run" />
+        <Component Name="BR02_Fault" />
       </Symbol>
     </Access>
     <Access Scope="GlobalVariable" UId="29">
       <Symbol>
-        <Component Name="BR02_Fault" />
+        <Component Name="Rfuel2_BR02_DieselMode" />
       </Symbol>
     </Access>
     <Access Scope="GlobalVariable" UId="30">
       <Symbol>
-        <Component Name="Rfuel2_BR02_DieselMode" />
-      </Symbol>
-    </Access>
-    <Access Scope="GlobalVariable" UId="31">
-      <Symbol>
         <Component Name="TE_503_Raw" />
       </Symbol>
     </Access>
-    <Access Scope="GlobalVariable" UId="32">
+    <Access Scope="GlobalVariable" UId="31">
       <Symbol>
         <Component Name="TE_504_Raw" />
       </Symbol>
@@ -370,7 +353,6 @@
           <Parameter Name="Auto" Section="Input" Type="Bool" />
           <Parameter Name="StartPB" Section="Input" Type="Bool" />
           <Parameter Name="StopOK" Section="Input" Type="Bool" />
-          <Parameter Name="Reset" Section="Input" Type="Bool" />
           <Parameter Name="LevelOK" Section="Input" Type="Bool" />
           <Parameter Name="RunFb" Section="Input" Type="Bool" />
           <Parameter Name="Lockout" Section="Input" Type="Bool" />
@@ -381,48 +363,44 @@
     </Call>
   </Parts>
   <Wires>
-    <Wire UId="33">
+    <Wire UId="32">
       <Powerrail />
       <NameCon UId="21" Name="en" />
     </Wire>
-    <Wire UId="34">
+    <Wire UId="33">
       <IdentCon UId="23" />
       <NameCon UId="21" Name="Auto" />
     </Wire>
-    <Wire UId="35">
+    <Wire UId="34">
       <IdentCon UId="24" />
       <NameCon UId="21" Name="StartPB" />
     </Wire>
-    <Wire UId="36">
+    <Wire UId="35">
       <IdentCon UId="25" />
       <NameCon UId="21" Name="StopOK" />
     </Wire>
-    <Wire UId="37">
+    <Wire UId="36">
       <IdentCon UId="26" />
-      <NameCon UId="21" Name="Reset" />
-    </Wire>
-    <Wire UId="38">
-      <IdentCon UId="27" />
       <NameCon UId="21" Name="LevelOK" />
     </Wire>
-    <Wire UId="39">
-      <IdentCon UId="28" />
+    <Wire UId="37">
+      <IdentCon UId="27" />
       <NameCon UId="21" Name="RunFb" />
     </Wire>
-    <Wire UId="40">
-      <IdentCon UId="29" />
+    <Wire UId="38">
+      <IdentCon UId="28" />
       <NameCon UId="21" Name="Lockout" />
     </Wire>
-    <Wire UId="41">
-      <IdentCon UId="30" />
+    <Wire UId="39">
+      <IdentCon UId="29" />
       <NameCon UId="21" Name="Fuel" />
     </Wire>
-    <Wire UId="42">
-      <IdentCon UId="31" />
+    <Wire UId="40">
+      <IdentCon UId="30" />
       <NameCon UId="21" Name="TeA" />
     </Wire>
-    <Wire UId="43">
-      <IdentCon UId="32" />
+    <Wire UId="41">
+      <IdentCon UId="31" />
       <NameCon UId="21" Name="TeB" />
     </Wire>
   </Wires>
@@ -435,7 +413,7 @@
               <MultilingualTextItem ID="12" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>Same Burner FB with independent BR02_DB; fuel comes from the BR02 selector. Reference: C08.</Text>
+                  <Text>Same burner block with BR02_DB.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -445,7 +423,7 @@
               <MultilingualTextItem ID="14" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>Control burner BR02 on tank TK02</Text>
+                  <Text>Burner BR02 on tank TK02</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -476,7 +454,7 @@
               <MultilingualTextItem ID="17" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>Only Outputs writes physical Q tags; burner requests and scrubber commands are already calculated. Reference: E1 / E7.</Text>
+                  <Text>The only block that writes the Q outputs.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -486,7 +464,7 @@
               <MultilingualTextItem ID="19" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>Write the physical outputs</Text>
+                  <Text>Outputs</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -517,7 +495,7 @@
               <MultilingualTextItem ID="1C" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>Copy status into alarm words for display; this call does not trip equipment or acknowledge alarms. Reference: H-05.</Text>
+                  <Text>Copies the alarm bits for the panel; no control here.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -527,7 +505,7 @@
               <MultilingualTextItem ID="1E" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>Update the HMI alarm bits</Text>
+                  <Text>HMI alarms</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -580,7 +558,7 @@
               <MultilingualTextItem ID="21" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>Clear FirstScan only after all blocks have used it. Reference: C02.</Text>
+                  <Text>Clear FirstScan after all blocks have used it. C02.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -590,7 +568,7 @@
               <MultilingualTextItem ID="23" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>Finish the first-scan processing</Text>
+                  <Text>First scan done</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>

@@ -10,13 +10,11 @@
       <HeaderVersion>0.1</HeaderVersion>
       <Interface><Sections xmlns="http://www.siemens.com/automation/Openness/SW/Interface/v3">
   <Section Name="Static">
-    <Member Name="FirstScan" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Startup flag set by OB100 and cleared at end of Main</MultiLanguageText></Comment></Member>
-    <Member Name="EStopOK" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">E-STOP released and latch restored by RESET/startup</MultiLanguageText></Comment></Member>
-    <Member Name="ResetPulse" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">One-scan rising-edge pulse from S2</MultiLanguageText></Comment></Member>
-    <Member Name="ResetMem" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Previous-scan S2 state for edge detection</MultiLanguageText></Comment></Member>
-    <Member Name="Alm_EStop" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">HMI alarm while E-STOP permissive is absent</MultiLanguageText></Comment></Member>
-    <Member Name="Alm_ParRejected" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Setting rejected for range or enabled-burner condition</MultiLanguageText></Comment></Member>
-    <Member Name="SettingsEditable" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Both burner START permissions are OFF; valid setting entries may be accepted.</MultiLanguageText></Comment></Member>
+    <Member Name="FirstScan" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Startup flag: set by OB100, cleared at the end of Main</MultiLanguageText></Comment></Member>
+    <Member Name="EStopOK" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">E-STOP released and RESET given (or released at power-up)</MultiLanguageText></Comment></Member>
+    <Member Name="ResetPulse" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">One-scan pulse on a new press of RESET S2</MultiLanguageText></Comment></Member>
+    <Member Name="ResetMem" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">RESET S2 state from the previous scan</MultiLanguageText></Comment></Member>
+    <Member Name="Alm_EStop" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">HMI alarm: E-STOP pressed or waiting for RESET</MultiLanguageText></Comment></Member>
   </Section>
 </Sections></Interface>
       <MemoryLayout>Optimized</MemoryLayout>
@@ -31,7 +29,7 @@
           <MultilingualTextItem ID="2" CompositionName="Items">
             <AttributeList>
               <Culture>en-US</Culture>
-              <Text>Shared E-STOP permission, RESET pulse and permission to edit settings.</Text>
+              <Text>Shared E-STOP permission, RESET pulse and first-scan flag.</Text>
             </AttributeList>
           </MultilingualTextItem>
         </ObjectList>

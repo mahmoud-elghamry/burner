@@ -26,9 +26,9 @@
       <SetENOAutomatically>False</SetENOAutomatically>
     </AttributeList>
     <ObjectList>
-      <MultilingualText ID="79" CompositionName="Comment">
+      <MultilingualText ID="51" CompositionName="Comment">
         <ObjectList>
-          <MultilingualTextItem ID="7A" CompositionName="Items">
+          <MultilingualTextItem ID="52" CompositionName="Items">
             <AttributeList>
               <Culture>en-US</Culture>
               <Text>Alarm display mapping only. This block does not trip equipment or reset faults.</Text>
@@ -82,7 +82,7 @@
               <MultilingualTextItem ID="3" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>Copy &quot;Sys&quot;.Alm_EStop to Common bit 0. Bit value 1 displays this alarm. Clears: Release E-STOP and RESET. Reference: C01.</Text>
+                  <Text>Clears: Release E-STOP and RESET. C01.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -92,7 +92,7 @@
               <MultilingualTextItem ID="5" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>Display alarm: E-STOP active: reset required</Text>
+                  <Text>Alarm Common.x0: E-STOP active: reset required</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -106,7 +106,7 @@
     <Access Scope="GlobalVariable" UId="22">
       <Symbol>
         <Component Name="Scrubber_DB" />
-        <Component Name="Cause_PSH" />
+        <Component Name="Tripped" />
       </Symbol>
     </Access>
     <Access Scope="GlobalVariable" UId="24">
@@ -145,7 +145,7 @@
               <MultilingualTextItem ID="8" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>Copy &quot;Scrubber_DB&quot;.Cause_PSH to Common bit 1. Bit value 1 displays this alarm. Clears: RESET with all scrubber trip causes healthy. Reference: C03 / C06a.</Text>
+                  <Text>Clears: RESET with pressure, very high level and E-STOP healthy. C02 / C03 / C05.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -155,7 +155,7 @@
               <MultilingualTextItem ID="A" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>Display alarm: Scrubber high pressure: reset required</Text>
+                  <Text>Alarm Common.x1: Scrubber tripped: reset required</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -169,7 +169,7 @@
     <Access Scope="GlobalVariable" UId="22">
       <Symbol>
         <Component Name="Scrubber_DB" />
-        <Component Name="Cause_LSHH" />
+        <Component Name="Cause_PSH" />
       </Symbol>
     </Access>
     <Access Scope="GlobalVariable" UId="24">
@@ -208,7 +208,7 @@
               <MultilingualTextItem ID="D" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>Copy &quot;Scrubber_DB&quot;.Cause_LSHH to Common bit 2. Bit value 1 displays this alarm. Clears: RESET with all scrubber trip causes healthy. Reference: C05 / C06a.</Text>
+                  <Text>Clears: RESET with all scrubber trip causes healthy. C03 / C06a.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -218,7 +218,7 @@
               <MultilingualTextItem ID="F" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>Display alarm: Scrubber very high level: reset required</Text>
+                  <Text>Alarm Common.x2: Scrubber trip: high pressure</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -232,7 +232,7 @@
     <Access Scope="GlobalVariable" UId="22">
       <Symbol>
         <Component Name="Scrubber_DB" />
-        <Component Name="Cause_PwrUp" />
+        <Component Name="Cause_LSHH" />
       </Symbol>
     </Access>
     <Access Scope="GlobalVariable" UId="24">
@@ -271,7 +271,7 @@
               <MultilingualTextItem ID="12" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>Copy &quot;Scrubber_DB&quot;.Cause_PwrUp to Common bit 3. Bit value 1 displays this alarm. Clears: RESET with all scrubber trip causes healthy. Reference: S-01 / C06a.</Text>
+                  <Text>Clears: RESET with all scrubber trip causes healthy. C05 / C06a.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -281,7 +281,7 @@
               <MultilingualTextItem ID="14" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>Display alarm: Scrubber waiting for first RESET</Text>
+                  <Text>Alarm Common.x3: Scrubber trip: very high level</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -295,7 +295,7 @@
     <Access Scope="GlobalVariable" UId="22">
       <Symbol>
         <Component Name="Scrubber_DB" />
-        <Component Name="Alm_LSH" />
+        <Component Name="LSH" />
       </Symbol>
     </Access>
     <Access Scope="GlobalVariable" UId="24">
@@ -304,7 +304,9 @@
         <Component Name="Common" SliceAccessModifier="x4" />
       </Symbol>
     </Access>
-    <Part Name="Contact" UId="21" />
+    <Part Name="Contact" UId="21">
+      <Negated Name="operand" />
+    </Part>
     <Part Name="Coil" UId="23" />
   </Parts>
   <Wires>
@@ -334,7 +336,7 @@
               <MultilingualTextItem ID="17" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>Copy &quot;Scrubber_DB&quot;.Alm_LSH to Common bit 4. Bit value 1 displays this alarm. Clears: Automatically when level returns. Reference: C04.</Text>
+                  <Text>Clears: Automatically when level returns. C04.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -344,7 +346,7 @@
               <MultilingualTextItem ID="19" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>Display alarm: Scrubber high level (LSH-102)</Text>
+                  <Text>Alarm Common.x4: Scrubber high level (LSH-102)</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -357,8 +359,8 @@
   <Parts>
     <Access Scope="GlobalVariable" UId="22">
       <Symbol>
-        <Component Name="Sys" />
-        <Component Name="Alm_ParRejected" />
+        <Component Name="Scrubber_DB" />
+        <Component Name="F_DrainTO" />
       </Symbol>
     </Access>
     <Access Scope="GlobalVariable" UId="24">
@@ -397,7 +399,7 @@
               <MultilingualTextItem ID="1C" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>Copy &quot;Sys&quot;.Alm_ParRejected to Common bit 5. Bit value 1 displays this alarm. Clears: STOP both; check range; RESET clears alarm. Reference: R-11 / 0009.</Text>
+                  <Text>Clears: RESET (drain follows level again). C04a.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -407,7 +409,7 @@
               <MultilingualTextItem ID="1E" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>Display alarm: Setting rejected</Text>
+                  <Text>Alarm Common.x5: Scrubber drain time limit reached</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -420,134 +422,8 @@
   <Parts>
     <Access Scope="GlobalVariable" UId="22">
       <Symbol>
-        <Component Name="Scrubber_DB" />
-        <Component Name="F_DrainTO" />
-      </Symbol>
-    </Access>
-    <Access Scope="GlobalVariable" UId="24">
-      <Symbol>
-        <Component Name="HmiAlm" />
-        <Component Name="Common" SliceAccessModifier="x6" />
-      </Symbol>
-    </Access>
-    <Part Name="Contact" UId="21" />
-    <Part Name="Coil" UId="23" />
-  </Parts>
-  <Wires>
-    <Wire UId="25">
-      <Powerrail />
-      <NameCon UId="21" Name="in" />
-    </Wire>
-    <Wire UId="26">
-      <IdentCon UId="22" />
-      <NameCon UId="21" Name="operand" />
-    </Wire>
-    <Wire UId="27">
-      <NameCon UId="21" Name="out" />
-      <NameCon UId="23" Name="in" />
-    </Wire>
-    <Wire UId="28">
-      <NameCon UId="23" Name="operand" />
-      <IdentCon UId="24" />
-    </Wire>
-  </Wires>
-</FlgNet></NetworkSource>
-          <ProgrammingLanguage>LAD</ProgrammingLanguage>
-        </AttributeList>
-        <ObjectList>
-          <MultilingualText ID="20" CompositionName="Comment">
-            <ObjectList>
-              <MultilingualTextItem ID="21" CompositionName="Items">
-                <AttributeList>
-                  <Culture>en-US</Culture>
-                  <Text>Copy &quot;Scrubber_DB&quot;.F_DrainTO to Common bit 6. Bit value 1 displays this alarm. Clears: RESET (drain follows level again). Reference: C04a.</Text>
-                </AttributeList>
-              </MultilingualTextItem>
-            </ObjectList>
-          </MultilingualText>
-          <MultilingualText ID="22" CompositionName="Title">
-            <ObjectList>
-              <MultilingualTextItem ID="23" CompositionName="Items">
-                <AttributeList>
-                  <Culture>en-US</Culture>
-                  <Text>Display alarm: Scrubber drain time limit reached</Text>
-                </AttributeList>
-              </MultilingualTextItem>
-            </ObjectList>
-          </MultilingualText>
-        </ObjectList>
-      </SW.Blocks.CompileUnit>
-      <SW.Blocks.CompileUnit ID="24" CompositionName="CompileUnits">
-        <AttributeList>
-          <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
-  <Parts>
-    <Access Scope="GlobalVariable" UId="22">
-      <Symbol>
-        <Component Name="Scrubber_DB" />
-        <Component Name="F_LshFault" />
-      </Symbol>
-    </Access>
-    <Access Scope="GlobalVariable" UId="24">
-      <Symbol>
-        <Component Name="HmiAlm" />
-        <Component Name="Common" SliceAccessModifier="x7" />
-      </Symbol>
-    </Access>
-    <Part Name="Contact" UId="21" />
-    <Part Name="Coil" UId="23" />
-  </Parts>
-  <Wires>
-    <Wire UId="25">
-      <Powerrail />
-      <NameCon UId="21" Name="in" />
-    </Wire>
-    <Wire UId="26">
-      <IdentCon UId="22" />
-      <NameCon UId="21" Name="operand" />
-    </Wire>
-    <Wire UId="27">
-      <NameCon UId="21" Name="out" />
-      <NameCon UId="23" Name="in" />
-    </Wire>
-    <Wire UId="28">
-      <NameCon UId="23" Name="operand" />
-      <IdentCon UId="24" />
-    </Wire>
-  </Wires>
-</FlgNet></NetworkSource>
-          <ProgrammingLanguage>LAD</ProgrammingLanguage>
-        </AttributeList>
-        <ObjectList>
-          <MultilingualText ID="25" CompositionName="Comment">
-            <ObjectList>
-              <MultilingualTextItem ID="26" CompositionName="Items">
-                <AttributeList>
-                  <Culture>en-US</Culture>
-                  <Text>Copy &quot;Scrubber_DB&quot;.F_LshFault to Common bit 7. Bit value 1 displays this alarm. Clears: RESET after the contradictory level-input combination is gone. Reference: C04b.</Text>
-                </AttributeList>
-              </MultilingualTextItem>
-            </ObjectList>
-          </MultilingualText>
-          <MultilingualText ID="27" CompositionName="Title">
-            <ObjectList>
-              <MultilingualTextItem ID="28" CompositionName="Items">
-                <AttributeList>
-                  <Culture>en-US</Culture>
-                  <Text>Display alarm: Scrubber level switch disagreement</Text>
-                </AttributeList>
-              </MultilingualTextItem>
-            </ObjectList>
-          </MultilingualText>
-        </ObjectList>
-      </SW.Blocks.CompileUnit>
-      <SW.Blocks.CompileUnit ID="29" CompositionName="CompileUnits">
-        <AttributeList>
-          <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
-  <Parts>
-    <Access Scope="GlobalVariable" UId="22">
-      <Symbol>
         <Component Name="BR01_DB" />
-        <Component Name="F_EStop" />
+        <Component Name="Lockout" />
       </Symbol>
     </Access>
     <Access Scope="GlobalVariable" UId="24">
@@ -581,36 +457,36 @@
           <ProgrammingLanguage>LAD</ProgrammingLanguage>
         </AttributeList>
         <ObjectList>
-          <MultilingualText ID="2A" CompositionName="Comment">
+          <MultilingualText ID="20" CompositionName="Comment">
             <ObjectList>
-              <MultilingualTextItem ID="2B" CompositionName="Items">
+              <MultilingualTextItem ID="21" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>Copy &quot;BR01_DB&quot;.F_EStop to BR01 bit 0. Bit value 1 displays this alarm. Clears: RESET after fault causes clear; START to run. Reference: C01.</Text>
+                  <Text>Clears: Reset at the burner box, then START. C07e.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
           </MultilingualText>
-          <MultilingualText ID="2C" CompositionName="Title">
+          <MultilingualText ID="22" CompositionName="Title">
             <ObjectList>
-              <MultilingualTextItem ID="2D" CompositionName="Items">
+              <MultilingualTextItem ID="23" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>Display alarm: BR01 E-STOP trip saved</Text>
+                  <Text>Alarm BR01.x0: BR01 burner lockout</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
           </MultilingualText>
         </ObjectList>
       </SW.Blocks.CompileUnit>
-      <SW.Blocks.CompileUnit ID="2E" CompositionName="CompileUnits">
+      <SW.Blocks.CompileUnit ID="24" CompositionName="CompileUnits">
         <AttributeList>
           <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
   <Parts>
     <Access Scope="GlobalVariable" UId="22">
       <Symbol>
         <Component Name="BR01_DB" />
-        <Component Name="F_TC" />
+        <Component Name="TcBad" />
       </Symbol>
     </Access>
     <Access Scope="GlobalVariable" UId="24">
@@ -644,36 +520,36 @@
           <ProgrammingLanguage>LAD</ProgrammingLanguage>
         </AttributeList>
         <ObjectList>
-          <MultilingualText ID="2F" CompositionName="Comment">
+          <MultilingualText ID="25" CompositionName="Comment">
             <ObjectList>
-              <MultilingualTextItem ID="30" CompositionName="Items">
+              <MultilingualTextItem ID="26" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>Copy &quot;BR01_DB&quot;.F_TC to BR01 bit 1. Bit value 1 displays this alarm. Clears: RESET after repair. Reference: C07d.</Text>
+                  <Text>Clears: Automatically when both sensors are valid; then START. C07d.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
           </MultilingualText>
-          <MultilingualText ID="31" CompositionName="Title">
+          <MultilingualText ID="27" CompositionName="Title">
             <ObjectList>
-              <MultilingualTextItem ID="32" CompositionName="Items">
+              <MultilingualTextItem ID="28" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>Display alarm: BR01 temperature input fault</Text>
+                  <Text>Alarm BR01.x1: BR01 temperature input fault</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
           </MultilingualText>
         </ObjectList>
       </SW.Blocks.CompileUnit>
-      <SW.Blocks.CompileUnit ID="33" CompositionName="CompileUnits">
+      <SW.Blocks.CompileUnit ID="29" CompositionName="CompileUnits">
         <AttributeList>
           <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
   <Parts>
     <Access Scope="GlobalVariable" UId="22">
       <Symbol>
         <Component Name="BR01_DB" />
-        <Component Name="F_Lockout" />
+        <Component Name="NoRun" />
       </Symbol>
     </Access>
     <Access Scope="GlobalVariable" UId="24">
@@ -707,36 +583,36 @@
           <ProgrammingLanguage>LAD</ProgrammingLanguage>
         </AttributeList>
         <ObjectList>
-          <MultilingualText ID="34" CompositionName="Comment">
+          <MultilingualText ID="2A" CompositionName="Comment">
             <ObjectList>
-              <MultilingualTextItem ID="35" CompositionName="Items">
+              <MultilingualTextItem ID="2B" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>Copy &quot;BR01_DB&quot;.F_Lockout to BR01 bit 2. Bit value 1 displays this alarm. Clears: RESET after burner control box lockout cleared. Reference: C07e.</Text>
+                  <Text>Clears: Automatically when RUN arrives or the request stops. C07f.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
           </MultilingualText>
-          <MultilingualText ID="36" CompositionName="Title">
+          <MultilingualText ID="2C" CompositionName="Title">
             <ObjectList>
-              <MultilingualTextItem ID="37" CompositionName="Items">
+              <MultilingualTextItem ID="2D" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>Display alarm: BR01 burner lockout</Text>
+                  <Text>Alarm BR01.x2: BR01 RUN not received</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
           </MultilingualText>
         </ObjectList>
       </SW.Blocks.CompileUnit>
-      <SW.Blocks.CompileUnit ID="38" CompositionName="CompileUnits">
+      <SW.Blocks.CompileUnit ID="2E" CompositionName="CompileUnits">
         <AttributeList>
           <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
   <Parts>
     <Access Scope="GlobalVariable" UId="22">
       <Symbol>
         <Component Name="BR01_DB" />
-        <Component Name="F_NoStart" />
+        <Component Name="RunWrong" />
       </Symbol>
     </Access>
     <Access Scope="GlobalVariable" UId="24">
@@ -770,155 +646,29 @@
           <ProgrammingLanguage>LAD</ProgrammingLanguage>
         </AttributeList>
         <ObjectList>
-          <MultilingualText ID="39" CompositionName="Comment">
+          <MultilingualText ID="2F" CompositionName="Comment">
             <ObjectList>
-              <MultilingualTextItem ID="3A" CompositionName="Items">
+              <MultilingualTextItem ID="30" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>Copy &quot;BR01_DB&quot;.F_NoStart to BR01 bit 3. Bit value 1 displays this alarm. Clears: RESET after fault causes clear. Reference: C07f.</Text>
+                  <Text>Clears: Automatically when RUN goes off. C07g.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
           </MultilingualText>
-          <MultilingualText ID="3B" CompositionName="Title">
+          <MultilingualText ID="31" CompositionName="Title">
             <ObjectList>
-              <MultilingualTextItem ID="3C" CompositionName="Items">
+              <MultilingualTextItem ID="32" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>Display alarm: BR01 RUN not received in time</Text>
-                </AttributeList>
-              </MultilingualTextItem>
-            </ObjectList>
-          </MultilingualText>
-        </ObjectList>
-      </SW.Blocks.CompileUnit>
-      <SW.Blocks.CompileUnit ID="3D" CompositionName="CompileUnits">
-        <AttributeList>
-          <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
-  <Parts>
-    <Access Scope="GlobalVariable" UId="22">
-      <Symbol>
-        <Component Name="BR01_DB" />
-        <Component Name="F_RunLost" />
-      </Symbol>
-    </Access>
-    <Access Scope="GlobalVariable" UId="24">
-      <Symbol>
-        <Component Name="HmiAlm" />
-        <Component Name="BR01" SliceAccessModifier="x4" />
-      </Symbol>
-    </Access>
-    <Part Name="Contact" UId="21" />
-    <Part Name="Coil" UId="23" />
-  </Parts>
-  <Wires>
-    <Wire UId="25">
-      <Powerrail />
-      <NameCon UId="21" Name="in" />
-    </Wire>
-    <Wire UId="26">
-      <IdentCon UId="22" />
-      <NameCon UId="21" Name="operand" />
-    </Wire>
-    <Wire UId="27">
-      <NameCon UId="21" Name="out" />
-      <NameCon UId="23" Name="in" />
-    </Wire>
-    <Wire UId="28">
-      <NameCon UId="23" Name="operand" />
-      <IdentCon UId="24" />
-    </Wire>
-  </Wires>
-</FlgNet></NetworkSource>
-          <ProgrammingLanguage>LAD</ProgrammingLanguage>
-        </AttributeList>
-        <ObjectList>
-          <MultilingualText ID="3E" CompositionName="Comment">
-            <ObjectList>
-              <MultilingualTextItem ID="3F" CompositionName="Items">
-                <AttributeList>
-                  <Culture>en-US</Culture>
-                  <Text>Copy &quot;BR01_DB&quot;.F_RunLost to BR01 bit 4. Bit value 1 displays this alarm. Clears: RESET after fault causes clear. Reference: C07g.</Text>
-                </AttributeList>
-              </MultilingualTextItem>
-            </ObjectList>
-          </MultilingualText>
-          <MultilingualText ID="40" CompositionName="Title">
-            <ObjectList>
-              <MultilingualTextItem ID="41" CompositionName="Items">
-                <AttributeList>
-                  <Culture>en-US</Culture>
-                  <Text>Display alarm: BR01 RUN input lost</Text>
+                  <Text>Alarm BR01.x3: BR01 RUN without request</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
           </MultilingualText>
         </ObjectList>
       </SW.Blocks.CompileUnit>
-      <SW.Blocks.CompileUnit ID="42" CompositionName="CompileUnits">
-        <AttributeList>
-          <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
-  <Parts>
-    <Access Scope="GlobalVariable" UId="22">
-      <Symbol>
-        <Component Name="BR01_DB" />
-        <Component Name="F_RunWrong" />
-      </Symbol>
-    </Access>
-    <Access Scope="GlobalVariable" UId="24">
-      <Symbol>
-        <Component Name="HmiAlm" />
-        <Component Name="BR01" SliceAccessModifier="x5" />
-      </Symbol>
-    </Access>
-    <Part Name="Contact" UId="21" />
-    <Part Name="Coil" UId="23" />
-  </Parts>
-  <Wires>
-    <Wire UId="25">
-      <Powerrail />
-      <NameCon UId="21" Name="in" />
-    </Wire>
-    <Wire UId="26">
-      <IdentCon UId="22" />
-      <NameCon UId="21" Name="operand" />
-    </Wire>
-    <Wire UId="27">
-      <NameCon UId="21" Name="out" />
-      <NameCon UId="23" Name="in" />
-    </Wire>
-    <Wire UId="28">
-      <NameCon UId="23" Name="operand" />
-      <IdentCon UId="24" />
-    </Wire>
-  </Wires>
-</FlgNet></NetworkSource>
-          <ProgrammingLanguage>LAD</ProgrammingLanguage>
-        </AttributeList>
-        <ObjectList>
-          <MultilingualText ID="43" CompositionName="Comment">
-            <ObjectList>
-              <MultilingualTextItem ID="44" CompositionName="Items">
-                <AttributeList>
-                  <Culture>en-US</Culture>
-                  <Text>Copy &quot;BR01_DB&quot;.F_RunWrong to BR01 bit 5. Bit value 1 displays this alarm. Clears: RESET with RUN off and fault causes clear. Reference: R-09.</Text>
-                </AttributeList>
-              </MultilingualTextItem>
-            </ObjectList>
-          </MultilingualText>
-          <MultilingualText ID="45" CompositionName="Title">
-            <ObjectList>
-              <MultilingualTextItem ID="46" CompositionName="Items">
-                <AttributeList>
-                  <Culture>en-US</Culture>
-                  <Text>Display alarm: BR01 RUN without request</Text>
-                </AttributeList>
-              </MultilingualTextItem>
-            </ObjectList>
-          </MultilingualText>
-        </ObjectList>
-      </SW.Blocks.CompileUnit>
-      <SW.Blocks.CompileUnit ID="47" CompositionName="CompileUnits">
+      <SW.Blocks.CompileUnit ID="33" CompositionName="CompileUnits">
         <AttributeList>
           <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
   <Parts>
@@ -931,7 +681,7 @@
     <Access Scope="GlobalVariable" UId="24">
       <Symbol>
         <Component Name="HmiAlm" />
-        <Component Name="BR01" SliceAccessModifier="x6" />
+        <Component Name="BR01" SliceAccessModifier="x4" />
       </Symbol>
     </Access>
     <Part Name="Contact" UId="21">
@@ -961,99 +711,36 @@
           <ProgrammingLanguage>LAD</ProgrammingLanguage>
         </AttributeList>
         <ObjectList>
-          <MultilingualText ID="48" CompositionName="Comment">
+          <MultilingualText ID="34" CompositionName="Comment">
             <ObjectList>
-              <MultilingualTextItem ID="49" CompositionName="Items">
+              <MultilingualTextItem ID="35" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>Copy !&quot;BR01_DB&quot;.LevelOK to BR01 bit 6. Bit value 1 displays this alarm. Clears: Automatically when level returns. Reference: C07a.</Text>
+                  <Text>Clears: Automatically when level returns. C07a.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
           </MultilingualText>
-          <MultilingualText ID="4A" CompositionName="Title">
+          <MultilingualText ID="36" CompositionName="Title">
             <ObjectList>
-              <MultilingualTextItem ID="4B" CompositionName="Items">
+              <MultilingualTextItem ID="37" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>Display alarm: TK01 level too low for BR01</Text>
-                </AttributeList>
-              </MultilingualTextItem>
-            </ObjectList>
-          </MultilingualText>
-        </ObjectList>
-      </SW.Blocks.CompileUnit>
-      <SW.Blocks.CompileUnit ID="4C" CompositionName="CompileUnits">
-        <AttributeList>
-          <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
-  <Parts>
-    <Access Scope="GlobalVariable" UId="22">
-      <Symbol>
-        <Component Name="BR01_DB" />
-        <Component Name="F_Scrubber" />
-      </Symbol>
-    </Access>
-    <Access Scope="GlobalVariable" UId="24">
-      <Symbol>
-        <Component Name="HmiAlm" />
-        <Component Name="BR01" SliceAccessModifier="x7" />
-      </Symbol>
-    </Access>
-    <Part Name="Contact" UId="21" />
-    <Part Name="Coil" UId="23" />
-  </Parts>
-  <Wires>
-    <Wire UId="25">
-      <Powerrail />
-      <NameCon UId="21" Name="in" />
-    </Wire>
-    <Wire UId="26">
-      <IdentCon UId="22" />
-      <NameCon UId="21" Name="operand" />
-    </Wire>
-    <Wire UId="27">
-      <NameCon UId="21" Name="out" />
-      <NameCon UId="23" Name="in" />
-    </Wire>
-    <Wire UId="28">
-      <NameCon UId="23" Name="operand" />
-      <IdentCon UId="24" />
-    </Wire>
-  </Wires>
-</FlgNet></NetworkSource>
-          <ProgrammingLanguage>LAD</ProgrammingLanguage>
-        </AttributeList>
-        <ObjectList>
-          <MultilingualText ID="4D" CompositionName="Comment">
-            <ObjectList>
-              <MultilingualTextItem ID="4E" CompositionName="Items">
-                <AttributeList>
-                  <Culture>en-US</Culture>
-                  <Text>Copy &quot;BR01_DB&quot;.F_Scrubber to BR01 bit 7. Bit value 1 displays this alarm. Clears: RESET after scrubber trip clears; START to run. Reference: C03 / C05 / R-13.</Text>
-                </AttributeList>
-              </MultilingualTextItem>
-            </ObjectList>
-          </MultilingualText>
-          <MultilingualText ID="4F" CompositionName="Title">
-            <ObjectList>
-              <MultilingualTextItem ID="50" CompositionName="Items">
-                <AttributeList>
-                  <Culture>en-US</Culture>
-                  <Text>Display alarm: BR01 stopped by scrubber trip</Text>
+                  <Text>Alarm BR01.x4: TK01 level too low for BR01</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
           </MultilingualText>
         </ObjectList>
       </SW.Blocks.CompileUnit>
-      <SW.Blocks.CompileUnit ID="51" CompositionName="CompileUnits">
+      <SW.Blocks.CompileUnit ID="38" CompositionName="CompileUnits">
         <AttributeList>
           <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
   <Parts>
     <Access Scope="GlobalVariable" UId="22">
       <Symbol>
         <Component Name="BR02_DB" />
-        <Component Name="F_EStop" />
+        <Component Name="Lockout" />
       </Symbol>
     </Access>
     <Access Scope="GlobalVariable" UId="24">
@@ -1087,36 +774,36 @@
           <ProgrammingLanguage>LAD</ProgrammingLanguage>
         </AttributeList>
         <ObjectList>
-          <MultilingualText ID="52" CompositionName="Comment">
+          <MultilingualText ID="39" CompositionName="Comment">
             <ObjectList>
-              <MultilingualTextItem ID="53" CompositionName="Items">
+              <MultilingualTextItem ID="3A" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>Copy &quot;BR02_DB&quot;.F_EStop to BR02 bit 0. Bit value 1 displays this alarm. Clears: RESET after fault causes clear; START to run. Reference: C01.</Text>
+                  <Text>Clears: Reset at the burner box, then START. C08e.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
           </MultilingualText>
-          <MultilingualText ID="54" CompositionName="Title">
+          <MultilingualText ID="3B" CompositionName="Title">
             <ObjectList>
-              <MultilingualTextItem ID="55" CompositionName="Items">
+              <MultilingualTextItem ID="3C" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>Display alarm: BR02 E-STOP trip saved</Text>
+                  <Text>Alarm BR02.x0: BR02 burner lockout</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
           </MultilingualText>
         </ObjectList>
       </SW.Blocks.CompileUnit>
-      <SW.Blocks.CompileUnit ID="56" CompositionName="CompileUnits">
+      <SW.Blocks.CompileUnit ID="3D" CompositionName="CompileUnits">
         <AttributeList>
           <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
   <Parts>
     <Access Scope="GlobalVariable" UId="22">
       <Symbol>
         <Component Name="BR02_DB" />
-        <Component Name="F_TC" />
+        <Component Name="TcBad" />
       </Symbol>
     </Access>
     <Access Scope="GlobalVariable" UId="24">
@@ -1150,36 +837,36 @@
           <ProgrammingLanguage>LAD</ProgrammingLanguage>
         </AttributeList>
         <ObjectList>
-          <MultilingualText ID="57" CompositionName="Comment">
+          <MultilingualText ID="3E" CompositionName="Comment">
             <ObjectList>
-              <MultilingualTextItem ID="58" CompositionName="Items">
+              <MultilingualTextItem ID="3F" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>Copy &quot;BR02_DB&quot;.F_TC to BR02 bit 1. Bit value 1 displays this alarm. Clears: RESET after repair. Reference: C08d.</Text>
+                  <Text>Clears: Automatically when both sensors are valid; then START. C08d.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
           </MultilingualText>
-          <MultilingualText ID="59" CompositionName="Title">
+          <MultilingualText ID="40" CompositionName="Title">
             <ObjectList>
-              <MultilingualTextItem ID="5A" CompositionName="Items">
+              <MultilingualTextItem ID="41" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>Display alarm: BR02 temperature input fault</Text>
+                  <Text>Alarm BR02.x1: BR02 temperature input fault</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
           </MultilingualText>
         </ObjectList>
       </SW.Blocks.CompileUnit>
-      <SW.Blocks.CompileUnit ID="5B" CompositionName="CompileUnits">
+      <SW.Blocks.CompileUnit ID="42" CompositionName="CompileUnits">
         <AttributeList>
           <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
   <Parts>
     <Access Scope="GlobalVariable" UId="22">
       <Symbol>
         <Component Name="BR02_DB" />
-        <Component Name="F_Lockout" />
+        <Component Name="NoRun" />
       </Symbol>
     </Access>
     <Access Scope="GlobalVariable" UId="24">
@@ -1213,36 +900,36 @@
           <ProgrammingLanguage>LAD</ProgrammingLanguage>
         </AttributeList>
         <ObjectList>
-          <MultilingualText ID="5C" CompositionName="Comment">
+          <MultilingualText ID="43" CompositionName="Comment">
             <ObjectList>
-              <MultilingualTextItem ID="5D" CompositionName="Items">
+              <MultilingualTextItem ID="44" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>Copy &quot;BR02_DB&quot;.F_Lockout to BR02 bit 2. Bit value 1 displays this alarm. Clears: RESET after burner control box lockout cleared. Reference: C08e.</Text>
+                  <Text>Clears: Automatically when RUN arrives or the request stops. C08f.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
           </MultilingualText>
-          <MultilingualText ID="5E" CompositionName="Title">
+          <MultilingualText ID="45" CompositionName="Title">
             <ObjectList>
-              <MultilingualTextItem ID="5F" CompositionName="Items">
+              <MultilingualTextItem ID="46" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>Display alarm: BR02 burner lockout</Text>
+                  <Text>Alarm BR02.x2: BR02 RUN not received</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
           </MultilingualText>
         </ObjectList>
       </SW.Blocks.CompileUnit>
-      <SW.Blocks.CompileUnit ID="60" CompositionName="CompileUnits">
+      <SW.Blocks.CompileUnit ID="47" CompositionName="CompileUnits">
         <AttributeList>
           <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
   <Parts>
     <Access Scope="GlobalVariable" UId="22">
       <Symbol>
         <Component Name="BR02_DB" />
-        <Component Name="F_NoStart" />
+        <Component Name="RunWrong" />
       </Symbol>
     </Access>
     <Access Scope="GlobalVariable" UId="24">
@@ -1276,155 +963,29 @@
           <ProgrammingLanguage>LAD</ProgrammingLanguage>
         </AttributeList>
         <ObjectList>
-          <MultilingualText ID="61" CompositionName="Comment">
+          <MultilingualText ID="48" CompositionName="Comment">
             <ObjectList>
-              <MultilingualTextItem ID="62" CompositionName="Items">
+              <MultilingualTextItem ID="49" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>Copy &quot;BR02_DB&quot;.F_NoStart to BR02 bit 3. Bit value 1 displays this alarm. Clears: RESET after fault causes clear. Reference: C08f.</Text>
+                  <Text>Clears: Automatically when RUN goes off. C08g.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
           </MultilingualText>
-          <MultilingualText ID="63" CompositionName="Title">
+          <MultilingualText ID="4A" CompositionName="Title">
             <ObjectList>
-              <MultilingualTextItem ID="64" CompositionName="Items">
+              <MultilingualTextItem ID="4B" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>Display alarm: BR02 RUN not received in time</Text>
-                </AttributeList>
-              </MultilingualTextItem>
-            </ObjectList>
-          </MultilingualText>
-        </ObjectList>
-      </SW.Blocks.CompileUnit>
-      <SW.Blocks.CompileUnit ID="65" CompositionName="CompileUnits">
-        <AttributeList>
-          <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
-  <Parts>
-    <Access Scope="GlobalVariable" UId="22">
-      <Symbol>
-        <Component Name="BR02_DB" />
-        <Component Name="F_RunLost" />
-      </Symbol>
-    </Access>
-    <Access Scope="GlobalVariable" UId="24">
-      <Symbol>
-        <Component Name="HmiAlm" />
-        <Component Name="BR02" SliceAccessModifier="x4" />
-      </Symbol>
-    </Access>
-    <Part Name="Contact" UId="21" />
-    <Part Name="Coil" UId="23" />
-  </Parts>
-  <Wires>
-    <Wire UId="25">
-      <Powerrail />
-      <NameCon UId="21" Name="in" />
-    </Wire>
-    <Wire UId="26">
-      <IdentCon UId="22" />
-      <NameCon UId="21" Name="operand" />
-    </Wire>
-    <Wire UId="27">
-      <NameCon UId="21" Name="out" />
-      <NameCon UId="23" Name="in" />
-    </Wire>
-    <Wire UId="28">
-      <NameCon UId="23" Name="operand" />
-      <IdentCon UId="24" />
-    </Wire>
-  </Wires>
-</FlgNet></NetworkSource>
-          <ProgrammingLanguage>LAD</ProgrammingLanguage>
-        </AttributeList>
-        <ObjectList>
-          <MultilingualText ID="66" CompositionName="Comment">
-            <ObjectList>
-              <MultilingualTextItem ID="67" CompositionName="Items">
-                <AttributeList>
-                  <Culture>en-US</Culture>
-                  <Text>Copy &quot;BR02_DB&quot;.F_RunLost to BR02 bit 4. Bit value 1 displays this alarm. Clears: RESET after fault causes clear. Reference: C08g.</Text>
-                </AttributeList>
-              </MultilingualTextItem>
-            </ObjectList>
-          </MultilingualText>
-          <MultilingualText ID="68" CompositionName="Title">
-            <ObjectList>
-              <MultilingualTextItem ID="69" CompositionName="Items">
-                <AttributeList>
-                  <Culture>en-US</Culture>
-                  <Text>Display alarm: BR02 RUN input lost</Text>
+                  <Text>Alarm BR02.x3: BR02 RUN without request</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
           </MultilingualText>
         </ObjectList>
       </SW.Blocks.CompileUnit>
-      <SW.Blocks.CompileUnit ID="6A" CompositionName="CompileUnits">
-        <AttributeList>
-          <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
-  <Parts>
-    <Access Scope="GlobalVariable" UId="22">
-      <Symbol>
-        <Component Name="BR02_DB" />
-        <Component Name="F_RunWrong" />
-      </Symbol>
-    </Access>
-    <Access Scope="GlobalVariable" UId="24">
-      <Symbol>
-        <Component Name="HmiAlm" />
-        <Component Name="BR02" SliceAccessModifier="x5" />
-      </Symbol>
-    </Access>
-    <Part Name="Contact" UId="21" />
-    <Part Name="Coil" UId="23" />
-  </Parts>
-  <Wires>
-    <Wire UId="25">
-      <Powerrail />
-      <NameCon UId="21" Name="in" />
-    </Wire>
-    <Wire UId="26">
-      <IdentCon UId="22" />
-      <NameCon UId="21" Name="operand" />
-    </Wire>
-    <Wire UId="27">
-      <NameCon UId="21" Name="out" />
-      <NameCon UId="23" Name="in" />
-    </Wire>
-    <Wire UId="28">
-      <NameCon UId="23" Name="operand" />
-      <IdentCon UId="24" />
-    </Wire>
-  </Wires>
-</FlgNet></NetworkSource>
-          <ProgrammingLanguage>LAD</ProgrammingLanguage>
-        </AttributeList>
-        <ObjectList>
-          <MultilingualText ID="6B" CompositionName="Comment">
-            <ObjectList>
-              <MultilingualTextItem ID="6C" CompositionName="Items">
-                <AttributeList>
-                  <Culture>en-US</Culture>
-                  <Text>Copy &quot;BR02_DB&quot;.F_RunWrong to BR02 bit 5. Bit value 1 displays this alarm. Clears: RESET with RUN off and fault causes clear. Reference: R-09.</Text>
-                </AttributeList>
-              </MultilingualTextItem>
-            </ObjectList>
-          </MultilingualText>
-          <MultilingualText ID="6D" CompositionName="Title">
-            <ObjectList>
-              <MultilingualTextItem ID="6E" CompositionName="Items">
-                <AttributeList>
-                  <Culture>en-US</Culture>
-                  <Text>Display alarm: BR02 RUN without request</Text>
-                </AttributeList>
-              </MultilingualTextItem>
-            </ObjectList>
-          </MultilingualText>
-        </ObjectList>
-      </SW.Blocks.CompileUnit>
-      <SW.Blocks.CompileUnit ID="6F" CompositionName="CompileUnits">
+      <SW.Blocks.CompileUnit ID="4C" CompositionName="CompileUnits">
         <AttributeList>
           <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
   <Parts>
@@ -1437,7 +998,7 @@
     <Access Scope="GlobalVariable" UId="24">
       <Symbol>
         <Component Name="HmiAlm" />
-        <Component Name="BR02" SliceAccessModifier="x6" />
+        <Component Name="BR02" SliceAccessModifier="x4" />
       </Symbol>
     </Access>
     <Part Name="Contact" UId="21">
@@ -1467,94 +1028,31 @@
           <ProgrammingLanguage>LAD</ProgrammingLanguage>
         </AttributeList>
         <ObjectList>
-          <MultilingualText ID="70" CompositionName="Comment">
+          <MultilingualText ID="4D" CompositionName="Comment">
             <ObjectList>
-              <MultilingualTextItem ID="71" CompositionName="Items">
+              <MultilingualTextItem ID="4E" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>Copy !&quot;BR02_DB&quot;.LevelOK to BR02 bit 6. Bit value 1 displays this alarm. Clears: Automatically when level returns. Reference: C08a.</Text>
+                  <Text>Clears: Automatically when level returns. C08a.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
           </MultilingualText>
-          <MultilingualText ID="72" CompositionName="Title">
+          <MultilingualText ID="4F" CompositionName="Title">
             <ObjectList>
-              <MultilingualTextItem ID="73" CompositionName="Items">
+              <MultilingualTextItem ID="50" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>Display alarm: TK02 level too low for BR02</Text>
-                </AttributeList>
-              </MultilingualTextItem>
-            </ObjectList>
-          </MultilingualText>
-        </ObjectList>
-      </SW.Blocks.CompileUnit>
-      <SW.Blocks.CompileUnit ID="74" CompositionName="CompileUnits">
-        <AttributeList>
-          <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
-  <Parts>
-    <Access Scope="GlobalVariable" UId="22">
-      <Symbol>
-        <Component Name="BR02_DB" />
-        <Component Name="F_Scrubber" />
-      </Symbol>
-    </Access>
-    <Access Scope="GlobalVariable" UId="24">
-      <Symbol>
-        <Component Name="HmiAlm" />
-        <Component Name="BR02" SliceAccessModifier="x7" />
-      </Symbol>
-    </Access>
-    <Part Name="Contact" UId="21" />
-    <Part Name="Coil" UId="23" />
-  </Parts>
-  <Wires>
-    <Wire UId="25">
-      <Powerrail />
-      <NameCon UId="21" Name="in" />
-    </Wire>
-    <Wire UId="26">
-      <IdentCon UId="22" />
-      <NameCon UId="21" Name="operand" />
-    </Wire>
-    <Wire UId="27">
-      <NameCon UId="21" Name="out" />
-      <NameCon UId="23" Name="in" />
-    </Wire>
-    <Wire UId="28">
-      <NameCon UId="23" Name="operand" />
-      <IdentCon UId="24" />
-    </Wire>
-  </Wires>
-</FlgNet></NetworkSource>
-          <ProgrammingLanguage>LAD</ProgrammingLanguage>
-        </AttributeList>
-        <ObjectList>
-          <MultilingualText ID="75" CompositionName="Comment">
-            <ObjectList>
-              <MultilingualTextItem ID="76" CompositionName="Items">
-                <AttributeList>
-                  <Culture>en-US</Culture>
-                  <Text>Copy &quot;BR02_DB&quot;.F_Scrubber to BR02 bit 7. Bit value 1 displays this alarm. Clears: RESET after scrubber trip clears; START to run. Reference: C03 / C05 / R-13.</Text>
-                </AttributeList>
-              </MultilingualTextItem>
-            </ObjectList>
-          </MultilingualText>
-          <MultilingualText ID="77" CompositionName="Title">
-            <ObjectList>
-              <MultilingualTextItem ID="78" CompositionName="Items">
-                <AttributeList>
-                  <Culture>en-US</Culture>
-                  <Text>Display alarm: BR02 stopped by scrubber trip</Text>
+                  <Text>Alarm BR02.x4: TK02 level too low for BR02</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
           </MultilingualText>
         </ObjectList>
       </SW.Blocks.CompileUnit>
-      <MultilingualText ID="7B" CompositionName="Title">
+      <MultilingualText ID="53" CompositionName="Title">
         <ObjectList>
-          <MultilingualTextItem ID="7C" CompositionName="Items">
+          <MultilingualTextItem ID="54" CompositionName="Items">
             <AttributeList>
               <Culture>en-US</Culture>
               <Text>HmiMap</Text>

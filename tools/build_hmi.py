@@ -53,35 +53,29 @@ def _members():
     """كل الأعضاء اللي ينفع الشاشة تقراها، من نفس الجداول اللي بتولّد البلوكات."""
     br = {n: t for n, t, *_ in B.BR_IN}
     br.update({n: t for n, t, *_ in B.BR_OUT})
-    br.update({n: t for n, t in B.BR_STAT})
+    br.update({n: t for n, t, *_ in B.BR_STAT})
     scrub = {n: 'Bool' for n, _ in B.SCRUB_IN}
     scrub.update({n: 'Bool' for n, _ in B.SCRUB_OUT})
     scrub.update({n: t for n, t, _ in B.SCRUB_STAT})
-    par = {}
-    for n, t, *_ in B.PARAMS:
-        par[n] = t
-        par[n + '_V'] = t
+    par = {n: t for n, t, *_ in B.PARAMS}
     sys_ = {n: 'Bool' for n, _ in B.SYS}
     return {'BR01_DB': br, 'BR02_DB': br, 'Scrubber_DB': scrub, 'Par': par, 'Sys': sys_,
             'HmiAlm': {'Common': 'Word', 'BR01': 'Word', 'BR02': 'Word'}}
 
 
 MEMBERS = _members()
-BR_READ = ['TeA', 'TeB', 'Tmax', 'TcOkA', 'TcOkB', 'TcOk', 'State', 'Enabled', 'HeatReq',
-           'Stage2', 'RunFb', 'Lockout', 'LevelOK', 'Auto', 'PwrUpDone', 'TOn',
-           'TStg', 'TStgOff']
+BR_READ = ['TeA', 'TeB', 'Tmax', 'TcOkA', 'TcOkB', 'TcOk', 'Enabled', 'HeatReq',
+           'Stage2', 'RunFb', 'Lockout', 'LevelOK', 'Auto', 'TOn',
+           'TStg', 'TStgOff', 'TcBad', 'NoRun', 'RunWrong']
 TAGS = []   # (اسم الشاشة، DB، العضو)
 for br in ('BR01', 'BR02'):
     extra = ['Pause24'] if br == 'BR01' else ['Fuel']
     TAGS += [(br + '_' + m, br + '_DB', m) for m in BR_READ + extra]
 TAGS += [('Scrub_' + m, 'Scrubber_DB', m) for m in
-         ['PSH', 'LSH', 'LSHH', 'Tripped', 'ValvesNormal', 'Cause_EStop', 'Cause_PSH',
-          'Cause_LSHH', 'Cause_PwrUp', 'FirstOut', 'FlareCmd', 'DrainCmd', 'SuctionCmd',
-          'F_DrainTO', 'F_LshFault']]
+         ['PSH', 'LSH', 'LSHH', 'Tripped', 'Cause_PSH', 'Cause_LSHH',
+          'FlareCmd', 'DrainCmd', 'SuctionCmd', 'F_DrainTO']]
 TAGS += [('Par_' + n, 'Par', n) for n, *_ in B.PARAMS]
-TAGS += [('Par_' + n + '_V', 'Par', n + '_V') for n, *_ in B.PARAMS]
-TAGS += [('Sys_' + m, 'Sys', m) for m in
-         ['EStopOK', 'Alm_EStop', 'Alm_ParRejected', 'SettingsEditable']]
+TAGS += [('Sys_' + m, 'Sys', m) for m in ['EStopOK', 'Alm_EStop']]
 TAGS += [('Alm_' + w, 'HmiAlm', w) for w in ['Common', 'BR01', 'BR02']]
 # Preserve public aliases while following clarified PLC member names.
 TAGS = [(name, db, P.SYMBOL_RENAMES.get(
@@ -97,17 +91,26 @@ for name, db, m in TAGS:
     TAG_TYPE[name] = MEMBERS[db][m]
 
 
+# Rev. B: comments come from the same tables that build the blocks.
+_COMMENTS = {
+    'Burner': {n: c for n, _t, c in B.BR_IN + B.BR_OUT + B.BR_STAT},
+    'Scrubber': dict(B.SCRUB_IN + B.SCRUB_OUT + [(n, c) for n, _t, c in B.SCRUB_STAT]),
+    'Par': B.PAR_TEXT,
+    'Sys': dict(B.SYS),
+}
+
+
 def _tag_comment(name, db, member_name):
     if db == 'HmiAlm':
         bits = sorted((bit, title) for word, bit, _signal, title, _clears, _ref
                       in B.HMI_ALARMS if word == member_name)
-        if len(bits) != 8 or [bit for bit, _title in bits] != list(range(8)):
-            raise ValueError('Incomplete alarm-bit meanings for ' + member_name)
+        if [bit for bit, _title in bits] != list(range(len(bits))):
+            raise ValueError('Alarm bits must start at x0 without gaps: ' + member_name)
         return ('%s alarm display word; each bit 1 displays its alarm. ' % member_name +
                 '; '.join('x%d %s' % (bit, title) for bit, title in bits))
     group = ('Burner' if db.startswith('BR0') else
              'Scrubber' if db == 'Scrubber_DB' else db)
-    text = P.MEMBER_TEXT.get(group, {}).get(member_name)
+    text = _COMMENTS.get(group, {}).get(member_name)
     if not text:
         raise ValueError('No English HMI comment for %s -> %s.%s' % (name, db, member_name))
     context = db[:-3] if db.startswith('BR0') else 'Scrubber' if db == 'Scrubber_DB' else None
@@ -274,7 +277,7 @@ class Screen(object):
 
     def io(self, x, y, w, h, tag, write=False, shift=1, length=5, size=13):
         if write and tag not in WRITABLE:
-            sys.exit('build_hmi: %s is not one of the seven writable settings (H-01)' % tag)
+            sys.exit('build_hmi: %s is not one of the writable settings (H-01)' % tag)
         self.items.append(
             '<Hmi.Screen.IOField ID="%s" CompositionName="ScreenItems"><AttributeList>'
             '<AboveUpperLimitColor>237, 88, 97</AboveUpperLimitColor><BackColor>%s</BackColor>'
@@ -412,8 +415,6 @@ def temp(s, x, y, tag, ok_tag, label, w=150):
     s.text(x + 124, y, 26, 20, '°C', size=11)
 
 
-BR_STATE = [(0, 'IDLE', GREY), (1, 'STARTING', AMBER), (2, 'RUNNING', GREEN), (3, 'FAULT', RED)]
-FIRST = [(1, 'E-STOP', RED), (2, 'PSH-101', RED), (3, 'LSHH-103', RED), (4, 'POWER-UP', AMBER)]
 
 
 def panel(s, x, y, w, h, title):
@@ -427,10 +428,12 @@ def tank_icon(s, x, y, name):
     s.rect(x + 17, y + 1, 10, 5, WHITE, PANEL_BORDER, name=name + ' neck')
 
 
-def fault_hint(s, x, y, w, state_tag, normal_back=WHITE):
+def fault_hint(s, x, y, w, alarm_word_tag, normal_back=WHITE):
+    # Rev. B: no burner FAULT state; any alarm bit of this burner shows the hint.
     s.text(x, y, w, 18, 'Check Alarms', size=10, bold=True,
            fore=normal_back, back=normal_back,
-           anims=[s.anim_range(state_tag, [(0, 2, normal_back, normal_back), (3, 3, RED, WHITE)])])
+           anims=[s.anim_range(alarm_word_tag, [(0, 0, normal_back, normal_back),
+                                                (1, 65535, RED, WHITE)])])
 
 
 def command_row(s, x, y, tag, drawing_tag, on_word, off_word, w=148):
@@ -472,7 +475,7 @@ def overview():
         s.lamp(x + 4, y + 109, br + '_RunFb', 'RUN input', on=GREEN, off=GREY, w=148)
         s.lamp(x + 4, y + 130, br + '_HeatReq', 'Heat request', on=GREEN, off=GREY, w=148)
         s.lamp(x + 4, y + 151, br + '_Stage2', 'Stage 2 request', on=GREEN, off=GREY, w=148)
-        fault_hint(s, x + 4, y + 181, pw - 8, br + '_State')
+        fault_hint(s, x + 4, y + 181, pw - 8, 'Alm_' + br)
     return s
 
 
@@ -480,7 +483,7 @@ def burner(br):
     tk, te = ('TK01', ('TE-501', 'TE-502')) if br == 'BR01' else ('TK02', ('TE-503', 'TE-504'))
     s = Screen(br, 2 if br == 'BR01' else 3, '%s  %s' % (br, tk))
     frame(s)
-    fault_hint(s, 4, 30, 472, br + '_State', normal_back=BG)
+    fault_hint(s, 4, 30, 472, 'Alm_' + br, normal_back=BG)
     y = 54
     panel(s, 4, y, 204, 178, 'Tank temperature (°C)')
     temp(s, 8, y + 24, br + '_TeA', br + '_TcOkA', te[0])
@@ -539,28 +542,21 @@ def settings():
     s = Screen('Settings', 6, 'Settings')
     frame(s)
     y = 30
-    s.text(8, y, 110, 18, 'Parameter', size=11, bold=True)
-    s.text(120, y, 76, 18, 'Entry', size=11, bold=True, align='Right')
-    s.text(200, y, 90, 18, 'Range', size=11, bold=True)
-    s.text(292, y, 76, 18, 'In use', size=11, bold=True, align='Right')
-    rows = [('SP', 'Stop at °C', 1, '40.0 - 90.0'), ('HYST', 'Restart gap °C', 1, '3.0 - 10.0'),
-            ('STG', 'Stage 2 offset °C', 1, '5.0 - 30.0'), ('TStart', 'Start timeout ms', 0, '90000 - 300000'),
-            ('TDrnOn', 'Drain on delay ms', 0, '1000 - 30000'), ('TDrnOff', 'Drain off delay ms', 0, '0 - 60000'),
-            ('TDrnMax', 'Drain max time ms', 0, '60000 - 3600000')]
-    for j, (n, label, shift, rng) in enumerate(rows):
-        yy = y + 20 + j * 22
-        length = 5 if shift else 7
-        s.text(8, yy, 112, 20, label, size=11)
-        s.io(120, yy, 76, 20, 'Par_' + n, write=True, shift=shift, length=length)
-        s.text(200, yy, 90, 20, rng, size=10, fore=GREY)
-        s.io(292, yy, 76, 20, 'Par_' + n + '_V', shift=shift, length=length)
-    s.text(372, y + 22, 104, 32, 'Settings editable', size=10, bold=True, fore=GREEN,
-           anims=[s.anim_vis('Sys_SettingsEditable', True)])
-    s.text(372, y + 22, 104, 48, 'STOP both burners first', size=10, bold=True, fore=AMBER,
-           anims=[s.anim_vis('Sys_SettingsEditable', False)])
-    s.text(8, y + 178, 360, 20, 'Setting rejected: STOP both / check range', size=11,
-           bold=True, fore=WHITE, back=RED, anims=[s.anim_vis('Sys_Alm_ParRejected', True)])
-    s.text(372, y + 130, 104, 40, 'Engineer access', size=10, fore=GREY)
+    s.text(8, y, 150, 18, 'Setting', size=11, bold=True)
+    s.text(160, y, 76, 18, 'Value', size=11, bold=True, align='Right')
+    s.text(244, y, 110, 18, 'Range', size=11, bold=True)
+    rows = [('SP', 'Stop at °C', '40.0 - 90.0'), ('HYST', 'Restart gap °C', '3.0 - 10.0'),
+            ('STG', 'Stage 2 offset °C', '5.0 - 30.0')]
+    if [r[0] for r in rows] != [p[0] for p in B.PARAMS]:
+        sys.exit('build_hmi: Settings rows do not match PARAMS')
+    for j, (n, label, rng) in enumerate(rows):
+        yy = y + 24 + j * 28
+        s.text(8, yy, 150, 22, label, size=12)
+        s.io(160, yy, 76, 22, 'Par_' + n, write=True, shift=1, length=5)
+        s.text(244, yy, 110, 22, rng, size=11, fore=GREY)
+    s.text(8, y + 120, 464, 40, 'A value outside the range is set to the nearest limit. '
+           'All times are fixed in the program.', size=10, fore=INK)
+    s.text(372, y + 24, 104, 20, 'Engineer access', size=10, fore=GREY)
     return s
 
 
@@ -568,8 +564,13 @@ def main():
     if not os.path.isdir(OUT):
         os.makedirs(OUT)
     files = [('Tags_LCP01.xml', tag_table())]
-    for s in [overview(), burner('BR01'), burner('BR02'), scrubber(), alarms(), settings()]:
+    # The Alarms screen is NOT written: it holds the Alarm View added by hand in TIA
+    # (Openness V15.1 cannot import it), and Apply-Hmi imports every Screen_*.xml.
+    for s in [overview(), burner('BR01'), burner('BR02'), scrubber(), settings()]:
         files.append(('Screen_%s.xml' % s.name.replace(' ', '_'), s.xml()))
+    stale = os.path.join(OUT, 'Screen_Alarms.xml')
+    if os.path.exists(stale):
+        os.remove(stale)
     for fn, text in files:
         with io.open(os.path.join(OUT, fn), 'w', encoding='utf-8') as f:
             f.write(text)

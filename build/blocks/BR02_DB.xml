@@ -12,61 +12,48 @@
       <InstanceOfType>FB</InstanceOfType>
       <Interface><Sections xmlns="http://www.siemens.com/automation/Openness/SW/Interface/v3">
   <Section Name="Input">
-    <Member Name="Auto" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">AUTO/MAN selector; 1 = AUTO</MultiLanguageText></Comment></Member>
-    <Member Name="StartPB" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Burner START push button input</MultiLanguageText></Comment></Member>
-    <Member Name="StopOK" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">STOP NC circuit healthy/released</MultiLanguageText></Comment></Member>
-    <Member Name="Reset" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">One-scan RESET pulse from common logic</MultiLanguageText></Comment></Member>
-    <Member Name="LevelOK" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Tank low-level input; 1 permits heating, 0 stops the heat request.</MultiLanguageText></Comment></Member>
-    <Member Name="RunFb" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Burner control box RUN feedback</MultiLanguageText></Comment></Member>
-    <Member Name="Lockout" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Burner lockout input; code treats 1 as lockout</MultiLanguageText></Comment></Member>
-    <Member Name="Fuel" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">BR02 fuel selector input; 1 selects diesel mode. BR01 input is fixed FALSE.</MultiLanguageText></Comment></Member>
-    <Member Name="TeA" Datatype="Int" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Raw thermocouple channel value in 0.1 degC</MultiLanguageText></Comment></Member>
-    <Member Name="TeB" Datatype="Int" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Raw thermocouple channel value in 0.1 degC</MultiLanguageText></Comment></Member>
+    <Member Name="Auto" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">AUTO/MAN selector: 1 = AUTO</MultiLanguageText></Comment></Member>
+    <Member Name="StartPB" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">START push button (NO): 1 = pressed</MultiLanguageText></Comment></Member>
+    <Member Name="StopOK" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">STOP push button (NC): 1 = released</MultiLanguageText></Comment></Member>
+    <Member Name="LevelOK" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Tank low-level switch: 1 = level OK (C0xa)</MultiLanguageText></Comment></Member>
+    <Member Name="RunFb" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">RUN from the burner control box: 1 = firing</MultiLanguageText></Comment></Member>
+    <Member Name="Lockout" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">LOCKOUT from the burner control box: 1 = locked out (C0xe)</MultiLanguageText></Comment></Member>
+    <Member Name="Fuel" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">BR02 fuel selector: 1 = diesel. BR01: FALSE</MultiLanguageText></Comment></Member>
+    <Member Name="TeA" Datatype="Int" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Thermocouple A, 0.1 degC</MultiLanguageText></Comment></Member>
+    <Member Name="TeB" Datatype="Int" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Thermocouple B, 0.1 degC</MultiLanguageText></Comment></Member>
   </Section>
   <Section Name="Output">
-    <Member Name="HeatReq" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Request to certified burner box: TL / L</MultiLanguageText></Comment></Member>
-    <Member Name="Stage2" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Second-stage request to burner box: TR / T2</MultiLanguageText></Comment></Member>
+    <Member Name="HeatReq" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Heat request to the burner: TL / L (E1 / E3)</MultiLanguageText></Comment></Member>
+    <Member Name="Stage2" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Stage 2 request to the burner: TR / T2 (E2 / E4)</MultiLanguageText></Comment></Member>
   </Section>
   <Section Name="InOut" />
   <Section Name="Static">
-    <Member Name="StartEdge" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">New START press pulse; start permission is checked later</MultiLanguageText></Comment></Member>
-    <Member Name="StartMem" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">START button state from the previous scan; used to detect a new press.</MultiLanguageText></Comment></Member>
-    <Member Name="AutoChg" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">AUTO/MAN selection changed</MultiLanguageText></Comment></Member>
-    <Member Name="AutoMem" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Previous-scan AUTO/MAN selection</MultiLanguageText></Comment></Member>
-    <Member Name="FuelChg" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Fuel selection changed</MultiLanguageText></Comment></Member>
-    <Member Name="FuelMem" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Previous-scan fuel selection</MultiLanguageText></Comment></Member>
-    <Member Name="TcOkA" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Channel is within configured valid raw range</MultiLanguageText></Comment></Member>
-    <Member Name="TcOkB" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Channel is within configured valid raw range</MultiLanguageText></Comment></Member>
-    <Member Name="TcOk" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Both thermocouple channels are valid</MultiLanguageText></Comment></Member>
-    <Member Name="TcBad" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Temperature fault after the applicable startup delay</MultiLanguageText></Comment></Member>
-    <Member Name="Demand" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">AUTO demand memory with SP/HYST hysteresis</MultiLanguageText></Comment></Member>
-    <Member Name="HeatNeed" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Temperature requires heat in the selected mode</MultiLanguageText></Comment></Member>
-    <Member Name="ReadyToStart" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">All start conditions are healthy; a heat request still needs START permission and temperature demand.</MultiLanguageText></Comment></Member>
-    <Member Name="Pause24" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">24-hour run pause; clears after RUN is off 60 s</MultiLanguageText></Comment></Member>
-    <Member Name="RunWrong" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">RUN persists without heat request for 30 s</MultiLanguageText></Comment></Member>
-    <Member Name="NoStart" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">RUN not received within configured start time</MultiLanguageText></Comment></Member>
-    <Member Name="PwrUpDone" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Ten-second thermocouple-card startup window elapsed</MultiLanguageText></Comment></Member>
-    <Member Name="InvalidTempTimerDone" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Invalid temperature has persisted for 10 seconds; startup fault logic uses this timer output.</MultiLanguageText></Comment></Member>
-    <Member Name="AutoRestartTemp" Datatype="Int" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">AUTO restart threshold SP minus HYST, in 0.1 degC</MultiLanguageText></Comment></Member>
-    <Member Name="SecondStageOnTemp" Datatype="Int" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Second-stage ON threshold SP minus STG, in 0.1 degC</MultiLanguageText></Comment></Member>
-    <Member Name="SecondStageOffTemp" Datatype="Int" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Second-stage OFF threshold, in 0.1 degC</MultiLanguageText></Comment></Member>
-    <Member Name="BurnerState" Datatype="Int" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">0 IDLE, 1 STARTING, 2 RUNNING, 3 FAULT</MultiLanguageText></Comment></Member>
-    <Member Name="StartEnabled" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Saved accepted START permission; separate from RUN feedback</MultiLanguageText></Comment></Member>
-    <Member Name="ControlTemp" Datatype="Int" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Higher raw temperature reading, in 0.1 degC; use only when both channels are valid.</MultiLanguageText></Comment></Member>
-    <Member Name="F_EStop" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Burner fault memory caused by E-STOP</MultiLanguageText></Comment></Member>
-    <Member Name="F_TC" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Burner fault memory caused by invalid temperature</MultiLanguageText></Comment></Member>
-    <Member Name="F_Lockout" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Saved burner fault from Lockout=1</MultiLanguageText></Comment></Member>
-    <Member Name="F_NoStart" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Fault memory after RUN start timeout</MultiLanguageText></Comment></Member>
-    <Member Name="F_RunLost" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Fault memory after RUN drops while running</MultiLanguageText></Comment></Member>
-    <Member Name="F_RunWrong" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Fault memory for RUN without request</MultiLanguageText></Comment></Member>
-    <Member Name="F_Scrubber" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Fault memory: scrubber trip stopped this burner</MultiLanguageText></Comment></Member>
-    <Member Name="Use24h" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Enables the 24-hour continuous-request limit</MultiLanguageText></Comment><StartValue>false</StartValue></Member>
-    <Member Name="T_PwrUp" Datatype="TON_TIME" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Thermocouple-card startup window timer</MultiLanguageText></Comment></Member>
-    <Member Name="T_TcBad" Datatype="TON_TIME" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Invalid-temperature persistence timer</MultiLanguageText></Comment></Member>
-    <Member Name="T_24h" Datatype="TON_TIME" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Continuous heat-request timer for 24-hour limit</MultiLanguageText></Comment></Member>
-    <Member Name="T_Pause" Datatype="TON_TIME" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">RUN-off time required before daily pause clears</MultiLanguageText></Comment></Member>
-    <Member Name="T_RunOff" Datatype="TON_TIME" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">RUN-without-request qualification timer</MultiLanguageText></Comment></Member>
-    <Member Name="T_Start" Datatype="TON_TIME" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Heat-request-to-RUN timer using Par.TStart_V</MultiLanguageText></Comment></Member>
+    <Member Name="StartEdge" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">New START press, one scan</MultiLanguageText></Comment></Member>
+    <Member Name="StartMem" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">START button state from the previous scan</MultiLanguageText></Comment></Member>
+    <Member Name="FuelChg" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Fuel selector changed, one scan</MultiLanguageText></Comment></Member>
+    <Member Name="FuelMem" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Fuel selector state from the previous scan</MultiLanguageText></Comment></Member>
+    <Member Name="TcOkA" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Thermocouple A inside -20.0 .. 150.0 degC</MultiLanguageText></Comment></Member>
+    <Member Name="TcOkB" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Thermocouple B inside -20.0 .. 150.0 degC</MultiLanguageText></Comment></Member>
+    <Member Name="TcOk" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Both thermocouples valid</MultiLanguageText></Comment></Member>
+    <Member Name="TcBad" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Thermocouple fault: invalid for 10 s (C0xd)</MultiLanguageText></Comment></Member>
+    <Member Name="ControlTemp" Datatype="Int" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Higher of the two thermocouples, 0.1 degC</MultiLanguageText></Comment></Member>
+    <Member Name="AutoRestartTemp" Datatype="Int" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">AUTO restart temperature = SP - HYST, 0.1 degC</MultiLanguageText></Comment></Member>
+    <Member Name="SecondStageOnTemp" Datatype="Int" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Stage 2 ON below SP - STG, 0.1 degC</MultiLanguageText></Comment></Member>
+    <Member Name="SecondStageOffTemp" Datatype="Int" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Stage 2 OFF at SP - STG + 2.0 degC, 0.1 degC</MultiLanguageText></Comment></Member>
+    <Member Name="Demand" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">AUTO: heat demand between restart temperature and SP</MultiLanguageText></Comment></Member>
+    <Member Name="HeatNeed" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Heat is needed in the selected mode</MultiLanguageText></Comment></Member>
+    <Member Name="Trip" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Burner must stop and needs a new START: E-STOP, scrubber trip, lockout, thermocouple fault or fuel change</MultiLanguageText></Comment></Member>
+    <Member Name="StartEnabled" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">START accepted; cleared by STOP or Trip</MultiLanguageText></Comment></Member>
+    <Member Name="Pause24" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Daily stop after 24 h of request (BR01, C07h)</MultiLanguageText></Comment></Member>
+    <Member Name="Use24h" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Daily stop used for this burner (BR01 only)</MultiLanguageText></Comment><StartValue>false</StartValue></Member>
+    <Member Name="NoRun" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Alarm: heat request without RUN for 120 s (C0xf)</MultiLanguageText></Comment></Member>
+    <Member Name="RunWrong" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Alarm: RUN without heat request for 30 s (C0xg)</MultiLanguageText></Comment></Member>
+    <Member Name="T_TcBad" Datatype="TON_TIME" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Thermocouple invalid time, 10 s</MultiLanguageText></Comment></Member>
+    <Member Name="T_24h" Datatype="TON_TIME" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Heat request time for the daily stop, 24 h</MultiLanguageText></Comment></Member>
+    <Member Name="T_Pause" Datatype="TON_TIME" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">RUN off time to end the daily stop, 60 s</MultiLanguageText></Comment></Member>
+    <Member Name="T_Stage2" Datatype="TON_TIME" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Time on stage 1 after RUN before stage 2, 30 s</MultiLanguageText></Comment></Member>
+    <Member Name="T_NoRun" Datatype="TON_TIME" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Heat request without RUN, 120 s</MultiLanguageText></Comment></Member>
+    <Member Name="T_RunWrong" Datatype="TON_TIME" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">RUN without heat request, 30 s</MultiLanguageText></Comment></Member>
   </Section>
 </Sections></Interface>
       <MemoryLayout>Optimized</MemoryLayout>

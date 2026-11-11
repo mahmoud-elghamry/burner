@@ -10,61 +10,48 @@
       <HeaderVersion>0.1</HeaderVersion>
       <Interface><Sections xmlns="http://www.siemens.com/automation/Openness/SW/Interface/v3">
   <Section Name="Input">
-    <Member Name="Auto" Datatype="Bool" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">AUTO/MAN selector; 1 = AUTO</MultiLanguageText></Comment></Member>
-    <Member Name="StartPB" Datatype="Bool" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Burner START push button input</MultiLanguageText></Comment></Member>
-    <Member Name="StopOK" Datatype="Bool" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">STOP NC circuit healthy/released</MultiLanguageText></Comment></Member>
-    <Member Name="Reset" Datatype="Bool" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">One-scan RESET pulse from common logic</MultiLanguageText></Comment></Member>
-    <Member Name="LevelOK" Datatype="Bool" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Tank low-level input; 1 permits heating, 0 stops the heat request.</MultiLanguageText></Comment></Member>
-    <Member Name="RunFb" Datatype="Bool" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Burner control box RUN feedback</MultiLanguageText></Comment></Member>
-    <Member Name="Lockout" Datatype="Bool" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Burner lockout input; code treats 1 as lockout</MultiLanguageText></Comment></Member>
-    <Member Name="Fuel" Datatype="Bool" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">BR02 fuel selector input; 1 selects diesel mode. BR01 input is fixed FALSE.</MultiLanguageText></Comment></Member>
-    <Member Name="TeA" Datatype="Int" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Raw thermocouple channel value in 0.1 degC</MultiLanguageText></Comment></Member>
-    <Member Name="TeB" Datatype="Int" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Raw thermocouple channel value in 0.1 degC</MultiLanguageText></Comment></Member>
+    <Member Name="Auto" Datatype="Bool" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">AUTO/MAN selector: 1 = AUTO</MultiLanguageText></Comment></Member>
+    <Member Name="StartPB" Datatype="Bool" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">START push button (NO): 1 = pressed</MultiLanguageText></Comment></Member>
+    <Member Name="StopOK" Datatype="Bool" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">STOP push button (NC): 1 = released</MultiLanguageText></Comment></Member>
+    <Member Name="LevelOK" Datatype="Bool" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Tank low-level switch: 1 = level OK (C0xa)</MultiLanguageText></Comment></Member>
+    <Member Name="RunFb" Datatype="Bool" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">RUN from the burner control box: 1 = firing</MultiLanguageText></Comment></Member>
+    <Member Name="Lockout" Datatype="Bool" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">LOCKOUT from the burner control box: 1 = locked out (C0xe)</MultiLanguageText></Comment></Member>
+    <Member Name="Fuel" Datatype="Bool" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">BR02 fuel selector: 1 = diesel. BR01: FALSE</MultiLanguageText></Comment></Member>
+    <Member Name="TeA" Datatype="Int" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Thermocouple A, 0.1 degC</MultiLanguageText></Comment></Member>
+    <Member Name="TeB" Datatype="Int" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Thermocouple B, 0.1 degC</MultiLanguageText></Comment></Member>
   </Section>
   <Section Name="Output">
-    <Member Name="HeatReq" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Request to certified burner box: TL / L</MultiLanguageText></Comment></Member>
-    <Member Name="Stage2" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Second-stage request to burner box: TR / T2</MultiLanguageText></Comment></Member>
+    <Member Name="HeatReq" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Heat request to the burner: TL / L (E1 / E3)</MultiLanguageText></Comment></Member>
+    <Member Name="Stage2" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Stage 2 request to the burner: TR / T2 (E2 / E4)</MultiLanguageText></Comment></Member>
   </Section>
   <Section Name="InOut" />
   <Section Name="Static">
-    <Member Name="StartEdge" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">New START press pulse; start permission is checked later</MultiLanguageText></Comment></Member>
-    <Member Name="StartMem" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">START button state from the previous scan; used to detect a new press.</MultiLanguageText></Comment></Member>
-    <Member Name="AutoChg" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">AUTO/MAN selection changed</MultiLanguageText></Comment></Member>
-    <Member Name="AutoMem" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Previous-scan AUTO/MAN selection</MultiLanguageText></Comment></Member>
-    <Member Name="FuelChg" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Fuel selection changed</MultiLanguageText></Comment></Member>
-    <Member Name="FuelMem" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Previous-scan fuel selection</MultiLanguageText></Comment></Member>
-    <Member Name="TcOkA" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Channel is within configured valid raw range</MultiLanguageText></Comment></Member>
-    <Member Name="TcOkB" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Channel is within configured valid raw range</MultiLanguageText></Comment></Member>
-    <Member Name="TcOk" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Both thermocouple channels are valid</MultiLanguageText></Comment></Member>
-    <Member Name="TcBad" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Temperature fault after the applicable startup delay</MultiLanguageText></Comment></Member>
-    <Member Name="Demand" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">AUTO demand memory with SP/HYST hysteresis</MultiLanguageText></Comment></Member>
-    <Member Name="HeatNeed" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Temperature requires heat in the selected mode</MultiLanguageText></Comment></Member>
-    <Member Name="ReadyToStart" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">All start conditions are healthy; a heat request still needs START permission and temperature demand.</MultiLanguageText></Comment></Member>
-    <Member Name="Pause24" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">24-hour run pause; clears after RUN is off 60 s</MultiLanguageText></Comment></Member>
-    <Member Name="RunWrong" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">RUN persists without heat request for 30 s</MultiLanguageText></Comment></Member>
-    <Member Name="NoStart" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">RUN not received within configured start time</MultiLanguageText></Comment></Member>
-    <Member Name="PwrUpDone" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Ten-second thermocouple-card startup window elapsed</MultiLanguageText></Comment></Member>
-    <Member Name="InvalidTempTimerDone" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Invalid temperature has persisted for 10 seconds; startup fault logic uses this timer output.</MultiLanguageText></Comment></Member>
-    <Member Name="AutoRestartTemp" Datatype="Int" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">AUTO restart threshold SP minus HYST, in 0.1 degC</MultiLanguageText></Comment></Member>
-    <Member Name="SecondStageOnTemp" Datatype="Int" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Second-stage ON threshold SP minus STG, in 0.1 degC</MultiLanguageText></Comment></Member>
-    <Member Name="SecondStageOffTemp" Datatype="Int" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Second-stage OFF threshold, in 0.1 degC</MultiLanguageText></Comment></Member>
-    <Member Name="BurnerState" Datatype="Int" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">0 IDLE, 1 STARTING, 2 RUNNING, 3 FAULT</MultiLanguageText></Comment></Member>
-    <Member Name="StartEnabled" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Saved accepted START permission; separate from RUN feedback</MultiLanguageText></Comment></Member>
-    <Member Name="ControlTemp" Datatype="Int" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Higher raw temperature reading, in 0.1 degC; use only when both channels are valid.</MultiLanguageText></Comment></Member>
-    <Member Name="F_EStop" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Burner fault memory caused by E-STOP</MultiLanguageText></Comment></Member>
-    <Member Name="F_TC" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Burner fault memory caused by invalid temperature</MultiLanguageText></Comment></Member>
-    <Member Name="F_Lockout" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Saved burner fault from Lockout=1</MultiLanguageText></Comment></Member>
-    <Member Name="F_NoStart" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Fault memory after RUN start timeout</MultiLanguageText></Comment></Member>
-    <Member Name="F_RunLost" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Fault memory after RUN drops while running</MultiLanguageText></Comment></Member>
-    <Member Name="F_RunWrong" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Fault memory for RUN without request</MultiLanguageText></Comment></Member>
-    <Member Name="F_Scrubber" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Fault memory: scrubber trip stopped this burner</MultiLanguageText></Comment></Member>
-    <Member Name="Use24h" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Enables the 24-hour continuous-request limit</MultiLanguageText></Comment></Member>
-    <Member Name="T_PwrUp" Datatype="TON_TIME" Version="1.0" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute></AttributeList><Comment><MultiLanguageText Lang="en-US">Thermocouple-card startup window timer</MultiLanguageText></Comment><Sections><Section Name="None"><Member Name="PT" Datatype="Time" /><Member Name="ET" Datatype="Time" /><Member Name="IN" Datatype="Bool" /><Member Name="Q" Datatype="Bool" /></Section></Sections></Member>
-    <Member Name="T_TcBad" Datatype="TON_TIME" Version="1.0" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute></AttributeList><Comment><MultiLanguageText Lang="en-US">Invalid-temperature persistence timer</MultiLanguageText></Comment><Sections><Section Name="None"><Member Name="PT" Datatype="Time" /><Member Name="ET" Datatype="Time" /><Member Name="IN" Datatype="Bool" /><Member Name="Q" Datatype="Bool" /></Section></Sections></Member>
-    <Member Name="T_24h" Datatype="TON_TIME" Version="1.0" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute></AttributeList><Comment><MultiLanguageText Lang="en-US">Continuous heat-request timer for 24-hour limit</MultiLanguageText></Comment><Sections><Section Name="None"><Member Name="PT" Datatype="Time" /><Member Name="ET" Datatype="Time" /><Member Name="IN" Datatype="Bool" /><Member Name="Q" Datatype="Bool" /></Section></Sections></Member>
-    <Member Name="T_Pause" Datatype="TON_TIME" Version="1.0" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute></AttributeList><Comment><MultiLanguageText Lang="en-US">RUN-off time required before daily pause clears</MultiLanguageText></Comment><Sections><Section Name="None"><Member Name="PT" Datatype="Time" /><Member Name="ET" Datatype="Time" /><Member Name="IN" Datatype="Bool" /><Member Name="Q" Datatype="Bool" /></Section></Sections></Member>
-    <Member Name="T_RunOff" Datatype="TON_TIME" Version="1.0" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute></AttributeList><Comment><MultiLanguageText Lang="en-US">RUN-without-request qualification timer</MultiLanguageText></Comment><Sections><Section Name="None"><Member Name="PT" Datatype="Time" /><Member Name="ET" Datatype="Time" /><Member Name="IN" Datatype="Bool" /><Member Name="Q" Datatype="Bool" /></Section></Sections></Member>
-    <Member Name="T_Start" Datatype="TON_TIME" Version="1.0" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute></AttributeList><Comment><MultiLanguageText Lang="en-US">Heat-request-to-RUN timer using Par.TStart_V</MultiLanguageText></Comment><Sections><Section Name="None"><Member Name="PT" Datatype="Time" /><Member Name="ET" Datatype="Time" /><Member Name="IN" Datatype="Bool" /><Member Name="Q" Datatype="Bool" /></Section></Sections></Member>
+    <Member Name="StartEdge" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">New START press, one scan</MultiLanguageText></Comment></Member>
+    <Member Name="StartMem" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">START button state from the previous scan</MultiLanguageText></Comment></Member>
+    <Member Name="FuelChg" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Fuel selector changed, one scan</MultiLanguageText></Comment></Member>
+    <Member Name="FuelMem" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Fuel selector state from the previous scan</MultiLanguageText></Comment></Member>
+    <Member Name="TcOkA" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Thermocouple A inside -20.0 .. 150.0 degC</MultiLanguageText></Comment></Member>
+    <Member Name="TcOkB" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Thermocouple B inside -20.0 .. 150.0 degC</MultiLanguageText></Comment></Member>
+    <Member Name="TcOk" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Both thermocouples valid</MultiLanguageText></Comment></Member>
+    <Member Name="TcBad" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Thermocouple fault: invalid for 10 s (C0xd)</MultiLanguageText></Comment></Member>
+    <Member Name="ControlTemp" Datatype="Int" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Higher of the two thermocouples, 0.1 degC</MultiLanguageText></Comment></Member>
+    <Member Name="AutoRestartTemp" Datatype="Int" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">AUTO restart temperature = SP - HYST, 0.1 degC</MultiLanguageText></Comment></Member>
+    <Member Name="SecondStageOnTemp" Datatype="Int" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Stage 2 ON below SP - STG, 0.1 degC</MultiLanguageText></Comment></Member>
+    <Member Name="SecondStageOffTemp" Datatype="Int" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Stage 2 OFF at SP - STG + 2.0 degC, 0.1 degC</MultiLanguageText></Comment></Member>
+    <Member Name="Demand" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">AUTO: heat demand between restart temperature and SP</MultiLanguageText></Comment></Member>
+    <Member Name="HeatNeed" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Heat is needed in the selected mode</MultiLanguageText></Comment></Member>
+    <Member Name="Trip" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Burner must stop and needs a new START: E-STOP, scrubber trip, lockout, thermocouple fault or fuel change</MultiLanguageText></Comment></Member>
+    <Member Name="StartEnabled" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">START accepted; cleared by STOP or Trip</MultiLanguageText></Comment></Member>
+    <Member Name="Pause24" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Daily stop after 24 h of request (BR01, C07h)</MultiLanguageText></Comment></Member>
+    <Member Name="Use24h" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Daily stop used for this burner (BR01 only)</MultiLanguageText></Comment></Member>
+    <Member Name="NoRun" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Alarm: heat request without RUN for 120 s (C0xf)</MultiLanguageText></Comment></Member>
+    <Member Name="RunWrong" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Alarm: RUN without heat request for 30 s (C0xg)</MultiLanguageText></Comment></Member>
+    <Member Name="T_TcBad" Datatype="TON_TIME" Version="1.0" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute></AttributeList><Comment><MultiLanguageText Lang="en-US">Thermocouple invalid time, 10 s</MultiLanguageText></Comment><Sections><Section Name="None"><Member Name="PT" Datatype="Time" /><Member Name="ET" Datatype="Time" /><Member Name="IN" Datatype="Bool" /><Member Name="Q" Datatype="Bool" /></Section></Sections></Member>
+    <Member Name="T_24h" Datatype="TON_TIME" Version="1.0" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute></AttributeList><Comment><MultiLanguageText Lang="en-US">Heat request time for the daily stop, 24 h</MultiLanguageText></Comment><Sections><Section Name="None"><Member Name="PT" Datatype="Time" /><Member Name="ET" Datatype="Time" /><Member Name="IN" Datatype="Bool" /><Member Name="Q" Datatype="Bool" /></Section></Sections></Member>
+    <Member Name="T_Pause" Datatype="TON_TIME" Version="1.0" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute></AttributeList><Comment><MultiLanguageText Lang="en-US">RUN off time to end the daily stop, 60 s</MultiLanguageText></Comment><Sections><Section Name="None"><Member Name="PT" Datatype="Time" /><Member Name="ET" Datatype="Time" /><Member Name="IN" Datatype="Bool" /><Member Name="Q" Datatype="Bool" /></Section></Sections></Member>
+    <Member Name="T_Stage2" Datatype="TON_TIME" Version="1.0" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute></AttributeList><Comment><MultiLanguageText Lang="en-US">Time on stage 1 after RUN before stage 2, 30 s</MultiLanguageText></Comment><Sections><Section Name="None"><Member Name="PT" Datatype="Time" /><Member Name="ET" Datatype="Time" /><Member Name="IN" Datatype="Bool" /><Member Name="Q" Datatype="Bool" /></Section></Sections></Member>
+    <Member Name="T_NoRun" Datatype="TON_TIME" Version="1.0" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute></AttributeList><Comment><MultiLanguageText Lang="en-US">Heat request without RUN, 120 s</MultiLanguageText></Comment><Sections><Section Name="None"><Member Name="PT" Datatype="Time" /><Member Name="ET" Datatype="Time" /><Member Name="IN" Datatype="Bool" /><Member Name="Q" Datatype="Bool" /></Section></Sections></Member>
+    <Member Name="T_RunWrong" Datatype="TON_TIME" Version="1.0" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute></AttributeList><Comment><MultiLanguageText Lang="en-US">RUN without heat request, 30 s</MultiLanguageText></Comment><Sections><Section Name="None"><Member Name="PT" Datatype="Time" /><Member Name="ET" Datatype="Time" /><Member Name="IN" Datatype="Bool" /><Member Name="Q" Datatype="Bool" /></Section></Sections></Member>
   </Section>
   <Section Name="Temp" />
   <Section Name="Constant" />
@@ -78,12 +65,12 @@
       <SetENOAutomatically>False</SetENOAutomatically>
     </AttributeList>
     <ObjectList>
-      <MultilingualText ID="D3" CompositionName="Comment">
+      <MultilingualText ID="83" CompositionName="Comment">
         <ObjectList>
-          <MultilingualTextItem ID="D4" CompositionName="Items">
+          <MultilingualTextItem ID="84" CompositionName="Items">
             <AttributeList>
               <Culture>en-US</Culture>
-              <Text>Tank heat and stage requests with burner RUN and lockout supervision. Flame safety belongs to the burner control box.</Text>
+              <Text>One burner: START/STOP, heat request TL/L, stage 2 TR/T2, alarms. Flame safety belongs to the burner control box.</Text>
             </AttributeList>
           </MultilingualTextItem>
         </ObjectList>
@@ -179,7 +166,7 @@
               <MultilingualTextItem ID="3" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>One-scan pulse on a new press; ignored on first scan or while STOP is pressed. Reference: R-05.</Text>
+                  <Text>One-scan pulse on a new START press; not on the first scan and not while STOP is pressed.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -189,7 +176,7 @@
               <MultilingualTextItem ID="5" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>Detect a new START press</Text>
+                  <Text>START: new press</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -240,7 +227,7 @@
               <MultilingualTextItem ID="8" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>Save the current button state for detecting a new press on the next scan. Reference: R-05.</Text>
+                  <Text>Save START for the next scan.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -250,7 +237,7 @@
               <MultilingualTextItem ID="A" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>Remember the START button state</Text>
+                  <Text>START: remember the button</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -258,182 +245,6 @@
         </ObjectList>
       </SW.Blocks.CompileUnit>
       <SW.Blocks.CompileUnit ID="B" CompositionName="CompileUnits">
-        <AttributeList>
-          <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
-  <Parts>
-    <Access Scope="LocalVariable" UId="22">
-      <Symbol>
-        <Component Name="Auto" />
-      </Symbol>
-    </Access>
-    <Access Scope="LocalVariable" UId="24">
-      <Symbol>
-        <Component Name="AutoMem" />
-      </Symbol>
-    </Access>
-    <Access Scope="LocalVariable" UId="26">
-      <Symbol>
-        <Component Name="Auto" />
-      </Symbol>
-    </Access>
-    <Access Scope="LocalVariable" UId="28">
-      <Symbol>
-        <Component Name="AutoMem" />
-      </Symbol>
-    </Access>
-    <Access Scope="LocalVariable" UId="31">
-      <Symbol>
-        <Component Name="AutoChg" />
-      </Symbol>
-    </Access>
-    <Part Name="Contact" UId="21" />
-    <Part Name="Contact" UId="23">
-      <Negated Name="operand" />
-    </Part>
-    <Part Name="Contact" UId="25">
-      <Negated Name="operand" />
-    </Part>
-    <Part Name="Contact" UId="27" />
-    <Part Name="O" UId="29">
-      <TemplateValue Name="Card" Type="Cardinality">2</TemplateValue>
-    </Part>
-    <Part Name="Coil" UId="30" />
-  </Parts>
-  <Wires>
-    <Wire UId="32">
-      <Powerrail />
-      <NameCon UId="21" Name="in" />
-      <NameCon UId="25" Name="in" />
-    </Wire>
-    <Wire UId="33">
-      <IdentCon UId="22" />
-      <NameCon UId="21" Name="operand" />
-    </Wire>
-    <Wire UId="34">
-      <NameCon UId="21" Name="out" />
-      <NameCon UId="23" Name="in" />
-    </Wire>
-    <Wire UId="35">
-      <IdentCon UId="24" />
-      <NameCon UId="23" Name="operand" />
-    </Wire>
-    <Wire UId="36">
-      <IdentCon UId="26" />
-      <NameCon UId="25" Name="operand" />
-    </Wire>
-    <Wire UId="37">
-      <NameCon UId="25" Name="out" />
-      <NameCon UId="27" Name="in" />
-    </Wire>
-    <Wire UId="38">
-      <IdentCon UId="28" />
-      <NameCon UId="27" Name="operand" />
-    </Wire>
-    <Wire UId="39">
-      <NameCon UId="23" Name="out" />
-      <NameCon UId="29" Name="in1" />
-    </Wire>
-    <Wire UId="40">
-      <NameCon UId="27" Name="out" />
-      <NameCon UId="29" Name="in2" />
-    </Wire>
-    <Wire UId="41">
-      <NameCon UId="29" Name="out" />
-      <NameCon UId="30" Name="in" />
-    </Wire>
-    <Wire UId="42">
-      <NameCon UId="30" Name="operand" />
-      <IdentCon UId="31" />
-    </Wire>
-  </Wires>
-</FlgNet></NetworkSource>
-          <ProgrammingLanguage>LAD</ProgrammingLanguage>
-        </AttributeList>
-        <ObjectList>
-          <MultilingualText ID="C" CompositionName="Comment">
-            <ObjectList>
-              <MultilingualTextItem ID="D" CompositionName="Items">
-                <AttributeList>
-                  <Culture>en-US</Culture>
-                  <Text>Compare the selector with its previous state; either direction counts as a change. Reference: R-02.</Text>
-                </AttributeList>
-              </MultilingualTextItem>
-            </ObjectList>
-          </MultilingualText>
-          <MultilingualText ID="E" CompositionName="Title">
-            <ObjectList>
-              <MultilingualTextItem ID="F" CompositionName="Items">
-                <AttributeList>
-                  <Culture>en-US</Culture>
-                  <Text>Detect an AUTO/MAN change</Text>
-                </AttributeList>
-              </MultilingualTextItem>
-            </ObjectList>
-          </MultilingualText>
-        </ObjectList>
-      </SW.Blocks.CompileUnit>
-      <SW.Blocks.CompileUnit ID="10" CompositionName="CompileUnits">
-        <AttributeList>
-          <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
-  <Parts>
-    <Access Scope="LocalVariable" UId="22">
-      <Symbol>
-        <Component Name="Auto" />
-      </Symbol>
-    </Access>
-    <Access Scope="LocalVariable" UId="24">
-      <Symbol>
-        <Component Name="AutoMem" />
-      </Symbol>
-    </Access>
-    <Part Name="Contact" UId="21" />
-    <Part Name="Coil" UId="23" />
-  </Parts>
-  <Wires>
-    <Wire UId="25">
-      <Powerrail />
-      <NameCon UId="21" Name="in" />
-    </Wire>
-    <Wire UId="26">
-      <IdentCon UId="22" />
-      <NameCon UId="21" Name="operand" />
-    </Wire>
-    <Wire UId="27">
-      <NameCon UId="21" Name="out" />
-      <NameCon UId="23" Name="in" />
-    </Wire>
-    <Wire UId="28">
-      <NameCon UId="23" Name="operand" />
-      <IdentCon UId="24" />
-    </Wire>
-  </Wires>
-</FlgNet></NetworkSource>
-          <ProgrammingLanguage>LAD</ProgrammingLanguage>
-        </AttributeList>
-        <ObjectList>
-          <MultilingualText ID="11" CompositionName="Comment">
-            <ObjectList>
-              <MultilingualTextItem ID="12" CompositionName="Items">
-                <AttributeList>
-                  <Culture>en-US</Culture>
-                  <Text>Save the selected mode for the next scan. Reference: R-02.</Text>
-                </AttributeList>
-              </MultilingualTextItem>
-            </ObjectList>
-          </MultilingualText>
-          <MultilingualText ID="13" CompositionName="Title">
-            <ObjectList>
-              <MultilingualTextItem ID="14" CompositionName="Items">
-                <AttributeList>
-                  <Culture>en-US</Culture>
-                  <Text>Remember the AUTO/MAN selector</Text>
-                </AttributeList>
-              </MultilingualTextItem>
-            </ObjectList>
-          </MultilingualText>
-        </ObjectList>
-      </SW.Blocks.CompileUnit>
-      <SW.Blocks.CompileUnit ID="15" CompositionName="CompileUnits">
         <AttributeList>
           <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
   <Parts>
@@ -526,29 +337,29 @@
           <ProgrammingLanguage>LAD</ProgrammingLanguage>
         </AttributeList>
         <ObjectList>
-          <MultilingualText ID="16" CompositionName="Comment">
+          <MultilingualText ID="C" CompositionName="Comment">
             <ObjectList>
-              <MultilingualTextItem ID="17" CompositionName="Items">
+              <MultilingualTextItem ID="D" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>Detect either change of the fuel input; BR01 has a fixed FALSE input. Reference: R-12.</Text>
+                  <Text>Either direction counts. BR01 has a fixed FALSE. C08h.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
           </MultilingualText>
-          <MultilingualText ID="18" CompositionName="Title">
+          <MultilingualText ID="E" CompositionName="Title">
             <ObjectList>
-              <MultilingualTextItem ID="19" CompositionName="Items">
+              <MultilingualTextItem ID="F" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>Detect a fuel selector change</Text>
+                  <Text>Fuel selector changed</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
           </MultilingualText>
         </ObjectList>
       </SW.Blocks.CompileUnit>
-      <SW.Blocks.CompileUnit ID="1A" CompositionName="CompileUnits">
+      <SW.Blocks.CompileUnit ID="10" CompositionName="CompileUnits">
         <AttributeList>
           <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
   <Parts>
@@ -587,29 +398,29 @@
           <ProgrammingLanguage>LAD</ProgrammingLanguage>
         </AttributeList>
         <ObjectList>
-          <MultilingualText ID="1B" CompositionName="Comment">
+          <MultilingualText ID="11" CompositionName="Comment">
             <ObjectList>
-              <MultilingualTextItem ID="1C" CompositionName="Items">
+              <MultilingualTextItem ID="12" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>Save the current fuel input for the next scan; this does not select fuel valves. Reference: R-12.</Text>
+                  <Text>Save the fuel selector for the next scan.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
           </MultilingualText>
-          <MultilingualText ID="1D" CompositionName="Title">
+          <MultilingualText ID="13" CompositionName="Title">
             <ObjectList>
-              <MultilingualTextItem ID="1E" CompositionName="Items">
+              <MultilingualTextItem ID="14" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>Remember the fuel selector</Text>
+                  <Text>Fuel selector: remember</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
           </MultilingualText>
         </ObjectList>
       </SW.Blocks.CompileUnit>
-      <SW.Blocks.CompileUnit ID="1F" CompositionName="CompileUnits">
+      <SW.Blocks.CompileUnit ID="15" CompositionName="CompileUnits">
         <AttributeList>
           <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
   <Parts>
@@ -686,29 +497,29 @@
           <ProgrammingLanguage>LAD</ProgrammingLanguage>
         </AttributeList>
         <ObjectList>
-          <MultilingualText ID="20" CompositionName="Comment">
+          <MultilingualText ID="16" CompositionName="Comment">
             <ObjectList>
-              <MultilingualTextItem ID="21" CompositionName="Items">
+              <MultilingualTextItem ID="17" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>Reading must be -20.0 to 150.0 degC inclusive; raw values are tenths of a degree. Reference: C07d / C08d.</Text>
+                  <Text>-20.0 .. 150.0 degC; a broken sensor reads outside. C0xd.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
           </MultilingualText>
-          <MultilingualText ID="22" CompositionName="Title">
+          <MultilingualText ID="18" CompositionName="Title">
             <ObjectList>
-              <MultilingualTextItem ID="23" CompositionName="Items">
+              <MultilingualTextItem ID="19" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>Check temperature sensor A</Text>
+                  <Text>Thermocouple A valid</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
           </MultilingualText>
         </ObjectList>
       </SW.Blocks.CompileUnit>
-      <SW.Blocks.CompileUnit ID="24" CompositionName="CompileUnits">
+      <SW.Blocks.CompileUnit ID="1A" CompositionName="CompileUnits">
         <AttributeList>
           <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
   <Parts>
@@ -785,29 +596,29 @@
           <ProgrammingLanguage>LAD</ProgrammingLanguage>
         </AttributeList>
         <ObjectList>
-          <MultilingualText ID="25" CompositionName="Comment">
+          <MultilingualText ID="1B" CompositionName="Comment">
             <ObjectList>
-              <MultilingualTextItem ID="26" CompositionName="Items">
+              <MultilingualTextItem ID="1C" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>Apply the same limits independently to sensor B; one valid sensor is not enough. Reference: C07d / C08d.</Text>
+                  <Text>Same limits for sensor B. C0xd.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
           </MultilingualText>
-          <MultilingualText ID="27" CompositionName="Title">
+          <MultilingualText ID="1D" CompositionName="Title">
             <ObjectList>
-              <MultilingualTextItem ID="28" CompositionName="Items">
+              <MultilingualTextItem ID="1E" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>Check temperature sensor B</Text>
+                  <Text>Thermocouple B valid</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
           </MultilingualText>
         </ObjectList>
       </SW.Blocks.CompileUnit>
-      <SW.Blocks.CompileUnit ID="29" CompositionName="CompileUnits">
+      <SW.Blocks.CompileUnit ID="1F" CompositionName="CompileUnits">
         <AttributeList>
           <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
   <Parts>
@@ -860,116 +671,29 @@
           <ProgrammingLanguage>LAD</ProgrammingLanguage>
         </AttributeList>
         <ObjectList>
-          <MultilingualText ID="2A" CompositionName="Comment">
+          <MultilingualText ID="20" CompositionName="Comment">
             <ObjectList>
-              <MultilingualTextItem ID="2B" CompositionName="Items">
+              <MultilingualTextItem ID="21" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>Both checks must pass before heat is permitted. Reference: C07d / C08d.</Text>
+                  <Text>Both are needed to heat. C0xd.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
           </MultilingualText>
-          <MultilingualText ID="2C" CompositionName="Title">
+          <MultilingualText ID="22" CompositionName="Title">
             <ObjectList>
-              <MultilingualTextItem ID="2D" CompositionName="Items">
+              <MultilingualTextItem ID="23" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>Check that both temperatures are valid</Text>
-                </AttributeList>
-              </MultilingualTextItem>
-            </ObjectList>
-          </MultilingualText>
-        </ObjectList>
-      </SW.Blocks.CompileUnit>
-      <SW.Blocks.CompileUnit ID="2E" CompositionName="CompileUnits">
-        <AttributeList>
-          <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
-  <Parts>
-    <Access Scope="GlobalVariable" UId="22">
-      <Symbol>
-        <Component Name="Sys" />
-        <Component Name="FirstScan" />
-      </Symbol>
-    </Access>
-    <Access Scope="TypedConstant" UId="25">
-      <Constant>
-        <ConstantValue>T#10S</ConstantValue>
-      </Constant>
-    </Access>
-    <Access Scope="LocalVariable" UId="28">
-      <Symbol>
-        <Component Name="PwrUpDone" />
-      </Symbol>
-    </Access>
-    <Part Name="Contact" UId="21">
-      <Negated Name="operand" />
-    </Part>
-    <Part Name="TON" Version="1.0" UId="23">
-      <Instance Scope="LocalVariable" UId="24">
-        <Component Name="T_PwrUp" />
-      </Instance>
-      <TemplateValue Name="time_type" Type="Type">Time</TemplateValue>
-    </Part>
-    <Part Name="Coil" UId="27" />
-  </Parts>
-  <Wires>
-    <Wire UId="29">
-      <Powerrail />
-      <NameCon UId="21" Name="in" />
-    </Wire>
-    <Wire UId="30">
-      <IdentCon UId="22" />
-      <NameCon UId="21" Name="operand" />
-    </Wire>
-    <Wire UId="31">
-      <NameCon UId="21" Name="out" />
-      <NameCon UId="23" Name="IN" />
-    </Wire>
-    <Wire UId="32">
-      <IdentCon UId="25" />
-      <NameCon UId="23" Name="PT" />
-    </Wire>
-    <Wire UId="33">
-      <NameCon UId="23" Name="ET" />
-      <OpenCon UId="26" />
-    </Wire>
-    <Wire UId="34">
-      <NameCon UId="23" Name="Q" />
-      <NameCon UId="27" Name="in" />
-    </Wire>
-    <Wire UId="35">
-      <NameCon UId="27" Name="operand" />
-      <IdentCon UId="28" />
-    </Wire>
-  </Wires>
-</FlgNet></NetworkSource>
-          <ProgrammingLanguage>LAD</ProgrammingLanguage>
-        </AttributeList>
-        <ObjectList>
-          <MultilingualText ID="2F" CompositionName="Comment">
-            <ObjectList>
-              <MultilingualTextItem ID="30" CompositionName="Items">
-                <AttributeList>
-                  <Culture>en-US</Culture>
-                  <Text>The startup window ends after 10 seconds; this bit alone does not confirm valid sensors. Reference: R-10.</Text>
-                </AttributeList>
-              </MultilingualTextItem>
-            </ObjectList>
-          </MultilingualText>
-          <MultilingualText ID="31" CompositionName="Title">
-            <ObjectList>
-              <MultilingualTextItem ID="32" CompositionName="Items">
-                <AttributeList>
-                  <Culture>en-US</Culture>
-                  <Text>Time the temperature startup window</Text>
+                  <Text>Both thermocouples valid</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
           </MultilingualText>
         </ObjectList>
       </SW.Blocks.CompileUnit>
-      <SW.Blocks.CompileUnit ID="33" CompositionName="CompileUnits">
+      <SW.Blocks.CompileUnit ID="24" CompositionName="CompileUnits">
         <AttributeList>
           <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
   <Parts>
@@ -985,7 +709,7 @@
     </Access>
     <Access Scope="LocalVariable" UId="28">
       <Symbol>
-        <Component Name="InvalidTempTimerDone" />
+        <Component Name="TcBad" />
       </Symbol>
     </Access>
     <Part Name="Contact" UId="21">
@@ -1033,128 +757,29 @@
           <ProgrammingLanguage>LAD</ProgrammingLanguage>
         </AttributeList>
         <ObjectList>
-          <MultilingualText ID="34" CompositionName="Comment">
+          <MultilingualText ID="25" CompositionName="Comment">
             <ObjectList>
-              <MultilingualTextItem ID="35" CompositionName="Items">
+              <MultilingualTextItem ID="26" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>Timer runs while either temperature reading is invalid. Reference: C07d / C08d / R-10.</Text>
+                  <Text>Not valid for 10 s (also right after power-up, while the card starts): fault. C0xd.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
           </MultilingualText>
-          <MultilingualText ID="36" CompositionName="Title">
+          <MultilingualText ID="27" CompositionName="Title">
             <ObjectList>
-              <MultilingualTextItem ID="37" CompositionName="Items">
+              <MultilingualTextItem ID="28" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>Time an invalid temperature reading</Text>
-                </AttributeList>
-              </MultilingualTextItem>
-            </ObjectList>
-          </MultilingualText>
-        </ObjectList>
-      </SW.Blocks.CompileUnit>
-      <SW.Blocks.CompileUnit ID="38" CompositionName="CompileUnits">
-        <AttributeList>
-          <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
-  <Parts>
-    <Access Scope="LocalVariable" UId="22">
-      <Symbol>
-        <Component Name="TcOk" />
-      </Symbol>
-    </Access>
-    <Access Scope="LocalVariable" UId="24">
-      <Symbol>
-        <Component Name="PwrUpDone" />
-      </Symbol>
-    </Access>
-    <Access Scope="LocalVariable" UId="26">
-      <Symbol>
-        <Component Name="InvalidTempTimerDone" />
-      </Symbol>
-    </Access>
-    <Access Scope="LocalVariable" UId="29">
-      <Symbol>
-        <Component Name="TcBad" />
-      </Symbol>
-    </Access>
-    <Part Name="Contact" UId="21">
-      <Negated Name="operand" />
-    </Part>
-    <Part Name="Contact" UId="23" />
-    <Part Name="Contact" UId="25" />
-    <Part Name="O" UId="27">
-      <TemplateValue Name="Card" Type="Cardinality">2</TemplateValue>
-    </Part>
-    <Part Name="Coil" UId="28" />
-  </Parts>
-  <Wires>
-    <Wire UId="30">
-      <Powerrail />
-      <NameCon UId="21" Name="in" />
-    </Wire>
-    <Wire UId="31">
-      <IdentCon UId="22" />
-      <NameCon UId="21" Name="operand" />
-    </Wire>
-    <Wire UId="32">
-      <NameCon UId="21" Name="out" />
-      <NameCon UId="23" Name="in" />
-      <NameCon UId="25" Name="in" />
-    </Wire>
-    <Wire UId="33">
-      <IdentCon UId="24" />
-      <NameCon UId="23" Name="operand" />
-    </Wire>
-    <Wire UId="34">
-      <IdentCon UId="26" />
-      <NameCon UId="25" Name="operand" />
-    </Wire>
-    <Wire UId="35">
-      <NameCon UId="23" Name="out" />
-      <NameCon UId="27" Name="in1" />
-    </Wire>
-    <Wire UId="36">
-      <NameCon UId="25" Name="out" />
-      <NameCon UId="27" Name="in2" />
-    </Wire>
-    <Wire UId="37">
-      <NameCon UId="27" Name="out" />
-      <NameCon UId="28" Name="in" />
-    </Wire>
-    <Wire UId="38">
-      <NameCon UId="28" Name="operand" />
-      <IdentCon UId="29" />
-    </Wire>
-  </Wires>
-</FlgNet></NetworkSource>
-          <ProgrammingLanguage>LAD</ProgrammingLanguage>
-        </AttributeList>
-        <ObjectList>
-          <MultilingualText ID="39" CompositionName="Comment">
-            <ObjectList>
-              <MultilingualTextItem ID="3A" CompositionName="Items">
-                <AttributeList>
-                  <Culture>en-US</Culture>
-                  <Text>After the startup window, an invalid reading faults immediately; startup invalidity also faults after 10 seconds. Reference: C07d / C08d / R-10.</Text>
-                </AttributeList>
-              </MultilingualTextItem>
-            </ObjectList>
-          </MultilingualText>
-          <MultilingualText ID="3B" CompositionName="Title">
-            <ObjectList>
-              <MultilingualTextItem ID="3C" CompositionName="Items">
-                <AttributeList>
-                  <Culture>en-US</Culture>
-                  <Text>Raise a temperature fault</Text>
+                  <Text>Thermocouple fault</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
           </MultilingualText>
         </ObjectList>
       </SW.Blocks.CompileUnit>
-      <SW.Blocks.CompileUnit ID="3D" CompositionName="CompileUnits">
+      <SW.Blocks.CompileUnit ID="29" CompositionName="CompileUnits">
         <AttributeList>
           <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
   <Parts>
@@ -1215,29 +840,29 @@
           <ProgrammingLanguage>LAD</ProgrammingLanguage>
         </AttributeList>
         <ObjectList>
-          <MultilingualText ID="3E" CompositionName="Comment">
+          <MultilingualText ID="2A" CompositionName="Comment">
             <ObjectList>
-              <MultilingualTextItem ID="3F" CompositionName="Items">
+              <MultilingualTextItem ID="2B" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>Copy A when A is at least B; heat permission is checked separately. Reference: C07b / C08b.</Text>
+                  <Text>Use A when A is the higher one. C0xb.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
           </MultilingualText>
-          <MultilingualText ID="40" CompositionName="Title">
+          <MultilingualText ID="2C" CompositionName="Title">
             <ObjectList>
-              <MultilingualTextItem ID="41" CompositionName="Items">
+              <MultilingualTextItem ID="2D" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>Use sensor A as the higher temperature</Text>
+                  <Text>Temperature = sensor A</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
           </MultilingualText>
         </ObjectList>
       </SW.Blocks.CompileUnit>
-      <SW.Blocks.CompileUnit ID="42" CompositionName="CompileUnits">
+      <SW.Blocks.CompileUnit ID="2E" CompositionName="CompileUnits">
         <AttributeList>
           <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
   <Parts>
@@ -1298,42 +923,42 @@
           <ProgrammingLanguage>LAD</ProgrammingLanguage>
         </AttributeList>
         <ObjectList>
-          <MultilingualText ID="43" CompositionName="Comment">
+          <MultilingualText ID="2F" CompositionName="Comment">
             <ObjectList>
-              <MultilingualTextItem ID="44" CompositionName="Items">
+              <MultilingualTextItem ID="30" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>Copy B when it exceeds A; this is the control temperature, not a new physical sensor. Reference: C07b / C08b.</Text>
+                  <Text>Use B when B is the higher one. C0xb.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
           </MultilingualText>
-          <MultilingualText ID="45" CompositionName="Title">
+          <MultilingualText ID="31" CompositionName="Title">
             <ObjectList>
-              <MultilingualTextItem ID="46" CompositionName="Items">
+              <MultilingualTextItem ID="32" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>Use sensor B as the higher temperature</Text>
+                  <Text>Temperature = sensor B</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
           </MultilingualText>
         </ObjectList>
       </SW.Blocks.CompileUnit>
-      <SW.Blocks.CompileUnit ID="47" CompositionName="CompileUnits">
+      <SW.Blocks.CompileUnit ID="33" CompositionName="CompileUnits">
         <AttributeList>
           <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
   <Parts>
     <Access Scope="GlobalVariable" UId="22">
       <Symbol>
         <Component Name="Par" />
-        <Component Name="SP_V" />
+        <Component Name="SP" />
       </Symbol>
     </Access>
     <Access Scope="GlobalVariable" UId="23">
       <Symbol>
         <Component Name="Par" />
-        <Component Name="HYST_V" />
+        <Component Name="HYST" />
       </Symbol>
     </Access>
     <Access Scope="LocalVariable" UId="24">
@@ -1344,13 +969,13 @@
     <Access Scope="GlobalVariable" UId="26">
       <Symbol>
         <Component Name="Par" />
-        <Component Name="SP_V" />
+        <Component Name="SP" />
       </Symbol>
     </Access>
     <Access Scope="GlobalVariable" UId="27">
       <Symbol>
         <Component Name="Par" />
-        <Component Name="STG_V" />
+        <Component Name="STG" />
       </Symbol>
     </Access>
     <Access Scope="LocalVariable" UId="28">
@@ -1400,29 +1025,29 @@
           <ProgrammingLanguage>LAD</ProgrammingLanguage>
         </AttributeList>
         <ObjectList>
-          <MultilingualText ID="48" CompositionName="Comment">
+          <MultilingualText ID="34" CompositionName="Comment">
             <ObjectList>
-              <MultilingualTextItem ID="49" CompositionName="Items">
+              <MultilingualTextItem ID="35" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>Restart limit = stop setting - restart difference. Stage 2 ON limit = stop setting - stage 2 offset. Reference: C07b / C08b / C07c / C08c.</Text>
+                  <Text>Restart = SP - HYST. Stage 2 ON below SP - STG. C0xb / C0xc.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
           </MultilingualText>
-          <MultilingualText ID="4A" CompositionName="Title">
+          <MultilingualText ID="36" CompositionName="Title">
             <ObjectList>
-              <MultilingualTextItem ID="4B" CompositionName="Items">
+              <MultilingualTextItem ID="37" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>Calculate the restart and stage 2 limits</Text>
+                  <Text>Restart and stage 2 temperatures</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
           </MultilingualText>
         </ObjectList>
       </SW.Blocks.CompileUnit>
-      <SW.Blocks.CompileUnit ID="4C" CompositionName="CompileUnits">
+      <SW.Blocks.CompileUnit ID="38" CompositionName="CompileUnits">
         <AttributeList>
           <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
   <Parts>
@@ -1469,29 +1094,29 @@
           <ProgrammingLanguage>LAD</ProgrammingLanguage>
         </AttributeList>
         <ObjectList>
-          <MultilingualText ID="4D" CompositionName="Comment">
+          <MultilingualText ID="39" CompositionName="Comment">
             <ObjectList>
-              <MultilingualTextItem ID="4E" CompositionName="Items">
+              <MultilingualTextItem ID="3A" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>Stage 2 OFF limit = its ON limit + 2.0 degC; raw addition is 20. Reference: C07c / C08c.</Text>
+                  <Text>Stage 2 ON temperature + 2.0 degC, so relay R2 / R7 does not chatter. C0xc.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
           </MultilingualText>
-          <MultilingualText ID="4F" CompositionName="Title">
+          <MultilingualText ID="3B" CompositionName="Title">
             <ObjectList>
-              <MultilingualTextItem ID="50" CompositionName="Items">
+              <MultilingualTextItem ID="3C" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>Calculate the stage 2 OFF limit</Text>
+                  <Text>Stage 2 OFF temperature</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
           </MultilingualText>
         </ObjectList>
       </SW.Blocks.CompileUnit>
-      <SW.Blocks.CompileUnit ID="51" CompositionName="CompileUnits">
+      <SW.Blocks.CompileUnit ID="3D" CompositionName="CompileUnits">
         <AttributeList>
           <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
   <Parts>
@@ -1541,29 +1166,29 @@
           <ProgrammingLanguage>LAD</ProgrammingLanguage>
         </AttributeList>
         <ObjectList>
-          <MultilingualText ID="52" CompositionName="Comment">
+          <MultilingualText ID="3E" CompositionName="Comment">
             <ObjectList>
-              <MultilingualTextItem ID="53" CompositionName="Items">
+              <MultilingualTextItem ID="3F" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>Set the temperature demand at or below the restart limit; keep it until the stop limit. Reference: C07b / C08b.</Text>
+                  <Text>At or below the restart temperature. C0xb.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
           </MultilingualText>
-          <MultilingualText ID="54" CompositionName="Title">
+          <MultilingualText ID="40" CompositionName="Title">
             <ObjectList>
-              <MultilingualTextItem ID="55" CompositionName="Items">
+              <MultilingualTextItem ID="41" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>AUTO: request heat at the restart limit</Text>
+                  <Text>AUTO: heat demand ON</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
           </MultilingualText>
         </ObjectList>
       </SW.Blocks.CompileUnit>
-      <SW.Blocks.CompileUnit ID="56" CompositionName="CompileUnits">
+      <SW.Blocks.CompileUnit ID="42" CompositionName="CompileUnits">
         <AttributeList>
           <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
   <Parts>
@@ -1575,7 +1200,7 @@
     <Access Scope="GlobalVariable" UId="23">
       <Symbol>
         <Component Name="Par" />
-        <Component Name="SP_V" />
+        <Component Name="SP" />
       </Symbol>
     </Access>
     <Access Scope="LocalVariable" UId="25">
@@ -1638,29 +1263,29 @@
           <ProgrammingLanguage>LAD</ProgrammingLanguage>
         </AttributeList>
         <ObjectList>
-          <MultilingualText ID="57" CompositionName="Comment">
+          <MultilingualText ID="43" CompositionName="Comment">
             <ObjectList>
-              <MultilingualTextItem ID="58" CompositionName="Items">
+              <MultilingualTextItem ID="44" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>Clear demand at or above the stop setting, or if either temperature is invalid. Reference: C07b / C08b.</Text>
+                  <Text>At or above SP, or no valid temperature. C0xb.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
           </MultilingualText>
-          <MultilingualText ID="59" CompositionName="Title">
+          <MultilingualText ID="45" CompositionName="Title">
             <ObjectList>
-              <MultilingualTextItem ID="5A" CompositionName="Items">
+              <MultilingualTextItem ID="46" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>AUTO: clear heat demand at the stop limit</Text>
+                  <Text>AUTO: heat demand OFF</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
           </MultilingualText>
         </ObjectList>
       </SW.Blocks.CompileUnit>
-      <SW.Blocks.CompileUnit ID="5B" CompositionName="CompileUnits">
+      <SW.Blocks.CompileUnit ID="47" CompositionName="CompileUnits">
         <AttributeList>
           <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
   <Parts>
@@ -1692,7 +1317,7 @@
     <Access Scope="GlobalVariable" UId="31">
       <Symbol>
         <Component Name="Par" />
-        <Component Name="SP_V" />
+        <Component Name="SP" />
       </Symbol>
     </Access>
     <Access Scope="LocalVariable" UId="34">
@@ -1777,168 +1402,373 @@
           <ProgrammingLanguage>LAD</ProgrammingLanguage>
         </AttributeList>
         <ObjectList>
-          <MultilingualText ID="5C" CompositionName="Comment">
+          <MultilingualText ID="48" CompositionName="Comment">
             <ObjectList>
-              <MultilingualTextItem ID="5D" CompositionName="Items">
+              <MultilingualTextItem ID="49" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>AUTO uses the retained temperature demand; MAN needs a valid temperature below the stop setting. Reference: B-01.</Text>
+                  <Text>AUTO: the demand above. MAN: temperature below SP.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
           </MultilingualText>
-          <MultilingualText ID="5E" CompositionName="Title">
+          <MultilingualText ID="4A" CompositionName="Title">
             <ObjectList>
-              <MultilingualTextItem ID="5F" CompositionName="Items">
+              <MultilingualTextItem ID="4B" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>Determine whether heat is needed</Text>
+                  <Text>Heat needed</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
           </MultilingualText>
         </ObjectList>
       </SW.Blocks.CompileUnit>
-      <SW.Blocks.CompileUnit ID="60" CompositionName="CompileUnits">
+      <SW.Blocks.CompileUnit ID="4C" CompositionName="CompileUnits">
         <AttributeList>
           <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
   <Parts>
-    <Access Scope="LocalVariable" UId="22">
-      <Symbol>
-        <Component Name="LevelOK" />
-      </Symbol>
-    </Access>
-    <Access Scope="LocalVariable" UId="24">
-      <Symbol>
-        <Component Name="TcOk" />
-      </Symbol>
-    </Access>
-    <Access Scope="GlobalVariable" UId="26">
+    <Access Scope="GlobalVariable" UId="22">
       <Symbol>
         <Component Name="Sys" />
         <Component Name="EStopOK" />
       </Symbol>
     </Access>
-    <Access Scope="LocalVariable" UId="28">
-      <Symbol>
-        <Component Name="Lockout" />
-      </Symbol>
-    </Access>
-    <Access Scope="LocalVariable" UId="30">
-      <Symbol>
-        <Component Name="Pause24" />
-      </Symbol>
-    </Access>
-    <Access Scope="GlobalVariable" UId="32">
+    <Access Scope="GlobalVariable" UId="24">
       <Symbol>
         <Component Name="Scrubber_DB" />
         <Component Name="Tripped" />
       </Symbol>
     </Access>
-    <Access Scope="LocalVariable" UId="34">
+    <Access Scope="LocalVariable" UId="26">
       <Symbol>
-        <Component Name="ReadyToStart" />
+        <Component Name="Lockout" />
       </Symbol>
     </Access>
-    <Part Name="Contact" UId="21" />
+    <Access Scope="LocalVariable" UId="28">
+      <Symbol>
+        <Component Name="TcBad" />
+      </Symbol>
+    </Access>
+    <Access Scope="LocalVariable" UId="30">
+      <Symbol>
+        <Component Name="FuelChg" />
+      </Symbol>
+    </Access>
+    <Access Scope="LocalVariable" UId="33">
+      <Symbol>
+        <Component Name="Trip" />
+      </Symbol>
+    </Access>
+    <Part Name="Contact" UId="21">
+      <Negated Name="operand" />
+    </Part>
     <Part Name="Contact" UId="23" />
     <Part Name="Contact" UId="25" />
-    <Part Name="Contact" UId="27">
-      <Negated Name="operand" />
+    <Part Name="Contact" UId="27" />
+    <Part Name="Contact" UId="29" />
+    <Part Name="O" UId="31">
+      <TemplateValue Name="Card" Type="Cardinality">5</TemplateValue>
     </Part>
-    <Part Name="Contact" UId="29">
-      <Negated Name="operand" />
-    </Part>
-    <Part Name="Contact" UId="31">
-      <Negated Name="operand" />
-    </Part>
-    <Part Name="Coil" UId="33" />
+    <Part Name="Coil" UId="32" />
   </Parts>
   <Wires>
-    <Wire UId="35">
+    <Wire UId="34">
       <Powerrail />
       <NameCon UId="21" Name="in" />
+      <NameCon UId="23" Name="in" />
+      <NameCon UId="25" Name="in" />
+      <NameCon UId="27" Name="in" />
+      <NameCon UId="29" Name="in" />
     </Wire>
-    <Wire UId="36">
+    <Wire UId="35">
       <IdentCon UId="22" />
       <NameCon UId="21" Name="operand" />
     </Wire>
-    <Wire UId="37">
-      <NameCon UId="21" Name="out" />
-      <NameCon UId="23" Name="in" />
-    </Wire>
-    <Wire UId="38">
+    <Wire UId="36">
       <IdentCon UId="24" />
       <NameCon UId="23" Name="operand" />
     </Wire>
-    <Wire UId="39">
-      <NameCon UId="23" Name="out" />
-      <NameCon UId="25" Name="in" />
-    </Wire>
-    <Wire UId="40">
+    <Wire UId="37">
       <IdentCon UId="26" />
       <NameCon UId="25" Name="operand" />
     </Wire>
-    <Wire UId="41">
-      <NameCon UId="25" Name="out" />
-      <NameCon UId="27" Name="in" />
-    </Wire>
-    <Wire UId="42">
+    <Wire UId="38">
       <IdentCon UId="28" />
       <NameCon UId="27" Name="operand" />
     </Wire>
-    <Wire UId="43">
-      <NameCon UId="27" Name="out" />
-      <NameCon UId="29" Name="in" />
-    </Wire>
-    <Wire UId="44">
+    <Wire UId="39">
       <IdentCon UId="30" />
       <NameCon UId="29" Name="operand" />
     </Wire>
-    <Wire UId="45">
+    <Wire UId="40">
+      <NameCon UId="21" Name="out" />
+      <NameCon UId="31" Name="in1" />
+    </Wire>
+    <Wire UId="41">
+      <NameCon UId="23" Name="out" />
+      <NameCon UId="31" Name="in2" />
+    </Wire>
+    <Wire UId="42">
+      <NameCon UId="25" Name="out" />
+      <NameCon UId="31" Name="in3" />
+    </Wire>
+    <Wire UId="43">
+      <NameCon UId="27" Name="out" />
+      <NameCon UId="31" Name="in4" />
+    </Wire>
+    <Wire UId="44">
       <NameCon UId="29" Name="out" />
-      <NameCon UId="31" Name="in" />
+      <NameCon UId="31" Name="in5" />
+    </Wire>
+    <Wire UId="45">
+      <NameCon UId="31" Name="out" />
+      <NameCon UId="32" Name="in" />
     </Wire>
     <Wire UId="46">
-      <IdentCon UId="32" />
-      <NameCon UId="31" Name="operand" />
-    </Wire>
-    <Wire UId="47">
-      <NameCon UId="31" Name="out" />
-      <NameCon UId="33" Name="in" />
-    </Wire>
-    <Wire UId="48">
-      <NameCon UId="33" Name="operand" />
-      <IdentCon UId="34" />
+      <NameCon UId="32" Name="operand" />
+      <IdentCon UId="33" />
     </Wire>
   </Wires>
 </FlgNet></NetworkSource>
           <ProgrammingLanguage>LAD</ProgrammingLanguage>
         </AttributeList>
         <ObjectList>
-          <MultilingualText ID="61" CompositionName="Comment">
+          <MultilingualText ID="4D" CompositionName="Comment">
             <ObjectList>
-              <MultilingualTextItem ID="62" CompositionName="Items">
+              <MultilingualTextItem ID="4E" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>Need tank level OK, both temperatures valid, E-STOP reset, no burner lockout, no daily pause and no scrubber trip. Reference: C07a / C08a / C07d / C08d / C01 / C07e / C08e / C07h / C03 / C05.</Text>
+                  <Text>E-STOP, scrubber trip, burner lockout, thermocouple fault or fuel change: stop; a new START is needed. C01 / C03 / C05 / C0xd / C0xe / C08h.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
           </MultilingualText>
-          <MultilingualText ID="63" CompositionName="Title">
+          <MultilingualText ID="4F" CompositionName="Title">
             <ObjectList>
-              <MultilingualTextItem ID="64" CompositionName="Items">
+              <MultilingualTextItem ID="50" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>Check all burner start conditions</Text>
+                  <Text>Burner trip</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
           </MultilingualText>
         </ObjectList>
       </SW.Blocks.CompileUnit>
-      <SW.Blocks.CompileUnit ID="65" CompositionName="CompileUnits">
+      <SW.Blocks.CompileUnit ID="51" CompositionName="CompileUnits">
+        <AttributeList>
+          <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
+  <Parts>
+    <Access Scope="LocalVariable" UId="22">
+      <Symbol>
+        <Component Name="StartEdge" />
+      </Symbol>
+    </Access>
+    <Access Scope="LocalVariable" UId="24">
+      <Symbol>
+        <Component Name="Trip" />
+      </Symbol>
+    </Access>
+    <Access Scope="LocalVariable" UId="26">
+      <Symbol>
+        <Component Name="LevelOK" />
+      </Symbol>
+    </Access>
+    <Access Scope="LocalVariable" UId="28">
+      <Symbol>
+        <Component Name="Auto" />
+      </Symbol>
+    </Access>
+    <Access Scope="LocalVariable" UId="30">
+      <Symbol>
+        <Component Name="HeatNeed" />
+      </Symbol>
+    </Access>
+    <Access Scope="LocalVariable" UId="33">
+      <Symbol>
+        <Component Name="StartEnabled" />
+      </Symbol>
+    </Access>
+    <Part Name="Contact" UId="21" />
+    <Part Name="Contact" UId="23">
+      <Negated Name="operand" />
+    </Part>
+    <Part Name="Contact" UId="25" />
+    <Part Name="Contact" UId="27" />
+    <Part Name="Contact" UId="29" />
+    <Part Name="O" UId="31">
+      <TemplateValue Name="Card" Type="Cardinality">2</TemplateValue>
+    </Part>
+    <Part Name="SCoil" UId="32" />
+  </Parts>
+  <Wires>
+    <Wire UId="34">
+      <Powerrail />
+      <NameCon UId="21" Name="in" />
+    </Wire>
+    <Wire UId="35">
+      <IdentCon UId="22" />
+      <NameCon UId="21" Name="operand" />
+    </Wire>
+    <Wire UId="36">
+      <NameCon UId="21" Name="out" />
+      <NameCon UId="23" Name="in" />
+    </Wire>
+    <Wire UId="37">
+      <IdentCon UId="24" />
+      <NameCon UId="23" Name="operand" />
+    </Wire>
+    <Wire UId="38">
+      <NameCon UId="23" Name="out" />
+      <NameCon UId="25" Name="in" />
+    </Wire>
+    <Wire UId="39">
+      <IdentCon UId="26" />
+      <NameCon UId="25" Name="operand" />
+    </Wire>
+    <Wire UId="40">
+      <NameCon UId="25" Name="out" />
+      <NameCon UId="27" Name="in" />
+      <NameCon UId="29" Name="in" />
+    </Wire>
+    <Wire UId="41">
+      <IdentCon UId="28" />
+      <NameCon UId="27" Name="operand" />
+    </Wire>
+    <Wire UId="42">
+      <IdentCon UId="30" />
+      <NameCon UId="29" Name="operand" />
+    </Wire>
+    <Wire UId="43">
+      <NameCon UId="27" Name="out" />
+      <NameCon UId="31" Name="in1" />
+    </Wire>
+    <Wire UId="44">
+      <NameCon UId="29" Name="out" />
+      <NameCon UId="31" Name="in2" />
+    </Wire>
+    <Wire UId="45">
+      <NameCon UId="31" Name="out" />
+      <NameCon UId="32" Name="in" />
+    </Wire>
+    <Wire UId="46">
+      <NameCon UId="32" Name="operand" />
+      <IdentCon UId="33" />
+    </Wire>
+  </Wires>
+</FlgNet></NetworkSource>
+          <ProgrammingLanguage>LAD</ProgrammingLanguage>
+        </AttributeList>
+        <ObjectList>
+          <MultilingualText ID="52" CompositionName="Comment">
+            <ObjectList>
+              <MultilingualTextItem ID="53" CompositionName="Items">
+                <AttributeList>
+                  <Culture>en-US</Culture>
+                  <Text>New START with no trip and tank level OK. In MAN only if heat is needed.</Text>
+                </AttributeList>
+              </MultilingualTextItem>
+            </ObjectList>
+          </MultilingualText>
+          <MultilingualText ID="54" CompositionName="Title">
+            <ObjectList>
+              <MultilingualTextItem ID="55" CompositionName="Items">
+                <AttributeList>
+                  <Culture>en-US</Culture>
+                  <Text>START accepted</Text>
+                </AttributeList>
+              </MultilingualTextItem>
+            </ObjectList>
+          </MultilingualText>
+        </ObjectList>
+      </SW.Blocks.CompileUnit>
+      <SW.Blocks.CompileUnit ID="56" CompositionName="CompileUnits">
+        <AttributeList>
+          <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
+  <Parts>
+    <Access Scope="LocalVariable" UId="22">
+      <Symbol>
+        <Component Name="StopOK" />
+      </Symbol>
+    </Access>
+    <Access Scope="LocalVariable" UId="24">
+      <Symbol>
+        <Component Name="Trip" />
+      </Symbol>
+    </Access>
+    <Access Scope="LocalVariable" UId="27">
+      <Symbol>
+        <Component Name="StartEnabled" />
+      </Symbol>
+    </Access>
+    <Part Name="Contact" UId="21">
+      <Negated Name="operand" />
+    </Part>
+    <Part Name="Contact" UId="23" />
+    <Part Name="O" UId="25">
+      <TemplateValue Name="Card" Type="Cardinality">2</TemplateValue>
+    </Part>
+    <Part Name="RCoil" UId="26" />
+  </Parts>
+  <Wires>
+    <Wire UId="28">
+      <Powerrail />
+      <NameCon UId="21" Name="in" />
+      <NameCon UId="23" Name="in" />
+    </Wire>
+    <Wire UId="29">
+      <IdentCon UId="22" />
+      <NameCon UId="21" Name="operand" />
+    </Wire>
+    <Wire UId="30">
+      <IdentCon UId="24" />
+      <NameCon UId="23" Name="operand" />
+    </Wire>
+    <Wire UId="31">
+      <NameCon UId="21" Name="out" />
+      <NameCon UId="25" Name="in1" />
+    </Wire>
+    <Wire UId="32">
+      <NameCon UId="23" Name="out" />
+      <NameCon UId="25" Name="in2" />
+    </Wire>
+    <Wire UId="33">
+      <NameCon UId="25" Name="out" />
+      <NameCon UId="26" Name="in" />
+    </Wire>
+    <Wire UId="34">
+      <NameCon UId="26" Name="operand" />
+      <IdentCon UId="27" />
+    </Wire>
+  </Wires>
+</FlgNet></NetworkSource>
+          <ProgrammingLanguage>LAD</ProgrammingLanguage>
+        </AttributeList>
+        <ObjectList>
+          <MultilingualText ID="57" CompositionName="Comment">
+            <ObjectList>
+              <MultilingualTextItem ID="58" CompositionName="Items">
+                <AttributeList>
+                  <Culture>en-US</Culture>
+                  <Text>STOP pressed or burner trip cancels START.</Text>
+                </AttributeList>
+              </MultilingualTextItem>
+            </ObjectList>
+          </MultilingualText>
+          <MultilingualText ID="59" CompositionName="Title">
+            <ObjectList>
+              <MultilingualTextItem ID="5A" CompositionName="Items">
+                <AttributeList>
+                  <Culture>en-US</Culture>
+                  <Text>STOP or trip</Text>
+                </AttributeList>
+              </MultilingualTextItem>
+            </ObjectList>
+          </MultilingualText>
+        </ObjectList>
+      </SW.Blocks.CompileUnit>
+      <SW.Blocks.CompileUnit ID="5B" CompositionName="CompileUnits">
         <AttributeList>
           <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
   <Parts>
@@ -2014,29 +1844,29 @@
           <ProgrammingLanguage>LAD</ProgrammingLanguage>
         </AttributeList>
         <ObjectList>
-          <MultilingualText ID="66" CompositionName="Comment">
+          <MultilingualText ID="5C" CompositionName="Comment">
             <ObjectList>
-              <MultilingualTextItem ID="67" CompositionName="Items">
+              <MultilingualTextItem ID="5D" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>When enabled for this burner, 24 hours of continuous heat request sets the pause. Reference: C07h / R-08.</Text>
+                  <Text>BR01 only: 24 h of continuous heat request stops the burner. RS100 manual 5.10, C07h.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
           </MultilingualText>
-          <MultilingualText ID="68" CompositionName="Title">
+          <MultilingualText ID="5E" CompositionName="Title">
             <ObjectList>
-              <MultilingualTextItem ID="69" CompositionName="Items">
+              <MultilingualTextItem ID="5F" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>Request the daily burner stop</Text>
+                  <Text>Daily stop after 24 h</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
           </MultilingualText>
         </ObjectList>
       </SW.Blocks.CompileUnit>
-      <SW.Blocks.CompileUnit ID="6A" CompositionName="CompileUnits">
+      <SW.Blocks.CompileUnit ID="60" CompositionName="CompileUnits">
         <AttributeList>
           <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
   <Parts>
@@ -2114,12 +1944,196 @@
           <ProgrammingLanguage>LAD</ProgrammingLanguage>
         </AttributeList>
         <ObjectList>
+          <MultilingualText ID="61" CompositionName="Comment">
+            <ObjectList>
+              <MultilingualTextItem ID="62" CompositionName="Items">
+                <AttributeList>
+                  <Culture>en-US</Culture>
+                  <Text>After RUN has been off for 60 s the burner may start again. C07h.</Text>
+                </AttributeList>
+              </MultilingualTextItem>
+            </ObjectList>
+          </MultilingualText>
+          <MultilingualText ID="63" CompositionName="Title">
+            <ObjectList>
+              <MultilingualTextItem ID="64" CompositionName="Items">
+                <AttributeList>
+                  <Culture>en-US</Culture>
+                  <Text>Daily stop ends</Text>
+                </AttributeList>
+              </MultilingualTextItem>
+            </ObjectList>
+          </MultilingualText>
+        </ObjectList>
+      </SW.Blocks.CompileUnit>
+      <SW.Blocks.CompileUnit ID="65" CompositionName="CompileUnits">
+        <AttributeList>
+          <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
+  <Parts>
+    <Access Scope="LocalVariable" UId="22">
+      <Symbol>
+        <Component Name="StartEnabled" />
+      </Symbol>
+    </Access>
+    <Access Scope="LocalVariable" UId="24">
+      <Symbol>
+        <Component Name="LevelOK" />
+      </Symbol>
+    </Access>
+    <Access Scope="LocalVariable" UId="26">
+      <Symbol>
+        <Component Name="Pause24" />
+      </Symbol>
+    </Access>
+    <Access Scope="LocalVariable" UId="28">
+      <Symbol>
+        <Component Name="HeatNeed" />
+      </Symbol>
+    </Access>
+    <Access Scope="LocalVariable" UId="30">
+      <Symbol>
+        <Component Name="HeatReq" />
+      </Symbol>
+    </Access>
+    <Part Name="Contact" UId="21" />
+    <Part Name="Contact" UId="23" />
+    <Part Name="Contact" UId="25">
+      <Negated Name="operand" />
+    </Part>
+    <Part Name="Contact" UId="27" />
+    <Part Name="Coil" UId="29" />
+  </Parts>
+  <Wires>
+    <Wire UId="31">
+      <Powerrail />
+      <NameCon UId="21" Name="in" />
+    </Wire>
+    <Wire UId="32">
+      <IdentCon UId="22" />
+      <NameCon UId="21" Name="operand" />
+    </Wire>
+    <Wire UId="33">
+      <NameCon UId="21" Name="out" />
+      <NameCon UId="23" Name="in" />
+    </Wire>
+    <Wire UId="34">
+      <IdentCon UId="24" />
+      <NameCon UId="23" Name="operand" />
+    </Wire>
+    <Wire UId="35">
+      <NameCon UId="23" Name="out" />
+      <NameCon UId="25" Name="in" />
+    </Wire>
+    <Wire UId="36">
+      <IdentCon UId="26" />
+      <NameCon UId="25" Name="operand" />
+    </Wire>
+    <Wire UId="37">
+      <NameCon UId="25" Name="out" />
+      <NameCon UId="27" Name="in" />
+    </Wire>
+    <Wire UId="38">
+      <IdentCon UId="28" />
+      <NameCon UId="27" Name="operand" />
+    </Wire>
+    <Wire UId="39">
+      <NameCon UId="27" Name="out" />
+      <NameCon UId="29" Name="in" />
+    </Wire>
+    <Wire UId="40">
+      <NameCon UId="29" Name="operand" />
+      <IdentCon UId="30" />
+    </Wire>
+  </Wires>
+</FlgNet></NetworkSource>
+          <ProgrammingLanguage>LAD</ProgrammingLanguage>
+        </AttributeList>
+        <ObjectList>
+          <MultilingualText ID="66" CompositionName="Comment">
+            <ObjectList>
+              <MultilingualTextItem ID="67" CompositionName="Items">
+                <AttributeList>
+                  <Culture>en-US</Culture>
+                  <Text>START accepted, tank level OK, no daily stop and heat needed. Goes to TL / L. C0xa / C0xb.</Text>
+                </AttributeList>
+              </MultilingualTextItem>
+            </ObjectList>
+          </MultilingualText>
+          <MultilingualText ID="68" CompositionName="Title">
+            <ObjectList>
+              <MultilingualTextItem ID="69" CompositionName="Items">
+                <AttributeList>
+                  <Culture>en-US</Culture>
+                  <Text>Heat request</Text>
+                </AttributeList>
+              </MultilingualTextItem>
+            </ObjectList>
+          </MultilingualText>
+        </ObjectList>
+      </SW.Blocks.CompileUnit>
+      <SW.Blocks.CompileUnit ID="6A" CompositionName="CompileUnits">
+        <AttributeList>
+          <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
+  <Parts>
+    <Access Scope="LocalVariable" UId="22">
+      <Symbol>
+        <Component Name="Auto" />
+      </Symbol>
+    </Access>
+    <Access Scope="LocalVariable" UId="24">
+      <Symbol>
+        <Component Name="HeatReq" />
+      </Symbol>
+    </Access>
+    <Access Scope="LocalVariable" UId="26">
+      <Symbol>
+        <Component Name="StartEnabled" />
+      </Symbol>
+    </Access>
+    <Part Name="Contact" UId="21">
+      <Negated Name="operand" />
+    </Part>
+    <Part Name="Contact" UId="23">
+      <Negated Name="operand" />
+    </Part>
+    <Part Name="RCoil" UId="25" />
+  </Parts>
+  <Wires>
+    <Wire UId="27">
+      <Powerrail />
+      <NameCon UId="21" Name="in" />
+    </Wire>
+    <Wire UId="28">
+      <IdentCon UId="22" />
+      <NameCon UId="21" Name="operand" />
+    </Wire>
+    <Wire UId="29">
+      <NameCon UId="21" Name="out" />
+      <NameCon UId="23" Name="in" />
+    </Wire>
+    <Wire UId="30">
+      <IdentCon UId="24" />
+      <NameCon UId="23" Name="operand" />
+    </Wire>
+    <Wire UId="31">
+      <NameCon UId="23" Name="out" />
+      <NameCon UId="25" Name="in" />
+    </Wire>
+    <Wire UId="32">
+      <NameCon UId="25" Name="operand" />
+      <IdentCon UId="26" />
+    </Wire>
+  </Wires>
+</FlgNet></NetworkSource>
+          <ProgrammingLanguage>LAD</ProgrammingLanguage>
+        </AttributeList>
+        <ObjectList>
           <MultilingualText ID="6B" CompositionName="Comment">
             <ObjectList>
               <MultilingualTextItem ID="6C" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>Clear the daily pause after RUN feedback stays OFF for 60 seconds. Reference: R-08.</Text>
+                  <Text>In MAN, when the heat request stops, START is cancelled; press START again.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -2129,7 +2143,7 @@
               <MultilingualTextItem ID="6E" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>End the daily stop after RUN is off</Text>
+                  <Text>MAN: one heating cycle</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -2142,12 +2156,12 @@
   <Parts>
     <Access Scope="LocalVariable" UId="22">
       <Symbol>
-        <Component Name="RunFb" />
+        <Component Name="HeatReq" />
       </Symbol>
     </Access>
     <Access Scope="LocalVariable" UId="24">
       <Symbol>
-        <Component Name="HeatReq" />
+        <Component Name="RunFb" />
       </Symbol>
     </Access>
     <Access Scope="TypedConstant" UId="27">
@@ -2157,7 +2171,243 @@
     </Access>
     <Access Scope="LocalVariable" UId="30">
       <Symbol>
-        <Component Name="RunWrong" />
+        <Component Name="ControlTemp" />
+      </Symbol>
+    </Access>
+    <Access Scope="LocalVariable" UId="31">
+      <Symbol>
+        <Component Name="SecondStageOnTemp" />
+      </Symbol>
+    </Access>
+    <Access Scope="LocalVariable" UId="33">
+      <Symbol>
+        <Component Name="Stage2" />
+      </Symbol>
+    </Access>
+    <Part Name="Contact" UId="21" />
+    <Part Name="Contact" UId="23" />
+    <Part Name="TON" Version="1.0" UId="25">
+      <Instance Scope="LocalVariable" UId="26">
+        <Component Name="T_Stage2" />
+      </Instance>
+      <TemplateValue Name="time_type" Type="Type">Time</TemplateValue>
+    </Part>
+    <Part Name="Lt" UId="29">
+      <TemplateValue Name="SrcType" Type="Type">Int</TemplateValue>
+    </Part>
+    <Part Name="SCoil" UId="32" />
+  </Parts>
+  <Wires>
+    <Wire UId="34">
+      <Powerrail />
+      <NameCon UId="21" Name="in" />
+    </Wire>
+    <Wire UId="35">
+      <IdentCon UId="22" />
+      <NameCon UId="21" Name="operand" />
+    </Wire>
+    <Wire UId="36">
+      <NameCon UId="21" Name="out" />
+      <NameCon UId="23" Name="in" />
+    </Wire>
+    <Wire UId="37">
+      <IdentCon UId="24" />
+      <NameCon UId="23" Name="operand" />
+    </Wire>
+    <Wire UId="38">
+      <NameCon UId="23" Name="out" />
+      <NameCon UId="25" Name="IN" />
+    </Wire>
+    <Wire UId="39">
+      <IdentCon UId="27" />
+      <NameCon UId="25" Name="PT" />
+    </Wire>
+    <Wire UId="40">
+      <NameCon UId="25" Name="ET" />
+      <OpenCon UId="28" />
+    </Wire>
+    <Wire UId="41">
+      <NameCon UId="25" Name="Q" />
+      <NameCon UId="29" Name="pre" />
+    </Wire>
+    <Wire UId="42">
+      <IdentCon UId="30" />
+      <NameCon UId="29" Name="in1" />
+    </Wire>
+    <Wire UId="43">
+      <IdentCon UId="31" />
+      <NameCon UId="29" Name="in2" />
+    </Wire>
+    <Wire UId="44">
+      <NameCon UId="29" Name="out" />
+      <NameCon UId="32" Name="in" />
+    </Wire>
+    <Wire UId="45">
+      <NameCon UId="32" Name="operand" />
+      <IdentCon UId="33" />
+    </Wire>
+  </Wires>
+</FlgNet></NetworkSource>
+          <ProgrammingLanguage>LAD</ProgrammingLanguage>
+        </AttributeList>
+        <ObjectList>
+          <MultilingualText ID="70" CompositionName="Comment">
+            <ObjectList>
+              <MultilingualTextItem ID="71" CompositionName="Items">
+                <AttributeList>
+                  <Culture>en-US</Culture>
+                  <Text>Heat request, RUN for 30 s and temperature below SP - STG. Goes to TR / T2. C0xc.</Text>
+                </AttributeList>
+              </MultilingualTextItem>
+            </ObjectList>
+          </MultilingualText>
+          <MultilingualText ID="72" CompositionName="Title">
+            <ObjectList>
+              <MultilingualTextItem ID="73" CompositionName="Items">
+                <AttributeList>
+                  <Culture>en-US</Culture>
+                  <Text>Stage 2 ON</Text>
+                </AttributeList>
+              </MultilingualTextItem>
+            </ObjectList>
+          </MultilingualText>
+        </ObjectList>
+      </SW.Blocks.CompileUnit>
+      <SW.Blocks.CompileUnit ID="74" CompositionName="CompileUnits">
+        <AttributeList>
+          <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
+  <Parts>
+    <Access Scope="LocalVariable" UId="22">
+      <Symbol>
+        <Component Name="ControlTemp" />
+      </Symbol>
+    </Access>
+    <Access Scope="LocalVariable" UId="23">
+      <Symbol>
+        <Component Name="SecondStageOffTemp" />
+      </Symbol>
+    </Access>
+    <Access Scope="LocalVariable" UId="25">
+      <Symbol>
+        <Component Name="HeatReq" />
+      </Symbol>
+    </Access>
+    <Access Scope="LocalVariable" UId="27">
+      <Symbol>
+        <Component Name="RunFb" />
+      </Symbol>
+    </Access>
+    <Access Scope="LocalVariable" UId="30">
+      <Symbol>
+        <Component Name="Stage2" />
+      </Symbol>
+    </Access>
+    <Part Name="Ge" UId="21">
+      <TemplateValue Name="SrcType" Type="Type">Int</TemplateValue>
+    </Part>
+    <Part Name="Contact" UId="24">
+      <Negated Name="operand" />
+    </Part>
+    <Part Name="Contact" UId="26">
+      <Negated Name="operand" />
+    </Part>
+    <Part Name="O" UId="28">
+      <TemplateValue Name="Card" Type="Cardinality">3</TemplateValue>
+    </Part>
+    <Part Name="RCoil" UId="29" />
+  </Parts>
+  <Wires>
+    <Wire UId="31">
+      <Powerrail />
+      <NameCon UId="21" Name="pre" />
+      <NameCon UId="24" Name="in" />
+      <NameCon UId="26" Name="in" />
+    </Wire>
+    <Wire UId="32">
+      <IdentCon UId="22" />
+      <NameCon UId="21" Name="in1" />
+    </Wire>
+    <Wire UId="33">
+      <IdentCon UId="23" />
+      <NameCon UId="21" Name="in2" />
+    </Wire>
+    <Wire UId="34">
+      <IdentCon UId="25" />
+      <NameCon UId="24" Name="operand" />
+    </Wire>
+    <Wire UId="35">
+      <IdentCon UId="27" />
+      <NameCon UId="26" Name="operand" />
+    </Wire>
+    <Wire UId="36">
+      <NameCon UId="21" Name="out" />
+      <NameCon UId="28" Name="in1" />
+    </Wire>
+    <Wire UId="37">
+      <NameCon UId="24" Name="out" />
+      <NameCon UId="28" Name="in2" />
+    </Wire>
+    <Wire UId="38">
+      <NameCon UId="26" Name="out" />
+      <NameCon UId="28" Name="in3" />
+    </Wire>
+    <Wire UId="39">
+      <NameCon UId="28" Name="out" />
+      <NameCon UId="29" Name="in" />
+    </Wire>
+    <Wire UId="40">
+      <NameCon UId="29" Name="operand" />
+      <IdentCon UId="30" />
+    </Wire>
+  </Wires>
+</FlgNet></NetworkSource>
+          <ProgrammingLanguage>LAD</ProgrammingLanguage>
+        </AttributeList>
+        <ObjectList>
+          <MultilingualText ID="75" CompositionName="Comment">
+            <ObjectList>
+              <MultilingualTextItem ID="76" CompositionName="Items">
+                <AttributeList>
+                  <Culture>en-US</Culture>
+                  <Text>At SP - STG + 2.0 degC, or no heat request, or no RUN. C0xc.</Text>
+                </AttributeList>
+              </MultilingualTextItem>
+            </ObjectList>
+          </MultilingualText>
+          <MultilingualText ID="77" CompositionName="Title">
+            <ObjectList>
+              <MultilingualTextItem ID="78" CompositionName="Items">
+                <AttributeList>
+                  <Culture>en-US</Culture>
+                  <Text>Stage 2 OFF</Text>
+                </AttributeList>
+              </MultilingualTextItem>
+            </ObjectList>
+          </MultilingualText>
+        </ObjectList>
+      </SW.Blocks.CompileUnit>
+      <SW.Blocks.CompileUnit ID="79" CompositionName="CompileUnits">
+        <AttributeList>
+          <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
+  <Parts>
+    <Access Scope="LocalVariable" UId="22">
+      <Symbol>
+        <Component Name="HeatReq" />
+      </Symbol>
+    </Access>
+    <Access Scope="LocalVariable" UId="24">
+      <Symbol>
+        <Component Name="RunFb" />
+      </Symbol>
+    </Access>
+    <Access Scope="TypedConstant" UId="27">
+      <Constant>
+        <ConstantValue>T#120S</ConstantValue>
+      </Constant>
+    </Access>
+    <Access Scope="LocalVariable" UId="30">
+      <Symbol>
+        <Component Name="NoRun" />
       </Symbol>
     </Access>
     <Part Name="Contact" UId="21" />
@@ -2166,7 +2416,7 @@
     </Part>
     <Part Name="TON" Version="1.0" UId="25">
       <Instance Scope="LocalVariable" UId="26">
-        <Component Name="T_RunOff" />
+        <Component Name="T_NoRun" />
       </Instance>
       <TemplateValue Name="time_type" Type="Type">Time</TemplateValue>
     </Part>
@@ -2214,246 +2464,12 @@
           <ProgrammingLanguage>LAD</ProgrammingLanguage>
         </AttributeList>
         <ObjectList>
-          <MultilingualText ID="70" CompositionName="Comment">
-            <ObjectList>
-              <MultilingualTextItem ID="71" CompositionName="Items">
-                <AttributeList>
-                  <Culture>en-US</Culture>
-                  <Text>RUN feedback with no heat request for 30 seconds sets a fault condition. Reference: R-09.</Text>
-                </AttributeList>
-              </MultilingualTextItem>
-            </ObjectList>
-          </MultilingualText>
-          <MultilingualText ID="72" CompositionName="Title">
-            <ObjectList>
-              <MultilingualTextItem ID="73" CompositionName="Items">
-                <AttributeList>
-                  <Culture>en-US</Culture>
-                  <Text>Detect RUN without a heat request</Text>
-                </AttributeList>
-              </MultilingualTextItem>
-            </ObjectList>
-          </MultilingualText>
-        </ObjectList>
-      </SW.Blocks.CompileUnit>
-      <SW.Blocks.CompileUnit ID="74" CompositionName="CompileUnits">
-        <AttributeList>
-          <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
-  <Parts>
-    <Access Scope="LocalVariable" UId="22">
-      <Symbol>
-        <Component Name="BurnerState" />
-      </Symbol>
-    </Access>
-    <Access Scope="LiteralConstant" UId="23">
-      <Constant>
-        <ConstantType>Int</ConstantType>
-        <ConstantValue>1</ConstantValue>
-      </Constant>
-    </Access>
-    <Access Scope="GlobalVariable" UId="26">
-      <Symbol>
-        <Component Name="Par" />
-        <Component Name="TStart_V" />
-      </Symbol>
-    </Access>
-    <Access Scope="LocalVariable" UId="29">
-      <Symbol>
-        <Component Name="NoStart" />
-      </Symbol>
-    </Access>
-    <Part Name="Eq" UId="21">
-      <TemplateValue Name="SrcType" Type="Type">Int</TemplateValue>
-    </Part>
-    <Part Name="TON" Version="1.0" UId="24">
-      <Instance Scope="LocalVariable" UId="25">
-        <Component Name="T_Start" />
-      </Instance>
-      <TemplateValue Name="time_type" Type="Type">Time</TemplateValue>
-    </Part>
-    <Part Name="Coil" UId="28" />
-  </Parts>
-  <Wires>
-    <Wire UId="30">
-      <Powerrail />
-      <NameCon UId="21" Name="pre" />
-    </Wire>
-    <Wire UId="31">
-      <IdentCon UId="22" />
-      <NameCon UId="21" Name="in1" />
-    </Wire>
-    <Wire UId="32">
-      <IdentCon UId="23" />
-      <NameCon UId="21" Name="in2" />
-    </Wire>
-    <Wire UId="33">
-      <NameCon UId="21" Name="out" />
-      <NameCon UId="24" Name="IN" />
-    </Wire>
-    <Wire UId="34">
-      <IdentCon UId="26" />
-      <NameCon UId="24" Name="PT" />
-    </Wire>
-    <Wire UId="35">
-      <NameCon UId="24" Name="ET" />
-      <OpenCon UId="27" />
-    </Wire>
-    <Wire UId="36">
-      <NameCon UId="24" Name="Q" />
-      <NameCon UId="28" Name="in" />
-    </Wire>
-    <Wire UId="37">
-      <NameCon UId="28" Name="operand" />
-      <IdentCon UId="29" />
-    </Wire>
-  </Wires>
-</FlgNet></NetworkSource>
-          <ProgrammingLanguage>LAD</ProgrammingLanguage>
-        </AttributeList>
-        <ObjectList>
-          <MultilingualText ID="75" CompositionName="Comment">
-            <ObjectList>
-              <MultilingualTextItem ID="76" CompositionName="Items">
-                <AttributeList>
-                  <Culture>en-US</Culture>
-                  <Text>While STARTING, time the maximum wait for RUN using the accepted start-time setting. Reference: C07f / C08f.</Text>
-                </AttributeList>
-              </MultilingualTextItem>
-            </ObjectList>
-          </MultilingualText>
-          <MultilingualText ID="77" CompositionName="Title">
-            <ObjectList>
-              <MultilingualTextItem ID="78" CompositionName="Items">
-                <AttributeList>
-                  <Culture>en-US</Culture>
-                  <Text>Check the burner start timeout</Text>
-                </AttributeList>
-              </MultilingualTextItem>
-            </ObjectList>
-          </MultilingualText>
-        </ObjectList>
-      </SW.Blocks.CompileUnit>
-      <SW.Blocks.CompileUnit ID="79" CompositionName="CompileUnits">
-        <AttributeList>
-          <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
-  <Parts>
-    <Access Scope="LocalVariable" UId="22">
-      <Symbol>
-        <Component Name="StartEdge" />
-      </Symbol>
-    </Access>
-    <Access Scope="LocalVariable" UId="24">
-      <Symbol>
-        <Component Name="BurnerState" />
-      </Symbol>
-    </Access>
-    <Access Scope="LiteralConstant" UId="25">
-      <Constant>
-        <ConstantType>Int</ConstantType>
-        <ConstantValue>0</ConstantValue>
-      </Constant>
-    </Access>
-    <Access Scope="LocalVariable" UId="27">
-      <Symbol>
-        <Component Name="ReadyToStart" />
-      </Symbol>
-    </Access>
-    <Access Scope="LocalVariable" UId="29">
-      <Symbol>
-        <Component Name="Auto" />
-      </Symbol>
-    </Access>
-    <Access Scope="LocalVariable" UId="31">
-      <Symbol>
-        <Component Name="HeatNeed" />
-      </Symbol>
-    </Access>
-    <Access Scope="LocalVariable" UId="34">
-      <Symbol>
-        <Component Name="StartEnabled" />
-      </Symbol>
-    </Access>
-    <Part Name="Contact" UId="21" />
-    <Part Name="Eq" UId="23">
-      <TemplateValue Name="SrcType" Type="Type">Int</TemplateValue>
-    </Part>
-    <Part Name="Contact" UId="26" />
-    <Part Name="Contact" UId="28" />
-    <Part Name="Contact" UId="30" />
-    <Part Name="O" UId="32">
-      <TemplateValue Name="Card" Type="Cardinality">2</TemplateValue>
-    </Part>
-    <Part Name="SCoil" UId="33" />
-  </Parts>
-  <Wires>
-    <Wire UId="35">
-      <Powerrail />
-      <NameCon UId="21" Name="in" />
-    </Wire>
-    <Wire UId="36">
-      <IdentCon UId="22" />
-      <NameCon UId="21" Name="operand" />
-    </Wire>
-    <Wire UId="37">
-      <NameCon UId="21" Name="out" />
-      <NameCon UId="23" Name="pre" />
-    </Wire>
-    <Wire UId="38">
-      <IdentCon UId="24" />
-      <NameCon UId="23" Name="in1" />
-    </Wire>
-    <Wire UId="39">
-      <IdentCon UId="25" />
-      <NameCon UId="23" Name="in2" />
-    </Wire>
-    <Wire UId="40">
-      <NameCon UId="23" Name="out" />
-      <NameCon UId="26" Name="in" />
-    </Wire>
-    <Wire UId="41">
-      <IdentCon UId="27" />
-      <NameCon UId="26" Name="operand" />
-    </Wire>
-    <Wire UId="42">
-      <NameCon UId="26" Name="out" />
-      <NameCon UId="28" Name="in" />
-      <NameCon UId="30" Name="in" />
-    </Wire>
-    <Wire UId="43">
-      <IdentCon UId="29" />
-      <NameCon UId="28" Name="operand" />
-    </Wire>
-    <Wire UId="44">
-      <IdentCon UId="31" />
-      <NameCon UId="30" Name="operand" />
-    </Wire>
-    <Wire UId="45">
-      <NameCon UId="28" Name="out" />
-      <NameCon UId="32" Name="in1" />
-    </Wire>
-    <Wire UId="46">
-      <NameCon UId="30" Name="out" />
-      <NameCon UId="32" Name="in2" />
-    </Wire>
-    <Wire UId="47">
-      <NameCon UId="32" Name="out" />
-      <NameCon UId="33" Name="in" />
-    </Wire>
-    <Wire UId="48">
-      <NameCon UId="33" Name="operand" />
-      <IdentCon UId="34" />
-    </Wire>
-  </Wires>
-</FlgNet></NetworkSource>
-          <ProgrammingLanguage>LAD</ProgrammingLanguage>
-        </AttributeList>
-        <ObjectList>
           <MultilingualText ID="7A" CompositionName="Comment">
             <ObjectList>
               <MultilingualTextItem ID="7B" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>Need a new press, IDLE and all start conditions. AUTO may wait for heat; MAN must already need heat. Reference: R-01 / B-01.</Text>
+                  <Text>Heat request without RUN for 120 s: alarm only (broken TL / L wire, no burner supply). C0xf.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -2463,7 +2479,7 @@
               <MultilingualTextItem ID="7D" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>Accept START permission</Text>
+                  <Text>Alarm: no RUN</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -2476,88 +2492,72 @@
   <Parts>
     <Access Scope="LocalVariable" UId="22">
       <Symbol>
-        <Component Name="StopOK" />
+        <Component Name="RunFb" />
       </Symbol>
     </Access>
     <Access Scope="LocalVariable" UId="24">
       <Symbol>
-        <Component Name="AutoChg" />
+        <Component Name="HeatReq" />
       </Symbol>
     </Access>
-    <Access Scope="LocalVariable" UId="26">
+    <Access Scope="TypedConstant" UId="27">
+      <Constant>
+        <ConstantValue>T#30S</ConstantValue>
+      </Constant>
+    </Access>
+    <Access Scope="LocalVariable" UId="30">
       <Symbol>
-        <Component Name="FuelChg" />
+        <Component Name="RunWrong" />
       </Symbol>
     </Access>
-    <Access Scope="GlobalVariable" UId="28">
-      <Symbol>
-        <Component Name="Scrubber_DB" />
-        <Component Name="Tripped" />
-      </Symbol>
-    </Access>
-    <Access Scope="LocalVariable" UId="31">
-      <Symbol>
-        <Component Name="StartEnabled" />
-      </Symbol>
-    </Access>
-    <Part Name="Contact" UId="21">
+    <Part Name="Contact" UId="21" />
+    <Part Name="Contact" UId="23">
       <Negated Name="operand" />
     </Part>
-    <Part Name="Contact" UId="23" />
-    <Part Name="Contact" UId="25" />
-    <Part Name="Contact" UId="27" />
-    <Part Name="O" UId="29">
-      <TemplateValue Name="Card" Type="Cardinality">4</TemplateValue>
+    <Part Name="TON" Version="1.0" UId="25">
+      <Instance Scope="LocalVariable" UId="26">
+        <Component Name="T_RunWrong" />
+      </Instance>
+      <TemplateValue Name="time_type" Type="Type">Time</TemplateValue>
     </Part>
-    <Part Name="RCoil" UId="30" />
+    <Part Name="Coil" UId="29" />
   </Parts>
   <Wires>
-    <Wire UId="32">
+    <Wire UId="31">
       <Powerrail />
       <NameCon UId="21" Name="in" />
-      <NameCon UId="23" Name="in" />
-      <NameCon UId="25" Name="in" />
-      <NameCon UId="27" Name="in" />
     </Wire>
-    <Wire UId="33">
+    <Wire UId="32">
       <IdentCon UId="22" />
       <NameCon UId="21" Name="operand" />
+    </Wire>
+    <Wire UId="33">
+      <NameCon UId="21" Name="out" />
+      <NameCon UId="23" Name="in" />
     </Wire>
     <Wire UId="34">
       <IdentCon UId="24" />
       <NameCon UId="23" Name="operand" />
     </Wire>
     <Wire UId="35">
-      <IdentCon UId="26" />
-      <NameCon UId="25" Name="operand" />
+      <NameCon UId="23" Name="out" />
+      <NameCon UId="25" Name="IN" />
     </Wire>
     <Wire UId="36">
-      <IdentCon UId="28" />
-      <NameCon UId="27" Name="operand" />
+      <IdentCon UId="27" />
+      <NameCon UId="25" Name="PT" />
     </Wire>
     <Wire UId="37">
-      <NameCon UId="21" Name="out" />
-      <NameCon UId="29" Name="in1" />
+      <NameCon UId="25" Name="ET" />
+      <OpenCon UId="28" />
     </Wire>
     <Wire UId="38">
-      <NameCon UId="23" Name="out" />
-      <NameCon UId="29" Name="in2" />
+      <NameCon UId="25" Name="Q" />
+      <NameCon UId="29" Name="in" />
     </Wire>
     <Wire UId="39">
-      <NameCon UId="25" Name="out" />
-      <NameCon UId="29" Name="in3" />
-    </Wire>
-    <Wire UId="40">
-      <NameCon UId="27" Name="out" />
-      <NameCon UId="29" Name="in4" />
-    </Wire>
-    <Wire UId="41">
-      <NameCon UId="29" Name="out" />
-      <NameCon UId="30" Name="in" />
-    </Wire>
-    <Wire UId="42">
-      <NameCon UId="30" Name="operand" />
-      <IdentCon UId="31" />
+      <NameCon UId="29" Name="operand" />
+      <IdentCon UId="30" />
     </Wire>
   </Wires>
 </FlgNet></NetworkSource>
@@ -2569,7 +2569,7 @@
               <MultilingualTextItem ID="80" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>STOP, AUTO/MAN change, fuel change or scrubber trip cancels the permission, including AUTO waiting for heat. Reference: B-01 / R-02 / R-12 / R-13.</Text>
+                  <Text>RUN without heat request for 30 s: alarm only (stuck relay R1 / R6). C0xg.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -2579,1912 +2579,16 @@
               <MultilingualTextItem ID="82" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>Cancel START permission</Text>
+                  <Text>Alarm: RUN without request</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
           </MultilingualText>
         </ObjectList>
       </SW.Blocks.CompileUnit>
-      <SW.Blocks.CompileUnit ID="83" CompositionName="CompileUnits">
-        <AttributeList>
-          <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
-  <Parts>
-    <Access Scope="LocalVariable" UId="22">
-      <Symbol>
-        <Component Name="BurnerState" />
-      </Symbol>
-    </Access>
-    <Access Scope="LiteralConstant" UId="23">
-      <Constant>
-        <ConstantType>Int</ConstantType>
-        <ConstantValue>0</ConstantValue>
-      </Constant>
-    </Access>
-    <Access Scope="LocalVariable" UId="25">
-      <Symbol>
-        <Component Name="StartEnabled" />
-      </Symbol>
-    </Access>
-    <Access Scope="LocalVariable" UId="27">
-      <Symbol>
-        <Component Name="ReadyToStart" />
-      </Symbol>
-    </Access>
-    <Access Scope="LocalVariable" UId="29">
-      <Symbol>
-        <Component Name="HeatNeed" />
-      </Symbol>
-    </Access>
-    <Access Scope="LocalVariable" UId="31">
-      <Symbol>
-        <Component Name="RunFb" />
-      </Symbol>
-    </Access>
-    <Access Scope="LiteralConstant" UId="33">
-      <Constant>
-        <ConstantType>Int</ConstantType>
-        <ConstantValue>1</ConstantValue>
-      </Constant>
-    </Access>
-    <Access Scope="LocalVariable" UId="34">
-      <Symbol>
-        <Component Name="BurnerState" />
-      </Symbol>
-    </Access>
-    <Part Name="Eq" UId="21">
-      <TemplateValue Name="SrcType" Type="Type">Int</TemplateValue>
-    </Part>
-    <Part Name="Contact" UId="24" />
-    <Part Name="Contact" UId="26" />
-    <Part Name="Contact" UId="28" />
-    <Part Name="Contact" UId="30">
-      <Negated Name="operand" />
-    </Part>
-    <Part Name="Move" UId="32" DisabledENO="false">
-      <TemplateValue Name="Card" Type="Cardinality">1</TemplateValue>
-    </Part>
-  </Parts>
-  <Wires>
-    <Wire UId="35">
-      <Powerrail />
-      <NameCon UId="21" Name="pre" />
-    </Wire>
-    <Wire UId="36">
-      <IdentCon UId="22" />
-      <NameCon UId="21" Name="in1" />
-    </Wire>
-    <Wire UId="37">
-      <IdentCon UId="23" />
-      <NameCon UId="21" Name="in2" />
-    </Wire>
-    <Wire UId="38">
-      <NameCon UId="21" Name="out" />
-      <NameCon UId="24" Name="in" />
-    </Wire>
-    <Wire UId="39">
-      <IdentCon UId="25" />
-      <NameCon UId="24" Name="operand" />
-    </Wire>
-    <Wire UId="40">
-      <NameCon UId="24" Name="out" />
-      <NameCon UId="26" Name="in" />
-    </Wire>
-    <Wire UId="41">
-      <IdentCon UId="27" />
-      <NameCon UId="26" Name="operand" />
-    </Wire>
-    <Wire UId="42">
-      <NameCon UId="26" Name="out" />
-      <NameCon UId="28" Name="in" />
-    </Wire>
-    <Wire UId="43">
-      <IdentCon UId="29" />
-      <NameCon UId="28" Name="operand" />
-    </Wire>
-    <Wire UId="44">
-      <NameCon UId="28" Name="out" />
-      <NameCon UId="30" Name="in" />
-    </Wire>
-    <Wire UId="45">
-      <IdentCon UId="31" />
-      <NameCon UId="30" Name="operand" />
-    </Wire>
-    <Wire UId="46">
-      <NameCon UId="30" Name="out" />
-      <NameCon UId="32" Name="en" />
-    </Wire>
-    <Wire UId="47">
-      <IdentCon UId="33" />
-      <NameCon UId="32" Name="in" />
-    </Wire>
-    <Wire UId="48">
-      <NameCon UId="32" Name="out1" />
-      <IdentCon UId="34" />
-    </Wire>
-  </Wires>
-</FlgNet></NetworkSource>
-          <ProgrammingLanguage>LAD</ProgrammingLanguage>
-        </AttributeList>
+      <MultilingualText ID="85" CompositionName="Title">
         <ObjectList>
-          <MultilingualText ID="84" CompositionName="Comment">
-            <ObjectList>
-              <MultilingualTextItem ID="85" CompositionName="Items">
-                <AttributeList>
-                  <Culture>en-US</Culture>
-                  <Text>Move from IDLE to STARTING only with permission, healthy conditions, heat demand and RUN initially OFF. Reference: B-01 / R-09.</Text>
-                </AttributeList>
-              </MultilingualTextItem>
-            </ObjectList>
-          </MultilingualText>
-          <MultilingualText ID="86" CompositionName="Title">
-            <ObjectList>
-              <MultilingualTextItem ID="87" CompositionName="Items">
-                <AttributeList>
-                  <Culture>en-US</Culture>
-                  <Text>Begin the burner start sequence</Text>
-                </AttributeList>
-              </MultilingualTextItem>
-            </ObjectList>
-          </MultilingualText>
-        </ObjectList>
-      </SW.Blocks.CompileUnit>
-      <SW.Blocks.CompileUnit ID="88" CompositionName="CompileUnits">
-        <AttributeList>
-          <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
-  <Parts>
-    <Access Scope="LocalVariable" UId="22">
-      <Symbol>
-        <Component Name="BurnerState" />
-      </Symbol>
-    </Access>
-    <Access Scope="LiteralConstant" UId="23">
-      <Constant>
-        <ConstantType>Int</ConstantType>
-        <ConstantValue>1</ConstantValue>
-      </Constant>
-    </Access>
-    <Access Scope="LocalVariable" UId="25">
-      <Symbol>
-        <Component Name="RunFb" />
-      </Symbol>
-    </Access>
-    <Access Scope="LiteralConstant" UId="27">
-      <Constant>
-        <ConstantType>Int</ConstantType>
-        <ConstantValue>2</ConstantValue>
-      </Constant>
-    </Access>
-    <Access Scope="LocalVariable" UId="28">
-      <Symbol>
-        <Component Name="BurnerState" />
-      </Symbol>
-    </Access>
-    <Part Name="Eq" UId="21">
-      <TemplateValue Name="SrcType" Type="Type">Int</TemplateValue>
-    </Part>
-    <Part Name="Contact" UId="24" />
-    <Part Name="Move" UId="26" DisabledENO="false">
-      <TemplateValue Name="Card" Type="Cardinality">1</TemplateValue>
-    </Part>
-  </Parts>
-  <Wires>
-    <Wire UId="29">
-      <Powerrail />
-      <NameCon UId="21" Name="pre" />
-    </Wire>
-    <Wire UId="30">
-      <IdentCon UId="22" />
-      <NameCon UId="21" Name="in1" />
-    </Wire>
-    <Wire UId="31">
-      <IdentCon UId="23" />
-      <NameCon UId="21" Name="in2" />
-    </Wire>
-    <Wire UId="32">
-      <NameCon UId="21" Name="out" />
-      <NameCon UId="24" Name="in" />
-    </Wire>
-    <Wire UId="33">
-      <IdentCon UId="25" />
-      <NameCon UId="24" Name="operand" />
-    </Wire>
-    <Wire UId="34">
-      <NameCon UId="24" Name="out" />
-      <NameCon UId="26" Name="en" />
-    </Wire>
-    <Wire UId="35">
-      <IdentCon UId="27" />
-      <NameCon UId="26" Name="in" />
-    </Wire>
-    <Wire UId="36">
-      <NameCon UId="26" Name="out1" />
-      <IdentCon UId="28" />
-    </Wire>
-  </Wires>
-</FlgNet></NetworkSource>
-          <ProgrammingLanguage>LAD</ProgrammingLanguage>
-        </AttributeList>
-        <ObjectList>
-          <MultilingualText ID="89" CompositionName="Comment">
-            <ObjectList>
-              <MultilingualTextItem ID="8A" CompositionName="Items">
-                <AttributeList>
-                  <Culture>en-US</Culture>
-                  <Text>While STARTING, RUN feedback changes the state to RUNNING. Reference: B-01.</Text>
-                </AttributeList>
-              </MultilingualTextItem>
-            </ObjectList>
-          </MultilingualText>
-          <MultilingualText ID="8B" CompositionName="Title">
-            <ObjectList>
-              <MultilingualTextItem ID="8C" CompositionName="Items">
-                <AttributeList>
-                  <Culture>en-US</Culture>
-                  <Text>Accept the burner RUN feedback</Text>
-                </AttributeList>
-              </MultilingualTextItem>
-            </ObjectList>
-          </MultilingualText>
-        </ObjectList>
-      </SW.Blocks.CompileUnit>
-      <SW.Blocks.CompileUnit ID="8D" CompositionName="CompileUnits">
-        <AttributeList>
-          <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
-  <Parts>
-    <Access Scope="LocalVariable" UId="22">
-      <Symbol>
-        <Component Name="BurnerState" />
-      </Symbol>
-    </Access>
-    <Access Scope="LiteralConstant" UId="23">
-      <Constant>
-        <ConstantType>Int</ConstantType>
-        <ConstantValue>1</ConstantValue>
-      </Constant>
-    </Access>
-    <Access Scope="LocalVariable" UId="25">
-      <Symbol>
-        <Component Name="BurnerState" />
-      </Symbol>
-    </Access>
-    <Access Scope="LiteralConstant" UId="26">
-      <Constant>
-        <ConstantType>Int</ConstantType>
-        <ConstantValue>2</ConstantValue>
-      </Constant>
-    </Access>
-    <Access Scope="GlobalVariable" UId="29">
-      <Symbol>
-        <Component Name="Sys" />
-        <Component Name="EStopOK" />
-      </Symbol>
-    </Access>
-    <Access Scope="GlobalVariable" UId="31">
-      <Symbol>
-        <Component Name="Scrubber_DB" />
-        <Component Name="Tripped" />
-      </Symbol>
-    </Access>
-    <Access Scope="LiteralConstant" UId="33">
-      <Constant>
-        <ConstantType>Int</ConstantType>
-        <ConstantValue>3</ConstantValue>
-      </Constant>
-    </Access>
-    <Access Scope="LocalVariable" UId="34">
-      <Symbol>
-        <Component Name="BurnerState" />
-      </Symbol>
-    </Access>
-    <Access Scope="LocalVariable" UId="36">
-      <Symbol>
-        <Component Name="F_Scrubber" />
-      </Symbol>
-    </Access>
-    <Part Name="Eq" UId="21">
-      <TemplateValue Name="SrcType" Type="Type">Int</TemplateValue>
-    </Part>
-    <Part Name="Eq" UId="24">
-      <TemplateValue Name="SrcType" Type="Type">Int</TemplateValue>
-    </Part>
-    <Part Name="O" UId="27">
-      <TemplateValue Name="Card" Type="Cardinality">2</TemplateValue>
-    </Part>
-    <Part Name="Contact" UId="28" />
-    <Part Name="Contact" UId="30" />
-    <Part Name="Move" UId="32" DisabledENO="false">
-      <TemplateValue Name="Card" Type="Cardinality">1</TemplateValue>
-    </Part>
-    <Part Name="SCoil" UId="35" />
-  </Parts>
-  <Wires>
-    <Wire UId="37">
-      <Powerrail />
-      <NameCon UId="21" Name="pre" />
-      <NameCon UId="24" Name="pre" />
-    </Wire>
-    <Wire UId="38">
-      <IdentCon UId="22" />
-      <NameCon UId="21" Name="in1" />
-    </Wire>
-    <Wire UId="39">
-      <IdentCon UId="23" />
-      <NameCon UId="21" Name="in2" />
-    </Wire>
-    <Wire UId="40">
-      <IdentCon UId="25" />
-      <NameCon UId="24" Name="in1" />
-    </Wire>
-    <Wire UId="41">
-      <IdentCon UId="26" />
-      <NameCon UId="24" Name="in2" />
-    </Wire>
-    <Wire UId="42">
-      <NameCon UId="21" Name="out" />
-      <NameCon UId="27" Name="in1" />
-    </Wire>
-    <Wire UId="43">
-      <NameCon UId="24" Name="out" />
-      <NameCon UId="27" Name="in2" />
-    </Wire>
-    <Wire UId="44">
-      <NameCon UId="27" Name="out" />
-      <NameCon UId="28" Name="in" />
-    </Wire>
-    <Wire UId="45">
-      <IdentCon UId="29" />
-      <NameCon UId="28" Name="operand" />
-    </Wire>
-    <Wire UId="46">
-      <NameCon UId="28" Name="out" />
-      <NameCon UId="30" Name="in" />
-    </Wire>
-    <Wire UId="47">
-      <IdentCon UId="31" />
-      <NameCon UId="30" Name="operand" />
-    </Wire>
-    <Wire UId="48">
-      <NameCon UId="30" Name="out" />
-      <NameCon UId="32" Name="en" />
-      <NameCon UId="35" Name="in" />
-    </Wire>
-    <Wire UId="49">
-      <IdentCon UId="33" />
-      <NameCon UId="32" Name="in" />
-    </Wire>
-    <Wire UId="50">
-      <NameCon UId="32" Name="out1" />
-      <IdentCon UId="34" />
-    </Wire>
-    <Wire UId="51">
-      <NameCon UId="35" Name="operand" />
-      <IdentCon UId="36" />
-    </Wire>
-  </Wires>
-</FlgNet></NetworkSource>
-          <ProgrammingLanguage>LAD</ProgrammingLanguage>
-        </AttributeList>
-        <ObjectList>
-          <MultilingualText ID="8E" CompositionName="Comment">
-            <ObjectList>
-              <MultilingualTextItem ID="8F" CompositionName="Items">
-                <AttributeList>
-                  <Culture>en-US</Culture>
-                  <Text>With E-STOP healthy, a scrubber trip while STARTING or RUNNING records this fault. Reference: C03 / C05 / R-13.</Text>
-                </AttributeList>
-              </MultilingualTextItem>
-            </ObjectList>
-          </MultilingualText>
-          <MultilingualText ID="90" CompositionName="Title">
-            <ObjectList>
-              <MultilingualTextItem ID="91" CompositionName="Items">
-                <AttributeList>
-                  <Culture>en-US</Culture>
-                  <Text>Fault on a scrubber trip during operation</Text>
-                </AttributeList>
-              </MultilingualTextItem>
-            </ObjectList>
-          </MultilingualText>
-        </ObjectList>
-      </SW.Blocks.CompileUnit>
-      <SW.Blocks.CompileUnit ID="92" CompositionName="CompileUnits">
-        <AttributeList>
-          <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
-  <Parts>
-    <Access Scope="LocalVariable" UId="22">
-      <Symbol>
-        <Component Name="BurnerState" />
-      </Symbol>
-    </Access>
-    <Access Scope="LiteralConstant" UId="23">
-      <Constant>
-        <ConstantType>Int</ConstantType>
-        <ConstantValue>1</ConstantValue>
-      </Constant>
-    </Access>
-    <Access Scope="LocalVariable" UId="25">
-      <Symbol>
-        <Component Name="BurnerState" />
-      </Symbol>
-    </Access>
-    <Access Scope="LiteralConstant" UId="26">
-      <Constant>
-        <ConstantType>Int</ConstantType>
-        <ConstantValue>2</ConstantValue>
-      </Constant>
-    </Access>
-    <Access Scope="LocalVariable" UId="29">
-      <Symbol>
-        <Component Name="ReadyToStart" />
-      </Symbol>
-    </Access>
-    <Access Scope="LocalVariable" UId="31">
-      <Symbol>
-        <Component Name="HeatNeed" />
-      </Symbol>
-    </Access>
-    <Access Scope="LocalVariable" UId="33">
-      <Symbol>
-        <Component Name="StartEnabled" />
-      </Symbol>
-    </Access>
-    <Access Scope="LiteralConstant" UId="36">
-      <Constant>
-        <ConstantType>Int</ConstantType>
-        <ConstantValue>0</ConstantValue>
-      </Constant>
-    </Access>
-    <Access Scope="LocalVariable" UId="37">
-      <Symbol>
-        <Component Name="BurnerState" />
-      </Symbol>
-    </Access>
-    <Part Name="Eq" UId="21">
-      <TemplateValue Name="SrcType" Type="Type">Int</TemplateValue>
-    </Part>
-    <Part Name="Eq" UId="24">
-      <TemplateValue Name="SrcType" Type="Type">Int</TemplateValue>
-    </Part>
-    <Part Name="O" UId="27">
-      <TemplateValue Name="Card" Type="Cardinality">2</TemplateValue>
-    </Part>
-    <Part Name="Contact" UId="28">
-      <Negated Name="operand" />
-    </Part>
-    <Part Name="Contact" UId="30">
-      <Negated Name="operand" />
-    </Part>
-    <Part Name="Contact" UId="32">
-      <Negated Name="operand" />
-    </Part>
-    <Part Name="O" UId="34">
-      <TemplateValue Name="Card" Type="Cardinality">3</TemplateValue>
-    </Part>
-    <Part Name="Move" UId="35" DisabledENO="false">
-      <TemplateValue Name="Card" Type="Cardinality">1</TemplateValue>
-    </Part>
-  </Parts>
-  <Wires>
-    <Wire UId="38">
-      <Powerrail />
-      <NameCon UId="21" Name="pre" />
-      <NameCon UId="24" Name="pre" />
-    </Wire>
-    <Wire UId="39">
-      <IdentCon UId="22" />
-      <NameCon UId="21" Name="in1" />
-    </Wire>
-    <Wire UId="40">
-      <IdentCon UId="23" />
-      <NameCon UId="21" Name="in2" />
-    </Wire>
-    <Wire UId="41">
-      <IdentCon UId="25" />
-      <NameCon UId="24" Name="in1" />
-    </Wire>
-    <Wire UId="42">
-      <IdentCon UId="26" />
-      <NameCon UId="24" Name="in2" />
-    </Wire>
-    <Wire UId="43">
-      <NameCon UId="21" Name="out" />
-      <NameCon UId="27" Name="in1" />
-    </Wire>
-    <Wire UId="44">
-      <NameCon UId="24" Name="out" />
-      <NameCon UId="27" Name="in2" />
-    </Wire>
-    <Wire UId="45">
-      <NameCon UId="27" Name="out" />
-      <NameCon UId="28" Name="in" />
-      <NameCon UId="30" Name="in" />
-      <NameCon UId="32" Name="in" />
-    </Wire>
-    <Wire UId="46">
-      <IdentCon UId="29" />
-      <NameCon UId="28" Name="operand" />
-    </Wire>
-    <Wire UId="47">
-      <IdentCon UId="31" />
-      <NameCon UId="30" Name="operand" />
-    </Wire>
-    <Wire UId="48">
-      <IdentCon UId="33" />
-      <NameCon UId="32" Name="operand" />
-    </Wire>
-    <Wire UId="49">
-      <NameCon UId="28" Name="out" />
-      <NameCon UId="34" Name="in1" />
-    </Wire>
-    <Wire UId="50">
-      <NameCon UId="30" Name="out" />
-      <NameCon UId="34" Name="in2" />
-    </Wire>
-    <Wire UId="51">
-      <NameCon UId="32" Name="out" />
-      <NameCon UId="34" Name="in3" />
-    </Wire>
-    <Wire UId="52">
-      <NameCon UId="34" Name="out" />
-      <NameCon UId="35" Name="en" />
-    </Wire>
-    <Wire UId="53">
-      <IdentCon UId="36" />
-      <NameCon UId="35" Name="in" />
-    </Wire>
-    <Wire UId="54">
-      <NameCon UId="35" Name="out1" />
-      <IdentCon UId="37" />
-    </Wire>
-  </Wires>
-</FlgNet></NetworkSource>
-          <ProgrammingLanguage>LAD</ProgrammingLanguage>
-        </AttributeList>
-        <ObjectList>
-          <MultilingualText ID="93" CompositionName="Comment">
-            <ObjectList>
-              <MultilingualTextItem ID="94" CompositionName="Items">
-                <AttributeList>
-                  <Culture>en-US</Culture>
-                  <Text>While starting or running, return to IDLE if start conditions, heat demand or START permission are lost. Reference: C07a / C08a / C07b / C08b / C07h / B-01.</Text>
-                </AttributeList>
-              </MultilingualTextItem>
-            </ObjectList>
-          </MultilingualText>
-          <MultilingualText ID="95" CompositionName="Title">
-            <ObjectList>
-              <MultilingualTextItem ID="96" CompositionName="Items">
-                <AttributeList>
-                  <Culture>en-US</Culture>
-                  <Text>Return to IDLE when heating must stop</Text>
-                </AttributeList>
-              </MultilingualTextItem>
-            </ObjectList>
-          </MultilingualText>
-        </ObjectList>
-      </SW.Blocks.CompileUnit>
-      <SW.Blocks.CompileUnit ID="97" CompositionName="CompileUnits">
-        <AttributeList>
-          <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
-  <Parts>
-    <Access Scope="LocalVariable" UId="22">
-      <Symbol>
-        <Component Name="Auto" />
-      </Symbol>
-    </Access>
-    <Access Scope="LocalVariable" UId="24">
-      <Symbol>
-        <Component Name="BurnerState" />
-      </Symbol>
-    </Access>
-    <Access Scope="LiteralConstant" UId="25">
-      <Constant>
-        <ConstantType>Int</ConstantType>
-        <ConstantValue>0</ConstantValue>
-      </Constant>
-    </Access>
-    <Access Scope="LocalVariable" UId="27">
-      <Symbol>
-        <Component Name="HeatReq" />
-      </Symbol>
-    </Access>
-    <Access Scope="LocalVariable" UId="29">
-      <Symbol>
-        <Component Name="StartEnabled" />
-      </Symbol>
-    </Access>
-    <Part Name="Contact" UId="21">
-      <Negated Name="operand" />
-    </Part>
-    <Part Name="Eq" UId="23">
-      <TemplateValue Name="SrcType" Type="Type">Int</TemplateValue>
-    </Part>
-    <Part Name="Contact" UId="26" />
-    <Part Name="RCoil" UId="28" />
-  </Parts>
-  <Wires>
-    <Wire UId="30">
-      <Powerrail />
-      <NameCon UId="21" Name="in" />
-    </Wire>
-    <Wire UId="31">
-      <IdentCon UId="22" />
-      <NameCon UId="21" Name="operand" />
-    </Wire>
-    <Wire UId="32">
-      <NameCon UId="21" Name="out" />
-      <NameCon UId="23" Name="pre" />
-    </Wire>
-    <Wire UId="33">
-      <IdentCon UId="24" />
-      <NameCon UId="23" Name="in1" />
-    </Wire>
-    <Wire UId="34">
-      <IdentCon UId="25" />
-      <NameCon UId="23" Name="in2" />
-    </Wire>
-    <Wire UId="35">
-      <NameCon UId="23" Name="out" />
-      <NameCon UId="26" Name="in" />
-    </Wire>
-    <Wire UId="36">
-      <IdentCon UId="27" />
-      <NameCon UId="26" Name="operand" />
-    </Wire>
-    <Wire UId="37">
-      <NameCon UId="26" Name="out" />
-      <NameCon UId="28" Name="in" />
-    </Wire>
-    <Wire UId="38">
-      <NameCon UId="28" Name="operand" />
-      <IdentCon UId="29" />
-    </Wire>
-  </Wires>
-</FlgNet></NetworkSource>
-          <ProgrammingLanguage>LAD</ProgrammingLanguage>
-        </AttributeList>
-        <ObjectList>
-          <MultilingualText ID="98" CompositionName="Comment">
-            <ObjectList>
-              <MultilingualTextItem ID="99" CompositionName="Items">
-                <AttributeList>
-                  <Culture>en-US</Culture>
-                  <Text>In MAN, returning to IDLE after a heat request cancels the previous START permission. Reference: R-03.</Text>
-                </AttributeList>
-              </MultilingualTextItem>
-            </ObjectList>
-          </MultilingualText>
-          <MultilingualText ID="9A" CompositionName="Title">
-            <ObjectList>
-              <MultilingualTextItem ID="9B" CompositionName="Items">
-                <AttributeList>
-                  <Culture>en-US</Culture>
-                  <Text>MAN: require START after each cycle</Text>
-                </AttributeList>
-              </MultilingualTextItem>
-            </ObjectList>
-          </MultilingualText>
-        </ObjectList>
-      </SW.Blocks.CompileUnit>
-      <SW.Blocks.CompileUnit ID="9C" CompositionName="CompileUnits">
-        <AttributeList>
-          <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
-  <Parts>
-    <Access Scope="LocalVariable" UId="22">
-      <Symbol>
-        <Component Name="BurnerState" />
-      </Symbol>
-    </Access>
-    <Access Scope="LiteralConstant" UId="23">
-      <Constant>
-        <ConstantType>Int</ConstantType>
-        <ConstantValue>1</ConstantValue>
-      </Constant>
-    </Access>
-    <Access Scope="LocalVariable" UId="25">
-      <Symbol>
-        <Component Name="NoStart" />
-      </Symbol>
-    </Access>
-    <Access Scope="LiteralConstant" UId="27">
-      <Constant>
-        <ConstantType>Int</ConstantType>
-        <ConstantValue>3</ConstantValue>
-      </Constant>
-    </Access>
-    <Access Scope="LocalVariable" UId="28">
-      <Symbol>
-        <Component Name="BurnerState" />
-      </Symbol>
-    </Access>
-    <Access Scope="LocalVariable" UId="30">
-      <Symbol>
-        <Component Name="F_NoStart" />
-      </Symbol>
-    </Access>
-    <Part Name="Eq" UId="21">
-      <TemplateValue Name="SrcType" Type="Type">Int</TemplateValue>
-    </Part>
-    <Part Name="Contact" UId="24" />
-    <Part Name="Move" UId="26" DisabledENO="false">
-      <TemplateValue Name="Card" Type="Cardinality">1</TemplateValue>
-    </Part>
-    <Part Name="SCoil" UId="29" />
-  </Parts>
-  <Wires>
-    <Wire UId="31">
-      <Powerrail />
-      <NameCon UId="21" Name="pre" />
-    </Wire>
-    <Wire UId="32">
-      <IdentCon UId="22" />
-      <NameCon UId="21" Name="in1" />
-    </Wire>
-    <Wire UId="33">
-      <IdentCon UId="23" />
-      <NameCon UId="21" Name="in2" />
-    </Wire>
-    <Wire UId="34">
-      <NameCon UId="21" Name="out" />
-      <NameCon UId="24" Name="in" />
-    </Wire>
-    <Wire UId="35">
-      <IdentCon UId="25" />
-      <NameCon UId="24" Name="operand" />
-    </Wire>
-    <Wire UId="36">
-      <NameCon UId="24" Name="out" />
-      <NameCon UId="26" Name="en" />
-      <NameCon UId="29" Name="in" />
-    </Wire>
-    <Wire UId="37">
-      <IdentCon UId="27" />
-      <NameCon UId="26" Name="in" />
-    </Wire>
-    <Wire UId="38">
-      <NameCon UId="26" Name="out1" />
-      <IdentCon UId="28" />
-    </Wire>
-    <Wire UId="39">
-      <NameCon UId="29" Name="operand" />
-      <IdentCon UId="30" />
-    </Wire>
-  </Wires>
-</FlgNet></NetworkSource>
-          <ProgrammingLanguage>LAD</ProgrammingLanguage>
-        </AttributeList>
-        <ObjectList>
-          <MultilingualText ID="9D" CompositionName="Comment">
-            <ObjectList>
-              <MultilingualTextItem ID="9E" CompositionName="Items">
-                <AttributeList>
-                  <Culture>en-US</Culture>
-                  <Text>If still STARTING when the start timer expires, record the start fault. Reference: C07f / C08f.</Text>
-                </AttributeList>
-              </MultilingualTextItem>
-            </ObjectList>
-          </MultilingualText>
-          <MultilingualText ID="9F" CompositionName="Title">
-            <ObjectList>
-              <MultilingualTextItem ID="A0" CompositionName="Items">
-                <AttributeList>
-                  <Culture>en-US</Culture>
-                  <Text>Fault if RUN does not arrive in time</Text>
-                </AttributeList>
-              </MultilingualTextItem>
-            </ObjectList>
-          </MultilingualText>
-        </ObjectList>
-      </SW.Blocks.CompileUnit>
-      <SW.Blocks.CompileUnit ID="A1" CompositionName="CompileUnits">
-        <AttributeList>
-          <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
-  <Parts>
-    <Access Scope="LocalVariable" UId="22">
-      <Symbol>
-        <Component Name="BurnerState" />
-      </Symbol>
-    </Access>
-    <Access Scope="LiteralConstant" UId="23">
-      <Constant>
-        <ConstantType>Int</ConstantType>
-        <ConstantValue>2</ConstantValue>
-      </Constant>
-    </Access>
-    <Access Scope="LocalVariable" UId="25">
-      <Symbol>
-        <Component Name="RunFb" />
-      </Symbol>
-    </Access>
-    <Access Scope="LocalVariable" UId="27">
-      <Symbol>
-        <Component Name="Lockout" />
-      </Symbol>
-    </Access>
-    <Access Scope="LiteralConstant" UId="29">
-      <Constant>
-        <ConstantType>Int</ConstantType>
-        <ConstantValue>3</ConstantValue>
-      </Constant>
-    </Access>
-    <Access Scope="LocalVariable" UId="30">
-      <Symbol>
-        <Component Name="BurnerState" />
-      </Symbol>
-    </Access>
-    <Access Scope="LocalVariable" UId="32">
-      <Symbol>
-        <Component Name="F_RunLost" />
-      </Symbol>
-    </Access>
-    <Part Name="Eq" UId="21">
-      <TemplateValue Name="SrcType" Type="Type">Int</TemplateValue>
-    </Part>
-    <Part Name="Contact" UId="24">
-      <Negated Name="operand" />
-    </Part>
-    <Part Name="Contact" UId="26">
-      <Negated Name="operand" />
-    </Part>
-    <Part Name="Move" UId="28" DisabledENO="false">
-      <TemplateValue Name="Card" Type="Cardinality">1</TemplateValue>
-    </Part>
-    <Part Name="SCoil" UId="31" />
-  </Parts>
-  <Wires>
-    <Wire UId="33">
-      <Powerrail />
-      <NameCon UId="21" Name="pre" />
-    </Wire>
-    <Wire UId="34">
-      <IdentCon UId="22" />
-      <NameCon UId="21" Name="in1" />
-    </Wire>
-    <Wire UId="35">
-      <IdentCon UId="23" />
-      <NameCon UId="21" Name="in2" />
-    </Wire>
-    <Wire UId="36">
-      <NameCon UId="21" Name="out" />
-      <NameCon UId="24" Name="in" />
-    </Wire>
-    <Wire UId="37">
-      <IdentCon UId="25" />
-      <NameCon UId="24" Name="operand" />
-    </Wire>
-    <Wire UId="38">
-      <NameCon UId="24" Name="out" />
-      <NameCon UId="26" Name="in" />
-    </Wire>
-    <Wire UId="39">
-      <IdentCon UId="27" />
-      <NameCon UId="26" Name="operand" />
-    </Wire>
-    <Wire UId="40">
-      <NameCon UId="26" Name="out" />
-      <NameCon UId="28" Name="en" />
-      <NameCon UId="31" Name="in" />
-    </Wire>
-    <Wire UId="41">
-      <IdentCon UId="29" />
-      <NameCon UId="28" Name="in" />
-    </Wire>
-    <Wire UId="42">
-      <NameCon UId="28" Name="out1" />
-      <IdentCon UId="30" />
-    </Wire>
-    <Wire UId="43">
-      <NameCon UId="31" Name="operand" />
-      <IdentCon UId="32" />
-    </Wire>
-  </Wires>
-</FlgNet></NetworkSource>
-          <ProgrammingLanguage>LAD</ProgrammingLanguage>
-        </AttributeList>
-        <ObjectList>
-          <MultilingualText ID="A2" CompositionName="Comment">
-            <ObjectList>
-              <MultilingualTextItem ID="A3" CompositionName="Items">
-                <AttributeList>
-                  <Culture>en-US</Culture>
-                  <Text>In RUNNING, loss of RUN without lockout records this fault, unless an earlier stop already changed the state. Reference: C07g / C08g.</Text>
-                </AttributeList>
-              </MultilingualTextItem>
-            </ObjectList>
-          </MultilingualText>
-          <MultilingualText ID="A4" CompositionName="Title">
-            <ObjectList>
-              <MultilingualTextItem ID="A5" CompositionName="Items">
-                <AttributeList>
-                  <Culture>en-US</Culture>
-                  <Text>Fault if RUN feedback is lost</Text>
-                </AttributeList>
-              </MultilingualTextItem>
-            </ObjectList>
-          </MultilingualText>
-        </ObjectList>
-      </SW.Blocks.CompileUnit>
-      <SW.Blocks.CompileUnit ID="A6" CompositionName="CompileUnits">
-        <AttributeList>
-          <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
-  <Parts>
-    <Access Scope="LocalVariable" UId="22">
-      <Symbol>
-        <Component Name="BurnerState" />
-      </Symbol>
-    </Access>
-    <Access Scope="LiteralConstant" UId="23">
-      <Constant>
-        <ConstantType>Int</ConstantType>
-        <ConstantValue>3</ConstantValue>
-      </Constant>
-    </Access>
-    <Access Scope="LocalVariable" UId="25">
-      <Symbol>
-        <Component Name="StartEnabled" />
-      </Symbol>
-    </Access>
-    <Part Name="Eq" UId="21">
-      <TemplateValue Name="SrcType" Type="Type">Int</TemplateValue>
-    </Part>
-    <Part Name="RCoil" UId="24" />
-  </Parts>
-  <Wires>
-    <Wire UId="26">
-      <Powerrail />
-      <NameCon UId="21" Name="pre" />
-    </Wire>
-    <Wire UId="27">
-      <IdentCon UId="22" />
-      <NameCon UId="21" Name="in1" />
-    </Wire>
-    <Wire UId="28">
-      <IdentCon UId="23" />
-      <NameCon UId="21" Name="in2" />
-    </Wire>
-    <Wire UId="29">
-      <NameCon UId="21" Name="out" />
-      <NameCon UId="24" Name="in" />
-    </Wire>
-    <Wire UId="30">
-      <NameCon UId="24" Name="operand" />
-      <IdentCon UId="25" />
-    </Wire>
-  </Wires>
-</FlgNet></NetworkSource>
-          <ProgrammingLanguage>LAD</ProgrammingLanguage>
-        </AttributeList>
-        <ObjectList>
-          <MultilingualText ID="A7" CompositionName="Comment">
-            <ObjectList>
-              <MultilingualTextItem ID="A8" CompositionName="Items">
-                <AttributeList>
-                  <Culture>en-US</Culture>
-                  <Text>FAULT cancels START permission before reset handling; this prevents restart from an old START. Reference: B-02.</Text>
-                </AttributeList>
-              </MultilingualTextItem>
-            </ObjectList>
-          </MultilingualText>
-          <MultilingualText ID="A9" CompositionName="Title">
-            <ObjectList>
-              <MultilingualTextItem ID="AA" CompositionName="Items">
-                <AttributeList>
-                  <Culture>en-US</Culture>
-                  <Text>Cancel START before resetting a fault</Text>
-                </AttributeList>
-              </MultilingualTextItem>
-            </ObjectList>
-          </MultilingualText>
-        </ObjectList>
-      </SW.Blocks.CompileUnit>
-      <SW.Blocks.CompileUnit ID="AB" CompositionName="CompileUnits">
-        <AttributeList>
-          <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
-  <Parts>
-    <Access Scope="LocalVariable" UId="22">
-      <Symbol>
-        <Component Name="BurnerState" />
-      </Symbol>
-    </Access>
-    <Access Scope="LiteralConstant" UId="23">
-      <Constant>
-        <ConstantType>Int</ConstantType>
-        <ConstantValue>3</ConstantValue>
-      </Constant>
-    </Access>
-    <Access Scope="LocalVariable" UId="25">
-      <Symbol>
-        <Component Name="Reset" />
-      </Symbol>
-    </Access>
-    <Access Scope="GlobalVariable" UId="27">
-      <Symbol>
-        <Component Name="Sys" />
-        <Component Name="EStopOK" />
-      </Symbol>
-    </Access>
-    <Access Scope="LocalVariable" UId="29">
-      <Symbol>
-        <Component Name="Lockout" />
-      </Symbol>
-    </Access>
-    <Access Scope="LocalVariable" UId="31">
-      <Symbol>
-        <Component Name="TcOk" />
-      </Symbol>
-    </Access>
-    <Access Scope="LocalVariable" UId="33">
-      <Symbol>
-        <Component Name="RunFb" />
-      </Symbol>
-    </Access>
-    <Access Scope="GlobalVariable" UId="35">
-      <Symbol>
-        <Component Name="Scrubber_DB" />
-        <Component Name="Tripped" />
-      </Symbol>
-    </Access>
-    <Access Scope="LiteralConstant" UId="37">
-      <Constant>
-        <ConstantType>Int</ConstantType>
-        <ConstantValue>0</ConstantValue>
-      </Constant>
-    </Access>
-    <Access Scope="LocalVariable" UId="38">
-      <Symbol>
-        <Component Name="BurnerState" />
-      </Symbol>
-    </Access>
-    <Access Scope="LocalVariable" UId="40">
-      <Symbol>
-        <Component Name="F_EStop" />
-      </Symbol>
-    </Access>
-    <Access Scope="LocalVariable" UId="42">
-      <Symbol>
-        <Component Name="F_TC" />
-      </Symbol>
-    </Access>
-    <Access Scope="LocalVariable" UId="44">
-      <Symbol>
-        <Component Name="F_Lockout" />
-      </Symbol>
-    </Access>
-    <Access Scope="LocalVariable" UId="46">
-      <Symbol>
-        <Component Name="F_NoStart" />
-      </Symbol>
-    </Access>
-    <Access Scope="LocalVariable" UId="48">
-      <Symbol>
-        <Component Name="F_RunLost" />
-      </Symbol>
-    </Access>
-    <Access Scope="LocalVariable" UId="50">
-      <Symbol>
-        <Component Name="F_RunWrong" />
-      </Symbol>
-    </Access>
-    <Access Scope="LocalVariable" UId="52">
-      <Symbol>
-        <Component Name="F_Scrubber" />
-      </Symbol>
-    </Access>
-    <Part Name="Eq" UId="21">
-      <TemplateValue Name="SrcType" Type="Type">Int</TemplateValue>
-    </Part>
-    <Part Name="Contact" UId="24" />
-    <Part Name="Contact" UId="26" />
-    <Part Name="Contact" UId="28">
-      <Negated Name="operand" />
-    </Part>
-    <Part Name="Contact" UId="30" />
-    <Part Name="Contact" UId="32">
-      <Negated Name="operand" />
-    </Part>
-    <Part Name="Contact" UId="34">
-      <Negated Name="operand" />
-    </Part>
-    <Part Name="Move" UId="36" DisabledENO="false">
-      <TemplateValue Name="Card" Type="Cardinality">1</TemplateValue>
-    </Part>
-    <Part Name="RCoil" UId="39" />
-    <Part Name="RCoil" UId="41" />
-    <Part Name="RCoil" UId="43" />
-    <Part Name="RCoil" UId="45" />
-    <Part Name="RCoil" UId="47" />
-    <Part Name="RCoil" UId="49" />
-    <Part Name="RCoil" UId="51" />
-  </Parts>
-  <Wires>
-    <Wire UId="53">
-      <Powerrail />
-      <NameCon UId="21" Name="pre" />
-    </Wire>
-    <Wire UId="54">
-      <IdentCon UId="22" />
-      <NameCon UId="21" Name="in1" />
-    </Wire>
-    <Wire UId="55">
-      <IdentCon UId="23" />
-      <NameCon UId="21" Name="in2" />
-    </Wire>
-    <Wire UId="56">
-      <NameCon UId="21" Name="out" />
-      <NameCon UId="24" Name="in" />
-    </Wire>
-    <Wire UId="57">
-      <IdentCon UId="25" />
-      <NameCon UId="24" Name="operand" />
-    </Wire>
-    <Wire UId="58">
-      <NameCon UId="24" Name="out" />
-      <NameCon UId="26" Name="in" />
-    </Wire>
-    <Wire UId="59">
-      <IdentCon UId="27" />
-      <NameCon UId="26" Name="operand" />
-    </Wire>
-    <Wire UId="60">
-      <NameCon UId="26" Name="out" />
-      <NameCon UId="28" Name="in" />
-    </Wire>
-    <Wire UId="61">
-      <IdentCon UId="29" />
-      <NameCon UId="28" Name="operand" />
-    </Wire>
-    <Wire UId="62">
-      <NameCon UId="28" Name="out" />
-      <NameCon UId="30" Name="in" />
-    </Wire>
-    <Wire UId="63">
-      <IdentCon UId="31" />
-      <NameCon UId="30" Name="operand" />
-    </Wire>
-    <Wire UId="64">
-      <NameCon UId="30" Name="out" />
-      <NameCon UId="32" Name="in" />
-    </Wire>
-    <Wire UId="65">
-      <IdentCon UId="33" />
-      <NameCon UId="32" Name="operand" />
-    </Wire>
-    <Wire UId="66">
-      <NameCon UId="32" Name="out" />
-      <NameCon UId="34" Name="in" />
-    </Wire>
-    <Wire UId="67">
-      <IdentCon UId="35" />
-      <NameCon UId="34" Name="operand" />
-    </Wire>
-    <Wire UId="68">
-      <NameCon UId="34" Name="out" />
-      <NameCon UId="36" Name="en" />
-      <NameCon UId="39" Name="in" />
-      <NameCon UId="41" Name="in" />
-      <NameCon UId="43" Name="in" />
-      <NameCon UId="45" Name="in" />
-      <NameCon UId="47" Name="in" />
-      <NameCon UId="49" Name="in" />
-      <NameCon UId="51" Name="in" />
-    </Wire>
-    <Wire UId="69">
-      <IdentCon UId="37" />
-      <NameCon UId="36" Name="in" />
-    </Wire>
-    <Wire UId="70">
-      <NameCon UId="36" Name="out1" />
-      <IdentCon UId="38" />
-    </Wire>
-    <Wire UId="71">
-      <NameCon UId="39" Name="operand" />
-      <IdentCon UId="40" />
-    </Wire>
-    <Wire UId="72">
-      <NameCon UId="41" Name="operand" />
-      <IdentCon UId="42" />
-    </Wire>
-    <Wire UId="73">
-      <NameCon UId="43" Name="operand" />
-      <IdentCon UId="44" />
-    </Wire>
-    <Wire UId="74">
-      <NameCon UId="45" Name="operand" />
-      <IdentCon UId="46" />
-    </Wire>
-    <Wire UId="75">
-      <NameCon UId="47" Name="operand" />
-      <IdentCon UId="48" />
-    </Wire>
-    <Wire UId="76">
-      <NameCon UId="49" Name="operand" />
-      <IdentCon UId="50" />
-    </Wire>
-    <Wire UId="77">
-      <NameCon UId="51" Name="operand" />
-      <IdentCon UId="52" />
-    </Wire>
-  </Wires>
-</FlgNet></NetworkSource>
-          <ProgrammingLanguage>LAD</ProgrammingLanguage>
-        </AttributeList>
-        <ObjectList>
-          <MultilingualText ID="AC" CompositionName="Comment">
-            <ObjectList>
-              <MultilingualTextItem ID="AD" CompositionName="Items">
-                <AttributeList>
-                  <Culture>en-US</Culture>
-                  <Text>Need FAULT, a new RESET, healthy E-STOP and temperatures, no lockout or scrubber trip, and RUN OFF. A new START is still needed. Reference: R-06 / R-07.</Text>
-                </AttributeList>
-              </MultilingualTextItem>
-            </ObjectList>
-          </MultilingualText>
-          <MultilingualText ID="AE" CompositionName="Title">
-            <ObjectList>
-              <MultilingualTextItem ID="AF" CompositionName="Items">
-                <AttributeList>
-                  <Culture>en-US</Culture>
-                  <Text>Reset burner faults after recovery</Text>
-                </AttributeList>
-              </MultilingualTextItem>
-            </ObjectList>
-          </MultilingualText>
-        </ObjectList>
-      </SW.Blocks.CompileUnit>
-      <SW.Blocks.CompileUnit ID="B0" CompositionName="CompileUnits">
-        <AttributeList>
-          <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
-  <Parts>
-    <Access Scope="GlobalVariable" UId="22">
-      <Symbol>
-        <Component Name="Sys" />
-        <Component Name="EStopOK" />
-      </Symbol>
-    </Access>
-    <Access Scope="LiteralConstant" UId="24">
-      <Constant>
-        <ConstantType>Int</ConstantType>
-        <ConstantValue>3</ConstantValue>
-      </Constant>
-    </Access>
-    <Access Scope="LocalVariable" UId="25">
-      <Symbol>
-        <Component Name="BurnerState" />
-      </Symbol>
-    </Access>
-    <Access Scope="LocalVariable" UId="27">
-      <Symbol>
-        <Component Name="F_EStop" />
-      </Symbol>
-    </Access>
-    <Part Name="Contact" UId="21">
-      <Negated Name="operand" />
-    </Part>
-    <Part Name="Move" UId="23" DisabledENO="false">
-      <TemplateValue Name="Card" Type="Cardinality">1</TemplateValue>
-    </Part>
-    <Part Name="SCoil" UId="26" />
-  </Parts>
-  <Wires>
-    <Wire UId="28">
-      <Powerrail />
-      <NameCon UId="21" Name="in" />
-    </Wire>
-    <Wire UId="29">
-      <IdentCon UId="22" />
-      <NameCon UId="21" Name="operand" />
-    </Wire>
-    <Wire UId="30">
-      <NameCon UId="21" Name="out" />
-      <NameCon UId="23" Name="en" />
-      <NameCon UId="26" Name="in" />
-    </Wire>
-    <Wire UId="31">
-      <IdentCon UId="24" />
-      <NameCon UId="23" Name="in" />
-    </Wire>
-    <Wire UId="32">
-      <NameCon UId="23" Name="out1" />
-      <IdentCon UId="25" />
-    </Wire>
-    <Wire UId="33">
-      <NameCon UId="26" Name="operand" />
-      <IdentCon UId="27" />
-    </Wire>
-  </Wires>
-</FlgNet></NetworkSource>
-          <ProgrammingLanguage>LAD</ProgrammingLanguage>
-        </AttributeList>
-        <ObjectList>
-          <MultilingualText ID="B1" CompositionName="Comment">
-            <ObjectList>
-              <MultilingualTextItem ID="B2" CompositionName="Items">
-                <AttributeList>
-                  <Culture>en-US</Culture>
-                  <Text>Loss of the common E-STOP permission sets FAULT and remembers the emergency-stop cause. Reference: C01.</Text>
-                </AttributeList>
-              </MultilingualTextItem>
-            </ObjectList>
-          </MultilingualText>
-          <MultilingualText ID="B3" CompositionName="Title">
-            <ObjectList>
-              <MultilingualTextItem ID="B4" CompositionName="Items">
-                <AttributeList>
-                  <Culture>en-US</Culture>
-                  <Text>Record the emergency-stop fault</Text>
-                </AttributeList>
-              </MultilingualTextItem>
-            </ObjectList>
-          </MultilingualText>
-        </ObjectList>
-      </SW.Blocks.CompileUnit>
-      <SW.Blocks.CompileUnit ID="B5" CompositionName="CompileUnits">
-        <AttributeList>
-          <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
-  <Parts>
-    <Access Scope="LocalVariable" UId="22">
-      <Symbol>
-        <Component Name="Lockout" />
-      </Symbol>
-    </Access>
-    <Access Scope="LiteralConstant" UId="24">
-      <Constant>
-        <ConstantType>Int</ConstantType>
-        <ConstantValue>3</ConstantValue>
-      </Constant>
-    </Access>
-    <Access Scope="LocalVariable" UId="25">
-      <Symbol>
-        <Component Name="BurnerState" />
-      </Symbol>
-    </Access>
-    <Access Scope="LocalVariable" UId="27">
-      <Symbol>
-        <Component Name="F_Lockout" />
-      </Symbol>
-    </Access>
-    <Part Name="Contact" UId="21" />
-    <Part Name="Move" UId="23" DisabledENO="false">
-      <TemplateValue Name="Card" Type="Cardinality">1</TemplateValue>
-    </Part>
-    <Part Name="SCoil" UId="26" />
-  </Parts>
-  <Wires>
-    <Wire UId="28">
-      <Powerrail />
-      <NameCon UId="21" Name="in" />
-    </Wire>
-    <Wire UId="29">
-      <IdentCon UId="22" />
-      <NameCon UId="21" Name="operand" />
-    </Wire>
-    <Wire UId="30">
-      <NameCon UId="21" Name="out" />
-      <NameCon UId="23" Name="en" />
-      <NameCon UId="26" Name="in" />
-    </Wire>
-    <Wire UId="31">
-      <IdentCon UId="24" />
-      <NameCon UId="23" Name="in" />
-    </Wire>
-    <Wire UId="32">
-      <NameCon UId="23" Name="out1" />
-      <IdentCon UId="25" />
-    </Wire>
-    <Wire UId="33">
-      <NameCon UId="26" Name="operand" />
-      <IdentCon UId="27" />
-    </Wire>
-  </Wires>
-</FlgNet></NetworkSource>
-          <ProgrammingLanguage>LAD</ProgrammingLanguage>
-        </AttributeList>
-        <ObjectList>
-          <MultilingualText ID="B6" CompositionName="Comment">
-            <ObjectList>
-              <MultilingualTextItem ID="B7" CompositionName="Items">
-                <AttributeList>
-                  <Culture>en-US</Culture>
-                  <Text>The lockout input sets FAULT; resetting the certified burner box is a separate local action. Reference: C07e / C08e.</Text>
-                </AttributeList>
-              </MultilingualTextItem>
-            </ObjectList>
-          </MultilingualText>
-          <MultilingualText ID="B8" CompositionName="Title">
-            <ObjectList>
-              <MultilingualTextItem ID="B9" CompositionName="Items">
-                <AttributeList>
-                  <Culture>en-US</Culture>
-                  <Text>Record the burner control-box lockout</Text>
-                </AttributeList>
-              </MultilingualTextItem>
-            </ObjectList>
-          </MultilingualText>
-        </ObjectList>
-      </SW.Blocks.CompileUnit>
-      <SW.Blocks.CompileUnit ID="BA" CompositionName="CompileUnits">
-        <AttributeList>
-          <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
-  <Parts>
-    <Access Scope="LocalVariable" UId="22">
-      <Symbol>
-        <Component Name="TcBad" />
-      </Symbol>
-    </Access>
-    <Access Scope="LiteralConstant" UId="24">
-      <Constant>
-        <ConstantType>Int</ConstantType>
-        <ConstantValue>3</ConstantValue>
-      </Constant>
-    </Access>
-    <Access Scope="LocalVariable" UId="25">
-      <Symbol>
-        <Component Name="BurnerState" />
-      </Symbol>
-    </Access>
-    <Access Scope="LocalVariable" UId="27">
-      <Symbol>
-        <Component Name="F_TC" />
-      </Symbol>
-    </Access>
-    <Part Name="Contact" UId="21" />
-    <Part Name="Move" UId="23" DisabledENO="false">
-      <TemplateValue Name="Card" Type="Cardinality">1</TemplateValue>
-    </Part>
-    <Part Name="SCoil" UId="26" />
-  </Parts>
-  <Wires>
-    <Wire UId="28">
-      <Powerrail />
-      <NameCon UId="21" Name="in" />
-    </Wire>
-    <Wire UId="29">
-      <IdentCon UId="22" />
-      <NameCon UId="21" Name="operand" />
-    </Wire>
-    <Wire UId="30">
-      <NameCon UId="21" Name="out" />
-      <NameCon UId="23" Name="en" />
-      <NameCon UId="26" Name="in" />
-    </Wire>
-    <Wire UId="31">
-      <IdentCon UId="24" />
-      <NameCon UId="23" Name="in" />
-    </Wire>
-    <Wire UId="32">
-      <NameCon UId="23" Name="out1" />
-      <IdentCon UId="25" />
-    </Wire>
-    <Wire UId="33">
-      <NameCon UId="26" Name="operand" />
-      <IdentCon UId="27" />
-    </Wire>
-  </Wires>
-</FlgNet></NetworkSource>
-          <ProgrammingLanguage>LAD</ProgrammingLanguage>
-        </AttributeList>
-        <ObjectList>
-          <MultilingualText ID="BB" CompositionName="Comment">
-            <ObjectList>
-              <MultilingualTextItem ID="BC" CompositionName="Items">
-                <AttributeList>
-                  <Culture>en-US</Culture>
-                  <Text>An active temperature-fault condition sets FAULT and remembers the cause. Reference: C07d / C08d.</Text>
-                </AttributeList>
-              </MultilingualTextItem>
-            </ObjectList>
-          </MultilingualText>
-          <MultilingualText ID="BD" CompositionName="Title">
-            <ObjectList>
-              <MultilingualTextItem ID="BE" CompositionName="Items">
-                <AttributeList>
-                  <Culture>en-US</Culture>
-                  <Text>Record the temperature sensor fault</Text>
-                </AttributeList>
-              </MultilingualTextItem>
-            </ObjectList>
-          </MultilingualText>
-        </ObjectList>
-      </SW.Blocks.CompileUnit>
-      <SW.Blocks.CompileUnit ID="BF" CompositionName="CompileUnits">
-        <AttributeList>
-          <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
-  <Parts>
-    <Access Scope="LocalVariable" UId="22">
-      <Symbol>
-        <Component Name="RunWrong" />
-      </Symbol>
-    </Access>
-    <Access Scope="LiteralConstant" UId="24">
-      <Constant>
-        <ConstantType>Int</ConstantType>
-        <ConstantValue>3</ConstantValue>
-      </Constant>
-    </Access>
-    <Access Scope="LocalVariable" UId="25">
-      <Symbol>
-        <Component Name="BurnerState" />
-      </Symbol>
-    </Access>
-    <Access Scope="LocalVariable" UId="27">
-      <Symbol>
-        <Component Name="F_RunWrong" />
-      </Symbol>
-    </Access>
-    <Part Name="Contact" UId="21" />
-    <Part Name="Move" UId="23" DisabledENO="false">
-      <TemplateValue Name="Card" Type="Cardinality">1</TemplateValue>
-    </Part>
-    <Part Name="SCoil" UId="26" />
-  </Parts>
-  <Wires>
-    <Wire UId="28">
-      <Powerrail />
-      <NameCon UId="21" Name="in" />
-    </Wire>
-    <Wire UId="29">
-      <IdentCon UId="22" />
-      <NameCon UId="21" Name="operand" />
-    </Wire>
-    <Wire UId="30">
-      <NameCon UId="21" Name="out" />
-      <NameCon UId="23" Name="en" />
-      <NameCon UId="26" Name="in" />
-    </Wire>
-    <Wire UId="31">
-      <IdentCon UId="24" />
-      <NameCon UId="23" Name="in" />
-    </Wire>
-    <Wire UId="32">
-      <NameCon UId="23" Name="out1" />
-      <IdentCon UId="25" />
-    </Wire>
-    <Wire UId="33">
-      <NameCon UId="26" Name="operand" />
-      <IdentCon UId="27" />
-    </Wire>
-  </Wires>
-</FlgNet></NetworkSource>
-          <ProgrammingLanguage>LAD</ProgrammingLanguage>
-        </AttributeList>
-        <ObjectList>
-          <MultilingualText ID="C0" CompositionName="Comment">
-            <ObjectList>
-              <MultilingualTextItem ID="C1" CompositionName="Items">
-                <AttributeList>
-                  <Culture>en-US</Culture>
-                  <Text>After the 30-second condition is met, set FAULT and remember the RUN mismatch. Reference: R-09.</Text>
-                </AttributeList>
-              </MultilingualTextItem>
-            </ObjectList>
-          </MultilingualText>
-          <MultilingualText ID="C2" CompositionName="Title">
-            <ObjectList>
-              <MultilingualTextItem ID="C3" CompositionName="Items">
-                <AttributeList>
-                  <Culture>en-US</Culture>
-                  <Text>Record RUN without a request</Text>
-                </AttributeList>
-              </MultilingualTextItem>
-            </ObjectList>
-          </MultilingualText>
-        </ObjectList>
-      </SW.Blocks.CompileUnit>
-      <SW.Blocks.CompileUnit ID="C4" CompositionName="CompileUnits">
-        <AttributeList>
-          <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
-  <Parts>
-    <Access Scope="LocalVariable" UId="22">
-      <Symbol>
-        <Component Name="BurnerState" />
-      </Symbol>
-    </Access>
-    <Access Scope="LiteralConstant" UId="23">
-      <Constant>
-        <ConstantType>Int</ConstantType>
-        <ConstantValue>1</ConstantValue>
-      </Constant>
-    </Access>
-    <Access Scope="LocalVariable" UId="25">
-      <Symbol>
-        <Component Name="BurnerState" />
-      </Symbol>
-    </Access>
-    <Access Scope="LiteralConstant" UId="26">
-      <Constant>
-        <ConstantType>Int</ConstantType>
-        <ConstantValue>2</ConstantValue>
-      </Constant>
-    </Access>
-    <Access Scope="LocalVariable" UId="29">
-      <Symbol>
-        <Component Name="HeatReq" />
-      </Symbol>
-    </Access>
-    <Part Name="Eq" UId="21">
-      <TemplateValue Name="SrcType" Type="Type">Int</TemplateValue>
-    </Part>
-    <Part Name="Eq" UId="24">
-      <TemplateValue Name="SrcType" Type="Type">Int</TemplateValue>
-    </Part>
-    <Part Name="O" UId="27">
-      <TemplateValue Name="Card" Type="Cardinality">2</TemplateValue>
-    </Part>
-    <Part Name="Coil" UId="28" />
-  </Parts>
-  <Wires>
-    <Wire UId="30">
-      <Powerrail />
-      <NameCon UId="21" Name="pre" />
-      <NameCon UId="24" Name="pre" />
-    </Wire>
-    <Wire UId="31">
-      <IdentCon UId="22" />
-      <NameCon UId="21" Name="in1" />
-    </Wire>
-    <Wire UId="32">
-      <IdentCon UId="23" />
-      <NameCon UId="21" Name="in2" />
-    </Wire>
-    <Wire UId="33">
-      <IdentCon UId="25" />
-      <NameCon UId="24" Name="in1" />
-    </Wire>
-    <Wire UId="34">
-      <IdentCon UId="26" />
-      <NameCon UId="24" Name="in2" />
-    </Wire>
-    <Wire UId="35">
-      <NameCon UId="21" Name="out" />
-      <NameCon UId="27" Name="in1" />
-    </Wire>
-    <Wire UId="36">
-      <NameCon UId="24" Name="out" />
-      <NameCon UId="27" Name="in2" />
-    </Wire>
-    <Wire UId="37">
-      <NameCon UId="27" Name="out" />
-      <NameCon UId="28" Name="in" />
-    </Wire>
-    <Wire UId="38">
-      <NameCon UId="28" Name="operand" />
-      <IdentCon UId="29" />
-    </Wire>
-  </Wires>
-</FlgNet></NetworkSource>
-          <ProgrammingLanguage>LAD</ProgrammingLanguage>
-        </AttributeList>
-        <ObjectList>
-          <MultilingualText ID="C5" CompositionName="Comment">
-            <ObjectList>
-              <MultilingualTextItem ID="C6" CompositionName="Items">
-                <AttributeList>
-                  <Culture>en-US</Culture>
-                  <Text>Heat request is ON in STARTING or RUNNING. The certified burner box controls purge, ignition and flame safety. Reference: E1 / E3.</Text>
-                </AttributeList>
-              </MultilingualTextItem>
-            </ObjectList>
-          </MultilingualText>
-          <MultilingualText ID="C7" CompositionName="Title">
-            <ObjectList>
-              <MultilingualTextItem ID="C8" CompositionName="Items">
-                <AttributeList>
-                  <Culture>en-US</Culture>
-                  <Text>Send the burner heat request</Text>
-                </AttributeList>
-              </MultilingualTextItem>
-            </ObjectList>
-          </MultilingualText>
-        </ObjectList>
-      </SW.Blocks.CompileUnit>
-      <SW.Blocks.CompileUnit ID="C9" CompositionName="CompileUnits">
-        <AttributeList>
-          <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
-  <Parts>
-    <Access Scope="LocalVariable" UId="22">
-      <Symbol>
-        <Component Name="BurnerState" />
-      </Symbol>
-    </Access>
-    <Access Scope="LiteralConstant" UId="23">
-      <Constant>
-        <ConstantType>Int</ConstantType>
-        <ConstantValue>2</ConstantValue>
-      </Constant>
-    </Access>
-    <Access Scope="LocalVariable" UId="25">
-      <Symbol>
-        <Component Name="ControlTemp" />
-      </Symbol>
-    </Access>
-    <Access Scope="LocalVariable" UId="26">
-      <Symbol>
-        <Component Name="SecondStageOnTemp" />
-      </Symbol>
-    </Access>
-    <Access Scope="LocalVariable" UId="28">
-      <Symbol>
-        <Component Name="Stage2" />
-      </Symbol>
-    </Access>
-    <Part Name="Eq" UId="21">
-      <TemplateValue Name="SrcType" Type="Type">Int</TemplateValue>
-    </Part>
-    <Part Name="Lt" UId="24">
-      <TemplateValue Name="SrcType" Type="Type">Int</TemplateValue>
-    </Part>
-    <Part Name="SCoil" UId="27" />
-  </Parts>
-  <Wires>
-    <Wire UId="29">
-      <Powerrail />
-      <NameCon UId="21" Name="pre" />
-    </Wire>
-    <Wire UId="30">
-      <IdentCon UId="22" />
-      <NameCon UId="21" Name="in1" />
-    </Wire>
-    <Wire UId="31">
-      <IdentCon UId="23" />
-      <NameCon UId="21" Name="in2" />
-    </Wire>
-    <Wire UId="32">
-      <NameCon UId="21" Name="out" />
-      <NameCon UId="24" Name="pre" />
-    </Wire>
-    <Wire UId="33">
-      <IdentCon UId="25" />
-      <NameCon UId="24" Name="in1" />
-    </Wire>
-    <Wire UId="34">
-      <IdentCon UId="26" />
-      <NameCon UId="24" Name="in2" />
-    </Wire>
-    <Wire UId="35">
-      <NameCon UId="24" Name="out" />
-      <NameCon UId="27" Name="in" />
-    </Wire>
-    <Wire UId="36">
-      <NameCon UId="27" Name="operand" />
-      <IdentCon UId="28" />
-    </Wire>
-  </Wires>
-</FlgNet></NetworkSource>
-          <ProgrammingLanguage>LAD</ProgrammingLanguage>
-        </AttributeList>
-        <ObjectList>
-          <MultilingualText ID="CA" CompositionName="Comment">
-            <ObjectList>
-              <MultilingualTextItem ID="CB" CompositionName="Items">
-                <AttributeList>
-                  <Culture>en-US</Culture>
-                  <Text>Only in RUNNING and below the calculated ON limit. Example: stop 70, offset 10 means ON below 60 degC. Reference: C07c / C08c.</Text>
-                </AttributeList>
-              </MultilingualTextItem>
-            </ObjectList>
-          </MultilingualText>
-          <MultilingualText ID="CC" CompositionName="Title">
-            <ObjectList>
-              <MultilingualTextItem ID="CD" CompositionName="Items">
-                <AttributeList>
-                  <Culture>en-US</Culture>
-                  <Text>Request stage 2 below its ON temperature</Text>
-                </AttributeList>
-              </MultilingualTextItem>
-            </ObjectList>
-          </MultilingualText>
-        </ObjectList>
-      </SW.Blocks.CompileUnit>
-      <SW.Blocks.CompileUnit ID="CE" CompositionName="CompileUnits">
-        <AttributeList>
-          <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
-  <Parts>
-    <Access Scope="LocalVariable" UId="22">
-      <Symbol>
-        <Component Name="ControlTemp" />
-      </Symbol>
-    </Access>
-    <Access Scope="LocalVariable" UId="23">
-      <Symbol>
-        <Component Name="SecondStageOffTemp" />
-      </Symbol>
-    </Access>
-    <Access Scope="LocalVariable" UId="25">
-      <Symbol>
-        <Component Name="BurnerState" />
-      </Symbol>
-    </Access>
-    <Access Scope="LiteralConstant" UId="26">
-      <Constant>
-        <ConstantType>Int</ConstantType>
-        <ConstantValue>2</ConstantValue>
-      </Constant>
-    </Access>
-    <Access Scope="LocalVariable" UId="29">
-      <Symbol>
-        <Component Name="Stage2" />
-      </Symbol>
-    </Access>
-    <Part Name="Ge" UId="21">
-      <TemplateValue Name="SrcType" Type="Type">Int</TemplateValue>
-    </Part>
-    <Part Name="Ne" UId="24">
-      <TemplateValue Name="SrcType" Type="Type">Int</TemplateValue>
-    </Part>
-    <Part Name="O" UId="27">
-      <TemplateValue Name="Card" Type="Cardinality">2</TemplateValue>
-    </Part>
-    <Part Name="RCoil" UId="28" />
-  </Parts>
-  <Wires>
-    <Wire UId="30">
-      <Powerrail />
-      <NameCon UId="21" Name="pre" />
-      <NameCon UId="24" Name="pre" />
-    </Wire>
-    <Wire UId="31">
-      <IdentCon UId="22" />
-      <NameCon UId="21" Name="in1" />
-    </Wire>
-    <Wire UId="32">
-      <IdentCon UId="23" />
-      <NameCon UId="21" Name="in2" />
-    </Wire>
-    <Wire UId="33">
-      <IdentCon UId="25" />
-      <NameCon UId="24" Name="in1" />
-    </Wire>
-    <Wire UId="34">
-      <IdentCon UId="26" />
-      <NameCon UId="24" Name="in2" />
-    </Wire>
-    <Wire UId="35">
-      <NameCon UId="21" Name="out" />
-      <NameCon UId="27" Name="in1" />
-    </Wire>
-    <Wire UId="36">
-      <NameCon UId="24" Name="out" />
-      <NameCon UId="27" Name="in2" />
-    </Wire>
-    <Wire UId="37">
-      <NameCon UId="27" Name="out" />
-      <NameCon UId="28" Name="in" />
-    </Wire>
-    <Wire UId="38">
-      <NameCon UId="28" Name="operand" />
-      <IdentCon UId="29" />
-    </Wire>
-  </Wires>
-</FlgNet></NetworkSource>
-          <ProgrammingLanguage>LAD</ProgrammingLanguage>
-        </AttributeList>
-        <ObjectList>
-          <MultilingualText ID="CF" CompositionName="Comment">
-            <ObjectList>
-              <MultilingualTextItem ID="D0" CompositionName="Items">
-                <AttributeList>
-                  <Culture>en-US</Culture>
-                  <Text>Clear stage 2 at or above its OFF limit, or outside RUNNING. In the example, OFF at 62 degC. Reference: C07c / C08c.</Text>
-                </AttributeList>
-              </MultilingualTextItem>
-            </ObjectList>
-          </MultilingualText>
-          <MultilingualText ID="D1" CompositionName="Title">
-            <ObjectList>
-              <MultilingualTextItem ID="D2" CompositionName="Items">
-                <AttributeList>
-                  <Culture>en-US</Culture>
-                  <Text>Cancel stage 2 at its OFF temperature</Text>
-                </AttributeList>
-              </MultilingualTextItem>
-            </ObjectList>
-          </MultilingualText>
-        </ObjectList>
-      </SW.Blocks.CompileUnit>
-      <MultilingualText ID="D5" CompositionName="Title">
-        <ObjectList>
-          <MultilingualTextItem ID="D6" CompositionName="Items">
+          <MultilingualTextItem ID="86" CompositionName="Items">
             <AttributeList>
               <Culture>en-US</Culture>
               <Text>Burner</Text>

@@ -96,7 +96,7 @@
               <MultilingualTextItem ID="3" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>With E-STOP permission, pass HeatReq to R1 and the H1 lamp circuit. This is a request, not flame proof. Reference: E1.</Text>
+                  <Text>Relay R1 and lamp H1. Only with E-STOP healthy. E1.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -106,7 +106,7 @@
               <MultilingualTextItem ID="5" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>BR01: heat request to TL</Text>
+                  <Text>BR01: heat request TL</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -173,7 +173,7 @@
               <MultilingualTextItem ID="8" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>With E-STOP permission, pass Stage2 to R2 and H2. Reference: E2.</Text>
+                  <Text>Relay R2 and lamp H2. E2.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -183,7 +183,7 @@
               <MultilingualTextItem ID="A" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>BR01: stage 2 request to TR</Text>
+                  <Text>BR01: stage 2 TR</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -261,7 +261,7 @@
               <MultilingualTextItem ID="D" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>With E-STOP permission, pass HeatReq to L via R6 and the H5 lamp command via R8. Reference: E3.</Text>
+                  <Text>Relay R6 and stage 1 lamp H5 (R8). E3.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -271,7 +271,7 @@
               <MultilingualTextItem ID="F" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>BR02: heat request and stage 1 lamp</Text>
+                  <Text>BR02: heat request L</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -349,7 +349,7 @@
               <MultilingualTextItem ID="12" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>With E-STOP permission, pass Stage2 to T2 via R7 and the H6 lamp command via R9. Reference: E4.</Text>
+                  <Text>Relay R7 and stage 2 lamp H6 (R9). E4.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -359,7 +359,7 @@
               <MultilingualTextItem ID="14" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>BR02: stage 2 request and lamp</Text>
+                  <Text>BR02: stage 2 T2</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -411,7 +411,7 @@
               <MultilingualTextItem ID="17" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>Output ON closes this normally-open valve; output OFF leaves it open. No valve feedback. Reference: E5.</Text>
+                  <Text>Output ON closes the normally open flare valve. E5.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -421,7 +421,7 @@
               <MultilingualTextItem ID="19" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>XV-401: energize to CLOSE the flare</Text>
+                  <Text>XV-401 flare</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -473,7 +473,7 @@
               <MultilingualTextItem ID="1C" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>Output ON opens this normally-closed drain valve; output OFF closes it, per the confirmed NC decision. Reference: E6 / C04 / C05.</Text>
+                  <Text>Output ON opens the normally closed drain valve. E6.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -483,7 +483,7 @@
               <MultilingualTextItem ID="1E" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>XV-402: energize to OPEN the drain</Text>
+                  <Text>XV-402 drain</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -535,7 +535,7 @@
               <MultilingualTextItem ID="21" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>Output ON opens this normally-closed valve; output OFF closes it. No valve feedback. Reference: E7.</Text>
+                  <Text>Output ON opens the normally closed suction valve. E7.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -545,7 +545,7 @@
               <MultilingualTextItem ID="23" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>XV-403: energize to OPEN the suction</Text>
+                  <Text>XV-403 suction</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>

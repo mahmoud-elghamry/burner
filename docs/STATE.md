@@ -15,7 +15,18 @@
 
 ## شغّال دلوقتي 🔄
 
-**تبسيط Rev. B (2026-11-11، اقتراح متوافق عليه، لسه ما اتنفّذش في الكود):** البرنامج من 135 network لحوالي 66. التفاصيل ومراجعة كل دخل وتأثيره على الخرج في `docs/تبسيط الكود.md`. اتعملت **C&E Rev. B** في `deliverables/PH-LCP-01-CE_RevB.xlsx` و`.pdf`، من `tools/build_ce.py`. Rev. A باقية زي ما هي في `deliverables/`.
+**Rev. B في الكود (branch `simplify-revb`، worktree `.claude/worktrees/simplify-revb`):** المولّدات اتعدّلت.
+البرنامج بقى 78 network بدل 135: Burner 26، Common 11، Scrubber 10، HmiMap 16، Outputs 7، Main 7، Startup 1.
+الشاشة فيها 58 تاج، والإنذارات 16 بـ IDs جديدة. `docs/التشغيل.md` اتكتب من جديد على Rev. B.
+19 اختبار منطق نجحوا في `tools/tests/test_panel_rules.py`، و`check_hmi_xml` OK.
+**صفحة Alarms مش بتتولّد خالص**، علشان ما تمسحش الـ Alarm View اللي اتعمل بالإيد.
+**الباقي:**
+- نسخ مشروع المستخدم الحالي (اللي فيه الإعدادات اليدوية) جوه `tia/` بتاع الـ worktree، مع `TIA` مقفول.
+- `Apply-Blocks` و`Apply-Hmi` والـ Compile.
+- المستخدم: يمسح الإنذارات القديمة الـ 24 ويعمل Import للـ 16 الجديدة، ويرجّع صلاحيات Settings لو كانت متعملة.
+- `PLCSIM`.
+
+**تبسيط Rev. B (2026-11-11، المرجع):** البرنامج من 135 network لحوالي 66. التفاصيل ومراجعة كل دخل وتأثيره على الخرج في `docs/تبسيط الكود.md`. اتعملت **C&E Rev. B** في `deliverables/PH-LCP-01-CE_RevB.xlsx` و`.pdf`، من `tools/build_ce.py`. Rev. A باقية زي ما هي في `deliverables/`.
 
 **اللي اتغيّر في Rev. B:**
 - الدرين بيمشي ورا العوّامة من غير تأخير، ومعاه أقصى وقت ثابت 10 دقايق.
