@@ -5,7 +5,8 @@ from openpyxl.styles import Font, PatternFill, Alignment, Border, Side, Protecti
 from openpyxl.utils import get_column_letter
 from openpyxl.worksheet.datavalidation import DataValidation
 
-OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "deliverables", "PH-LCP-01-CE_RevA.xlsx")
+# Rev B = simplified program (docs/تبسيط الكود.md). Rev A stays in deliverables/ and in git.
+OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "deliverables", "PH-LCP-01-CE_RevB.xlsx")
 os.makedirs(os.path.dirname(OUT), exist_ok=True)
 
 F = "Arial"
@@ -53,7 +54,7 @@ def title_block(ws, title, width):
     ws.row_dimensions[1].height = 24
     ws.merge_cells(start_row=2, start_column=1, end_row=2, end_column=width)
     put(ws, 2, 1, "Project: Burner PetroBaker  |  Panel: LCP-01  |  Ref. drawing: PH-LCP-01 V1  |  "
-                  "Document: PH-LCP-01-CE  |  Rev. A (for client review)  |  Updated 11-11-2026",
+                  "Document: PH-LCP-01-CE  |  Rev. B (simplified program, internal)  |  Updated 11-11-2026",
         size=9, border=False)
 
 
@@ -81,10 +82,10 @@ rows = [
     ("Hardwired safety", "E-STOP S0 opens the 230 V control supply of BR01 (NC2) and BR02 (NC3) directly, "
                          "independent of the PLC. Safety thermostat TS (manual reset) is in series with the "
                          "BR01 control supply. These act even if the PLC fails."),
-    ("Settings policy", "All seven editable temperature/time settings may be changed only after STOP "
-                        "has cancelled START permission for BOTH burners. PLC rejects changes while either "
-                        "burner remains enabled, including normal temperature waiting, and rejects out-of-range "
-                        "values. Old accepted values remain. Internal PH decision 11-Nov-2026 (R-11 / 0009)."),
+    ("Settings policy", "Three settings are editable on the HMI: SP, HYST and STG. The HMI entry field "
+                        "itself refuses values outside the range on sheet 'Parameters'. A new value applies at "
+                        "once, also while a burner runs. All times are fixed in the program. "
+                        "PH decision 11-Nov-2026 (Rev. B simplification)."),
     ("Fail-safe outputs", "All PLC outputs de-energise on PLC STOP or 24 VDC loss. Valve types were chosen so "
                           "that de-energised = safe: XV-401 flare (NO) OPENS, XV-402 drain (NC) CLOSES, "
                           "XV-403 suction (NC) CLOSES, both burners lose their heat request. The drain is "
@@ -93,7 +94,8 @@ rows = [
                                "while the cause is active. Empty = no action.\n"
                                "STOP = output de-energised / burner request removed.  RUN = energised.\n"
                                "OPEN / CLOSE = resulting valve position.  ALARM = HMI alarm (the burner fault lamps H3 / H4 are wired to the burner lockout, not to the PLC).\n"
-                               "Type: Trip = stops and stays stopped until RESET (S2).  Permissive = stops, "
+                               "Type: Trip = stops and stays stopped; column 'Reset' says how to restart "
+                               "(scrubber: RESET S2; burner: START S1 / S6).  Permissive = stops, "
                                "restarts by itself when the condition clears (AUTO mode, burner enabled).  Control = normal temperature "
                                "regulation.  Alarm = HMI message only.  Inherent = happens by wiring, no program.\n"
                                "Column 'Source': Client = client document; PH decision = decided by PH "
@@ -119,6 +121,13 @@ put(ws, r + 1, 3, "First issue for client review"); put(ws, r + 1, 4, "PH / Eng.
 put(ws, r + 2, 1, "A - internal update"); put(ws, r + 2, 2, "11-11-2026")
 put(ws, r + 2, 3, "Scrubber trips stop both burners; settings changed only with both STOP")
 put(ws, r + 2, 4, "PH internal decision / client review pending")
+put(ws, r + 3, 1, "B"); put(ws, r + 3, 2, "11-11-2026")
+put(ws, r + 3, 3, "Simplified program: drain follows the level (fixed 10 min limit); no burner FAULT/RESET, "
+                  "a burner trip needs START; 'no RUN' and 'RUN without request' are alarms; "
+                  "'RUN lost' and LSH/LSHH mismatch rows removed; 30 s before 2nd stage; "
+                  "only SP, HYST, STG on the HMI")
+put(ws, r + 3, 4, "PH internal decision / client review pending")
+ws.row_dimensions[r + 3].height = 40
 ws.column_dimensions["A"].width = 22
 ws.column_dimensions["B"].width = 14
 ws.column_dimensions["C"].width = 60
@@ -174,11 +183,11 @@ PH = "PH proposal"
 PD = "PH decision"
 
 
-def burner_rows(n, br, tk, lsl, te_in, te_out, rr, flt, stop_fx, stg):
+def burner_rows(n, br, tk, lsl, te_in, te_out, rr, flt, stop_fx, stg, start, req):
     p = f"C{n:02d}"
     te = (f"{te_in[0]} / {te_out[0]}", f"{te_in[1]} / {te_out[1]}")
     alarm = {**stop_fx, "E8": "ALARM"}
-    return [
+    rows = [
         ("group", f"BURNER {br} — tank {tk}   (operating modes, START / STOP: see Control Narrative)"),
         (f"{p}a", lsl[0], f"{tk} level below low level switch", lsl[1],
          "LSL not reached (contact open)", "Permissive", alarm, "Automatic when level returns", CL,
@@ -189,26 +198,39 @@ def burner_rows(n, br, tk, lsl, te_in, te_out, rr, flt, stop_fx, stg):
          stop_fx, "Automatic at max(T) <= SP − HYST (65 °C)", CL,
          "Client cases 2/3/6. The higher of inlet/outlet is used and the 5 °C restart band are PH "
          "proposals: each restart costs ~50 s of purge."),
-        (f"{p}c", te[0], f"{tk} oil temperature low — fast heat-up", te[1], "max(T) < SP − STG (60 °C)",
-         "Control", {stg: "RUN"}, "Automatic at max(T) >= 62 °C (2 °C band)", PH,
-         "2nd stage / high fire. Between 60 and 70 °C the burner runs on 1st stage. Back to 1st stage at 62 °C: the 2 °C band stops relay R2 / R7 chattering at 60 °C."),
+        (f"{p}c", te[0], f"{tk} oil temperature low — fast heat-up", te[1],
+         "RUN on for T_STG2 (30 s) and max(T) < SP − STG (60 °C)",
+         "Control", {stg: "RUN"}, "Automatic at max(T) >= 62 °C (2 °C band) or RUN off", PD,
+         "2nd stage / high fire. Between 60 and 70 °C the burner runs on 1st stage. Back to 1st stage at "
+         "62 °C: the 2 °C band stops relay R2 / R7 chattering at 60 °C. The 30 s on 1st stage after RUN "
+         "was added 11-Nov-2026 (PH decision); the burner control box has its own delay on top."),
         (f"{p}d", te[0], "Thermocouple fault — either of the two", te[1],
-         "Either channel: 32767 / −32768, outside −20…150 °C, or channel diagnostic", "Trip", alarm,
-         "S2 after fault cleared", PH,
+         "Either channel outside −20…150 °C for 10 s (or not valid 10 s after power-up)", "Trip", alarm,
+         f"Fault cleared, then START ({start})", PH,
          "Each channel is checked BEFORE taking the higher value, so one failed-low sensor cannot hide "
-         "behind the other. Heat is inhibited until both channels are valid after power-up."),
+         "behind the other. The 10 s filter stops one bad reading from stopping the burner."),
         (f"{p}e", flt[0], f"{br} lockout (flame / ignition / air pressure failure)", flt[1],
-         "Lockout signal present", "Trip", alarm, "At burner control box, then S2", PH,
+         "Lockout signal present", "Trip", alarm, f"At burner control box, then START ({start})", PH,
          "The burner's own control box has already closed the gas valves. PLC removes the heat request "
          "so the burner does not restart by itself after a local reset."),
         (f"{p}f", rr[0], f"{br} failed to start", rr[1],
-         "Heat request ON, no RUN within T_START (120 s)", "Trip", alarm, "S2", PH,
-         "RUN = gas valves energised (firing). Normal start ~55 s (RS100 §6.8.1) / ~65 s (DLX 53)."),
-        (f"{p}g", rr[0], f"{br} stopped by itself while running", rr[1],
-         "RUN lost, no lockout, heat request still ON", "Trip", alarm, "S2", PH,
-         "E.g. safety thermostat TS, gas pressure switch, burner supply lost. Without this row the PLC "
-         "would keep requesting heat from a burner that is no longer firing."),
+         "Heat request ON, no RUN within 120 s (fixed)", "Alarm", {"E8": "ALARM"},
+         "Automatic when RUN arrives or heat request is removed", PH,
+         "Alarm only (Rev. B): the burner box locks out by itself when ignition fails (row e). This alarm "
+         "catches a burner that does not react at all, e.g. broken TL / L wire or no burner supply. "
+         "Normal start ~55 s (RS100 §6.8.1) / ~65 s (DLX 53)."),
+        (f"{p}g", rr[0], f"{br} RUN without heat request", rr[1],
+         "RUN ON while heat request OFF, for 30 s", "Alarm", {"E8": "ALARM"},
+         "Automatic when RUN goes off", PH,
+         f"The PLC output is already off, so the burner fires without our request: e.g. relay {req} stuck "
+         "or TL / L bridged. Check the panel at once."),
     ]
+    if br == "BR02":
+        rows.append((f"{p}h", "Rfuel2", "BR02 fuel selector changed", "I12.0",
+                     "Gas / diesel selector changed while START is active", "Trip", stop_fx,
+                     "START (S6) on the new fuel", PH,
+                     "A fuel change while firing must go through a full stop and a new start sequence."))
+    return rows
 
 
 matrix = [
@@ -235,23 +257,19 @@ matrix = [
      "the gas burned in the burners is the gas the scrubber is protecting. The burner's own control "
      "box still does purge, ignition and flame supervision. The drain is not touched by PSH; it "
      "follows the level (meeting 02-Nov-2026)."),
-    ("C04", "LSH-102", "Scrubber high level", "I0.1", "Contact open (fail-safe) for TDRN_ON (3 s)",
+    ("C04", "LSH-102", "Scrubber high level", "I0.1", "Contact open (fail-safe)",
      "Control", {"E6": "OPEN", "E8": "ALARM"},
-     "Automatic: drain closes when LSH-102 healthy for TDRN_OFF (5 s)", PD,
+     "Automatic: drain closes when LSH-102 is healthy again", PD,
      "Client e-mail asks for the alarm. Opening the drain on LSH-102 was decided in the meeting of "
      "02-Nov-2026: the liquid drains a little and the level falls. Also opened by LSHH-103 (C05). "
-     "Closes again above the drain nozzle, so liquid keeps sealing the drain. Not during E-STOP."),
+     "Closes again above the drain nozzle, so liquid keeps sealing the drain. Not during E-STOP. "
+     "Rev. B: no open/close delay; the valve may chatter on a wavy level (accepted 11-Nov-2026)."),
     ("C04a", "XV-402", "Drain open too long (LSH-102 stuck or wire broken)", "—",
-     "Drain open continuously for TDRN_MAX (10 min)", "Trip", {"E6": "CLOSE", "E8": "ALARM"},
+     "Drain open continuously for 10 min (fixed)", "Trip", {"E6": "CLOSE", "E8": "ALARM"},
      "S2; the drain then follows the level again", PD,
      "The scrubber has no low level switch (C06). A broken LSH-102 wire reads as high level and would "
      "keep the drain open until the scrubber is empty and gas blows through the drain. This timer is "
-     "the only protection against that. Accepted 02-Nov-2026."),
-    ("C04b", "LSH-102 / LSHH-103", "LSH-102 fault: high-high level without high level", "—",
-     "LSHH-103 open while LSH-102 healthy, for 5 s", "Alarm", {"E8": "ALARM"},
-     "S2 when the two switches agree", PD,
-     "LSHH-103 is mounted above LSH-102, so it cannot trip alone unless LSH-102 has failed. "
-     "Accepted 02-Nov-2026."),
+     "the only protection against that. Accepted 02-Nov-2026; fixed value from Rev. B."),
     ("C05", "LSHH-103", "Scrubber high-high level", "I0.2", "Contact open (fail-safe)", "Trip",
      {"E1": "STOP", "E2": "STOP", "E3": "STOP", "E4": "STOP",
       "E6": "OPEN", "E7": "CLOSE", "E8": "ALARM"}, "S2 after cleared; START each burner", PD,
@@ -260,23 +278,21 @@ matrix = [
      "C04 and is not held by the trip: it follows the level, so it still opens if LSH-102 has failed."),
     ("C06", "LSL (scrubber)", "Scrubber low level", "I12.5 (spare)", "—", "Not installed", {}, "—",
      PD, "Not installed: the scrubber has LSH-102 and LSHH-103 only (confirmed 02-Nov-2026). I12.5 is spare."),
-    ("C06a", "S0 / PSH-101 / LSHH-103 / power-up", "Scrubber trip cause memory and first-out", "—",
-     "EStopOK=0 / PSH open / LSHH open / FirstScan", "Alarm", {"E8": "ALARM"},
+    ("C06a", "PSH-101 / LSHH-103", "Scrubber trip cause memory", "—",
+     "PSH open / LSHH open (latched)", "Alarm", {"E8": "ALARM"},
      "S2 with PSH, LSHH and EStopOK healthy", PH,
-     "F44 / 0007 D5: each cause is latched until RESET, including causes arriving after the first. "
-     "FirstOut: 0=none, 1=E-STOP, 2=PSH-101, 3=LSHH-103, 4=power-up. First cause holds until "
-     "RESET; simultaneous priority: E-STOP, PSH, LSHH, power-up. Capture power-up inside Scrubber "
-     "before Main clears FirstScan. HMI indication only; existing valve/burner policy unchanged. "
-     "Accepted internally by user 2026-11-01; remains PH proposal, not a Client requirement."),
+     "HMI shows which switch tripped the scrubber even if it has cleared since (a short pressure "
+     "peak). Rev. B: no first-out order and no separate power-up / E-STOP causes; one alarm "
+     "'Scrubber tripped: RESET required' covers power-up. HMI indication only."),
 ]
 matrix += burner_rows(7, "BR01", "TK01", ("LSL-TK01", "I1.2"), ("TE-501", "IW96"), ("TE-502", "IW98"),
-                      ("RR", "I0.3"), ("Rflt", "I0.5"), BR1_STOP, "E2")
+                      ("RR", "I0.3"), ("Rflt", "I0.5"), BR1_STOP, "E2", "S1", "R1")
 matrix.append(("C07h", "—", "BR01 running continuously for 24 h", "—", "Run timer >= 24 h", "Permissive",
                BR1_STOP, "Automatic (restarts on next demand)", PH,
                "RS100 is approved for intermittent operation and must stop at least once every 24 h "
                "(RS100 manual §5.10)."))
 matrix += burner_rows(8, "BR02", "TK02", ("LSL-TK02", "I1.3"), ("TE-503", "IW100"), ("TE-504", "IW102"),
-                      ("RR2", "I1.4"), ("Rflt2", "I1.5"), BR2_STOP, "E4")
+                      ("RR2", "I1.4"), ("Rflt2", "I1.5"), BR2_STOP, "E4", "S6", "R6")
 
 resp = DataValidation(type="list", formula1='"Approved,Approved with comment,Rejected"', allow_blank=True)
 resp.error = "Choose Approved, Approved with comment or Rejected"
@@ -337,16 +353,14 @@ params = [
     ("HYST", "Restart hysteresis — burner restarts at T <= SP − HYST", 5, "°C", "3 – 10",
      "PH proposal: > type-K accuracy (±2.2 °C), limits short-cycling"),
     ("STG", "2nd stage / high fire while T < SP − STG", 10, "°C", "5 – 30", "PH proposal"),
-    ("T_START", "Max. time from heat request to RUN feedback", 120, "s", "90 – 300",
+    ("T_STG2", "Time on 1st stage after RUN before 2nd stage is allowed (C07c / C08c)", 30, "s", "fixed",
+     "PH decision 11-Nov-2026"),
+    ("T_START", "Heat request without RUN longer than this: alarm (C07f / C08f)", 120, "s", "fixed",
      "PH proposal: ~2 × burner start cycle"),
     ("T_MAXRUN", "Forced stop of BR01 after continuous run", 24, "h", "fixed",
      "RS100 manual §5.10"),
-    ("TDRN_ON", "Scrubber high level must last this long before the drain opens (C04)", 3, "s", "1 – 30",
-     "PH decision 02-Nov-2026: float switch bounce"),
-    ("TDRN_OFF", "Drain closes when high level has been gone this long (C04)", 5, "s", "0 – 60",
-     "PH decision 02-Nov-2026"),
     ("TDRN_MAX", "Drain open continuously longer than this: drain closes, alarm (C04a)", 10, "min",
-     "1 – 60", "PH decision 02-Nov-2026: no scrubber low level switch"),
+     "fixed", "PH decision 02-Nov-2026: no scrubber low level switch"),
 ]
 for k, p in enumerate(params, 5):
     for i, v in enumerate(p, 1):
@@ -354,17 +368,14 @@ for k, p in enumerate(params, 5):
         if i == 3 and p[4] != "fixed":
             c.font = font(color="0000FF", bold=True)
 nr = 5 + len(params) + 1
-put(ws, nr, 1, "Blue values are defaults; they can be changed from the HMI by an authorised user.",
-    border=False)
+put(ws, nr, 1, "Blue values are defaults; they can be changed from the HMI by an authorised user. "
+    "'fixed' values are set in the program.", border=False)
 ws.merge_cells(f"A{nr}:F{nr}")
-put(ws, nr + 1, 1, "R-11 / D6 / 0007 — PH proposal, accepted internally 01-Nov-2026: lower SP, higher HYST "
-    "and higher STG apply immediately. Higher SP, lower HYST and lower STG wait until the burner "
-    "is not Enabled (after STOP or before START); changing a number must not light a burner. "
-    "All four burner parameters are taken while not Enabled. T_START is also taken while not Active. "
-    "PLC rejects out-of-range entries, keeps the last valid value and raises an alarm. "
-    "After power-up, an invalid stored value is replaced by its default.", border=False)
+put(ws, nr + 1, 1, "Rev. B (PH decision 11-Nov-2026): the HMI entry field refuses values outside the "
+    "range. A new value applies at once, also while a burner runs. The PLC uses the value directly; "
+    "there is no separate accepted copy and no rejection alarm.", border=False)
 ws.merge_cells(f"A{nr + 1}:F{nr + 1}")
-ws.row_dimensions[nr + 1].height = 84
+ws.row_dimensions[nr + 1].height = 42
 for i, w in enumerate([12, 55, 10, 8, 12, 50], 1):
     ws.column_dimensions[get_column_letter(i)].width = w
 
