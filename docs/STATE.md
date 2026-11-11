@@ -20,9 +20,10 @@
 الشاشة فيها 58 تاج، والإنذارات 16 بـ IDs جديدة. `docs/التشغيل.md` اتكتب من جديد على Rev. B.
 19 اختبار منطق نجحوا في `tools/tests/test_panel_rules.py`، و`check_hmi_xml` OK.
 **صفحة Alarms مش بتتولّد خالص**، علشان ما تمسحش الـ Alarm View اللي اتعمل بالإيد.
+**اتعمل Import (2026-11-11 7:16 PM):** في نسخة من `D:\tasks\burner\tia\Burner` جوه `tia/` بتاع الـ worktree.
+PLC 0/0 و13/13، وHMI 0/0، واتحفظ. الدليل `evidence/2026-11-11-revb-import.md`.
 **الباقي:**
-- نسخ مشروع المستخدم الحالي (اللي فيه الإعدادات اليدوية) جوه `tia/` بتاع الـ worktree، مع `TIA` مقفول.
-- `Apply-Blocks` و`Apply-Hmi` والـ Compile.
+- Export للتحقق، لما `TIA` يكون مقفول أو فاتح نسخة الـ worktree.
 - المستخدم: يمسح الإنذارات القديمة الـ 24 ويعمل Import للـ 16 الجديدة، ويرجّع صلاحيات Settings لو كانت متعملة.
 - `PLCSIM`.
 
