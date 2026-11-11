@@ -1,0 +1,7 @@
+T7c - scrubber trip blocks AUTO burners waiting for temperature
+  ok   START at 70 degC: enabled, no heat request  L2=0 TL1=0
+  ok   PSH trip while AUTO idle: both remain blocked  L2=0 TL1=0 XV401=0
+  ok   healthy RESET: still no heat at 70 degC  L2=0 TL1=0 XV401=1
+  FAIL temperature falls: previously enabled burners do not resume  L2=1 TL1=1   expected L2=0 TL1=0
+  ok   fresh START required after scrubber trip  L2=1 TL1=1
+FAIL (1)

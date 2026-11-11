@@ -37,32 +37,27 @@
     <Member Name="TcOkB" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
     <Member Name="TcOk" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
     <Member Name="TcBad" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
-    <Member Name="Demand" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
-    <Member Name="HeatNeed" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
-    <Member Name="Ready" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
-    <Member Name="Active" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
+    <Member Name="Demand" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">AUTO temperature hysteresis memory</MultiLanguageText></Comment></Member>
+    <Member Name="HeatNeed" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Temperature needs heat in the selected AUTO/MAN mode</MultiLanguageText></Comment></Member>
+    <Member Name="Ready" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">All field permissives healthy; not a heat request by itself</MultiLanguageText></Comment></Member>
     <Member Name="Pause24" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
     <Member Name="RunWrong" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
     <Member Name="NoStart" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
     <Member Name="PwrUpDone" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
     <Member Name="TcSlow" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
-    <Member Name="SP_Act" Datatype="Int" Remanence="NonRetain" Accessibility="Public" />
-    <Member Name="HYST_Act" Datatype="Int" Remanence="NonRetain" Accessibility="Public" />
-    <Member Name="STG_Act" Datatype="Int" Remanence="NonRetain" Accessibility="Public" />
-    <Member Name="TStart_Act" Datatype="Time" Remanence="NonRetain" Accessibility="Public" />
-    <Member Name="TOn" Datatype="Int" Remanence="NonRetain" Accessibility="Public" />
-    <Member Name="TStg" Datatype="Int" Remanence="NonRetain" Accessibility="Public" />
-    <Member Name="TStgOff" Datatype="Int" Remanence="NonRetain" Accessibility="Public" />
-    <Member Name="State" Datatype="Int" Remanence="NonRetain" Accessibility="Public" />
-    <Member Name="Enabled" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
-    <Member Name="Tmax" Datatype="Int" Remanence="NonRetain" Accessibility="Public" />
+    <Member Name="TOn" Datatype="Int" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">AUTO restart threshold: SP - HYST, 0.1 degC</MultiLanguageText></Comment></Member>
+    <Member Name="TStg" Datatype="Int" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Second-stage ON threshold: SP - STG, 0.1 degC</MultiLanguageText></Comment></Member>
+    <Member Name="TStgOff" Datatype="Int" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Second-stage OFF threshold: TStg + 2.0 degC</MultiLanguageText></Comment></Member>
+    <Member Name="State" Datatype="Int" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">0 IDLE, 1 STARTING, 2 RUNNING, 3 FAULT</MultiLanguageText></Comment></Member>
+    <Member Name="Enabled" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">START accepted; STOP or a trip cancels this permission</MultiLanguageText></Comment></Member>
+    <Member Name="Tmax" Datatype="Int" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Higher of both valid temperature channels, 0.1 degC</MultiLanguageText></Comment></Member>
     <Member Name="F_EStop" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
     <Member Name="F_TC" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
     <Member Name="F_Lockout" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
     <Member Name="F_NoStart" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
     <Member Name="F_RunLost" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
     <Member Name="F_RunWrong" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
-    <Member Name="ParPending" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
+    <Member Name="F_Scrubber" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Scrubber trip stopped this burner; RESET then new START</MultiLanguageText></Comment></Member>
     <Member Name="Use24h" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
     <Member Name="T_PwrUp" Datatype="TON_TIME" Version="1.0" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute></AttributeList><Sections><Section Name="None"><Member Name="PT" Datatype="Time" /><Member Name="ET" Datatype="Time" /><Member Name="IN" Datatype="Bool" /><Member Name="Q" Datatype="Bool" /></Section></Sections></Member>
     <Member Name="T_TcBad" Datatype="TON_TIME" Version="1.0" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute></AttributeList><Sections><Section Name="None"><Member Name="PT" Datatype="Time" /><Member Name="ET" Datatype="Time" /><Member Name="IN" Datatype="Bool" /><Member Name="Q" Datatype="Bool" /></Section></Sections></Member>
@@ -83,9 +78,9 @@
       <SetENOAutomatically>False</SetENOAutomatically>
     </AttributeList>
     <ObjectList>
-      <MultilingualText ID="EC" CompositionName="Comment">
+      <MultilingualText ID="D3" CompositionName="Comment">
         <ObjectList>
-          <MultilingualTextItem ID="ED" CompositionName="Items">
+          <MultilingualTextItem ID="D4" CompositionName="Items">
             <AttributeList>
               <Culture>en-US</Culture>
               <Text>One burner, docs/التشغيل.md §2 and decisions/0006</Text>
@@ -194,7 +189,7 @@
               <MultilingualTextItem ID="5" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>R-05 - START edge: not on first scan, only after seen released, STOP wins</Text>
+                  <Text>BUTTONS | R-05 - START edge: not on first scan, only after seen released, STOP wins</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -255,7 +250,7 @@
               <MultilingualTextItem ID="A" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>R-05 — START edge memory</Text>
+                  <Text>BUTTONS | R-05 — START edge memory</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -370,7 +365,7 @@
               <MultilingualTextItem ID="F" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>R-02 — AUTO/MAN changed</Text>
+                  <Text>BUTTONS | R-02 — AUTO/MAN changed</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -431,7 +426,7 @@
               <MultilingualTextItem ID="14" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>R-02 — AUTO/MAN memory</Text>
+                  <Text>BUTTONS | R-02 — AUTO/MAN memory</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -546,7 +541,7 @@
               <MultilingualTextItem ID="19" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>R-12 — fuel mode changed</Text>
+                  <Text>BUTTONS | R-12 — fuel mode changed</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -607,7 +602,7 @@
               <MultilingualTextItem ID="1E" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>R-12 — fuel mode memory</Text>
+                  <Text>BUTTONS | R-12 — fuel mode memory</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -706,7 +701,7 @@
               <MultilingualTextItem ID="23" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>C0xd — channel A valid: -20.0 .. 150.0 degC (32767 / -32768 fall outside)</Text>
+                  <Text>TEMPERATURE | C0xd — channel A valid: -20.0 .. 150.0 degC (32767 / -32768 fall outside)</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -805,7 +800,7 @@
               <MultilingualTextItem ID="28" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>C0xd — channel B valid</Text>
+                  <Text>TEMPERATURE | C0xd — channel B valid</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -880,7 +875,7 @@
               <MultilingualTextItem ID="2D" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>C0xd — both channels valid, each checked before MAX</Text>
+                  <Text>TEMPERATURE | C0xd — both channels valid, each checked before MAX</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -967,7 +962,7 @@
               <MultilingualTextItem ID="32" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>R-10 - power-up window (TC card calibrating) is over after 10 s</Text>
+                  <Text>TEMPERATURE | R-10 - power-up window (TC card calibrating) is over after 10 s</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -1053,7 +1048,7 @@
               <MultilingualTextItem ID="37" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>C0xd / R-10 — invalid for 10 s</Text>
+                  <Text>TEMPERATURE | C0xd / R-10 — invalid for 10 s</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -1152,7 +1147,7 @@
               <MultilingualTextItem ID="3C" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>C0xd / R-10 — invalid = fault: at once, or after 10 s right after power-up</Text>
+                  <Text>TEMPERATURE | C0xd / R-10 — invalid = fault: at once, or after 10 s right after power-up</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -1235,7 +1230,7 @@
               <MultilingualTextItem ID="41" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>C0xb — temperature = higher channel (A)</Text>
+                  <Text>TEMPERATURE | C0xb — temperature = higher channel (A)</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -1318,7 +1313,7 @@
               <MultilingualTextItem ID="46" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>C0xb — temperature = higher channel (B)</Text>
+                  <Text>TEMPERATURE | C0xb — temperature = higher channel (B)</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -1329,649 +1324,16 @@
         <AttributeList>
           <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
   <Parts>
-    <Access Scope="LocalVariable" UId="22">
-      <Symbol>
-        <Component Name="Enabled" />
-      </Symbol>
-    </Access>
-    <Access Scope="GlobalVariable" UId="24">
-      <Symbol>
-        <Component Name="Par" />
-        <Component Name="SP_V" />
-      </Symbol>
-    </Access>
-    <Access Scope="LocalVariable" UId="25">
-      <Symbol>
-        <Component Name="SP_Act" />
-      </Symbol>
-    </Access>
-    <Access Scope="GlobalVariable" UId="27">
-      <Symbol>
-        <Component Name="Par" />
-        <Component Name="HYST_V" />
-      </Symbol>
-    </Access>
-    <Access Scope="LocalVariable" UId="28">
-      <Symbol>
-        <Component Name="HYST_Act" />
-      </Symbol>
-    </Access>
-    <Access Scope="GlobalVariable" UId="30">
-      <Symbol>
-        <Component Name="Par" />
-        <Component Name="STG_V" />
-      </Symbol>
-    </Access>
-    <Access Scope="LocalVariable" UId="31">
-      <Symbol>
-        <Component Name="STG_Act" />
-      </Symbol>
-    </Access>
-    <Access Scope="GlobalVariable" UId="33">
-      <Symbol>
-        <Component Name="Par" />
-        <Component Name="TStart_V" />
-      </Symbol>
-    </Access>
-    <Access Scope="LocalVariable" UId="34">
-      <Symbol>
-        <Component Name="TStart_Act" />
-      </Symbol>
-    </Access>
-    <Part Name="Contact" UId="21">
-      <Negated Name="operand" />
-    </Part>
-    <Part Name="Move" UId="23" DisabledENO="false">
-      <TemplateValue Name="Card" Type="Cardinality">1</TemplateValue>
-    </Part>
-    <Part Name="Move" UId="26" DisabledENO="false">
-      <TemplateValue Name="Card" Type="Cardinality">1</TemplateValue>
-    </Part>
-    <Part Name="Move" UId="29" DisabledENO="false">
-      <TemplateValue Name="Card" Type="Cardinality">1</TemplateValue>
-    </Part>
-    <Part Name="Move" UId="32" DisabledENO="false">
-      <TemplateValue Name="Card" Type="Cardinality">1</TemplateValue>
-    </Part>
-  </Parts>
-  <Wires>
-    <Wire UId="35">
-      <Powerrail />
-      <NameCon UId="21" Name="in" />
-    </Wire>
-    <Wire UId="36">
-      <IdentCon UId="22" />
-      <NameCon UId="21" Name="operand" />
-    </Wire>
-    <Wire UId="37">
-      <NameCon UId="21" Name="out" />
-      <NameCon UId="23" Name="en" />
-      <NameCon UId="26" Name="en" />
-      <NameCon UId="29" Name="en" />
-      <NameCon UId="32" Name="en" />
-    </Wire>
-    <Wire UId="38">
-      <IdentCon UId="24" />
-      <NameCon UId="23" Name="in" />
-    </Wire>
-    <Wire UId="39">
-      <NameCon UId="23" Name="out1" />
-      <IdentCon UId="25" />
-    </Wire>
-    <Wire UId="40">
-      <IdentCon UId="27" />
-      <NameCon UId="26" Name="in" />
-    </Wire>
-    <Wire UId="41">
-      <NameCon UId="26" Name="out1" />
-      <IdentCon UId="28" />
-    </Wire>
-    <Wire UId="42">
-      <IdentCon UId="30" />
-      <NameCon UId="29" Name="in" />
-    </Wire>
-    <Wire UId="43">
-      <NameCon UId="29" Name="out1" />
-      <IdentCon UId="31" />
-    </Wire>
-    <Wire UId="44">
-      <IdentCon UId="33" />
-      <NameCon UId="32" Name="in" />
-    </Wire>
-    <Wire UId="45">
-      <NameCon UId="32" Name="out1" />
-      <IdentCon UId="34" />
-    </Wire>
-  </Wires>
-</FlgNet></NetworkSource>
-          <ProgrammingLanguage>LAD</ProgrammingLanguage>
-        </AttributeList>
-        <ObjectList>
-          <MultilingualText ID="48" CompositionName="Comment">
-            <ObjectList>
-              <MultilingualTextItem ID="49" CompositionName="Items">
-                <AttributeList>
-                  <Culture>en-US</Culture>
-                  <Text />
-                </AttributeList>
-              </MultilingualTextItem>
-            </ObjectList>
-          </MultilingualText>
-          <MultilingualText ID="4A" CompositionName="Title">
-            <ObjectList>
-              <MultilingualTextItem ID="4B" CompositionName="Items">
-                <AttributeList>
-                  <Culture>en-US</Culture>
-                  <Text>R-11 / D6 / 0007 - not Enabled: take all four parameters</Text>
-                </AttributeList>
-              </MultilingualTextItem>
-            </ObjectList>
-          </MultilingualText>
-        </ObjectList>
-      </SW.Blocks.CompileUnit>
-      <SW.Blocks.CompileUnit ID="4C" CompositionName="CompileUnits">
-        <AttributeList>
-          <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
-  <Parts>
-    <Access Scope="LocalVariable" UId="22">
-      <Symbol>
-        <Component Name="Active" />
-      </Symbol>
-    </Access>
-    <Access Scope="GlobalVariable" UId="24">
-      <Symbol>
-        <Component Name="Par" />
-        <Component Name="TStart_V" />
-      </Symbol>
-    </Access>
-    <Access Scope="LocalVariable" UId="25">
-      <Symbol>
-        <Component Name="TStart_Act" />
-      </Symbol>
-    </Access>
-    <Part Name="Contact" UId="21">
-      <Negated Name="operand" />
-    </Part>
-    <Part Name="Move" UId="23" DisabledENO="false">
-      <TemplateValue Name="Card" Type="Cardinality">1</TemplateValue>
-    </Part>
-  </Parts>
-  <Wires>
-    <Wire UId="26">
-      <Powerrail />
-      <NameCon UId="21" Name="in" />
-    </Wire>
-    <Wire UId="27">
-      <IdentCon UId="22" />
-      <NameCon UId="21" Name="operand" />
-    </Wire>
-    <Wire UId="28">
-      <NameCon UId="21" Name="out" />
-      <NameCon UId="23" Name="en" />
-    </Wire>
-    <Wire UId="29">
-      <IdentCon UId="24" />
-      <NameCon UId="23" Name="in" />
-    </Wire>
-    <Wire UId="30">
-      <NameCon UId="23" Name="out1" />
-      <IdentCon UId="25" />
-    </Wire>
-  </Wires>
-</FlgNet></NetworkSource>
-          <ProgrammingLanguage>LAD</ProgrammingLanguage>
-        </AttributeList>
-        <ObjectList>
-          <MultilingualText ID="4D" CompositionName="Comment">
-            <ObjectList>
-              <MultilingualTextItem ID="4E" CompositionName="Items">
-                <AttributeList>
-                  <Culture>en-US</Culture>
-                  <Text />
-                </AttributeList>
-              </MultilingualTextItem>
-            </ObjectList>
-          </MultilingualText>
-          <MultilingualText ID="4F" CompositionName="Title">
-            <ObjectList>
-              <MultilingualTextItem ID="50" CompositionName="Items">
-                <AttributeList>
-                  <Culture>en-US</Culture>
-                  <Text>R-11 / D6 / 0007 - not Active: take TStart</Text>
-                </AttributeList>
-              </MultilingualTextItem>
-            </ObjectList>
-          </MultilingualText>
-        </ObjectList>
-      </SW.Blocks.CompileUnit>
-      <SW.Blocks.CompileUnit ID="51" CompositionName="CompileUnits">
-        <AttributeList>
-          <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
-  <Parts>
     <Access Scope="GlobalVariable" UId="22">
       <Symbol>
         <Component Name="Par" />
         <Component Name="SP_V" />
       </Symbol>
     </Access>
-    <Access Scope="LocalVariable" UId="23">
-      <Symbol>
-        <Component Name="SP_Act" />
-      </Symbol>
-    </Access>
-    <Access Scope="GlobalVariable" UId="25">
-      <Symbol>
-        <Component Name="Par" />
-        <Component Name="SP_V" />
-      </Symbol>
-    </Access>
-    <Access Scope="LocalVariable" UId="26">
-      <Symbol>
-        <Component Name="SP_Act" />
-      </Symbol>
-    </Access>
-    <Part Name="Le" UId="21">
-      <TemplateValue Name="SrcType" Type="Type">Int</TemplateValue>
-    </Part>
-    <Part Name="Move" UId="24" DisabledENO="false">
-      <TemplateValue Name="Card" Type="Cardinality">1</TemplateValue>
-    </Part>
-  </Parts>
-  <Wires>
-    <Wire UId="27">
-      <Powerrail />
-      <NameCon UId="21" Name="pre" />
-    </Wire>
-    <Wire UId="28">
-      <IdentCon UId="22" />
-      <NameCon UId="21" Name="in1" />
-    </Wire>
-    <Wire UId="29">
-      <IdentCon UId="23" />
-      <NameCon UId="21" Name="in2" />
-    </Wire>
-    <Wire UId="30">
-      <NameCon UId="21" Name="out" />
-      <NameCon UId="24" Name="en" />
-    </Wire>
-    <Wire UId="31">
-      <IdentCon UId="25" />
-      <NameCon UId="24" Name="in" />
-    </Wire>
-    <Wire UId="32">
-      <NameCon UId="24" Name="out1" />
-      <IdentCon UId="26" />
-    </Wire>
-  </Wires>
-</FlgNet></NetworkSource>
-          <ProgrammingLanguage>LAD</ProgrammingLanguage>
-        </AttributeList>
-        <ObjectList>
-          <MultilingualText ID="52" CompositionName="Comment">
-            <ObjectList>
-              <MultilingualTextItem ID="53" CompositionName="Items">
-                <AttributeList>
-                  <Culture>en-US</Culture>
-                  <Text />
-                </AttributeList>
-              </MultilingualTextItem>
-            </ObjectList>
-          </MultilingualText>
-          <MultilingualText ID="54" CompositionName="Title">
-            <ObjectList>
-              <MultilingualTextItem ID="55" CompositionName="Items">
-                <AttributeList>
-                  <Culture>en-US</Culture>
-                  <Text>R-11 / D6 / 0007 - lower SP applies at once</Text>
-                </AttributeList>
-              </MultilingualTextItem>
-            </ObjectList>
-          </MultilingualText>
-        </ObjectList>
-      </SW.Blocks.CompileUnit>
-      <SW.Blocks.CompileUnit ID="56" CompositionName="CompileUnits">
-        <AttributeList>
-          <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
-  <Parts>
-    <Access Scope="GlobalVariable" UId="22">
+    <Access Scope="GlobalVariable" UId="23">
       <Symbol>
         <Component Name="Par" />
         <Component Name="HYST_V" />
-      </Symbol>
-    </Access>
-    <Access Scope="LocalVariable" UId="23">
-      <Symbol>
-        <Component Name="HYST_Act" />
-      </Symbol>
-    </Access>
-    <Access Scope="GlobalVariable" UId="25">
-      <Symbol>
-        <Component Name="Par" />
-        <Component Name="HYST_V" />
-      </Symbol>
-    </Access>
-    <Access Scope="LocalVariable" UId="26">
-      <Symbol>
-        <Component Name="HYST_Act" />
-      </Symbol>
-    </Access>
-    <Part Name="Ge" UId="21">
-      <TemplateValue Name="SrcType" Type="Type">Int</TemplateValue>
-    </Part>
-    <Part Name="Move" UId="24" DisabledENO="false">
-      <TemplateValue Name="Card" Type="Cardinality">1</TemplateValue>
-    </Part>
-  </Parts>
-  <Wires>
-    <Wire UId="27">
-      <Powerrail />
-      <NameCon UId="21" Name="pre" />
-    </Wire>
-    <Wire UId="28">
-      <IdentCon UId="22" />
-      <NameCon UId="21" Name="in1" />
-    </Wire>
-    <Wire UId="29">
-      <IdentCon UId="23" />
-      <NameCon UId="21" Name="in2" />
-    </Wire>
-    <Wire UId="30">
-      <NameCon UId="21" Name="out" />
-      <NameCon UId="24" Name="en" />
-    </Wire>
-    <Wire UId="31">
-      <IdentCon UId="25" />
-      <NameCon UId="24" Name="in" />
-    </Wire>
-    <Wire UId="32">
-      <NameCon UId="24" Name="out1" />
-      <IdentCon UId="26" />
-    </Wire>
-  </Wires>
-</FlgNet></NetworkSource>
-          <ProgrammingLanguage>LAD</ProgrammingLanguage>
-        </AttributeList>
-        <ObjectList>
-          <MultilingualText ID="57" CompositionName="Comment">
-            <ObjectList>
-              <MultilingualTextItem ID="58" CompositionName="Items">
-                <AttributeList>
-                  <Culture>en-US</Culture>
-                  <Text />
-                </AttributeList>
-              </MultilingualTextItem>
-            </ObjectList>
-          </MultilingualText>
-          <MultilingualText ID="59" CompositionName="Title">
-            <ObjectList>
-              <MultilingualTextItem ID="5A" CompositionName="Items">
-                <AttributeList>
-                  <Culture>en-US</Culture>
-                  <Text>R-11 / D6 / 0007 - higher HYST applies at once</Text>
-                </AttributeList>
-              </MultilingualTextItem>
-            </ObjectList>
-          </MultilingualText>
-        </ObjectList>
-      </SW.Blocks.CompileUnit>
-      <SW.Blocks.CompileUnit ID="5B" CompositionName="CompileUnits">
-        <AttributeList>
-          <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
-  <Parts>
-    <Access Scope="GlobalVariable" UId="22">
-      <Symbol>
-        <Component Name="Par" />
-        <Component Name="STG_V" />
-      </Symbol>
-    </Access>
-    <Access Scope="LocalVariable" UId="23">
-      <Symbol>
-        <Component Name="STG_Act" />
-      </Symbol>
-    </Access>
-    <Access Scope="GlobalVariable" UId="25">
-      <Symbol>
-        <Component Name="Par" />
-        <Component Name="STG_V" />
-      </Symbol>
-    </Access>
-    <Access Scope="LocalVariable" UId="26">
-      <Symbol>
-        <Component Name="STG_Act" />
-      </Symbol>
-    </Access>
-    <Part Name="Ge" UId="21">
-      <TemplateValue Name="SrcType" Type="Type">Int</TemplateValue>
-    </Part>
-    <Part Name="Move" UId="24" DisabledENO="false">
-      <TemplateValue Name="Card" Type="Cardinality">1</TemplateValue>
-    </Part>
-  </Parts>
-  <Wires>
-    <Wire UId="27">
-      <Powerrail />
-      <NameCon UId="21" Name="pre" />
-    </Wire>
-    <Wire UId="28">
-      <IdentCon UId="22" />
-      <NameCon UId="21" Name="in1" />
-    </Wire>
-    <Wire UId="29">
-      <IdentCon UId="23" />
-      <NameCon UId="21" Name="in2" />
-    </Wire>
-    <Wire UId="30">
-      <NameCon UId="21" Name="out" />
-      <NameCon UId="24" Name="en" />
-    </Wire>
-    <Wire UId="31">
-      <IdentCon UId="25" />
-      <NameCon UId="24" Name="in" />
-    </Wire>
-    <Wire UId="32">
-      <NameCon UId="24" Name="out1" />
-      <IdentCon UId="26" />
-    </Wire>
-  </Wires>
-</FlgNet></NetworkSource>
-          <ProgrammingLanguage>LAD</ProgrammingLanguage>
-        </AttributeList>
-        <ObjectList>
-          <MultilingualText ID="5C" CompositionName="Comment">
-            <ObjectList>
-              <MultilingualTextItem ID="5D" CompositionName="Items">
-                <AttributeList>
-                  <Culture>en-US</Culture>
-                  <Text />
-                </AttributeList>
-              </MultilingualTextItem>
-            </ObjectList>
-          </MultilingualText>
-          <MultilingualText ID="5E" CompositionName="Title">
-            <ObjectList>
-              <MultilingualTextItem ID="5F" CompositionName="Items">
-                <AttributeList>
-                  <Culture>en-US</Culture>
-                  <Text>R-11 / D6 / 0007 - higher STG (less 2nd stage) applies at once</Text>
-                </AttributeList>
-              </MultilingualTextItem>
-            </ObjectList>
-          </MultilingualText>
-        </ObjectList>
-      </SW.Blocks.CompileUnit>
-      <SW.Blocks.CompileUnit ID="60" CompositionName="CompileUnits">
-        <AttributeList>
-          <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
-  <Parts>
-    <Access Scope="GlobalVariable" UId="22">
-      <Symbol>
-        <Component Name="Par" />
-        <Component Name="SP_V" />
-      </Symbol>
-    </Access>
-    <Access Scope="LocalVariable" UId="23">
-      <Symbol>
-        <Component Name="SP_Act" />
-      </Symbol>
-    </Access>
-    <Access Scope="GlobalVariable" UId="25">
-      <Symbol>
-        <Component Name="Par" />
-        <Component Name="HYST_V" />
-      </Symbol>
-    </Access>
-    <Access Scope="LocalVariable" UId="26">
-      <Symbol>
-        <Component Name="HYST_Act" />
-      </Symbol>
-    </Access>
-    <Access Scope="GlobalVariable" UId="28">
-      <Symbol>
-        <Component Name="Par" />
-        <Component Name="STG_V" />
-      </Symbol>
-    </Access>
-    <Access Scope="LocalVariable" UId="29">
-      <Symbol>
-        <Component Name="STG_Act" />
-      </Symbol>
-    </Access>
-    <Access Scope="GlobalVariable" UId="31">
-      <Symbol>
-        <Component Name="Par" />
-        <Component Name="TStart_V" />
-      </Symbol>
-    </Access>
-    <Access Scope="LocalVariable" UId="32">
-      <Symbol>
-        <Component Name="TStart_Act" />
-      </Symbol>
-    </Access>
-    <Access Scope="LocalVariable" UId="35">
-      <Symbol>
-        <Component Name="ParPending" />
-      </Symbol>
-    </Access>
-    <Part Name="Ne" UId="21">
-      <TemplateValue Name="SrcType" Type="Type">Int</TemplateValue>
-    </Part>
-    <Part Name="Ne" UId="24">
-      <TemplateValue Name="SrcType" Type="Type">Int</TemplateValue>
-    </Part>
-    <Part Name="Ne" UId="27">
-      <TemplateValue Name="SrcType" Type="Type">Int</TemplateValue>
-    </Part>
-    <Part Name="Ne" UId="30">
-      <TemplateValue Name="SrcType" Type="Type">Time</TemplateValue>
-    </Part>
-    <Part Name="O" UId="33">
-      <TemplateValue Name="Card" Type="Cardinality">4</TemplateValue>
-    </Part>
-    <Part Name="Coil" UId="34" />
-  </Parts>
-  <Wires>
-    <Wire UId="36">
-      <Powerrail />
-      <NameCon UId="21" Name="pre" />
-      <NameCon UId="24" Name="pre" />
-      <NameCon UId="27" Name="pre" />
-      <NameCon UId="30" Name="pre" />
-    </Wire>
-    <Wire UId="37">
-      <IdentCon UId="22" />
-      <NameCon UId="21" Name="in1" />
-    </Wire>
-    <Wire UId="38">
-      <IdentCon UId="23" />
-      <NameCon UId="21" Name="in2" />
-    </Wire>
-    <Wire UId="39">
-      <IdentCon UId="25" />
-      <NameCon UId="24" Name="in1" />
-    </Wire>
-    <Wire UId="40">
-      <IdentCon UId="26" />
-      <NameCon UId="24" Name="in2" />
-    </Wire>
-    <Wire UId="41">
-      <IdentCon UId="28" />
-      <NameCon UId="27" Name="in1" />
-    </Wire>
-    <Wire UId="42">
-      <IdentCon UId="29" />
-      <NameCon UId="27" Name="in2" />
-    </Wire>
-    <Wire UId="43">
-      <IdentCon UId="31" />
-      <NameCon UId="30" Name="in1" />
-    </Wire>
-    <Wire UId="44">
-      <IdentCon UId="32" />
-      <NameCon UId="30" Name="in2" />
-    </Wire>
-    <Wire UId="45">
-      <NameCon UId="21" Name="out" />
-      <NameCon UId="33" Name="in1" />
-    </Wire>
-    <Wire UId="46">
-      <NameCon UId="24" Name="out" />
-      <NameCon UId="33" Name="in2" />
-    </Wire>
-    <Wire UId="47">
-      <NameCon UId="27" Name="out" />
-      <NameCon UId="33" Name="in3" />
-    </Wire>
-    <Wire UId="48">
-      <NameCon UId="30" Name="out" />
-      <NameCon UId="33" Name="in4" />
-    </Wire>
-    <Wire UId="49">
-      <NameCon UId="33" Name="out" />
-      <NameCon UId="34" Name="in" />
-    </Wire>
-    <Wire UId="50">
-      <NameCon UId="34" Name="operand" />
-      <IdentCon UId="35" />
-    </Wire>
-  </Wires>
-</FlgNet></NetworkSource>
-          <ProgrammingLanguage>LAD</ProgrammingLanguage>
-        </AttributeList>
-        <ObjectList>
-          <MultilingualText ID="61" CompositionName="Comment">
-            <ObjectList>
-              <MultilingualTextItem ID="62" CompositionName="Items">
-                <AttributeList>
-                  <Culture>en-US</Culture>
-                  <Text />
-                </AttributeList>
-              </MultilingualTextItem>
-            </ObjectList>
-          </MultilingualText>
-          <MultilingualText ID="63" CompositionName="Title">
-            <ObjectList>
-              <MultilingualTextItem ID="64" CompositionName="Items">
-                <AttributeList>
-                  <Culture>en-US</Culture>
-                  <Text>R-11 / D6 / 0007 - pending while any entry differs from its active copy</Text>
-                </AttributeList>
-              </MultilingualTextItem>
-            </ObjectList>
-          </MultilingualText>
-        </ObjectList>
-      </SW.Blocks.CompileUnit>
-      <SW.Blocks.CompileUnit ID="65" CompositionName="CompileUnits">
-        <AttributeList>
-          <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
-  <Parts>
-    <Access Scope="LocalVariable" UId="22">
-      <Symbol>
-        <Component Name="SP_Act" />
-      </Symbol>
-    </Access>
-    <Access Scope="LocalVariable" UId="23">
-      <Symbol>
-        <Component Name="HYST_Act" />
       </Symbol>
     </Access>
     <Access Scope="LocalVariable" UId="24">
@@ -1979,14 +1341,16 @@
         <Component Name="TOn" />
       </Symbol>
     </Access>
-    <Access Scope="LocalVariable" UId="26">
+    <Access Scope="GlobalVariable" UId="26">
       <Symbol>
-        <Component Name="SP_Act" />
+        <Component Name="Par" />
+        <Component Name="SP_V" />
       </Symbol>
     </Access>
-    <Access Scope="LocalVariable" UId="27">
+    <Access Scope="GlobalVariable" UId="27">
       <Symbol>
-        <Component Name="STG_Act" />
+        <Component Name="Par" />
+        <Component Name="STG_V" />
       </Symbol>
     </Access>
     <Access Scope="LocalVariable" UId="28">
@@ -2036,9 +1400,9 @@
           <ProgrammingLanguage>LAD</ProgrammingLanguage>
         </AttributeList>
         <ObjectList>
-          <MultilingualText ID="66" CompositionName="Comment">
+          <MultilingualText ID="48" CompositionName="Comment">
             <ObjectList>
-              <MultilingualTextItem ID="67" CompositionName="Items">
+              <MultilingualTextItem ID="49" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
                   <Text />
@@ -2046,19 +1410,19 @@
               </MultilingualTextItem>
             </ObjectList>
           </MultilingualText>
-          <MultilingualText ID="68" CompositionName="Title">
+          <MultilingualText ID="4A" CompositionName="Title">
             <ObjectList>
-              <MultilingualTextItem ID="69" CompositionName="Items">
+              <MultilingualTextItem ID="4B" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>C0xb / C0xc — restart and 2nd-stage limits</Text>
+                  <Text>TEMPERATURE | C0xb / C0xc — restart and 2nd-stage limits</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
           </MultilingualText>
         </ObjectList>
       </SW.Blocks.CompileUnit>
-      <SW.Blocks.CompileUnit ID="6A" CompositionName="CompileUnits">
+      <SW.Blocks.CompileUnit ID="4C" CompositionName="CompileUnits">
         <AttributeList>
           <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
   <Parts>
@@ -2105,9 +1469,9 @@
           <ProgrammingLanguage>LAD</ProgrammingLanguage>
         </AttributeList>
         <ObjectList>
-          <MultilingualText ID="6B" CompositionName="Comment">
+          <MultilingualText ID="4D" CompositionName="Comment">
             <ObjectList>
-              <MultilingualTextItem ID="6C" CompositionName="Items">
+              <MultilingualTextItem ID="4E" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
                   <Text />
@@ -2115,19 +1479,19 @@
               </MultilingualTextItem>
             </ObjectList>
           </MultilingualText>
-          <MultilingualText ID="6D" CompositionName="Title">
+          <MultilingualText ID="4F" CompositionName="Title">
             <ObjectList>
-              <MultilingualTextItem ID="6E" CompositionName="Items">
+              <MultilingualTextItem ID="50" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>C0xc / F41 — 2nd stage back to 1st at SP - STG + 2.0 degC</Text>
+                  <Text>TEMPERATURE | C0xc / F41 — 2nd stage back to 1st at SP - STG + 2.0 degC</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
           </MultilingualText>
         </ObjectList>
       </SW.Blocks.CompileUnit>
-      <SW.Blocks.CompileUnit ID="6F" CompositionName="CompileUnits">
+      <SW.Blocks.CompileUnit ID="51" CompositionName="CompileUnits">
         <AttributeList>
           <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
   <Parts>
@@ -2177,9 +1541,9 @@
           <ProgrammingLanguage>LAD</ProgrammingLanguage>
         </AttributeList>
         <ObjectList>
-          <MultilingualText ID="70" CompositionName="Comment">
+          <MultilingualText ID="52" CompositionName="Comment">
             <ObjectList>
-              <MultilingualTextItem ID="71" CompositionName="Items">
+              <MultilingualTextItem ID="53" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
                   <Text />
@@ -2187,19 +1551,19 @@
               </MultilingualTextItem>
             </ObjectList>
           </MultilingualText>
-          <MultilingualText ID="72" CompositionName="Title">
+          <MultilingualText ID="54" CompositionName="Title">
             <ObjectList>
-              <MultilingualTextItem ID="73" CompositionName="Items">
+              <MultilingualTextItem ID="55" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>C0xb — AUTO demand on at T &lt;= SP - HYST</Text>
+                  <Text>TEMPERATURE | C0xb — AUTO demand on at T &lt;= SP - HYST</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
           </MultilingualText>
         </ObjectList>
       </SW.Blocks.CompileUnit>
-      <SW.Blocks.CompileUnit ID="74" CompositionName="CompileUnits">
+      <SW.Blocks.CompileUnit ID="56" CompositionName="CompileUnits">
         <AttributeList>
           <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
   <Parts>
@@ -2208,9 +1572,10 @@
         <Component Name="Tmax" />
       </Symbol>
     </Access>
-    <Access Scope="LocalVariable" UId="23">
+    <Access Scope="GlobalVariable" UId="23">
       <Symbol>
-        <Component Name="SP_Act" />
+        <Component Name="Par" />
+        <Component Name="SP_V" />
       </Symbol>
     </Access>
     <Access Scope="LocalVariable" UId="25">
@@ -2273,9 +1638,9 @@
           <ProgrammingLanguage>LAD</ProgrammingLanguage>
         </AttributeList>
         <ObjectList>
-          <MultilingualText ID="75" CompositionName="Comment">
+          <MultilingualText ID="57" CompositionName="Comment">
             <ObjectList>
-              <MultilingualTextItem ID="76" CompositionName="Items">
+              <MultilingualTextItem ID="58" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
                   <Text />
@@ -2283,19 +1648,19 @@
               </MultilingualTextItem>
             </ObjectList>
           </MultilingualText>
-          <MultilingualText ID="77" CompositionName="Title">
+          <MultilingualText ID="59" CompositionName="Title">
             <ObjectList>
-              <MultilingualTextItem ID="78" CompositionName="Items">
+              <MultilingualTextItem ID="5A" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>C0xb — AUTO demand off at T &gt;= SP, or no valid temperature</Text>
+                  <Text>TEMPERATURE | C0xb — AUTO demand off at T &gt;= SP, or no valid temperature</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
           </MultilingualText>
         </ObjectList>
       </SW.Blocks.CompileUnit>
-      <SW.Blocks.CompileUnit ID="79" CompositionName="CompileUnits">
+      <SW.Blocks.CompileUnit ID="5B" CompositionName="CompileUnits">
         <AttributeList>
           <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
   <Parts>
@@ -2324,9 +1689,10 @@
         <Component Name="Tmax" />
       </Symbol>
     </Access>
-    <Access Scope="LocalVariable" UId="31">
+    <Access Scope="GlobalVariable" UId="31">
       <Symbol>
-        <Component Name="SP_Act" />
+        <Component Name="Par" />
+        <Component Name="SP_V" />
       </Symbol>
     </Access>
     <Access Scope="LocalVariable" UId="34">
@@ -2411,9 +1777,9 @@
           <ProgrammingLanguage>LAD</ProgrammingLanguage>
         </AttributeList>
         <ObjectList>
-          <MultilingualText ID="7A" CompositionName="Comment">
+          <MultilingualText ID="5C" CompositionName="Comment">
             <ObjectList>
-              <MultilingualTextItem ID="7B" CompositionName="Items">
+              <MultilingualTextItem ID="5D" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
                   <Text />
@@ -2421,19 +1787,19 @@
               </MultilingualTextItem>
             </ObjectList>
           </MultilingualText>
-          <MultilingualText ID="7C" CompositionName="Title">
+          <MultilingualText ID="5E" CompositionName="Title">
             <ObjectList>
-              <MultilingualTextItem ID="7D" CompositionName="Items">
+              <MultilingualTextItem ID="5F" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>B-01 — heat needed: AUTO = hysteresis, MAN = below SP</Text>
+                  <Text>TEMPERATURE | B-01 — heat needed: AUTO = hysteresis, MAN = below SP</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
           </MultilingualText>
         </ObjectList>
       </SW.Blocks.CompileUnit>
-      <SW.Blocks.CompileUnit ID="7E" CompositionName="CompileUnits">
+      <SW.Blocks.CompileUnit ID="60" CompositionName="CompileUnits">
         <AttributeList>
           <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
   <Parts>
@@ -2463,7 +1829,13 @@
         <Component Name="Pause24" />
       </Symbol>
     </Access>
-    <Access Scope="LocalVariable" UId="32">
+    <Access Scope="GlobalVariable" UId="32">
+      <Symbol>
+        <Component Name="Scrubber_DB" />
+        <Component Name="Tripped" />
+      </Symbol>
+    </Access>
+    <Access Scope="LocalVariable" UId="34">
       <Symbol>
         <Component Name="Ready" />
       </Symbol>
@@ -2477,65 +1849,76 @@
     <Part Name="Contact" UId="29">
       <Negated Name="operand" />
     </Part>
-    <Part Name="Coil" UId="31" />
+    <Part Name="Contact" UId="31">
+      <Negated Name="operand" />
+    </Part>
+    <Part Name="Coil" UId="33" />
   </Parts>
   <Wires>
-    <Wire UId="33">
+    <Wire UId="35">
       <Powerrail />
       <NameCon UId="21" Name="in" />
     </Wire>
-    <Wire UId="34">
+    <Wire UId="36">
       <IdentCon UId="22" />
       <NameCon UId="21" Name="operand" />
     </Wire>
-    <Wire UId="35">
+    <Wire UId="37">
       <NameCon UId="21" Name="out" />
       <NameCon UId="23" Name="in" />
     </Wire>
-    <Wire UId="36">
+    <Wire UId="38">
       <IdentCon UId="24" />
       <NameCon UId="23" Name="operand" />
     </Wire>
-    <Wire UId="37">
+    <Wire UId="39">
       <NameCon UId="23" Name="out" />
       <NameCon UId="25" Name="in" />
     </Wire>
-    <Wire UId="38">
+    <Wire UId="40">
       <IdentCon UId="26" />
       <NameCon UId="25" Name="operand" />
     </Wire>
-    <Wire UId="39">
+    <Wire UId="41">
       <NameCon UId="25" Name="out" />
       <NameCon UId="27" Name="in" />
     </Wire>
-    <Wire UId="40">
+    <Wire UId="42">
       <IdentCon UId="28" />
       <NameCon UId="27" Name="operand" />
     </Wire>
-    <Wire UId="41">
+    <Wire UId="43">
       <NameCon UId="27" Name="out" />
       <NameCon UId="29" Name="in" />
     </Wire>
-    <Wire UId="42">
+    <Wire UId="44">
       <IdentCon UId="30" />
       <NameCon UId="29" Name="operand" />
     </Wire>
-    <Wire UId="43">
+    <Wire UId="45">
       <NameCon UId="29" Name="out" />
       <NameCon UId="31" Name="in" />
     </Wire>
-    <Wire UId="44">
-      <NameCon UId="31" Name="operand" />
+    <Wire UId="46">
       <IdentCon UId="32" />
+      <NameCon UId="31" Name="operand" />
+    </Wire>
+    <Wire UId="47">
+      <NameCon UId="31" Name="out" />
+      <NameCon UId="33" Name="in" />
+    </Wire>
+    <Wire UId="48">
+      <NameCon UId="33" Name="operand" />
+      <IdentCon UId="34" />
     </Wire>
   </Wires>
 </FlgNet></NetworkSource>
           <ProgrammingLanguage>LAD</ProgrammingLanguage>
         </AttributeList>
         <ObjectList>
-          <MultilingualText ID="7F" CompositionName="Comment">
+          <MultilingualText ID="61" CompositionName="Comment">
             <ObjectList>
-              <MultilingualTextItem ID="80" CompositionName="Items">
+              <MultilingualTextItem ID="62" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
                   <Text />
@@ -2543,19 +1926,19 @@
               </MultilingualTextItem>
             </ObjectList>
           </MultilingualText>
-          <MultilingualText ID="81" CompositionName="Title">
+          <MultilingualText ID="63" CompositionName="Title">
             <ObjectList>
-              <MultilingualTextItem ID="82" CompositionName="Items">
+              <MultilingualTextItem ID="64" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>C0xa / C0xd / C01 / C0xe / C07h - ready to fire</Text>
+                  <Text>PERMISSIVES | C0xa / C0xd / C01 / C0xe / C07h / C03 / C05 - ready to fire</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
           </MultilingualText>
         </ObjectList>
       </SW.Blocks.CompileUnit>
-      <SW.Blocks.CompileUnit ID="83" CompositionName="CompileUnits">
+      <SW.Blocks.CompileUnit ID="65" CompositionName="CompileUnits">
         <AttributeList>
           <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
   <Parts>
@@ -2566,7 +1949,7 @@
     </Access>
     <Access Scope="LocalVariable" UId="24">
       <Symbol>
-        <Component Name="Active" />
+        <Component Name="HeatReq" />
       </Symbol>
     </Access>
     <Access Scope="TypedConstant" UId="27">
@@ -2631,9 +2014,9 @@
           <ProgrammingLanguage>LAD</ProgrammingLanguage>
         </AttributeList>
         <ObjectList>
-          <MultilingualText ID="84" CompositionName="Comment">
+          <MultilingualText ID="66" CompositionName="Comment">
             <ObjectList>
-              <MultilingualTextItem ID="85" CompositionName="Items">
+              <MultilingualTextItem ID="67" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
                   <Text />
@@ -2641,19 +2024,19 @@
               </MultilingualTextItem>
             </ObjectList>
           </MultilingualText>
-          <MultilingualText ID="86" CompositionName="Title">
+          <MultilingualText ID="68" CompositionName="Title">
             <ObjectList>
-              <MultilingualTextItem ID="87" CompositionName="Items">
+              <MultilingualTextItem ID="69" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>C07h / R-08 — 24 h of continuous request: forced stop</Text>
+                  <Text>PERMISSIVES | C07h / R-08 — 24 h of continuous request: forced stop</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
           </MultilingualText>
         </ObjectList>
       </SW.Blocks.CompileUnit>
-      <SW.Blocks.CompileUnit ID="88" CompositionName="CompileUnits">
+      <SW.Blocks.CompileUnit ID="6A" CompositionName="CompileUnits">
         <AttributeList>
           <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
   <Parts>
@@ -2731,9 +2114,9 @@
           <ProgrammingLanguage>LAD</ProgrammingLanguage>
         </AttributeList>
         <ObjectList>
-          <MultilingualText ID="89" CompositionName="Comment">
+          <MultilingualText ID="6B" CompositionName="Comment">
             <ObjectList>
-              <MultilingualTextItem ID="8A" CompositionName="Items">
+              <MultilingualTextItem ID="6C" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
                   <Text />
@@ -2741,19 +2124,19 @@
               </MultilingualTextItem>
             </ObjectList>
           </MultilingualText>
-          <MultilingualText ID="8B" CompositionName="Title">
+          <MultilingualText ID="6D" CompositionName="Title">
             <ObjectList>
-              <MultilingualTextItem ID="8C" CompositionName="Items">
+              <MultilingualTextItem ID="6E" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>R-08 — restart allowed after RUN has been off 60 s</Text>
+                  <Text>PERMISSIVES | R-08 — restart allowed after RUN has been off 60 s</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
           </MultilingualText>
         </ObjectList>
       </SW.Blocks.CompileUnit>
-      <SW.Blocks.CompileUnit ID="8D" CompositionName="CompileUnits">
+      <SW.Blocks.CompileUnit ID="6F" CompositionName="CompileUnits">
         <AttributeList>
           <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
   <Parts>
@@ -2764,7 +2147,7 @@
     </Access>
     <Access Scope="LocalVariable" UId="24">
       <Symbol>
-        <Component Name="Active" />
+        <Component Name="HeatReq" />
       </Symbol>
     </Access>
     <Access Scope="TypedConstant" UId="27">
@@ -2831,9 +2214,9 @@
           <ProgrammingLanguage>LAD</ProgrammingLanguage>
         </AttributeList>
         <ObjectList>
-          <MultilingualText ID="8E" CompositionName="Comment">
+          <MultilingualText ID="70" CompositionName="Comment">
             <ObjectList>
-              <MultilingualTextItem ID="8F" CompositionName="Items">
+              <MultilingualTextItem ID="71" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
                   <Text />
@@ -2841,19 +2224,19 @@
               </MultilingualTextItem>
             </ObjectList>
           </MultilingualText>
-          <MultilingualText ID="90" CompositionName="Title">
+          <MultilingualText ID="72" CompositionName="Title">
             <ObjectList>
-              <MultilingualTextItem ID="91" CompositionName="Items">
+              <MultilingualTextItem ID="73" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>R-09 — RUN on without our request for 30 s</Text>
+                  <Text>PERMISSIVES | R-09 — RUN on without our request for 30 s</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
           </MultilingualText>
         </ObjectList>
       </SW.Blocks.CompileUnit>
-      <SW.Blocks.CompileUnit ID="92" CompositionName="CompileUnits">
+      <SW.Blocks.CompileUnit ID="74" CompositionName="CompileUnits">
         <AttributeList>
           <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
   <Parts>
@@ -2868,9 +2251,10 @@
         <ConstantValue>1</ConstantValue>
       </Constant>
     </Access>
-    <Access Scope="LocalVariable" UId="26">
+    <Access Scope="GlobalVariable" UId="26">
       <Symbol>
-        <Component Name="TStart_Act" />
+        <Component Name="Par" />
+        <Component Name="TStart_V" />
       </Symbol>
     </Access>
     <Access Scope="LocalVariable" UId="29">
@@ -2927,9 +2311,9 @@
           <ProgrammingLanguage>LAD</ProgrammingLanguage>
         </AttributeList>
         <ObjectList>
-          <MultilingualText ID="93" CompositionName="Comment">
+          <MultilingualText ID="75" CompositionName="Comment">
             <ObjectList>
-              <MultilingualTextItem ID="94" CompositionName="Items">
+              <MultilingualTextItem ID="76" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
                   <Text />
@@ -2937,19 +2321,19 @@
               </MultilingualTextItem>
             </ObjectList>
           </MultilingualText>
-          <MultilingualText ID="95" CompositionName="Title">
+          <MultilingualText ID="77" CompositionName="Title">
             <ObjectList>
-              <MultilingualTextItem ID="96" CompositionName="Items">
+              <MultilingualTextItem ID="78" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>C0xf — no RUN within T_START</Text>
+                  <Text>PERMISSIVES | C0xf — no RUN within T_START</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
           </MultilingualText>
         </ObjectList>
       </SW.Blocks.CompileUnit>
-      <SW.Blocks.CompileUnit ID="97" CompositionName="CompileUnits">
+      <SW.Blocks.CompileUnit ID="79" CompositionName="CompileUnits">
         <AttributeList>
           <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
   <Parts>
@@ -3064,9 +2448,9 @@
           <ProgrammingLanguage>LAD</ProgrammingLanguage>
         </AttributeList>
         <ObjectList>
-          <MultilingualText ID="98" CompositionName="Comment">
+          <MultilingualText ID="7A" CompositionName="Comment">
             <ObjectList>
-              <MultilingualTextItem ID="99" CompositionName="Items">
+              <MultilingualTextItem ID="7B" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
                   <Text />
@@ -3074,19 +2458,19 @@
               </MultilingualTextItem>
             </ObjectList>
           </MultilingualText>
-          <MultilingualText ID="9A" CompositionName="Title">
+          <MultilingualText ID="7C" CompositionName="Title">
             <ObjectList>
-              <MultilingualTextItem ID="9B" CompositionName="Items">
+              <MultilingualTextItem ID="7D" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>R-01 / B-01 — START accepted: IDLE, ready, and in MAN only if heat is needed</Text>
+                  <Text>START_STOP | R-01 / B-01 — START accepted: IDLE, ready, and in MAN only if heat is needed</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
           </MultilingualText>
         </ObjectList>
       </SW.Blocks.CompileUnit>
-      <SW.Blocks.CompileUnit ID="9C" CompositionName="CompileUnits">
+      <SW.Blocks.CompileUnit ID="7E" CompositionName="CompileUnits">
         <AttributeList>
           <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
   <Parts>
@@ -3105,7 +2489,13 @@
         <Component Name="FuelChg" />
       </Symbol>
     </Access>
-    <Access Scope="LocalVariable" UId="29">
+    <Access Scope="GlobalVariable" UId="28">
+      <Symbol>
+        <Component Name="Scrubber_DB" />
+        <Component Name="Tripped" />
+      </Symbol>
+    </Access>
+    <Access Scope="LocalVariable" UId="31">
       <Symbol>
         <Component Name="Enabled" />
       </Symbol>
@@ -3115,58 +2505,68 @@
     </Part>
     <Part Name="Contact" UId="23" />
     <Part Name="Contact" UId="25" />
-    <Part Name="O" UId="27">
-      <TemplateValue Name="Card" Type="Cardinality">3</TemplateValue>
+    <Part Name="Contact" UId="27" />
+    <Part Name="O" UId="29">
+      <TemplateValue Name="Card" Type="Cardinality">4</TemplateValue>
     </Part>
-    <Part Name="RCoil" UId="28" />
+    <Part Name="RCoil" UId="30" />
   </Parts>
   <Wires>
-    <Wire UId="30">
+    <Wire UId="32">
       <Powerrail />
       <NameCon UId="21" Name="in" />
       <NameCon UId="23" Name="in" />
       <NameCon UId="25" Name="in" />
+      <NameCon UId="27" Name="in" />
     </Wire>
-    <Wire UId="31">
+    <Wire UId="33">
       <IdentCon UId="22" />
       <NameCon UId="21" Name="operand" />
     </Wire>
-    <Wire UId="32">
+    <Wire UId="34">
       <IdentCon UId="24" />
       <NameCon UId="23" Name="operand" />
     </Wire>
-    <Wire UId="33">
+    <Wire UId="35">
       <IdentCon UId="26" />
       <NameCon UId="25" Name="operand" />
     </Wire>
-    <Wire UId="34">
-      <NameCon UId="21" Name="out" />
-      <NameCon UId="27" Name="in1" />
-    </Wire>
-    <Wire UId="35">
-      <NameCon UId="23" Name="out" />
-      <NameCon UId="27" Name="in2" />
-    </Wire>
     <Wire UId="36">
-      <NameCon UId="25" Name="out" />
-      <NameCon UId="27" Name="in3" />
+      <IdentCon UId="28" />
+      <NameCon UId="27" Name="operand" />
     </Wire>
     <Wire UId="37">
-      <NameCon UId="27" Name="out" />
-      <NameCon UId="28" Name="in" />
+      <NameCon UId="21" Name="out" />
+      <NameCon UId="29" Name="in1" />
     </Wire>
     <Wire UId="38">
-      <NameCon UId="28" Name="operand" />
-      <IdentCon UId="29" />
+      <NameCon UId="23" Name="out" />
+      <NameCon UId="29" Name="in2" />
+    </Wire>
+    <Wire UId="39">
+      <NameCon UId="25" Name="out" />
+      <NameCon UId="29" Name="in3" />
+    </Wire>
+    <Wire UId="40">
+      <NameCon UId="27" Name="out" />
+      <NameCon UId="29" Name="in4" />
+    </Wire>
+    <Wire UId="41">
+      <NameCon UId="29" Name="out" />
+      <NameCon UId="30" Name="in" />
+    </Wire>
+    <Wire UId="42">
+      <NameCon UId="30" Name="operand" />
+      <IdentCon UId="31" />
     </Wire>
   </Wires>
 </FlgNet></NetworkSource>
           <ProgrammingLanguage>LAD</ProgrammingLanguage>
         </AttributeList>
         <ObjectList>
-          <MultilingualText ID="9D" CompositionName="Comment">
+          <MultilingualText ID="7F" CompositionName="Comment">
             <ObjectList>
-              <MultilingualTextItem ID="9E" CompositionName="Items">
+              <MultilingualTextItem ID="80" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
                   <Text />
@@ -3174,19 +2574,19 @@
               </MultilingualTextItem>
             </ObjectList>
           </MultilingualText>
-          <MultilingualText ID="9F" CompositionName="Title">
+          <MultilingualText ID="81" CompositionName="Title">
             <ObjectList>
-              <MultilingualTextItem ID="A0" CompositionName="Items">
+              <MultilingualTextItem ID="82" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>B-01 / R-02 / R-12 — STOP, AUTO/MAN change or fuel change take the START back</Text>
+                  <Text>START_STOP | B-01 / R-02 / R-12 / R-13 — STOP, mode/fuel change or scrubber trip cancel START</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
           </MultilingualText>
         </ObjectList>
       </SW.Blocks.CompileUnit>
-      <SW.Blocks.CompileUnit ID="A1" CompositionName="CompileUnits">
+      <SW.Blocks.CompileUnit ID="83" CompositionName="CompileUnits">
         <AttributeList>
           <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
   <Parts>
@@ -3307,9 +2707,9 @@
           <ProgrammingLanguage>LAD</ProgrammingLanguage>
         </AttributeList>
         <ObjectList>
-          <MultilingualText ID="A2" CompositionName="Comment">
+          <MultilingualText ID="84" CompositionName="Comment">
             <ObjectList>
-              <MultilingualTextItem ID="A3" CompositionName="Items">
+              <MultilingualTextItem ID="85" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
                   <Text />
@@ -3317,19 +2717,19 @@
               </MultilingualTextItem>
             </ObjectList>
           </MultilingualText>
-          <MultilingualText ID="A4" CompositionName="Title">
+          <MultilingualText ID="86" CompositionName="Title">
             <ObjectList>
-              <MultilingualTextItem ID="A5" CompositionName="Items">
+              <MultilingualTextItem ID="87" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>B-01 — IDLE -&gt; STARTING (R-09: not if RUN is already on)</Text>
+                  <Text>START_STOP | B-01 — IDLE -&gt; STARTING (R-09: not if RUN is already on)</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
           </MultilingualText>
         </ObjectList>
       </SW.Blocks.CompileUnit>
-      <SW.Blocks.CompileUnit ID="A6" CompositionName="CompileUnits">
+      <SW.Blocks.CompileUnit ID="88" CompositionName="CompileUnits">
         <AttributeList>
           <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
   <Parts>
@@ -3406,9 +2806,9 @@
           <ProgrammingLanguage>LAD</ProgrammingLanguage>
         </AttributeList>
         <ObjectList>
-          <MultilingualText ID="A7" CompositionName="Comment">
+          <MultilingualText ID="89" CompositionName="Comment">
             <ObjectList>
-              <MultilingualTextItem ID="A8" CompositionName="Items">
+              <MultilingualTextItem ID="8A" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
                   <Text />
@@ -3416,19 +2816,179 @@
               </MultilingualTextItem>
             </ObjectList>
           </MultilingualText>
-          <MultilingualText ID="A9" CompositionName="Title">
+          <MultilingualText ID="8B" CompositionName="Title">
             <ObjectList>
-              <MultilingualTextItem ID="AA" CompositionName="Items">
+              <MultilingualTextItem ID="8C" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>B-01 — STARTING -&gt; RUNNING on RUN</Text>
+                  <Text>START_STOP | B-01 — STARTING -&gt; RUNNING on RUN</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
           </MultilingualText>
         </ObjectList>
       </SW.Blocks.CompileUnit>
-      <SW.Blocks.CompileUnit ID="AB" CompositionName="CompileUnits">
+      <SW.Blocks.CompileUnit ID="8D" CompositionName="CompileUnits">
+        <AttributeList>
+          <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
+  <Parts>
+    <Access Scope="LocalVariable" UId="22">
+      <Symbol>
+        <Component Name="State" />
+      </Symbol>
+    </Access>
+    <Access Scope="LiteralConstant" UId="23">
+      <Constant>
+        <ConstantType>Int</ConstantType>
+        <ConstantValue>1</ConstantValue>
+      </Constant>
+    </Access>
+    <Access Scope="LocalVariable" UId="25">
+      <Symbol>
+        <Component Name="State" />
+      </Symbol>
+    </Access>
+    <Access Scope="LiteralConstant" UId="26">
+      <Constant>
+        <ConstantType>Int</ConstantType>
+        <ConstantValue>2</ConstantValue>
+      </Constant>
+    </Access>
+    <Access Scope="GlobalVariable" UId="29">
+      <Symbol>
+        <Component Name="Sys" />
+        <Component Name="EStopOK" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="31">
+      <Symbol>
+        <Component Name="Scrubber_DB" />
+        <Component Name="Tripped" />
+      </Symbol>
+    </Access>
+    <Access Scope="LiteralConstant" UId="33">
+      <Constant>
+        <ConstantType>Int</ConstantType>
+        <ConstantValue>3</ConstantValue>
+      </Constant>
+    </Access>
+    <Access Scope="LocalVariable" UId="34">
+      <Symbol>
+        <Component Name="State" />
+      </Symbol>
+    </Access>
+    <Access Scope="LocalVariable" UId="36">
+      <Symbol>
+        <Component Name="F_Scrubber" />
+      </Symbol>
+    </Access>
+    <Part Name="Eq" UId="21">
+      <TemplateValue Name="SrcType" Type="Type">Int</TemplateValue>
+    </Part>
+    <Part Name="Eq" UId="24">
+      <TemplateValue Name="SrcType" Type="Type">Int</TemplateValue>
+    </Part>
+    <Part Name="O" UId="27">
+      <TemplateValue Name="Card" Type="Cardinality">2</TemplateValue>
+    </Part>
+    <Part Name="Contact" UId="28" />
+    <Part Name="Contact" UId="30" />
+    <Part Name="Move" UId="32" DisabledENO="false">
+      <TemplateValue Name="Card" Type="Cardinality">1</TemplateValue>
+    </Part>
+    <Part Name="SCoil" UId="35" />
+  </Parts>
+  <Wires>
+    <Wire UId="37">
+      <Powerrail />
+      <NameCon UId="21" Name="pre" />
+      <NameCon UId="24" Name="pre" />
+    </Wire>
+    <Wire UId="38">
+      <IdentCon UId="22" />
+      <NameCon UId="21" Name="in1" />
+    </Wire>
+    <Wire UId="39">
+      <IdentCon UId="23" />
+      <NameCon UId="21" Name="in2" />
+    </Wire>
+    <Wire UId="40">
+      <IdentCon UId="25" />
+      <NameCon UId="24" Name="in1" />
+    </Wire>
+    <Wire UId="41">
+      <IdentCon UId="26" />
+      <NameCon UId="24" Name="in2" />
+    </Wire>
+    <Wire UId="42">
+      <NameCon UId="21" Name="out" />
+      <NameCon UId="27" Name="in1" />
+    </Wire>
+    <Wire UId="43">
+      <NameCon UId="24" Name="out" />
+      <NameCon UId="27" Name="in2" />
+    </Wire>
+    <Wire UId="44">
+      <NameCon UId="27" Name="out" />
+      <NameCon UId="28" Name="in" />
+    </Wire>
+    <Wire UId="45">
+      <IdentCon UId="29" />
+      <NameCon UId="28" Name="operand" />
+    </Wire>
+    <Wire UId="46">
+      <NameCon UId="28" Name="out" />
+      <NameCon UId="30" Name="in" />
+    </Wire>
+    <Wire UId="47">
+      <IdentCon UId="31" />
+      <NameCon UId="30" Name="operand" />
+    </Wire>
+    <Wire UId="48">
+      <NameCon UId="30" Name="out" />
+      <NameCon UId="32" Name="en" />
+      <NameCon UId="35" Name="in" />
+    </Wire>
+    <Wire UId="49">
+      <IdentCon UId="33" />
+      <NameCon UId="32" Name="in" />
+    </Wire>
+    <Wire UId="50">
+      <NameCon UId="32" Name="out1" />
+      <IdentCon UId="34" />
+    </Wire>
+    <Wire UId="51">
+      <NameCon UId="35" Name="operand" />
+      <IdentCon UId="36" />
+    </Wire>
+  </Wires>
+</FlgNet></NetworkSource>
+          <ProgrammingLanguage>LAD</ProgrammingLanguage>
+        </AttributeList>
+        <ObjectList>
+          <MultilingualText ID="8E" CompositionName="Comment">
+            <ObjectList>
+              <MultilingualTextItem ID="8F" CompositionName="Items">
+                <AttributeList>
+                  <Culture>en-US</Culture>
+                  <Text />
+                </AttributeList>
+              </MultilingualTextItem>
+            </ObjectList>
+          </MultilingualText>
+          <MultilingualText ID="90" CompositionName="Title">
+            <ObjectList>
+              <MultilingualTextItem ID="91" CompositionName="Items">
+                <AttributeList>
+                  <Culture>en-US</Culture>
+                  <Text>START_STOP | C03 / C05 / R-13 — scrubber trip while starting or running: FAULT</Text>
+                </AttributeList>
+              </MultilingualTextItem>
+            </ObjectList>
+          </MultilingualText>
+        </ObjectList>
+      </SW.Blocks.CompileUnit>
+      <SW.Blocks.CompileUnit ID="92" CompositionName="CompileUnits">
         <AttributeList>
           <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
   <Parts>
@@ -3582,9 +3142,9 @@
           <ProgrammingLanguage>LAD</ProgrammingLanguage>
         </AttributeList>
         <ObjectList>
-          <MultilingualText ID="AC" CompositionName="Comment">
+          <MultilingualText ID="93" CompositionName="Comment">
             <ObjectList>
-              <MultilingualTextItem ID="AD" CompositionName="Items">
+              <MultilingualTextItem ID="94" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
                   <Text />
@@ -3592,19 +3152,19 @@
               </MultilingualTextItem>
             </ObjectList>
           </MultilingualText>
-          <MultilingualText ID="AE" CompositionName="Title">
+          <MultilingualText ID="95" CompositionName="Title">
             <ObjectList>
-              <MultilingualTextItem ID="AF" CompositionName="Items">
+              <MultilingualTextItem ID="96" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>C0xa / C0xb / C07h / B-01 — STARTING or RUNNING -&gt; IDLE</Text>
+                  <Text>START_STOP | C0xa / C0xb / C07h / B-01 — STARTING or RUNNING -&gt; IDLE</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
           </MultilingualText>
         </ObjectList>
       </SW.Blocks.CompileUnit>
-      <SW.Blocks.CompileUnit ID="B0" CompositionName="CompileUnits">
+      <SW.Blocks.CompileUnit ID="97" CompositionName="CompileUnits">
         <AttributeList>
           <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
   <Parts>
@@ -3626,7 +3186,7 @@
     </Access>
     <Access Scope="LocalVariable" UId="27">
       <Symbol>
-        <Component Name="Active" />
+        <Component Name="HeatReq" />
       </Symbol>
     </Access>
     <Access Scope="LocalVariable" UId="29">
@@ -3685,9 +3245,9 @@
           <ProgrammingLanguage>LAD</ProgrammingLanguage>
         </AttributeList>
         <ObjectList>
-          <MultilingualText ID="B1" CompositionName="Comment">
+          <MultilingualText ID="98" CompositionName="Comment">
             <ObjectList>
-              <MultilingualTextItem ID="B2" CompositionName="Items">
+              <MultilingualTextItem ID="99" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
                   <Text />
@@ -3695,19 +3255,19 @@
               </MultilingualTextItem>
             </ObjectList>
           </MultilingualText>
-          <MultilingualText ID="B3" CompositionName="Title">
+          <MultilingualText ID="9A" CompositionName="Title">
             <ObjectList>
-              <MultilingualTextItem ID="B4" CompositionName="Items">
+              <MultilingualTextItem ID="9B" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>R-03 — MAN: one cycle; any stop needs a new START</Text>
+                  <Text>START_STOP | R-03 — MAN: one cycle; any stop needs a new START</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
           </MultilingualText>
         </ObjectList>
       </SW.Blocks.CompileUnit>
-      <SW.Blocks.CompileUnit ID="B5" CompositionName="CompileUnits">
+      <SW.Blocks.CompileUnit ID="9C" CompositionName="CompileUnits">
         <AttributeList>
           <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
   <Parts>
@@ -3795,9 +3355,9 @@
           <ProgrammingLanguage>LAD</ProgrammingLanguage>
         </AttributeList>
         <ObjectList>
-          <MultilingualText ID="B6" CompositionName="Comment">
+          <MultilingualText ID="9D" CompositionName="Comment">
             <ObjectList>
-              <MultilingualTextItem ID="B7" CompositionName="Items">
+              <MultilingualTextItem ID="9E" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
                   <Text />
@@ -3805,19 +3365,19 @@
               </MultilingualTextItem>
             </ObjectList>
           </MultilingualText>
-          <MultilingualText ID="B8" CompositionName="Title">
+          <MultilingualText ID="9F" CompositionName="Title">
             <ObjectList>
-              <MultilingualTextItem ID="B9" CompositionName="Items">
+              <MultilingualTextItem ID="A0" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>C0xf — failed to start</Text>
+                  <Text>START_STOP | C0xf — failed to start</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
           </MultilingualText>
         </ObjectList>
       </SW.Blocks.CompileUnit>
-      <SW.Blocks.CompileUnit ID="BA" CompositionName="CompileUnits">
+      <SW.Blocks.CompileUnit ID="A1" CompositionName="CompileUnits">
         <AttributeList>
           <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
   <Parts>
@@ -3923,9 +3483,9 @@
           <ProgrammingLanguage>LAD</ProgrammingLanguage>
         </AttributeList>
         <ObjectList>
-          <MultilingualText ID="BB" CompositionName="Comment">
+          <MultilingualText ID="A2" CompositionName="Comment">
             <ObjectList>
-              <MultilingualTextItem ID="BC" CompositionName="Items">
+              <MultilingualTextItem ID="A3" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
                   <Text />
@@ -3933,19 +3493,19 @@
               </MultilingualTextItem>
             </ObjectList>
           </MultilingualText>
-          <MultilingualText ID="BD" CompositionName="Title">
+          <MultilingualText ID="A4" CompositionName="Title">
             <ObjectList>
-              <MultilingualTextItem ID="BE" CompositionName="Items">
+              <MultilingualTextItem ID="A5" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>C0xg — RUN lost while running, no lockout, not stopped by us</Text>
+                  <Text>START_STOP | C0xg — RUN lost while running, no lockout, not stopped by us</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
           </MultilingualText>
         </ObjectList>
       </SW.Blocks.CompileUnit>
-      <SW.Blocks.CompileUnit ID="BF" CompositionName="CompileUnits">
+      <SW.Blocks.CompileUnit ID="A6" CompositionName="CompileUnits">
         <AttributeList>
           <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
   <Parts>
@@ -3996,9 +3556,9 @@
           <ProgrammingLanguage>LAD</ProgrammingLanguage>
         </AttributeList>
         <ObjectList>
-          <MultilingualText ID="C0" CompositionName="Comment">
+          <MultilingualText ID="A7" CompositionName="Comment">
             <ObjectList>
-              <MultilingualTextItem ID="C1" CompositionName="Items">
+              <MultilingualTextItem ID="A8" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
                   <Text />
@@ -4006,19 +3566,19 @@
               </MultilingualTextItem>
             </ObjectList>
           </MultilingualText>
-          <MultilingualText ID="C2" CompositionName="Title">
+          <MultilingualText ID="A9" CompositionName="Title">
             <ObjectList>
-              <MultilingualTextItem ID="C3" CompositionName="Items">
+              <MultilingualTextItem ID="AA" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>B-02 — FAULT takes the START back (before RESET, D-09)</Text>
+                  <Text>FAULT_RESET | B-02 — FAULT takes the START back (before RESET, D-09)</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
           </MultilingualText>
         </ObjectList>
       </SW.Blocks.CompileUnit>
-      <SW.Blocks.CompileUnit ID="C4" CompositionName="CompileUnits">
+      <SW.Blocks.CompileUnit ID="AB" CompositionName="CompileUnits">
         <AttributeList>
           <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
   <Parts>
@@ -4059,45 +3619,56 @@
         <Component Name="RunFb" />
       </Symbol>
     </Access>
-    <Access Scope="LiteralConstant" UId="35">
+    <Access Scope="GlobalVariable" UId="35">
+      <Symbol>
+        <Component Name="Scrubber_DB" />
+        <Component Name="Tripped" />
+      </Symbol>
+    </Access>
+    <Access Scope="LiteralConstant" UId="37">
       <Constant>
         <ConstantType>Int</ConstantType>
         <ConstantValue>0</ConstantValue>
       </Constant>
     </Access>
-    <Access Scope="LocalVariable" UId="36">
+    <Access Scope="LocalVariable" UId="38">
       <Symbol>
         <Component Name="State" />
       </Symbol>
     </Access>
-    <Access Scope="LocalVariable" UId="38">
+    <Access Scope="LocalVariable" UId="40">
       <Symbol>
         <Component Name="F_EStop" />
       </Symbol>
     </Access>
-    <Access Scope="LocalVariable" UId="40">
+    <Access Scope="LocalVariable" UId="42">
       <Symbol>
         <Component Name="F_TC" />
       </Symbol>
     </Access>
-    <Access Scope="LocalVariable" UId="42">
+    <Access Scope="LocalVariable" UId="44">
       <Symbol>
         <Component Name="F_Lockout" />
       </Symbol>
     </Access>
-    <Access Scope="LocalVariable" UId="44">
+    <Access Scope="LocalVariable" UId="46">
       <Symbol>
         <Component Name="F_NoStart" />
       </Symbol>
     </Access>
-    <Access Scope="LocalVariable" UId="46">
+    <Access Scope="LocalVariable" UId="48">
       <Symbol>
         <Component Name="F_RunLost" />
       </Symbol>
     </Access>
-    <Access Scope="LocalVariable" UId="48">
+    <Access Scope="LocalVariable" UId="50">
       <Symbol>
         <Component Name="F_RunWrong" />
+      </Symbol>
+    </Access>
+    <Access Scope="LocalVariable" UId="52">
+      <Symbol>
+        <Component Name="F_Scrubber" />
       </Symbol>
     </Access>
     <Part Name="Eq" UId="21">
@@ -4112,119 +3683,136 @@
     <Part Name="Contact" UId="32">
       <Negated Name="operand" />
     </Part>
-    <Part Name="Move" UId="34" DisabledENO="false">
+    <Part Name="Contact" UId="34">
+      <Negated Name="operand" />
+    </Part>
+    <Part Name="Move" UId="36" DisabledENO="false">
       <TemplateValue Name="Card" Type="Cardinality">1</TemplateValue>
     </Part>
-    <Part Name="RCoil" UId="37" />
     <Part Name="RCoil" UId="39" />
     <Part Name="RCoil" UId="41" />
     <Part Name="RCoil" UId="43" />
     <Part Name="RCoil" UId="45" />
     <Part Name="RCoil" UId="47" />
+    <Part Name="RCoil" UId="49" />
+    <Part Name="RCoil" UId="51" />
   </Parts>
   <Wires>
-    <Wire UId="49">
+    <Wire UId="53">
       <Powerrail />
       <NameCon UId="21" Name="pre" />
     </Wire>
-    <Wire UId="50">
+    <Wire UId="54">
       <IdentCon UId="22" />
       <NameCon UId="21" Name="in1" />
     </Wire>
-    <Wire UId="51">
+    <Wire UId="55">
       <IdentCon UId="23" />
       <NameCon UId="21" Name="in2" />
     </Wire>
-    <Wire UId="52">
+    <Wire UId="56">
       <NameCon UId="21" Name="out" />
       <NameCon UId="24" Name="in" />
     </Wire>
-    <Wire UId="53">
+    <Wire UId="57">
       <IdentCon UId="25" />
       <NameCon UId="24" Name="operand" />
     </Wire>
-    <Wire UId="54">
+    <Wire UId="58">
       <NameCon UId="24" Name="out" />
       <NameCon UId="26" Name="in" />
     </Wire>
-    <Wire UId="55">
+    <Wire UId="59">
       <IdentCon UId="27" />
       <NameCon UId="26" Name="operand" />
     </Wire>
-    <Wire UId="56">
+    <Wire UId="60">
       <NameCon UId="26" Name="out" />
       <NameCon UId="28" Name="in" />
     </Wire>
-    <Wire UId="57">
+    <Wire UId="61">
       <IdentCon UId="29" />
       <NameCon UId="28" Name="operand" />
     </Wire>
-    <Wire UId="58">
+    <Wire UId="62">
       <NameCon UId="28" Name="out" />
       <NameCon UId="30" Name="in" />
     </Wire>
-    <Wire UId="59">
+    <Wire UId="63">
       <IdentCon UId="31" />
       <NameCon UId="30" Name="operand" />
     </Wire>
-    <Wire UId="60">
+    <Wire UId="64">
       <NameCon UId="30" Name="out" />
       <NameCon UId="32" Name="in" />
     </Wire>
-    <Wire UId="61">
+    <Wire UId="65">
       <IdentCon UId="33" />
       <NameCon UId="32" Name="operand" />
     </Wire>
-    <Wire UId="62">
+    <Wire UId="66">
       <NameCon UId="32" Name="out" />
-      <NameCon UId="34" Name="en" />
-      <NameCon UId="37" Name="in" />
+      <NameCon UId="34" Name="in" />
+    </Wire>
+    <Wire UId="67">
+      <IdentCon UId="35" />
+      <NameCon UId="34" Name="operand" />
+    </Wire>
+    <Wire UId="68">
+      <NameCon UId="34" Name="out" />
+      <NameCon UId="36" Name="en" />
       <NameCon UId="39" Name="in" />
       <NameCon UId="41" Name="in" />
       <NameCon UId="43" Name="in" />
       <NameCon UId="45" Name="in" />
       <NameCon UId="47" Name="in" />
+      <NameCon UId="49" Name="in" />
+      <NameCon UId="51" Name="in" />
     </Wire>
-    <Wire UId="63">
-      <IdentCon UId="35" />
-      <NameCon UId="34" Name="in" />
+    <Wire UId="69">
+      <IdentCon UId="37" />
+      <NameCon UId="36" Name="in" />
     </Wire>
-    <Wire UId="64">
-      <NameCon UId="34" Name="out1" />
-      <IdentCon UId="36" />
-    </Wire>
-    <Wire UId="65">
-      <NameCon UId="37" Name="operand" />
+    <Wire UId="70">
+      <NameCon UId="36" Name="out1" />
       <IdentCon UId="38" />
     </Wire>
-    <Wire UId="66">
+    <Wire UId="71">
       <NameCon UId="39" Name="operand" />
       <IdentCon UId="40" />
     </Wire>
-    <Wire UId="67">
+    <Wire UId="72">
       <NameCon UId="41" Name="operand" />
       <IdentCon UId="42" />
     </Wire>
-    <Wire UId="68">
+    <Wire UId="73">
       <NameCon UId="43" Name="operand" />
       <IdentCon UId="44" />
     </Wire>
-    <Wire UId="69">
+    <Wire UId="74">
       <NameCon UId="45" Name="operand" />
       <IdentCon UId="46" />
     </Wire>
-    <Wire UId="70">
+    <Wire UId="75">
       <NameCon UId="47" Name="operand" />
       <IdentCon UId="48" />
+    </Wire>
+    <Wire UId="76">
+      <NameCon UId="49" Name="operand" />
+      <IdentCon UId="50" />
+    </Wire>
+    <Wire UId="77">
+      <NameCon UId="51" Name="operand" />
+      <IdentCon UId="52" />
     </Wire>
   </Wires>
 </FlgNet></NetworkSource>
           <ProgrammingLanguage>LAD</ProgrammingLanguage>
         </AttributeList>
         <ObjectList>
-          <MultilingualText ID="C5" CompositionName="Comment">
+          <MultilingualText ID="AC" CompositionName="Comment">
             <ObjectList>
-              <MultilingualTextItem ID="C6" CompositionName="Items">
+              <MultilingualTextItem ID="AD" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
                   <Text />
@@ -4232,19 +3820,19 @@
               </MultilingualTextItem>
             </ObjectList>
           </MultilingualText>
-          <MultilingualText ID="C7" CompositionName="Title">
+          <MultilingualText ID="AE" CompositionName="Title">
             <ObjectList>
-              <MultilingualTextItem ID="C8" CompositionName="Items">
+              <MultilingualTextItem ID="AF" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>R-06 / R-07 - RESET leaves FAULT only when every cause is gone</Text>
+                  <Text>FAULT_RESET | R-06 / R-07 - RESET leaves FAULT only when every cause is gone</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
           </MultilingualText>
         </ObjectList>
       </SW.Blocks.CompileUnit>
-      <SW.Blocks.CompileUnit ID="C9" CompositionName="CompileUnits">
+      <SW.Blocks.CompileUnit ID="B0" CompositionName="CompileUnits">
         <AttributeList>
           <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
   <Parts>
@@ -4309,9 +3897,9 @@
           <ProgrammingLanguage>LAD</ProgrammingLanguage>
         </AttributeList>
         <ObjectList>
-          <MultilingualText ID="CA" CompositionName="Comment">
+          <MultilingualText ID="B1" CompositionName="Comment">
             <ObjectList>
-              <MultilingualTextItem ID="CB" CompositionName="Items">
+              <MultilingualTextItem ID="B2" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
                   <Text />
@@ -4319,19 +3907,19 @@
               </MultilingualTextItem>
             </ObjectList>
           </MultilingualText>
-          <MultilingualText ID="CC" CompositionName="Title">
+          <MultilingualText ID="B3" CompositionName="Title">
             <ObjectList>
-              <MultilingualTextItem ID="CD" CompositionName="Items">
+              <MultilingualTextItem ID="B4" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>C01 - E-STOP</Text>
+                  <Text>FAULT_RESET | C01 - E-STOP</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
           </MultilingualText>
         </ObjectList>
       </SW.Blocks.CompileUnit>
-      <SW.Blocks.CompileUnit ID="CE" CompositionName="CompileUnits">
+      <SW.Blocks.CompileUnit ID="B5" CompositionName="CompileUnits">
         <AttributeList>
           <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
   <Parts>
@@ -4393,9 +3981,9 @@
           <ProgrammingLanguage>LAD</ProgrammingLanguage>
         </AttributeList>
         <ObjectList>
-          <MultilingualText ID="CF" CompositionName="Comment">
+          <MultilingualText ID="B6" CompositionName="Comment">
             <ObjectList>
-              <MultilingualTextItem ID="D0" CompositionName="Items">
+              <MultilingualTextItem ID="B7" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
                   <Text />
@@ -4403,19 +3991,19 @@
               </MultilingualTextItem>
             </ObjectList>
           </MultilingualText>
-          <MultilingualText ID="D1" CompositionName="Title">
+          <MultilingualText ID="B8" CompositionName="Title">
             <ObjectList>
-              <MultilingualTextItem ID="D2" CompositionName="Items">
+              <MultilingualTextItem ID="B9" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>C0xe — burner lockout</Text>
+                  <Text>FAULT_RESET | C0xe — burner lockout</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
           </MultilingualText>
         </ObjectList>
       </SW.Blocks.CompileUnit>
-      <SW.Blocks.CompileUnit ID="D3" CompositionName="CompileUnits">
+      <SW.Blocks.CompileUnit ID="BA" CompositionName="CompileUnits">
         <AttributeList>
           <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
   <Parts>
@@ -4477,9 +4065,9 @@
           <ProgrammingLanguage>LAD</ProgrammingLanguage>
         </AttributeList>
         <ObjectList>
-          <MultilingualText ID="D4" CompositionName="Comment">
+          <MultilingualText ID="BB" CompositionName="Comment">
             <ObjectList>
-              <MultilingualTextItem ID="D5" CompositionName="Items">
+              <MultilingualTextItem ID="BC" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
                   <Text />
@@ -4487,19 +4075,19 @@
               </MultilingualTextItem>
             </ObjectList>
           </MultilingualText>
-          <MultilingualText ID="D6" CompositionName="Title">
+          <MultilingualText ID="BD" CompositionName="Title">
             <ObjectList>
-              <MultilingualTextItem ID="D7" CompositionName="Items">
+              <MultilingualTextItem ID="BE" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>C0xd — thermocouple fault</Text>
+                  <Text>FAULT_RESET | C0xd — thermocouple fault</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
           </MultilingualText>
         </ObjectList>
       </SW.Blocks.CompileUnit>
-      <SW.Blocks.CompileUnit ID="D8" CompositionName="CompileUnits">
+      <SW.Blocks.CompileUnit ID="BF" CompositionName="CompileUnits">
         <AttributeList>
           <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
   <Parts>
@@ -4561,9 +4149,9 @@
           <ProgrammingLanguage>LAD</ProgrammingLanguage>
         </AttributeList>
         <ObjectList>
-          <MultilingualText ID="D9" CompositionName="Comment">
+          <MultilingualText ID="C0" CompositionName="Comment">
             <ObjectList>
-              <MultilingualTextItem ID="DA" CompositionName="Items">
+              <MultilingualTextItem ID="C1" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
                   <Text />
@@ -4571,19 +4159,19 @@
               </MultilingualTextItem>
             </ObjectList>
           </MultilingualText>
-          <MultilingualText ID="DB" CompositionName="Title">
+          <MultilingualText ID="C2" CompositionName="Title">
             <ObjectList>
-              <MultilingualTextItem ID="DC" CompositionName="Items">
+              <MultilingualTextItem ID="C3" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>R-09 — RUN without request</Text>
+                  <Text>FAULT_RESET | R-09 — RUN without request</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
           </MultilingualText>
         </ObjectList>
       </SW.Blocks.CompileUnit>
-      <SW.Blocks.CompileUnit ID="DD" CompositionName="CompileUnits">
+      <SW.Blocks.CompileUnit ID="C4" CompositionName="CompileUnits">
         <AttributeList>
           <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
   <Parts>
@@ -4611,11 +4199,6 @@
     </Access>
     <Access Scope="LocalVariable" UId="29">
       <Symbol>
-        <Component Name="Active" />
-      </Symbol>
-    </Access>
-    <Access Scope="LocalVariable" UId="31">
-      <Symbol>
         <Component Name="HeatReq" />
       </Symbol>
     </Access>
@@ -4629,59 +4212,53 @@
       <TemplateValue Name="Card" Type="Cardinality">2</TemplateValue>
     </Part>
     <Part Name="Coil" UId="28" />
-    <Part Name="Coil" UId="30" />
   </Parts>
   <Wires>
-    <Wire UId="32">
+    <Wire UId="30">
       <Powerrail />
       <NameCon UId="21" Name="pre" />
       <NameCon UId="24" Name="pre" />
     </Wire>
-    <Wire UId="33">
+    <Wire UId="31">
       <IdentCon UId="22" />
       <NameCon UId="21" Name="in1" />
     </Wire>
-    <Wire UId="34">
+    <Wire UId="32">
       <IdentCon UId="23" />
       <NameCon UId="21" Name="in2" />
     </Wire>
-    <Wire UId="35">
+    <Wire UId="33">
       <IdentCon UId="25" />
       <NameCon UId="24" Name="in1" />
     </Wire>
-    <Wire UId="36">
+    <Wire UId="34">
       <IdentCon UId="26" />
       <NameCon UId="24" Name="in2" />
     </Wire>
-    <Wire UId="37">
+    <Wire UId="35">
       <NameCon UId="21" Name="out" />
       <NameCon UId="27" Name="in1" />
     </Wire>
-    <Wire UId="38">
+    <Wire UId="36">
       <NameCon UId="24" Name="out" />
       <NameCon UId="27" Name="in2" />
     </Wire>
-    <Wire UId="39">
+    <Wire UId="37">
       <NameCon UId="27" Name="out" />
       <NameCon UId="28" Name="in" />
-      <NameCon UId="30" Name="in" />
     </Wire>
-    <Wire UId="40">
+    <Wire UId="38">
       <NameCon UId="28" Name="operand" />
       <IdentCon UId="29" />
-    </Wire>
-    <Wire UId="41">
-      <NameCon UId="30" Name="operand" />
-      <IdentCon UId="31" />
     </Wire>
   </Wires>
 </FlgNet></NetworkSource>
           <ProgrammingLanguage>LAD</ProgrammingLanguage>
         </AttributeList>
         <ObjectList>
-          <MultilingualText ID="DE" CompositionName="Comment">
+          <MultilingualText ID="C5" CompositionName="Comment">
             <ObjectList>
-              <MultilingualTextItem ID="DF" CompositionName="Items">
+              <MultilingualTextItem ID="C6" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
                   <Text />
@@ -4689,19 +4266,19 @@
               </MultilingualTextItem>
             </ObjectList>
           </MultilingualText>
-          <MultilingualText ID="E0" CompositionName="Title">
+          <MultilingualText ID="C7" CompositionName="Title">
             <ObjectList>
-              <MultilingualTextItem ID="E1" CompositionName="Items">
+              <MultilingualTextItem ID="C8" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>E1 / E3 — heat request while STARTING or RUNNING</Text>
+                  <Text>OUTPUTS | E1 / E3 — heat request while STARTING or RUNNING</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
           </MultilingualText>
         </ObjectList>
       </SW.Blocks.CompileUnit>
-      <SW.Blocks.CompileUnit ID="E2" CompositionName="CompileUnits">
+      <SW.Blocks.CompileUnit ID="C9" CompositionName="CompileUnits">
         <AttributeList>
           <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
   <Parts>
@@ -4777,9 +4354,9 @@
           <ProgrammingLanguage>LAD</ProgrammingLanguage>
         </AttributeList>
         <ObjectList>
-          <MultilingualText ID="E3" CompositionName="Comment">
+          <MultilingualText ID="CA" CompositionName="Comment">
             <ObjectList>
-              <MultilingualTextItem ID="E4" CompositionName="Items">
+              <MultilingualTextItem ID="CB" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
                   <Text />
@@ -4787,19 +4364,19 @@
               </MultilingualTextItem>
             </ObjectList>
           </MultilingualText>
-          <MultilingualText ID="E5" CompositionName="Title">
+          <MultilingualText ID="CC" CompositionName="Title">
             <ObjectList>
-              <MultilingualTextItem ID="E6" CompositionName="Items">
+              <MultilingualTextItem ID="CD" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>C0xc — 2nd stage on: RUNNING and T &lt; SP - STG</Text>
+                  <Text>OUTPUTS | C0xc — 2nd stage on: RUNNING and T &lt; SP - STG</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
           </MultilingualText>
         </ObjectList>
       </SW.Blocks.CompileUnit>
-      <SW.Blocks.CompileUnit ID="E7" CompositionName="CompileUnits">
+      <SW.Blocks.CompileUnit ID="CE" CompositionName="CompileUnits">
         <AttributeList>
           <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
   <Parts>
@@ -4883,9 +4460,9 @@
           <ProgrammingLanguage>LAD</ProgrammingLanguage>
         </AttributeList>
         <ObjectList>
-          <MultilingualText ID="E8" CompositionName="Comment">
+          <MultilingualText ID="CF" CompositionName="Comment">
             <ObjectList>
-              <MultilingualTextItem ID="E9" CompositionName="Items">
+              <MultilingualTextItem ID="D0" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
                   <Text />
@@ -4893,21 +4470,21 @@
               </MultilingualTextItem>
             </ObjectList>
           </MultilingualText>
-          <MultilingualText ID="EA" CompositionName="Title">
+          <MultilingualText ID="D1" CompositionName="Title">
             <ObjectList>
-              <MultilingualTextItem ID="EB" CompositionName="Items">
+              <MultilingualTextItem ID="D2" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>C0xc / F41 — 2nd stage off at SP - STG + 2 degC, or when not RUNNING</Text>
+                  <Text>OUTPUTS | C0xc / F41 — 2nd stage off at SP - STG + 2 degC, or when not RUNNING</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
           </MultilingualText>
         </ObjectList>
       </SW.Blocks.CompileUnit>
-      <MultilingualText ID="EE" CompositionName="Title">
+      <MultilingualText ID="D5" CompositionName="Title">
         <ObjectList>
-          <MultilingualTextItem ID="EF" CompositionName="Items">
+          <MultilingualTextItem ID="D6" CompositionName="Items">
             <AttributeList>
               <Culture>en-US</Culture>
               <Text>Burner</Text>

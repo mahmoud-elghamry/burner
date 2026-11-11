@@ -23,6 +23,7 @@ param(
     [string[]]$Files,
     [string]$ProjectPath,
     [string]$BuildDir,
+    [string[]]$CompileOrder = @(),
     [string]$ApiDir = "C:\Program Files\Siemens\Automation\Portal V15_1\PublicAPI\V15.1",
     [switch]$DryRun
 )
@@ -70,7 +71,7 @@ public class BlockApplier
     static List<string> Failures = new List<string>();
     static DeviceItem CpuItem = null;
 
-    public static bool Run(string projectPath, string buildDir, string[] files, bool dryRun)
+    public static bool Run(string projectPath, string buildDir, string[] files, bool dryRun, string[] compileOrder)
     {
         TiaPortal portal = new TiaPortal(TiaPortalMode.WithoutUserInterface);
         Project prj = null;
@@ -96,7 +97,17 @@ public class BlockApplier
             // stay inconsistent until each one is compiled on its own.
             Console.WriteLine("");
             Console.WriteLine("=== COMPILING (per block) ===");
-            foreach (PlcBlock b in AllBlocks(plc.BlockGroup))
+            List<PlcBlock> remaining = new List<PlcBlock>(AllBlocks(plc.BlockGroup));
+            List<PlcBlock> ordered = new List<PlcBlock>();
+            foreach (string name in compileOrder ?? new string[0])
+            {
+                PlcBlock next = remaining.Find(b => b.Name == name);
+                if (next == null) throw new Exception("compile order block missing or duplicated: " + name);
+                ordered.Add(next);
+                remaining.Remove(next);
+            }
+            ordered.AddRange(remaining);
+            foreach (PlcBlock b in ordered)
             {
                 if (b.IsConsistent) continue;
                 ICompilable bc = b.GetService<ICompilable>();
@@ -241,4 +252,4 @@ public class BlockApplier
 '@
 
 Add-Type -TypeDefinition $src -ReferencedAssemblies $engDll, 'System.Core' -ErrorAction Stop
-if (-not [BlockApplier]::Run($ProjectPath, $BuildDir, $Files, [bool]$DryRun)) { exit 1 }
+if (-not [BlockApplier]::Run($ProjectPath, $BuildDir, $Files, [bool]$DryRun, $CompileOrder)) { exit 1 }

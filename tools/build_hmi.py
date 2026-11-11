@@ -13,7 +13,7 @@
 - قبل الاستيراد: py tools/check_hmi_xml.py بيراجع أسماء الخصائص والتركيبات على نفس الـ exports.
 """
 from __future__ import print_function
-import io, os, sys
+import io, os, re, sys
 from xml.sax.saxutils import escape
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -67,9 +67,8 @@ def _members():
 
 MEMBERS = _members()
 BR_READ = ['TeA', 'TeB', 'Tmax', 'TcOkA', 'TcOkB', 'TcOk', 'State', 'Enabled', 'HeatReq',
-           'Stage2', 'RunFb', 'Lockout', 'LevelOK', 'Auto', 'PwrUpDone', 'SP_Act', 'TOn',
-           'TStg', 'TStgOff', 'ParPending', 'F_EStop', 'F_TC', 'F_Lockout', 'F_NoStart',
-           'F_RunLost', 'F_RunWrong']
+           'Stage2', 'RunFb', 'Lockout', 'LevelOK', 'Auto', 'PwrUpDone', 'TOn',
+           'TStg', 'TStgOff']
 TAGS = []   # (اسم الشاشة، DB، العضو)
 for br in ('BR01', 'BR02'):
     extra = ['Pause24'] if br == 'BR01' else ['Fuel']
@@ -80,7 +79,8 @@ TAGS += [('Scrub_' + m, 'Scrubber_DB', m) for m in
           'F_DrainTO', 'F_LshFault']]
 TAGS += [('Par_' + n, 'Par', n) for n, *_ in B.PARAMS]
 TAGS += [('Par_' + n + '_V', 'Par', n + '_V') for n, *_ in B.PARAMS]
-TAGS += [('Sys_' + m, 'Sys', m) for m in ['EStopOK', 'Alm_EStop', 'Alm_ParRejected']]
+TAGS += [('Sys_' + m, 'Sys', m) for m in
+         ['EStopOK', 'Alm_EStop', 'Alm_ParRejected', 'SettingsEditable']]
 TAGS += [('Alm_' + w, 'HmiAlm', w) for w in ['Common', 'BR01', 'BR02']]
 # H-01: الحقول اللي بتكتب. أي Input على تاج مش هنا = السكريبت يقف.
 WRITABLE = {'Par_' + n for n, *_ in B.PARAMS}
@@ -125,7 +125,7 @@ def tag_table():
         t = TAG_TYPE[name]
         out.append(
             '<Hmi.Tag.Tag ID="%s" CompositionName="Tags"><AttributeList>'
-            '<AcquisitionTriggerMode>Visible</AcquisitionTriggerMode>'
+            '<AcquisitionTriggerMode>%s</AcquisitionTriggerMode>'
             '<AddressAccessMode>Symbolic</AddressAccessMode><Coding>Binary</Coding>'
             '<ConfirmationType>None</ConfirmationType><GmpRelevant>false</GmpRelevant>'
             '<JobNumber>0</JobNumber><Length>%d</Length><LinearScaling>false</LinearScaling>'
@@ -142,7 +142,8 @@ def tag_table():
             '<DataType TargetID="@OpenLink"><Name>%s</Name></DataType>'
             '<HmiDataType TargetID="@OpenLink"><Name>%s</Name></HmiDataType>'
             '</LinkList><ObjectList>%s%s%s</ObjectList></Hmi.Tag.Tag>\n'
-            % (ids(), TYPES[t], name, CONN, db, m, t, HMI_TYPE.get(t, t),
+            % (ids(), 'Continuous' if name in ('Alm_Common', 'Alm_BR01', 'Alm_BR02') else 'Visible',
+               TYPES[t], name, CONN, db, m, t, HMI_TYPE.get(t, t),
                mltext(ids, 'Comment'), mltext(ids, 'DisplayName'), mltext(ids, 'TagValue')))
     out.append('  </ObjectList></Hmi.Tag.TagTable>\n</Document>\n')
     return ''.join(out)
@@ -157,10 +158,23 @@ class Screen(object):
         self.ids = Ids()
         self.items = []
         self.count = {}
+        self.names = set()
 
-    def oname(self, kind):
-        self.count[kind] = self.count.get(kind, 0) + 1
-        return '%s_%d' % (kind, self.count[kind])
+    def oname(self, kind, semantic):
+        """Build a stable, legal object name, adding a suffix only for collisions."""
+        token = re.sub(r'[^A-Za-z0-9_]+', '_', semantic).strip('_')
+        token = re.sub(r'_+', '_', token) or kind
+        if not token[0].isalpha():
+            token = kind + '_' + token
+        base = kind + '_' + token
+        n = self.count.get(base, 0) + 1
+        candidate = base if n == 1 else '%s_%d' % (base, n)
+        while candidate in self.names:
+            n += 1
+            candidate = '%s_%d' % (base, n)
+        self.count[base] = n
+        self.names.add(candidate)
+        return candidate
 
     def font(self, size, bold):
         return ('<Hmi.Globalization.MultiLingualFont ID="%s" CompositionName="Font"><ObjectList>'
@@ -198,7 +212,7 @@ class Screen(object):
                 % (self.ids(), bit, 'true' if show_when_set else 'false', self.ids(), tag))
 
     # ---- العناصر
-    def rect(self, x, y, w, h, back, border=None, anims=()):
+    def rect(self, x, y, w, h, back, border=None, anims=(), name='Panel'):
         self.items.append(
             '<Hmi.Screen.Rectangle ID="%s" CompositionName="ScreenItems"><AttributeList>'
             '<BackColor>%s</BackColor><BackFillStyle>Solid</BackFillStyle>'
@@ -210,10 +224,15 @@ class Screen(object):
             '<UseDesignColorSchema>false</UseDesignColorSchema><Width>%d</Width></AttributeList>'
             '<ObjectList>%s</ObjectList></Hmi.Screen.Rectangle>'
             % (self.ids(), back, border or back, 1 if border else 0, h, x,
-               self.oname('Rectangle'), y, w, ''.join(anims)))
+               self.oname('Panel', name), y, w, ''.join(anims)))
 
     def text(self, x, y, w, h, s, size=12, bold=False, fore=INK, back=None, align='Left',
-             anims=()):
+             anims=(), name=None):
+        trigger_tags = re.findall(r'<Tag TargetID="@OpenLink"><Name>([^<]+)</Name></Tag>',
+                                  ''.join(anims))
+        semantic = name or s
+        if trigger_tags:
+            semantic += '_' + '_'.join(trigger_tags)
         self.items.append(
             '<Hmi.Screen.TextField ID="%s" CompositionName="ScreenItems"><AttributeList>'
             '<BackColor>%s</BackColor><BackFillStyle>%s</BackFillStyle>'
@@ -227,7 +246,7 @@ class Screen(object):
             '<UseDesignColorSchema>false</UseDesignColorSchema><VerticalAlignment>Middle</VerticalAlignment>'
             '<Width>%d</Width></AttributeList><ObjectList>%s%s%s</ObjectList></Hmi.Screen.TextField>'
             % (self.ids(), back or WHITE, 'Solid' if back else 'Transparent', fore, h, align, x,
-               self.oname('Text'), y, w, ''.join(anims), self.font(size, bold),
+               self.oname('Text', semantic), y, w, ''.join(anims), self.font(size, bold),
                mltext(self.ids, 'Text', s)))
 
     def io(self, x, y, w, h, tag, write=False, shift=1, length=5, size=13):
@@ -258,7 +277,7 @@ class Screen(object):
             '</Hmi.Screen.Property></ObjectList></Hmi.Screen.IOField>'
             % (self.ids(), WHITE if write else BG, BLUE if write else BG, 2 if write else 0,
                length, INK, 's' + '9' * length, h, x, 'InOutput' if write else 'Output',
-               self.oname('IOField'), shift, 1 if write else -1, y, w,
+               self.oname('IO', tag), shift, 1 if write else -1, y, w,
                self.font(size, True), mltext(self.ids, 'HelpText'), self.ids(), self.ids(), tag))
 
     def lamp(self, x, y, tag, label, on=GREEN, w=140):
@@ -271,8 +290,14 @@ class Screen(object):
             '<Height>12</Height><Left>%d</Left><ObjectName>%s</ObjectName><Radius>6</Radius>'
             '<TabIndex>-1</TabIndex><Top>%d</Top><UseDesignColorSchema>false</UseDesignColorSchema>'
             '<Width>12</Width></AttributeList><ObjectList>%s</ObjectList></Hmi.Screen.Circle>'
-            % (self.ids(), GREY, x, self.oname('Circle'), y + 3, anim))
+            % (self.ids(), GREY, x, self.oname('Lamp', tag), y + 3, anim))
         self.text(x + 16, y, w - 16, 18, label, size=11)
+
+    def fault_badge(self, x, y, w, tag, bit, label):
+        """Show a red text badge when the corresponding HmiAlm word bit is set."""
+        self.text(x, y, w, 18, label, size=11, bold=True, fore=RED,
+                  anims=[self.anim_vis(tag, True, bit)],
+                  name='Fault_%s_Bit%d_%s' % (tag, bit, label))
 
     def button(self, x, y, w, h, label, screen):
         self.items.append(
@@ -308,7 +333,7 @@ class Screen(object):
             '</ObjectList></Hmi.Event.FunctionListEventHandler></ObjectList></Hmi.Event.Event>'
             '%s%s%s%s</ObjectList></Hmi.Screen.Button>'
             % (self.ids(), BAR if screen != self.name else BLUE, BAR, WHITE, h, x,
-               self.oname('Button'), y, w, self.ids(), self.ids(), self.ids(), self.ids(), screen,
+               self.oname('Nav', screen), y, w, self.ids(), self.ids(), self.ids(), self.ids(), screen,
                self.ids(), self.font(11, True), mltext(self.ids, 'HelpText'),
                mltext(self.ids, 'TextOff', label), mltext(self.ids, 'TextOn', label)))
 
@@ -368,7 +393,7 @@ FIRST = [(1, 'E-STOP', RED), (2, 'PSH-101', RED), (3, 'LSHH-103', RED), (4, 'POW
 
 
 def panel(s, x, y, w, h, title):
-    s.rect(x, y, w, h, WHITE, PANEL_BORDER)
+    s.rect(x, y, w, h, WHITE, PANEL_BORDER, name=title)
     s.text(x + 4, y + 2, w - 8, 20, title, size=12, bold=True)
 
 
@@ -407,8 +432,6 @@ def overview():
         s.lamp(x + 4, y + 110, br + '_HeatReq', 'Heat request')
         s.lamp(x + 4, y + 130, br + '_Stage2', '2nd stage request')
         s.lamp(x + 4, y + 150, br + '_RunFb', 'RUN feedback')
-        s.text(x + 4, y + 176, pw - 8, 18, 'Setting pending', size=11, bold=True, fore=AMBER,
-               anims=[s.anim_vis(br + '_ParPending', True)])
     return s
 
 
@@ -418,16 +441,17 @@ def burner(br):
     frame(s)
     y = 30
     segments(s, 4, y, 472, br + '_State', BR_STATE, cols=4)
-    # الحرارة والحدود اللي البيرنر ده شغال بيها (_Act)
+    # الحرارة والحدود الحالية. Stop-at is the shared accepted value.
     x, y = 4, 54
     panel(s, x, y, 156, 178, 'Temperature  C')
     temp(s, x + 4, y + 24, br + '_TeA', br + '_TcOkA', te[0])
     temp(s, x + 4, y + 46, br + '_TeB', br + '_TcOkB', te[1])
     temp(s, x + 4, y + 68, br + '_Tmax', br + '_TcOk', 'T max')
-    for j, (tag, label) in enumerate([('_SP_Act', 'Stop at'), ('_TOn', 'Restart at'),
+    for j, (tag, label) in enumerate([('Par_SP_V', 'Stop at'), (br + '_TOn', 'Restart at'),
                                       ('_TStg', '2nd below'), ('_TStgOff', '2nd off at')]):
         s.text(x + 4, y + 94 + j * 20, 70, 20, label, size=11)
-        s.io(x + 74, y + 94 + j * 20, 52, 20, br + tag, size=12)
+        io_tag = tag if tag.startswith('Par_') or tag.startswith(br + '_') else br + tag
+        s.io(x + 74, y + 94 + j * 20, 52, 20, io_tag, size=12)
     # الإشارات
     x = 162
     panel(s, x, y, 156, 178, 'Signals')
@@ -439,16 +463,14 @@ def burner(br):
         [('_Fuel', 'Fuel mode', BLUE)]
     for j, (tag, label, color) in enumerate(rows):
         s.lamp(x + 4, y + 24 + j * 19, br + tag, label, on=color)
-    # الأعطال، كل واحد لوحده
+    # أعطال من بتات كلمة الإنذار المشتركة
     x = 320
     panel(s, x, y, 156, 178, 'Faults (RESET)')
-    faults = [('_F_EStop', 'E-STOP'), ('_F_TC', 'Thermocouple'), ('_F_Lockout', 'Burner lockout'),
-              ('_F_NoStart', 'Failed to start'), ('_F_RunLost', 'Stopped by itself'),
-              ('_F_RunWrong', 'RUN w/o request')]
-    for j, (tag, label) in enumerate(faults):
-        s.lamp(x + 4, y + 24 + j * 19, br + tag, label, on=RED)
-    s.text(x + 4, y + 142, 148, 18, 'Setting pending', size=11, bold=True, fore=AMBER,
-           anims=[s.anim_vis(br + '_ParPending', True)])
+    faults = [('E-STOP', 0), ('Thermocouple', 1), ('Burner lockout', 2),
+              ('Failed to start', 3), ('Stopped by itself', 4), ('RUN w/o request', 5),
+              ('Scrubber trip', 7)]
+    for j, (label, bit) in enumerate(faults):
+        s.fault_badge(x + 4, y + 24 + j * 19, 148, 'Alm_' + br, bit, label)
     s.text(x + 4, y + 158, 148, 18, 'TC starting up', size=11, fore=AMBER,
            anims=[s.anim_vis(br + '_PwrUpDone', False)])
     return s
@@ -499,9 +521,7 @@ def alarms():
     s = Screen('Alarms', 5, 'Alarms')
     frame(s)
     # مكان الـ alarm view: بيتحط بالإيد (Openness V15.1 مش بيعمله import)
-    s.rect(4, 30, 472, 202, WHITE, PANEL_BORDER)
-    s.text(12, 110, 456, 40, 'Alarm view goes here (placed by hand in TIA, 0007 P6)',
-           size=11, fore=GREY, align='Center')
+    s.rect(4, 30, 472, 202, WHITE, PANEL_BORDER, name='Alarm list')
     return s
 
 
@@ -524,10 +544,11 @@ def settings():
         s.io(120, yy, 76, 20, 'Par_' + n, write=True, shift=shift, length=length)
         s.text(200, yy, 90, 20, rng, size=10, fore=GREY)
         s.io(292, yy, 76, 20, 'Par_' + n + '_V', shift=shift, length=length)
-    s.text(372, y + 22, 104, 54, 'Raising heat applies after STOP + START.', size=10, fore=GREY)
-    s.lamp(372, y + 84, 'BR01_ParPending', 'BR01 pending', on=AMBER, w=104)
-    s.lamp(372, y + 104, 'BR02_ParPending', 'BR02 pending', on=AMBER, w=104)
-    s.text(8, y + 178, 360, 20, 'Setting rejected: out of range (RESET to clear)', size=11,
+    s.text(372, y + 22, 104, 32, 'Editing allowed', size=10, bold=True, fore=GREEN,
+           anims=[s.anim_vis('Sys_SettingsEditable', True)])
+    s.text(372, y + 22, 104, 48, 'STOP both burners first', size=10, bold=True, fore=AMBER,
+           anims=[s.anim_vis('Sys_SettingsEditable', False)])
+    s.text(8, y + 178, 360, 20, 'Setting rejected: STOP both / check range', size=11,
            bold=True, fore=WHITE, back=RED, anims=[s.anim_vis('Sys_Alm_ParRejected', True)])
     s.text(372, y + 130, 104, 40, 'Settings need log-on (user Engineer).', size=10, fore=GREY)
     return s

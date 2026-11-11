@@ -53,7 +53,7 @@ def title_block(ws, title, width):
     ws.row_dimensions[1].height = 24
     ws.merge_cells(start_row=2, start_column=1, end_row=2, end_column=width)
     put(ws, 2, 1, "Project: Burner PetroBaker  |  Panel: LCP-01  |  Ref. drawing: PH-LCP-01 V1  |  "
-                  "Document: PH-LCP-01-CE  |  Rev. A (for client review)  |  26-10-2026",
+                  "Document: PH-LCP-01-CE  |  Rev. A (for client review)  |  Updated 11-11-2026",
         size=9, border=False)
 
 
@@ -81,6 +81,10 @@ rows = [
     ("Hardwired safety", "E-STOP S0 opens the 230 V control supply of BR01 (NC2) and BR02 (NC3) directly, "
                          "independent of the PLC. Safety thermostat TS (manual reset) is in series with the "
                          "BR01 control supply. These act even if the PLC fails."),
+    ("Settings policy", "All seven editable temperature/time settings may be changed only after STOP "
+                        "has cancelled START permission for BOTH burners. PLC rejects changes while either "
+                        "burner remains enabled, including normal temperature waiting, and rejects out-of-range "
+                        "values. Old accepted values remain. Internal PH decision 11-Nov-2026 (R-11 / 0009)."),
     ("Fail-safe outputs", "All PLC outputs de-energise on PLC STOP or 24 VDC loss. Valve types were chosen so "
                           "that de-energised = safe: XV-401 flare (NO) OPENS, XV-402 drain (NC) CLOSES, "
                           "XV-403 suction (NC) CLOSES, both burners lose their heat request. The drain is "
@@ -112,6 +116,9 @@ put(ws, r, 1, "Revision", bold=True, fill=SUB); put(ws, r, 2, "Date", bold=True,
 put(ws, r, 3, "Description", bold=True, fill=SUB); put(ws, r, 4, "By / Approved", bold=True, fill=SUB)
 put(ws, r + 1, 1, "A"); put(ws, r + 1, 2, "26-10-2026")
 put(ws, r + 1, 3, "First issue for client review"); put(ws, r + 1, 4, "PH / Eng. Ahmed Zain")
+put(ws, r + 2, 1, "A - internal update"); put(ws, r + 2, 2, "11-11-2026")
+put(ws, r + 2, 3, "Scrubber trips stop both burners; settings changed only with both STOP")
+put(ws, r + 2, 4, "PH internal decision / client review pending")
 ws.column_dimensions["A"].width = 22
 ws.column_dimensions["B"].width = 14
 ws.column_dimensions["C"].width = 60
@@ -220,10 +227,14 @@ matrix = [
      "confirmed 02-Nov-2026; drawing V1 shows NO and will be revised (Eng. Omar)."),
     ("group", "GAS SCRUBBER"),
     ("C03", "PSH-101", "Scrubber high pressure", "I0.0", "Contact open (fail-safe)", "Trip",
-     {"E5": "OPEN", "E7": "CLOSE", "E8": "ALARM"}, "S2 after cleared", PD,
-     "Client e-mail asks for scrubber alarms/trips; the valve action and burner policy were decided by PH. Burners are NOT tripped (decision PH / Eng. Ahmed Zain); "
-     "if gas pressure to the burner drops, the burner's own gas pressure switch stops it (C07g / C08g). "
-     "The drain is not touched by PSH; it follows the level (meeting 02-Nov-2026)."),
+     {"E1": "STOP", "E2": "STOP", "E3": "STOP", "E4": "STOP",
+      "E5": "OPEN", "E7": "CLOSE", "E8": "ALARM"}, "S2 after cleared; START each burner", PD,
+     "Client e-mail asks for scrubber alarms/trips; the valve action was decided by PH. Until "
+     "10-Nov-2026 the burners were not tripped (decision PH / Eng. Ahmed Zain). Changed 11-Nov-2026: "
+     "a scrubber trip removes the heat request from both burners and holds it off until S2, because "
+     "the gas burned in the burners is the gas the scrubber is protecting. The burner's own control "
+     "box still does purge, ignition and flame supervision. The drain is not touched by PSH; it "
+     "follows the level (meeting 02-Nov-2026)."),
     ("C04", "LSH-102", "Scrubber high level", "I0.1", "Contact open (fail-safe) for TDRN_ON (3 s)",
      "Control", {"E6": "OPEN", "E8": "ALARM"},
      "Automatic: drain closes when LSH-102 healthy for TDRN_OFF (5 s)", PD,
@@ -242,8 +253,10 @@ matrix = [
      "LSHH-103 is mounted above LSH-102, so it cannot trip alone unless LSH-102 has failed. "
      "Accepted 02-Nov-2026."),
     ("C05", "LSHH-103", "Scrubber high-high level", "I0.2", "Contact open (fail-safe)", "Trip",
-     {"E6": "OPEN", "E7": "CLOSE", "E8": "ALARM"}, "S2 after cleared (suction)", PD,
-     "Burners are NOT tripped (as C03). Flare not touched (meeting 02-Nov-2026). The drain opens as for "
+     {"E1": "STOP", "E2": "STOP", "E3": "STOP", "E4": "STOP",
+      "E6": "OPEN", "E7": "CLOSE", "E8": "ALARM"}, "S2 after cleared; START each burner", PD,
+     "Changed 11-Nov-2026: same as C03, the heat request of both burners is removed and held until "
+     "S2. Flare not touched (meeting 02-Nov-2026). The drain opens as for "
      "C04 and is not held by the trip: it follows the level, so it still opens if LSH-102 has failed."),
     ("C06", "LSL (scrubber)", "Scrubber low level", "I12.5 (spare)", "—", "Not installed", {}, "—",
      PD, "Not installed: the scrubber has LSH-102 and LSHH-103 only (confirmed 02-Nov-2026). I12.5 is spare."),

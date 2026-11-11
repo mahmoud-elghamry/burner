@@ -1,0 +1,13 @@
+test_scrubber_trip_blocks_ready (test_panel_rules.BurnerPermissive) ... ok
+test_alarm_words_are_continuous_and_ids_are_stable (test_panel_rules.HmiContracts) ... ok
+test_bindings_and_object_names_are_complete (test_panel_rules.HmiContracts) ... ok
+test_fault_badges_use_existing_words_with_independent_bits (test_panel_rules.HmiContracts) ... ok
+test_all_parameters_accept_only_with_both_start_permissions_off (test_panel_rules.SettingsRules) ... ok
+test_corrupt_retained_values_restore_defaults_on_first_scan (test_panel_rules.SettingsRules) ... ok
+test_no_false_rejection_for_unchanged_values_while_enabled (test_panel_rules.SettingsRules) ... ok
+test_out_of_range_is_restored_for_each_parameter (test_panel_rules.SettingsRules) ... ok
+
+----------------------------------------------------------------------
+Ran 8 tests in 1.397s
+
+OK

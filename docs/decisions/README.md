@@ -12,3 +12,4 @@
 | [0006](0006-program-architecture.md) | هيكل البرنامج: FB واحد للبيرنر بنسختين، وFB للـ scrubber | accepted — 2026-10-28 |
 | [0007](0007-hmi-plan.md) | خطة الشاشة KTP400: عرض وأرقام بس، و6 شاشات، وإنذارات من غير Ack | accepted — 2026-11-01 (Comfort) |
 | [0008](0008-burner-call-interface.md) | نداءات `Main`: `Burner` ‏10/2 و`Scrubber` ‏4/3، والتشخيص `Static` في الـ DB | accepted — 2026-11-11 |
+| [0009](0009-small-panel-simplification.md) | تريب السكرابر يمنع البيرنرين؛ الإعدادات بعد STOP للاتنين، وتبسيط ربط الشاشة | accepted — 2026-11-11 |

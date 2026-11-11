@@ -251,28 +251,75 @@ def T6b(s):
 
 
 def T7(s):
-    """ضغط الـ scrubber عالي، ومستوى عالي جدًا — البيرنرات تكمّل"""
+    """Trips de-energize both burners; require healthy RESET then fresh START."""
     start_br01(s)
+    s.set('TE503', 400, 0); s.set('TE504', 400); s.press('S6'); s.set('RR2', 1)
+    s.expect('both burners running before scrubber trip', TL1=1, TR1=1, L2=1, T2=1, H5=1, H6=1)
     s.set('PSH', 0)
-    s.expect('PSH-101: flare open, suction closed, drain untouched, BR01 runs (C03)',
-             XV401=0, XV402=0, XV403=0, TL1=1)
+    s.expect('PSH-101: both burner requests and lamps off; flare open, suction closed',
+             XV401=0, XV402=0, XV403=0, TL1=0, TR1=0, L2=0, T2=0, H5=0, H6=0)
+    s.set('RR', 0, 0); s.set('RR2', 0)
     s.set('PSH', 1)
-    s.expect('PSH back: flare/suction stay until RESET', XV401=0, XV403=0)
+    s.expect('PSH healthy: trip remains latched, both burners stay off',
+             XV401=0, XV403=0, TL1=0, L2=0)
+    s.press('S1'); s.press('S6')
+    s.expect('START alone while scrubber trip latched: refused', TL1=0, L2=0)
+    s.set('PSH', 0)
     s.press('S2')
-    s.expect('RESET: valves normal, BR01 untouched (R-07)', XV401=1, XV402=0, XV403=1, TL1=1)
+    s.expect('RESET with PSH cause present: valves remain tripped', XV401=0, XV403=0)
+    s.set('PSH', 1)
+    s.press('S2')
+    s.expect('healthy RESET: valves normal, burners remain off pending START',
+             XV401=1, XV402=0, XV403=1, TL1=0, L2=0)
+    s.press('S1'); s.press('S6')
+    s.expect('fresh START after RESET: both burners request heat', TL1=1, L2=1)
+    s.set('RR', 1, 0); s.set('RR2', 1)
     s.set('LSH', 0, 0); s.set('LSHH', 0)
-    s.expect('LSHH-103: suction closed at once, flare untouched (C05)', XV401=1, XV403=0, TL1=1)
+    s.expect('LSHH-103: both burners off, suction closes, flare untouched (C05)',
+             XV401=1, XV403=0, TL1=0, TR1=0, L2=0, T2=0, H5=0, H6=0)
+    s.set('RR', 0, 0); s.set('RR2', 0)
     s.wait(DRN_ON)
     s.expect('LSHH-103 + 3 s: drain open (C05)', XV401=1, XV402=1, XV403=0)
     s.press('S2')
-    s.expect('RESET while LSHH still open: suction stays closed', XV402=1, XV403=0)
+    s.expect('RESET while LSHH still open: suction stays closed, burners off', XV402=1, XV403=0, TL1=0, L2=0)
     s.set('LSHH', 1, 0); s.set('LSH', 1)
     s.expect('level down: drain still open (TDRN_OFF), suction closed until RESET',
              XV402=1, XV403=0)
     s.wait(DRN_OFF)
     s.expect('level gone 5 s: drain closed, suction still closed', XV402=0, XV403=0)
     s.press('S2')
-    s.expect('RESET: all normal', XV401=1, XV402=0, XV403=1, TL1=1)
+    s.expect('healthy RESET: all valves normal, no automatic burner restart', XV401=1, XV402=0, XV403=1, TL1=0, L2=0)
+
+
+def T7c(s):
+    """Trip blocks an enabled burner waiting for temperature in AUTO."""
+    s.set('PSH', 0)
+    s.press('S1'); s.press('S6')
+    s.expect('START while scrubber tripped: both refused', TL1=0, L2=0)
+    s.set('PSH', 1)
+    s.press('S2')
+    s.expect('clearing trip cannot use START pressed during trip', TL1=0, L2=0)
+    s.set('TE501', 700, 0); s.set('TE502', 700, 0)
+    s.set('TE503', 700, 0); s.set('TE504', 700)
+    s.press('S1'); s.press('S6')
+    s.expect('START at 70 degC: enabled, no heat request', TL1=0, L2=0)
+    s.set('PSH', 0)
+    s.expect('PSH trip while AUTO idle: both remain blocked', XV401=0, TL1=0, L2=0)
+    s.set('PSH', 1)
+    s.press('S2')
+    s.expect('healthy RESET: still no heat at 70 degC', XV401=1, TL1=0, L2=0)
+    s.set('TE501', 400, 0); s.set('TE502', 400, 0)
+    s.set('TE503', 400, 0); s.set('TE504', 400)
+    s.expect('temperature falls: previously enabled burners do not resume', TL1=0, L2=0)
+    s.press('S1'); s.press('S6')
+    s.expect('fresh START required after scrubber trip', TL1=1, L2=1)
+    s.set('Rfuel2', 1)
+    s.expect('fuel change stops BR02 as before', L2=0)
+    s.press('S6')
+    s.expect('BR02 requests heat in diesel mode, still STARTING', L2=1, T2=0)
+    s.set('PSH', 0)
+    s.expect('scrubber trip stops STARTING burners including BR02 diesel',
+             TL1=0, TR1=0, L2=0, T2=0, H5=0, H6=0)
 
 
 def T7b(s):
@@ -291,6 +338,9 @@ def T7b(s):
     s.set('LSH', 0)
     s.wait(DRN_ON)
     s.expect('high level again: drain open', XV402=1)
+    start_br01(s)
+    s.set('TE503', 400, 0); s.set('TE504', 400); s.press('S6'); s.set('RR2', 1)
+    s.expect('LSH-102 alone: drain open, both burners continue (C04)', XV402=1, XV401=1, XV403=1, TL1=1, L2=1)
     s.set('S0', 0)
     s.expect('E-STOP: drain closed even on high level (C01)', XV401=0, XV402=0, XV403=0)
     s.set('S0', 1)
@@ -415,7 +465,7 @@ def BR02(s):
     s.expect('S7 STOP: BR02 off', L2=0)
 
 
-ALL = [T1, T1b, T2, T3, T4, T5, T6, T6p, T6b, T7, T7b, T8, T9, T10, R01, R02, R09, BR02]
+ALL = [T1, T1b, T2, T3, T4, T5, T6, T6p, T6b, T7, T7b, T7c, T8, T9, T10, R01, R02, R09, BR02]
 LONG = [T7d]    # بيتشغّل بالاسم بس: py run_scenarios.py T7d (10 دقايق)
 
 # الترمينال (VS Code وPowerShell) بيقلب العربي، فالعنوان اللي بيتطبع إنجليزي.
@@ -429,8 +479,9 @@ EN = {
     'T6': 'thermocouple broken: 32767, -32768, 2500 on one channel',
     'T6p': 'R-10: TC card reads 32767 for seconds after power-up',
     'T6b': 'STOP and START together, START jammed',
-    'T7': 'scrubber high pressure / high-high level: burners keep running',
+    'T7': 'scrubber high pressure / high-high level trips both burners; reset then start',
     'T7b': 'scrubber high level: drain follows the level (C04), E-STOP, power-up',
+    'T7c': 'scrubber trip blocks AUTO burners waiting for temperature',
     'T7d': 'LSH-102 stuck open: drain closes after TDRN_MAX (C04a), 10 min',
     'T8': 'E-STOP',
     'T9': 'power lost and back',

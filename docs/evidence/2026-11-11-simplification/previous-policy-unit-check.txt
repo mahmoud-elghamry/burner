@@ -1,0 +1,185 @@
+test_scrubber_trip_blocks_ready (test_panel_rules.BurnerPermissive) ... FAIL
+test_all_parameters_accept_only_with_both_start_permissions_off (test_panel_rules.SettingsRules) ... test_corrupt_retained_values_restore_defaults_on_first_scan (test_panel_rules.SettingsRules) ... ok
+test_no_false_rejection_for_unchanged_values_while_enabled (test_panel_rules.SettingsRules) ... ok
+test_out_of_range_is_restored_for_each_parameter (test_panel_rules.SettingsRules) ... ok
+
+======================================================================
+FAIL: test_scrubber_trip_blocks_ready (test_panel_rules.BurnerPermissive)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\tasks\burner\tools\tests\test_panel_rules.py", line 124, in test_scrubber_trip_blocks_ready
+    self.assertFalse(expression(expr, m))
+AssertionError: True is not false
+
+======================================================================
+FAIL: test_all_parameters_accept_only_with_both_start_permissions_off (test_panel_rules.SettingsRules) (parameter='SP', br1=True, br2=False)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\tasks\burner\tools\tests\test_panel_rules.py", line 87, in test_all_parameters_accept_only_with_both_start_permissions_off
+    self.assertEqual(m[v], candidate if editable else previous)
+AssertionError: 701 != 700
+
+======================================================================
+FAIL: test_all_parameters_accept_only_with_both_start_permissions_off (test_panel_rules.SettingsRules) (parameter='SP', br1=False, br2=True)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\tasks\burner\tools\tests\test_panel_rules.py", line 87, in test_all_parameters_accept_only_with_both_start_permissions_off
+    self.assertEqual(m[v], candidate if editable else previous)
+AssertionError: 701 != 700
+
+======================================================================
+FAIL: test_all_parameters_accept_only_with_both_start_permissions_off (test_panel_rules.SettingsRules) (parameter='SP', br1=True, br2=True)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\tasks\burner\tools\tests\test_panel_rules.py", line 87, in test_all_parameters_accept_only_with_both_start_permissions_off
+    self.assertEqual(m[v], candidate if editable else previous)
+AssertionError: 701 != 700
+
+======================================================================
+FAIL: test_all_parameters_accept_only_with_both_start_permissions_off (test_panel_rules.SettingsRules) (parameter='HYST', br1=True, br2=False)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\tasks\burner\tools\tests\test_panel_rules.py", line 87, in test_all_parameters_accept_only_with_both_start_permissions_off
+    self.assertEqual(m[v], candidate if editable else previous)
+AssertionError: 51 != 50
+
+======================================================================
+FAIL: test_all_parameters_accept_only_with_both_start_permissions_off (test_panel_rules.SettingsRules) (parameter='HYST', br1=False, br2=True)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\tasks\burner\tools\tests\test_panel_rules.py", line 87, in test_all_parameters_accept_only_with_both_start_permissions_off
+    self.assertEqual(m[v], candidate if editable else previous)
+AssertionError: 51 != 50
+
+======================================================================
+FAIL: test_all_parameters_accept_only_with_both_start_permissions_off (test_panel_rules.SettingsRules) (parameter='HYST', br1=True, br2=True)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\tasks\burner\tools\tests\test_panel_rules.py", line 87, in test_all_parameters_accept_only_with_both_start_permissions_off
+    self.assertEqual(m[v], candidate if editable else previous)
+AssertionError: 51 != 50
+
+======================================================================
+FAIL: test_all_parameters_accept_only_with_both_start_permissions_off (test_panel_rules.SettingsRules) (parameter='STG', br1=True, br2=False)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\tasks\burner\tools\tests\test_panel_rules.py", line 87, in test_all_parameters_accept_only_with_both_start_permissions_off
+    self.assertEqual(m[v], candidate if editable else previous)
+AssertionError: 101 != 100
+
+======================================================================
+FAIL: test_all_parameters_accept_only_with_both_start_permissions_off (test_panel_rules.SettingsRules) (parameter='STG', br1=False, br2=True)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\tasks\burner\tools\tests\test_panel_rules.py", line 87, in test_all_parameters_accept_only_with_both_start_permissions_off
+    self.assertEqual(m[v], candidate if editable else previous)
+AssertionError: 101 != 100
+
+======================================================================
+FAIL: test_all_parameters_accept_only_with_both_start_permissions_off (test_panel_rules.SettingsRules) (parameter='STG', br1=True, br2=True)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\tasks\burner\tools\tests\test_panel_rules.py", line 87, in test_all_parameters_accept_only_with_both_start_permissions_off
+    self.assertEqual(m[v], candidate if editable else previous)
+AssertionError: 101 != 100
+
+======================================================================
+FAIL: test_all_parameters_accept_only_with_both_start_permissions_off (test_panel_rules.SettingsRules) (parameter='TStart', br1=True, br2=False)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\tasks\burner\tools\tests\test_panel_rules.py", line 87, in test_all_parameters_accept_only_with_both_start_permissions_off
+    self.assertEqual(m[v], candidate if editable else previous)
+AssertionError: 121000 != 120000
+
+======================================================================
+FAIL: test_all_parameters_accept_only_with_both_start_permissions_off (test_panel_rules.SettingsRules) (parameter='TStart', br1=False, br2=True)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\tasks\burner\tools\tests\test_panel_rules.py", line 87, in test_all_parameters_accept_only_with_both_start_permissions_off
+    self.assertEqual(m[v], candidate if editable else previous)
+AssertionError: 121000 != 120000
+
+======================================================================
+FAIL: test_all_parameters_accept_only_with_both_start_permissions_off (test_panel_rules.SettingsRules) (parameter='TStart', br1=True, br2=True)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\tasks\burner\tools\tests\test_panel_rules.py", line 87, in test_all_parameters_accept_only_with_both_start_permissions_off
+    self.assertEqual(m[v], candidate if editable else previous)
+AssertionError: 121000 != 120000
+
+======================================================================
+FAIL: test_all_parameters_accept_only_with_both_start_permissions_off (test_panel_rules.SettingsRules) (parameter='TDrnOn', br1=True, br2=False)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\tasks\burner\tools\tests\test_panel_rules.py", line 87, in test_all_parameters_accept_only_with_both_start_permissions_off
+    self.assertEqual(m[v], candidate if editable else previous)
+AssertionError: 4000 != 3000
+
+======================================================================
+FAIL: test_all_parameters_accept_only_with_both_start_permissions_off (test_panel_rules.SettingsRules) (parameter='TDrnOn', br1=False, br2=True)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\tasks\burner\tools\tests\test_panel_rules.py", line 87, in test_all_parameters_accept_only_with_both_start_permissions_off
+    self.assertEqual(m[v], candidate if editable else previous)
+AssertionError: 4000 != 3000
+
+======================================================================
+FAIL: test_all_parameters_accept_only_with_both_start_permissions_off (test_panel_rules.SettingsRules) (parameter='TDrnOn', br1=True, br2=True)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\tasks\burner\tools\tests\test_panel_rules.py", line 87, in test_all_parameters_accept_only_with_both_start_permissions_off
+    self.assertEqual(m[v], candidate if editable else previous)
+AssertionError: 4000 != 3000
+
+======================================================================
+FAIL: test_all_parameters_accept_only_with_both_start_permissions_off (test_panel_rules.SettingsRules) (parameter='TDrnOff', br1=True, br2=False)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\tasks\burner\tools\tests\test_panel_rules.py", line 87, in test_all_parameters_accept_only_with_both_start_permissions_off
+    self.assertEqual(m[v], candidate if editable else previous)
+AssertionError: 6000 != 5000
+
+======================================================================
+FAIL: test_all_parameters_accept_only_with_both_start_permissions_off (test_panel_rules.SettingsRules) (parameter='TDrnOff', br1=False, br2=True)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\tasks\burner\tools\tests\test_panel_rules.py", line 87, in test_all_parameters_accept_only_with_both_start_permissions_off
+    self.assertEqual(m[v], candidate if editable else previous)
+AssertionError: 6000 != 5000
+
+======================================================================
+FAIL: test_all_parameters_accept_only_with_both_start_permissions_off (test_panel_rules.SettingsRules) (parameter='TDrnOff', br1=True, br2=True)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\tasks\burner\tools\tests\test_panel_rules.py", line 87, in test_all_parameters_accept_only_with_both_start_permissions_off
+    self.assertEqual(m[v], candidate if editable else previous)
+AssertionError: 6000 != 5000
+
+======================================================================
+FAIL: test_all_parameters_accept_only_with_both_start_permissions_off (test_panel_rules.SettingsRules) (parameter='TDrnMax', br1=True, br2=False)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\tasks\burner\tools\tests\test_panel_rules.py", line 87, in test_all_parameters_accept_only_with_both_start_permissions_off
+    self.assertEqual(m[v], candidate if editable else previous)
+AssertionError: 601000 != 600000
+
+======================================================================
+FAIL: test_all_parameters_accept_only_with_both_start_permissions_off (test_panel_rules.SettingsRules) (parameter='TDrnMax', br1=False, br2=True)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\tasks\burner\tools\tests\test_panel_rules.py", line 87, in test_all_parameters_accept_only_with_both_start_permissions_off
+    self.assertEqual(m[v], candidate if editable else previous)
+AssertionError: 601000 != 600000
+
+======================================================================
+FAIL: test_all_parameters_accept_only_with_both_start_permissions_off (test_panel_rules.SettingsRules) (parameter='TDrnMax', br1=True, br2=True)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\tasks\burner\tools\tests\test_panel_rules.py", line 87, in test_all_parameters_accept_only_with_both_start_permissions_off
+    self.assertEqual(m[v], candidate if editable else previous)
+AssertionError: 601000 != 600000
+
+----------------------------------------------------------------------
+Ran 5 tests in 0.017s
+
+FAILED (failures=22)

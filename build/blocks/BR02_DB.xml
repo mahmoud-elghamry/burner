@@ -39,32 +39,27 @@
     <Member Name="TcOkB" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
     <Member Name="TcOk" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
     <Member Name="TcBad" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
-    <Member Name="Demand" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
-    <Member Name="HeatNeed" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
-    <Member Name="Ready" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
-    <Member Name="Active" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
+    <Member Name="Demand" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">AUTO temperature hysteresis memory</MultiLanguageText></Comment></Member>
+    <Member Name="HeatNeed" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Temperature needs heat in the selected AUTO/MAN mode</MultiLanguageText></Comment></Member>
+    <Member Name="Ready" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">All field permissives healthy; not a heat request by itself</MultiLanguageText></Comment></Member>
     <Member Name="Pause24" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
     <Member Name="RunWrong" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
     <Member Name="NoStart" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
     <Member Name="PwrUpDone" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
     <Member Name="TcSlow" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
-    <Member Name="SP_Act" Datatype="Int" Remanence="NonRetain" Accessibility="Public" />
-    <Member Name="HYST_Act" Datatype="Int" Remanence="NonRetain" Accessibility="Public" />
-    <Member Name="STG_Act" Datatype="Int" Remanence="NonRetain" Accessibility="Public" />
-    <Member Name="TStart_Act" Datatype="Time" Remanence="NonRetain" Accessibility="Public" />
-    <Member Name="TOn" Datatype="Int" Remanence="NonRetain" Accessibility="Public" />
-    <Member Name="TStg" Datatype="Int" Remanence="NonRetain" Accessibility="Public" />
-    <Member Name="TStgOff" Datatype="Int" Remanence="NonRetain" Accessibility="Public" />
-    <Member Name="State" Datatype="Int" Remanence="NonRetain" Accessibility="Public" />
-    <Member Name="Enabled" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
-    <Member Name="Tmax" Datatype="Int" Remanence="NonRetain" Accessibility="Public" />
+    <Member Name="TOn" Datatype="Int" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">AUTO restart threshold: SP - HYST, 0.1 degC</MultiLanguageText></Comment></Member>
+    <Member Name="TStg" Datatype="Int" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Second-stage ON threshold: SP - STG, 0.1 degC</MultiLanguageText></Comment></Member>
+    <Member Name="TStgOff" Datatype="Int" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Second-stage OFF threshold: TStg + 2.0 degC</MultiLanguageText></Comment></Member>
+    <Member Name="State" Datatype="Int" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">0 IDLE, 1 STARTING, 2 RUNNING, 3 FAULT</MultiLanguageText></Comment></Member>
+    <Member Name="Enabled" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">START accepted; STOP or a trip cancels this permission</MultiLanguageText></Comment></Member>
+    <Member Name="Tmax" Datatype="Int" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Higher of both valid temperature channels, 0.1 degC</MultiLanguageText></Comment></Member>
     <Member Name="F_EStop" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
     <Member Name="F_TC" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
     <Member Name="F_Lockout" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
     <Member Name="F_NoStart" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
     <Member Name="F_RunLost" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
     <Member Name="F_RunWrong" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
-    <Member Name="ParPending" Datatype="Bool" Remanence="NonRetain" Accessibility="Public" />
+    <Member Name="F_Scrubber" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Scrubber trip stopped this burner; RESET then new START</MultiLanguageText></Comment></Member>
     <Member Name="Use24h" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><StartValue>false</StartValue></Member>
     <Member Name="T_PwrUp" Datatype="TON_TIME" Remanence="NonRetain" Accessibility="Public" />
     <Member Name="T_TcBad" Datatype="TON_TIME" Remanence="NonRetain" Accessibility="Public" />

@@ -96,3 +96,8 @@ py tools\lad2text.py --all build\blocks
 التشغيل المباشر من shell الجلسة (7.6.9) فشل عند `Add-Type` قبل فتح المشروع؛ 5.1 شغّل نفس السكريبت بنجاح.
 لو المطلوب كومبايل HMI فقط من غير استيراد شاشات، `Apply-Hmi.ps1 -BuildDir <empty-directory>`
 بيستورد صفر ملفات ثم يعمل compile؛ افحص تقرير `state` والأخطاء والتحذيرات حرفيًا.
+
+**بعد تغيير Global DB:** `Apply-Blocks.ps1` يقبل `-CompileOrder` لتجميع التبعيات قبل من يقرأها.
+الترتيب المتحقق للبرنامج الحالي: `Par,Sys,HmiAlm,Scrubber,Scrubber_DB,Burner,BR01_DB,BR02_DB,Common,Outputs,HmiMap,Startup,Main`.
+من غير الترتيب ده، المرور الواحد ممكن يلاقي `Sys` لسه غير مجمّع ويرفض حفظ المشروع، حتى لو انتهى تجميع DB لاحقًا.
+لا تُحذف ملفات lock ولا تُنهى عمليات TIA لتجاوز قفل مشروع؛ انتظر انتهاء السكريبت وإغلاق جلسته قبل فتحه من الواجهة.

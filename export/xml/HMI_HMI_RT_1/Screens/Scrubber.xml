@@ -2,7 +2,7 @@
 <Document>
   <Engineering version="V15.1" />
   <DocumentInfo>
-    <Created>2026-11-02T18:55:20.8758117Z</Created>
+    <Created>2026-11-11T00:40:35.8258654Z</Created>
     <ExportSetting>WithDefaults</ExportSetting>
     <InstalledProducts>
       <Product>
@@ -67,7 +67,7 @@
               <Flashing>None</Flashing>
               <Height>26</Height>
               <Left>0</Left>
-              <ObjectName>Rectangle_1</ObjectName>
+              <ObjectName>Panel_Panel</ObjectName>
               <RoundCornerHeight>0</RoundCornerHeight>
               <RoundCornerWidth>0</RoundCornerWidth>
               <TabIndex>-1</TabIndex>
@@ -93,7 +93,7 @@
               <HorizontalAlignment>Left</HorizontalAlignment>
               <Left>6</Left>
               <LeftMargin>2</LeftMargin>
-              <ObjectName>Text_1</ObjectName>
+              <ObjectName>Text_LCP_01_Scrubber</ObjectName>
               <RightMargin>2</RightMargin>
               <TabIndex>-1</TabIndex>
               <TextOrientation>Horizontal</TextOrientation>
@@ -145,7 +145,7 @@
               <HorizontalAlignment>Center</HorizontalAlignment>
               <Left>330</Left>
               <LeftMargin>2</LeftMargin>
-              <ObjectName>Text_2</ObjectName>
+              <ObjectName>Text_E_STOP_RESET_Sys_Alm_EStop</ObjectName>
               <RightMargin>2</RightMargin>
               <TabIndex>-1</TabIndex>
               <TextOrientation>Horizontal</TextOrientation>
@@ -222,7 +222,7 @@
               <Left>2</Left>
               <MiddleGradientColor>128, 128, 128</MiddleGradientColor>
               <Mode>Text</Mode>
-              <ObjectName>Button_1</ObjectName>
+              <ObjectName>Nav_Root_screen</ObjectName>
               <PictureAreaBottomMargin>0</PictureAreaBottomMargin>
               <PictureAreaLeftMargin>0</PictureAreaLeftMargin>
               <PictureAreaRightMargin>0</PictureAreaRightMargin>
@@ -351,7 +351,7 @@
               <Left>82</Left>
               <MiddleGradientColor>128, 128, 128</MiddleGradientColor>
               <Mode>Text</Mode>
-              <ObjectName>Button_2</ObjectName>
+              <ObjectName>Nav_BR01</ObjectName>
               <PictureAreaBottomMargin>0</PictureAreaBottomMargin>
               <PictureAreaLeftMargin>0</PictureAreaLeftMargin>
               <PictureAreaRightMargin>0</PictureAreaRightMargin>
@@ -480,7 +480,7 @@
               <Left>162</Left>
               <MiddleGradientColor>128, 128, 128</MiddleGradientColor>
               <Mode>Text</Mode>
-              <ObjectName>Button_3</ObjectName>
+              <ObjectName>Nav_BR02</ObjectName>
               <PictureAreaBottomMargin>0</PictureAreaBottomMargin>
               <PictureAreaLeftMargin>0</PictureAreaLeftMargin>
               <PictureAreaRightMargin>0</PictureAreaRightMargin>
@@ -609,7 +609,7 @@
               <Left>242</Left>
               <MiddleGradientColor>128, 128, 128</MiddleGradientColor>
               <Mode>Text</Mode>
-              <ObjectName>Button_4</ObjectName>
+              <ObjectName>Nav_Scrubber</ObjectName>
               <PictureAreaBottomMargin>0</PictureAreaBottomMargin>
               <PictureAreaLeftMargin>0</PictureAreaLeftMargin>
               <PictureAreaRightMargin>0</PictureAreaRightMargin>
@@ -736,7 +736,7 @@
               <Left>322</Left>
               <MiddleGradientColor>128, 128, 128</MiddleGradientColor>
               <Mode>Text</Mode>
-              <ObjectName>Button_5</ObjectName>
+              <ObjectName>Nav_Alarms</ObjectName>
               <PictureAreaBottomMargin>0</PictureAreaBottomMargin>
               <PictureAreaLeftMargin>0</PictureAreaLeftMargin>
               <PictureAreaRightMargin>0</PictureAreaRightMargin>
@@ -865,7 +865,7 @@
               <Left>402</Left>
               <MiddleGradientColor>128, 128, 128</MiddleGradientColor>
               <Mode>Text</Mode>
-              <ObjectName>Button_6</ObjectName>
+              <ObjectName>Nav_Settings</ObjectName>
               <PictureAreaBottomMargin>0</PictureAreaBottomMargin>
               <PictureAreaLeftMargin>0</PictureAreaLeftMargin>
               <PictureAreaRightMargin>0</PictureAreaRightMargin>
@@ -985,7 +985,7 @@
               <HorizontalAlignment>Center</HorizontalAlignment>
               <Left>4</Left>
               <LeftMargin>2</LeftMargin>
-              <ObjectName>Text_3</ObjectName>
+              <ObjectName>Text_NORMAL_Scrub_Tripped</ObjectName>
               <RightMargin>2</RightMargin>
               <TabIndex>-1</TabIndex>
               <TextOrientation>Horizontal</TextOrientation>
@@ -1060,7 +1060,7 @@
               <HorizontalAlignment>Center</HorizontalAlignment>
               <Left>240</Left>
               <LeftMargin>2</LeftMargin>
-              <ObjectName>Text_4</ObjectName>
+              <ObjectName>Text_TRIP_Scrub_Tripped</ObjectName>
               <RightMargin>2</RightMargin>
               <TabIndex>-1</TabIndex>
               <TextOrientation>Horizontal</TextOrientation>
@@ -1128,7 +1128,7 @@
               <Flashing>None</Flashing>
               <Height>178</Height>
               <Left>4</Left>
-              <ObjectName>Rectangle_2</ObjectName>
+              <ObjectName>Panel_Sensors_now</ObjectName>
               <RoundCornerHeight>0</RoundCornerHeight>
               <RoundCornerWidth>0</RoundCornerWidth>
               <TabIndex>-1</TabIndex>
@@ -1154,7 +1154,7 @@
               <HorizontalAlignment>Left</HorizontalAlignment>
               <Left>8</Left>
               <LeftMargin>2</LeftMargin>
-              <ObjectName>Text_5</ObjectName>
+              <ObjectName>Text_Sensors_now</ObjectName>
               <RightMargin>2</RightMargin>
               <TabIndex>-1</TabIndex>
               <TextOrientation>Horizontal</TextOrientation>
@@ -1199,7 +1199,7 @@
               <Flashing>None</Flashing>
               <Height>12</Height>
               <Left>8</Left>
-              <ObjectName>Circle_1</ObjectName>
+              <ObjectName>Lamp_Scrub_PSH</ObjectName>
               <Radius>6</Radius>
               <TabIndex>-1</TabIndex>
               <Top>81</Top>
@@ -1258,7 +1258,7 @@
               <HorizontalAlignment>Left</HorizontalAlignment>
               <Left>24</Left>
               <LeftMargin>2</LeftMargin>
-              <ObjectName>Text_6</ObjectName>
+              <ObjectName>Text_PSH_101_healthy</ObjectName>
               <RightMargin>2</RightMargin>
               <TabIndex>-1</TabIndex>
               <TextOrientation>Horizontal</TextOrientation>
@@ -1303,7 +1303,7 @@
               <Flashing>None</Flashing>
               <Height>12</Height>
               <Left>8</Left>
-              <ObjectName>Circle_2</ObjectName>
+              <ObjectName>Lamp_Scrub_LSH</ObjectName>
               <Radius>6</Radius>
               <TabIndex>-1</TabIndex>
               <Top>101</Top>
@@ -1362,7 +1362,7 @@
               <HorizontalAlignment>Left</HorizontalAlignment>
               <Left>24</Left>
               <LeftMargin>2</LeftMargin>
-              <ObjectName>Text_7</ObjectName>
+              <ObjectName>Text_LSH_102_healthy</ObjectName>
               <RightMargin>2</RightMargin>
               <TabIndex>-1</TabIndex>
               <TextOrientation>Horizontal</TextOrientation>
@@ -1407,7 +1407,7 @@
               <Flashing>None</Flashing>
               <Height>12</Height>
               <Left>8</Left>
-              <ObjectName>Circle_3</ObjectName>
+              <ObjectName>Lamp_Scrub_LSHH</ObjectName>
               <Radius>6</Radius>
               <TabIndex>-1</TabIndex>
               <Top>121</Top>
@@ -1466,7 +1466,7 @@
               <HorizontalAlignment>Left</HorizontalAlignment>
               <Left>24</Left>
               <LeftMargin>2</LeftMargin>
-              <ObjectName>Text_8</ObjectName>
+              <ObjectName>Text_LSHH_103_healthy</ObjectName>
               <RightMargin>2</RightMargin>
               <TabIndex>-1</TabIndex>
               <TextOrientation>Horizontal</TextOrientation>
@@ -1511,7 +1511,7 @@
               <Flashing>None</Flashing>
               <Height>12</Height>
               <Left>8</Left>
-              <ObjectName>Circle_4</ObjectName>
+              <ObjectName>Lamp_Sys_EStopOK</ObjectName>
               <Radius>6</Radius>
               <TabIndex>-1</TabIndex>
               <Top>141</Top>
@@ -1570,7 +1570,7 @@
               <HorizontalAlignment>Left</HorizontalAlignment>
               <Left>24</Left>
               <LeftMargin>2</LeftMargin>
-              <ObjectName>Text_9</ObjectName>
+              <ObjectName>Text_E_STOP_released</ObjectName>
               <RightMargin>2</RightMargin>
               <TabIndex>-1</TabIndex>
               <TextOrientation>Horizontal</TextOrientation>
@@ -1615,7 +1615,7 @@
               <Flashing>None</Flashing>
               <Height>12</Height>
               <Left>8</Left>
-              <ObjectName>Circle_5</ObjectName>
+              <ObjectName>Lamp_Scrub_F_DrainTO</ObjectName>
               <Radius>6</Radius>
               <TabIndex>-1</TabIndex>
               <Top>169</Top>
@@ -1674,7 +1674,7 @@
               <HorizontalAlignment>Left</HorizontalAlignment>
               <Left>24</Left>
               <LeftMargin>2</LeftMargin>
-              <ObjectName>Text_10</ObjectName>
+              <ObjectName>Text_Drain_timeout</ObjectName>
               <RightMargin>2</RightMargin>
               <TabIndex>-1</TabIndex>
               <TextOrientation>Horizontal</TextOrientation>
@@ -1719,7 +1719,7 @@
               <Flashing>None</Flashing>
               <Height>12</Height>
               <Left>8</Left>
-              <ObjectName>Circle_6</ObjectName>
+              <ObjectName>Lamp_Scrub_F_LshFault</ObjectName>
               <Radius>6</Radius>
               <TabIndex>-1</TabIndex>
               <Top>189</Top>
@@ -1778,7 +1778,7 @@
               <HorizontalAlignment>Left</HorizontalAlignment>
               <Left>24</Left>
               <LeftMargin>2</LeftMargin>
-              <ObjectName>Text_11</ObjectName>
+              <ObjectName>Text_LSH_102_fault</ObjectName>
               <RightMargin>2</RightMargin>
               <TabIndex>-1</TabIndex>
               <TextOrientation>Horizontal</TextOrientation>
@@ -1823,7 +1823,7 @@
               <Flashing>None</Flashing>
               <Height>178</Height>
               <Left>162</Left>
-              <ObjectName>Rectangle_3</ObjectName>
+              <ObjectName>Panel_Trip_causes_RESET</ObjectName>
               <RoundCornerHeight>0</RoundCornerHeight>
               <RoundCornerWidth>0</RoundCornerWidth>
               <TabIndex>-1</TabIndex>
@@ -1849,7 +1849,7 @@
               <HorizontalAlignment>Left</HorizontalAlignment>
               <Left>166</Left>
               <LeftMargin>2</LeftMargin>
-              <ObjectName>Text_12</ObjectName>
+              <ObjectName>Text_Trip_causes_RESET</ObjectName>
               <RightMargin>2</RightMargin>
               <TabIndex>-1</TabIndex>
               <TextOrientation>Horizontal</TextOrientation>
@@ -1901,7 +1901,7 @@
               <HorizontalAlignment>Left</HorizontalAlignment>
               <Left>166</Left>
               <LeftMargin>2</LeftMargin>
-              <ObjectName>Text_13</ObjectName>
+              <ObjectName>Text_First</ObjectName>
               <RightMargin>2</RightMargin>
               <TabIndex>-1</TabIndex>
               <TextOrientation>Horizontal</TextOrientation>
@@ -1953,7 +1953,7 @@
               <HorizontalAlignment>Center</HorizontalAlignment>
               <Left>166</Left>
               <LeftMargin>2</LeftMargin>
-              <ObjectName>Text_14</ObjectName>
+              <ObjectName>Text_E_STOP_Scrub_FirstOut</ObjectName>
               <RightMargin>2</RightMargin>
               <TabIndex>-1</TabIndex>
               <TextOrientation>Horizontal</TextOrientation>
@@ -2028,7 +2028,7 @@
               <HorizontalAlignment>Center</HorizontalAlignment>
               <Left>166</Left>
               <LeftMargin>2</LeftMargin>
-              <ObjectName>Text_15</ObjectName>
+              <ObjectName>Text_PSH_101_Scrub_FirstOut</ObjectName>
               <RightMargin>2</RightMargin>
               <TabIndex>-1</TabIndex>
               <TextOrientation>Horizontal</TextOrientation>
@@ -2103,7 +2103,7 @@
               <HorizontalAlignment>Center</HorizontalAlignment>
               <Left>166</Left>
               <LeftMargin>2</LeftMargin>
-              <ObjectName>Text_16</ObjectName>
+              <ObjectName>Text_LSHH_103_Scrub_FirstOut</ObjectName>
               <RightMargin>2</RightMargin>
               <TabIndex>-1</TabIndex>
               <TextOrientation>Horizontal</TextOrientation>
@@ -2178,7 +2178,7 @@
               <HorizontalAlignment>Center</HorizontalAlignment>
               <Left>166</Left>
               <LeftMargin>2</LeftMargin>
-              <ObjectName>Text_17</ObjectName>
+              <ObjectName>Text_POWER_UP_Scrub_FirstOut</ObjectName>
               <RightMargin>2</RightMargin>
               <TabIndex>-1</TabIndex>
               <TextOrientation>Horizontal</TextOrientation>
@@ -2246,7 +2246,7 @@
               <Flashing>None</Flashing>
               <Height>12</Height>
               <Left>166</Left>
-              <ObjectName>Circle_7</ObjectName>
+              <ObjectName>Lamp_Scrub_Cause_EStop</ObjectName>
               <Radius>6</Radius>
               <TabIndex>-1</TabIndex>
               <Top>171</Top>
@@ -2305,7 +2305,7 @@
               <HorizontalAlignment>Left</HorizontalAlignment>
               <Left>182</Left>
               <LeftMargin>2</LeftMargin>
-              <ObjectName>Text_18</ObjectName>
+              <ObjectName>Text_E_STOP</ObjectName>
               <RightMargin>2</RightMargin>
               <TabIndex>-1</TabIndex>
               <TextOrientation>Horizontal</TextOrientation>
@@ -2350,7 +2350,7 @@
               <Flashing>None</Flashing>
               <Height>12</Height>
               <Left>166</Left>
-              <ObjectName>Circle_8</ObjectName>
+              <ObjectName>Lamp_Scrub_Cause_PSH</ObjectName>
               <Radius>6</Radius>
               <TabIndex>-1</TabIndex>
               <Top>189</Top>
@@ -2409,7 +2409,7 @@
               <HorizontalAlignment>Left</HorizontalAlignment>
               <Left>182</Left>
               <LeftMargin>2</LeftMargin>
-              <ObjectName>Text_19</ObjectName>
+              <ObjectName>Text_PSH_101</ObjectName>
               <RightMargin>2</RightMargin>
               <TabIndex>-1</TabIndex>
               <TextOrientation>Horizontal</TextOrientation>
@@ -2454,7 +2454,7 @@
               <Flashing>None</Flashing>
               <Height>12</Height>
               <Left>166</Left>
-              <ObjectName>Circle_9</ObjectName>
+              <ObjectName>Lamp_Scrub_Cause_LSHH</ObjectName>
               <Radius>6</Radius>
               <TabIndex>-1</TabIndex>
               <Top>207</Top>
@@ -2513,7 +2513,7 @@
               <HorizontalAlignment>Left</HorizontalAlignment>
               <Left>182</Left>
               <LeftMargin>2</LeftMargin>
-              <ObjectName>Text_20</ObjectName>
+              <ObjectName>Text_LSHH_103</ObjectName>
               <RightMargin>2</RightMargin>
               <TabIndex>-1</TabIndex>
               <TextOrientation>Horizontal</TextOrientation>
@@ -2558,7 +2558,7 @@
               <Flashing>None</Flashing>
               <Height>12</Height>
               <Left>242</Left>
-              <ObjectName>Circle_10</ObjectName>
+              <ObjectName>Lamp_Scrub_Cause_PwrUp</ObjectName>
               <Radius>6</Radius>
               <TabIndex>-1</TabIndex>
               <Top>171</Top>
@@ -2617,7 +2617,7 @@
               <HorizontalAlignment>Left</HorizontalAlignment>
               <Left>258</Left>
               <LeftMargin>2</LeftMargin>
-              <ObjectName>Text_21</ObjectName>
+              <ObjectName>Text_Power_up</ObjectName>
               <RightMargin>2</RightMargin>
               <TabIndex>-1</TabIndex>
               <TextOrientation>Horizontal</TextOrientation>
@@ -2662,7 +2662,7 @@
               <Flashing>None</Flashing>
               <Height>178</Height>
               <Left>320</Left>
-              <ObjectName>Rectangle_4</ObjectName>
+              <ObjectName>Panel_Valve_commands</ObjectName>
               <RoundCornerHeight>0</RoundCornerHeight>
               <RoundCornerWidth>0</RoundCornerWidth>
               <TabIndex>-1</TabIndex>
@@ -2688,7 +2688,7 @@
               <HorizontalAlignment>Left</HorizontalAlignment>
               <Left>324</Left>
               <LeftMargin>2</LeftMargin>
-              <ObjectName>Text_22</ObjectName>
+              <ObjectName>Text_Valve_commands</ObjectName>
               <RightMargin>2</RightMargin>
               <TabIndex>-1</TabIndex>
               <TextOrientation>Horizontal</TextOrientation>
@@ -2740,7 +2740,7 @@
               <HorizontalAlignment>Left</HorizontalAlignment>
               <Left>324</Left>
               <LeftMargin>2</LeftMargin>
-              <ObjectName>Text_23</ObjectName>
+              <ObjectName>Text_XV_401_flare</ObjectName>
               <RightMargin>2</RightMargin>
               <TabIndex>-1</TabIndex>
               <TextOrientation>Horizontal</TextOrientation>
@@ -2792,7 +2792,7 @@
               <HorizontalAlignment>Left</HorizontalAlignment>
               <Left>420</Left>
               <LeftMargin>2</LeftMargin>
-              <ObjectName>Text_24</ObjectName>
+              <ObjectName>Text_CLOSE_Scrub_FlareCmd</ObjectName>
               <RightMargin>2</RightMargin>
               <TabIndex>-1</TabIndex>
               <TextOrientation>Horizontal</TextOrientation>
@@ -2860,7 +2860,7 @@
               <HorizontalAlignment>Left</HorizontalAlignment>
               <Left>420</Left>
               <LeftMargin>2</LeftMargin>
-              <ObjectName>Text_25</ObjectName>
+              <ObjectName>Text_OPEN_Scrub_FlareCmd</ObjectName>
               <RightMargin>2</RightMargin>
               <TabIndex>-1</TabIndex>
               <TextOrientation>Horizontal</TextOrientation>
@@ -2928,7 +2928,7 @@
               <HorizontalAlignment>Left</HorizontalAlignment>
               <Left>324</Left>
               <LeftMargin>2</LeftMargin>
-              <ObjectName>Text_26</ObjectName>
+              <ObjectName>Text_XV_402_drain</ObjectName>
               <RightMargin>2</RightMargin>
               <TabIndex>-1</TabIndex>
               <TextOrientation>Horizontal</TextOrientation>
@@ -2980,7 +2980,7 @@
               <HorizontalAlignment>Left</HorizontalAlignment>
               <Left>420</Left>
               <LeftMargin>2</LeftMargin>
-              <ObjectName>Text_27</ObjectName>
+              <ObjectName>Text_OPEN_Scrub_DrainCmd</ObjectName>
               <RightMargin>2</RightMargin>
               <TabIndex>-1</TabIndex>
               <TextOrientation>Horizontal</TextOrientation>
@@ -3048,7 +3048,7 @@
               <HorizontalAlignment>Left</HorizontalAlignment>
               <Left>420</Left>
               <LeftMargin>2</LeftMargin>
-              <ObjectName>Text_28</ObjectName>
+              <ObjectName>Text_CLOSE_Scrub_DrainCmd</ObjectName>
               <RightMargin>2</RightMargin>
               <TabIndex>-1</TabIndex>
               <TextOrientation>Horizontal</TextOrientation>
@@ -3116,7 +3116,7 @@
               <HorizontalAlignment>Left</HorizontalAlignment>
               <Left>324</Left>
               <LeftMargin>2</LeftMargin>
-              <ObjectName>Text_29</ObjectName>
+              <ObjectName>Text_XV_403_suction</ObjectName>
               <RightMargin>2</RightMargin>
               <TabIndex>-1</TabIndex>
               <TextOrientation>Horizontal</TextOrientation>
@@ -3168,7 +3168,7 @@
               <HorizontalAlignment>Left</HorizontalAlignment>
               <Left>420</Left>
               <LeftMargin>2</LeftMargin>
-              <ObjectName>Text_30</ObjectName>
+              <ObjectName>Text_OPEN_Scrub_SuctionCmd</ObjectName>
               <RightMargin>2</RightMargin>
               <TabIndex>-1</TabIndex>
               <TextOrientation>Horizontal</TextOrientation>
@@ -3236,7 +3236,7 @@
               <HorizontalAlignment>Left</HorizontalAlignment>
               <Left>420</Left>
               <LeftMargin>2</LeftMargin>
-              <ObjectName>Text_31</ObjectName>
+              <ObjectName>Text_CLOSE_Scrub_SuctionCmd</ObjectName>
               <RightMargin>2</RightMargin>
               <TabIndex>-1</TabIndex>
               <TextOrientation>Horizontal</TextOrientation>
@@ -3304,7 +3304,7 @@
               <HorizontalAlignment>Left</HorizontalAlignment>
               <Left>324</Left>
               <LeftMargin>2</LeftMargin>
-              <ObjectName>Text_32</ObjectName>
+              <ObjectName>Text_Command_only_no_valve_position_feedback</ObjectName>
               <RightMargin>2</RightMargin>
               <TabIndex>-1</TabIndex>
               <TextOrientation>Horizontal</TextOrientation>
@@ -3356,7 +3356,7 @@
               <HorizontalAlignment>Left</HorizontalAlignment>
               <Left>324</Left>
               <LeftMargin>2</LeftMargin>
-              <ObjectName>Text_33</ObjectName>
+              <ObjectName>Text_RESET_required_Scrub_Tripped</ObjectName>
               <RightMargin>2</RightMargin>
               <TabIndex>-1</TabIndex>
               <TextOrientation>Horizontal</TextOrientation>

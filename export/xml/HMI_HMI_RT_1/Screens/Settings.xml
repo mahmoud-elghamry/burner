@@ -2,7 +2,7 @@
 <Document>
   <Engineering version="V15.1" />
   <DocumentInfo>
-    <Created>2026-11-02T18:55:21.3107118Z</Created>
+    <Created>2026-11-11T00:40:36.2814721Z</Created>
     <ExportSetting>WithDefaults</ExportSetting>
     <InstalledProducts>
       <Product>
@@ -67,7 +67,7 @@
               <Flashing>None</Flashing>
               <Height>26</Height>
               <Left>0</Left>
-              <ObjectName>Rectangle_1</ObjectName>
+              <ObjectName>Panel_Panel</ObjectName>
               <RoundCornerHeight>0</RoundCornerHeight>
               <RoundCornerWidth>0</RoundCornerWidth>
               <TabIndex>-1</TabIndex>
@@ -93,7 +93,7 @@
               <HorizontalAlignment>Left</HorizontalAlignment>
               <Left>6</Left>
               <LeftMargin>2</LeftMargin>
-              <ObjectName>Text_1</ObjectName>
+              <ObjectName>Text_LCP_01_Settings</ObjectName>
               <RightMargin>2</RightMargin>
               <TabIndex>-1</TabIndex>
               <TextOrientation>Horizontal</TextOrientation>
@@ -145,7 +145,7 @@
               <HorizontalAlignment>Center</HorizontalAlignment>
               <Left>330</Left>
               <LeftMargin>2</LeftMargin>
-              <ObjectName>Text_2</ObjectName>
+              <ObjectName>Text_E_STOP_RESET_Sys_Alm_EStop</ObjectName>
               <RightMargin>2</RightMargin>
               <TabIndex>-1</TabIndex>
               <TextOrientation>Horizontal</TextOrientation>
@@ -222,7 +222,7 @@
               <Left>2</Left>
               <MiddleGradientColor>128, 128, 128</MiddleGradientColor>
               <Mode>Text</Mode>
-              <ObjectName>Button_1</ObjectName>
+              <ObjectName>Nav_Root_screen</ObjectName>
               <PictureAreaBottomMargin>0</PictureAreaBottomMargin>
               <PictureAreaLeftMargin>0</PictureAreaLeftMargin>
               <PictureAreaRightMargin>0</PictureAreaRightMargin>
@@ -351,7 +351,7 @@
               <Left>82</Left>
               <MiddleGradientColor>128, 128, 128</MiddleGradientColor>
               <Mode>Text</Mode>
-              <ObjectName>Button_2</ObjectName>
+              <ObjectName>Nav_BR01</ObjectName>
               <PictureAreaBottomMargin>0</PictureAreaBottomMargin>
               <PictureAreaLeftMargin>0</PictureAreaLeftMargin>
               <PictureAreaRightMargin>0</PictureAreaRightMargin>
@@ -480,7 +480,7 @@
               <Left>162</Left>
               <MiddleGradientColor>128, 128, 128</MiddleGradientColor>
               <Mode>Text</Mode>
-              <ObjectName>Button_3</ObjectName>
+              <ObjectName>Nav_BR02</ObjectName>
               <PictureAreaBottomMargin>0</PictureAreaBottomMargin>
               <PictureAreaLeftMargin>0</PictureAreaLeftMargin>
               <PictureAreaRightMargin>0</PictureAreaRightMargin>
@@ -609,7 +609,7 @@
               <Left>242</Left>
               <MiddleGradientColor>128, 128, 128</MiddleGradientColor>
               <Mode>Text</Mode>
-              <ObjectName>Button_4</ObjectName>
+              <ObjectName>Nav_Scrubber</ObjectName>
               <PictureAreaBottomMargin>0</PictureAreaBottomMargin>
               <PictureAreaLeftMargin>0</PictureAreaLeftMargin>
               <PictureAreaRightMargin>0</PictureAreaRightMargin>
@@ -738,7 +738,7 @@
               <Left>322</Left>
               <MiddleGradientColor>128, 128, 128</MiddleGradientColor>
               <Mode>Text</Mode>
-              <ObjectName>Button_5</ObjectName>
+              <ObjectName>Nav_Alarms</ObjectName>
               <PictureAreaBottomMargin>0</PictureAreaBottomMargin>
               <PictureAreaLeftMargin>0</PictureAreaLeftMargin>
               <PictureAreaRightMargin>0</PictureAreaRightMargin>
@@ -867,7 +867,7 @@
               <Left>402</Left>
               <MiddleGradientColor>128, 128, 128</MiddleGradientColor>
               <Mode>Text</Mode>
-              <ObjectName>Button_6</ObjectName>
+              <ObjectName>Nav_Settings</ObjectName>
               <PictureAreaBottomMargin>0</PictureAreaBottomMargin>
               <PictureAreaLeftMargin>0</PictureAreaLeftMargin>
               <PictureAreaRightMargin>0</PictureAreaRightMargin>
@@ -985,7 +985,7 @@
               <HorizontalAlignment>Left</HorizontalAlignment>
               <Left>8</Left>
               <LeftMargin>2</LeftMargin>
-              <ObjectName>Text_3</ObjectName>
+              <ObjectName>Text_Setting</ObjectName>
               <RightMargin>2</RightMargin>
               <TabIndex>-1</TabIndex>
               <TextOrientation>Horizontal</TextOrientation>
@@ -1037,7 +1037,7 @@
               <HorizontalAlignment>Right</HorizontalAlignment>
               <Left>120</Left>
               <LeftMargin>2</LeftMargin>
-              <ObjectName>Text_4</ObjectName>
+              <ObjectName>Text_New</ObjectName>
               <RightMargin>2</RightMargin>
               <TabIndex>-1</TabIndex>
               <TextOrientation>Horizontal</TextOrientation>
@@ -1089,7 +1089,7 @@
               <HorizontalAlignment>Left</HorizontalAlignment>
               <Left>200</Left>
               <LeftMargin>2</LeftMargin>
-              <ObjectName>Text_5</ObjectName>
+              <ObjectName>Text_Range</ObjectName>
               <RightMargin>2</RightMargin>
               <TabIndex>-1</TabIndex>
               <TextOrientation>Horizontal</TextOrientation>
@@ -1141,7 +1141,7 @@
               <HorizontalAlignment>Right</HorizontalAlignment>
               <Left>292</Left>
               <LeftMargin>2</LeftMargin>
-              <ObjectName>Text_6</ObjectName>
+              <ObjectName>Text_Accepted</ObjectName>
               <RightMargin>2</RightMargin>
               <TabIndex>-1</TabIndex>
               <TextOrientation>Horizontal</TextOrientation>
@@ -1193,7 +1193,7 @@
               <HorizontalAlignment>Left</HorizontalAlignment>
               <Left>8</Left>
               <LeftMargin>2</LeftMargin>
-              <ObjectName>Text_7</ObjectName>
+              <ObjectName>Text_Stop_at_C</ObjectName>
               <RightMargin>2</RightMargin>
               <TabIndex>-1</TabIndex>
               <TextOrientation>Horizontal</TextOrientation>
@@ -1253,7 +1253,7 @@
               <Left>120</Left>
               <LeftMargin>2</LeftMargin>
               <Mode>InOutput</Mode>
-              <ObjectName>IOField_1</ObjectName>
+              <ObjectName>IO_Par_SP</ObjectName>
               <RightMargin>3</RightMargin>
               <ShiftDecimalPoint>1</ShiftDecimalPoint>
               <ShowLeadingZeros>false</ShowLeadingZeros>
@@ -1326,7 +1326,7 @@
               <HorizontalAlignment>Left</HorizontalAlignment>
               <Left>200</Left>
               <LeftMargin>2</LeftMargin>
-              <ObjectName>Text_8</ObjectName>
+              <ObjectName>Text_Text_40_0_90_0</ObjectName>
               <RightMargin>2</RightMargin>
               <TabIndex>-1</TabIndex>
               <TextOrientation>Horizontal</TextOrientation>
@@ -1386,7 +1386,7 @@
               <Left>292</Left>
               <LeftMargin>2</LeftMargin>
               <Mode>Output</Mode>
-              <ObjectName>IOField_2</ObjectName>
+              <ObjectName>IO_Par_SP_V</ObjectName>
               <RightMargin>3</RightMargin>
               <ShiftDecimalPoint>1</ShiftDecimalPoint>
               <ShowLeadingZeros>false</ShowLeadingZeros>
@@ -1459,7 +1459,7 @@
               <HorizontalAlignment>Left</HorizontalAlignment>
               <Left>8</Left>
               <LeftMargin>2</LeftMargin>
-              <ObjectName>Text_9</ObjectName>
+              <ObjectName>Text_Restart_below_C</ObjectName>
               <RightMargin>2</RightMargin>
               <TabIndex>-1</TabIndex>
               <TextOrientation>Horizontal</TextOrientation>
@@ -1519,7 +1519,7 @@
               <Left>120</Left>
               <LeftMargin>2</LeftMargin>
               <Mode>InOutput</Mode>
-              <ObjectName>IOField_3</ObjectName>
+              <ObjectName>IO_Par_HYST</ObjectName>
               <RightMargin>3</RightMargin>
               <ShiftDecimalPoint>1</ShiftDecimalPoint>
               <ShowLeadingZeros>false</ShowLeadingZeros>
@@ -1592,7 +1592,7 @@
               <HorizontalAlignment>Left</HorizontalAlignment>
               <Left>200</Left>
               <LeftMargin>2</LeftMargin>
-              <ObjectName>Text_10</ObjectName>
+              <ObjectName>Text_Text_3_0_10_0</ObjectName>
               <RightMargin>2</RightMargin>
               <TabIndex>-1</TabIndex>
               <TextOrientation>Horizontal</TextOrientation>
@@ -1652,7 +1652,7 @@
               <Left>292</Left>
               <LeftMargin>2</LeftMargin>
               <Mode>Output</Mode>
-              <ObjectName>IOField_4</ObjectName>
+              <ObjectName>IO_Par_HYST_V</ObjectName>
               <RightMargin>3</RightMargin>
               <ShiftDecimalPoint>1</ShiftDecimalPoint>
               <ShowLeadingZeros>false</ShowLeadingZeros>
@@ -1725,7 +1725,7 @@
               <HorizontalAlignment>Left</HorizontalAlignment>
               <Left>8</Left>
               <LeftMargin>2</LeftMargin>
-              <ObjectName>Text_11</ObjectName>
+              <ObjectName>Text_Text_2nd_stage_below_C</ObjectName>
               <RightMargin>2</RightMargin>
               <TabIndex>-1</TabIndex>
               <TextOrientation>Horizontal</TextOrientation>
@@ -1785,7 +1785,7 @@
               <Left>120</Left>
               <LeftMargin>2</LeftMargin>
               <Mode>InOutput</Mode>
-              <ObjectName>IOField_5</ObjectName>
+              <ObjectName>IO_Par_STG</ObjectName>
               <RightMargin>3</RightMargin>
               <ShiftDecimalPoint>1</ShiftDecimalPoint>
               <ShowLeadingZeros>false</ShowLeadingZeros>
@@ -1858,7 +1858,7 @@
               <HorizontalAlignment>Left</HorizontalAlignment>
               <Left>200</Left>
               <LeftMargin>2</LeftMargin>
-              <ObjectName>Text_12</ObjectName>
+              <ObjectName>Text_Text_5_0_30_0</ObjectName>
               <RightMargin>2</RightMargin>
               <TabIndex>-1</TabIndex>
               <TextOrientation>Horizontal</TextOrientation>
@@ -1918,7 +1918,7 @@
               <Left>292</Left>
               <LeftMargin>2</LeftMargin>
               <Mode>Output</Mode>
-              <ObjectName>IOField_6</ObjectName>
+              <ObjectName>IO_Par_STG_V</ObjectName>
               <RightMargin>3</RightMargin>
               <ShiftDecimalPoint>1</ShiftDecimalPoint>
               <ShowLeadingZeros>false</ShowLeadingZeros>
@@ -1991,7 +1991,7 @@
               <HorizontalAlignment>Left</HorizontalAlignment>
               <Left>8</Left>
               <LeftMargin>2</LeftMargin>
-              <ObjectName>Text_13</ObjectName>
+              <ObjectName>Text_Start_time_ms</ObjectName>
               <RightMargin>2</RightMargin>
               <TabIndex>-1</TabIndex>
               <TextOrientation>Horizontal</TextOrientation>
@@ -2051,7 +2051,7 @@
               <Left>120</Left>
               <LeftMargin>2</LeftMargin>
               <Mode>InOutput</Mode>
-              <ObjectName>IOField_7</ObjectName>
+              <ObjectName>IO_Par_TStart</ObjectName>
               <RightMargin>3</RightMargin>
               <ShiftDecimalPoint>0</ShiftDecimalPoint>
               <ShowLeadingZeros>false</ShowLeadingZeros>
@@ -2124,7 +2124,7 @@
               <HorizontalAlignment>Left</HorizontalAlignment>
               <Left>200</Left>
               <LeftMargin>2</LeftMargin>
-              <ObjectName>Text_14</ObjectName>
+              <ObjectName>Text_Text_90000_300000</ObjectName>
               <RightMargin>2</RightMargin>
               <TabIndex>-1</TabIndex>
               <TextOrientation>Horizontal</TextOrientation>
@@ -2184,7 +2184,7 @@
               <Left>292</Left>
               <LeftMargin>2</LeftMargin>
               <Mode>Output</Mode>
-              <ObjectName>IOField_8</ObjectName>
+              <ObjectName>IO_Par_TStart_V</ObjectName>
               <RightMargin>3</RightMargin>
               <ShiftDecimalPoint>0</ShiftDecimalPoint>
               <ShowLeadingZeros>false</ShowLeadingZeros>
@@ -2257,7 +2257,7 @@
               <HorizontalAlignment>Left</HorizontalAlignment>
               <Left>8</Left>
               <LeftMargin>2</LeftMargin>
-              <ObjectName>Text_15</ObjectName>
+              <ObjectName>Text_Drain_open_ms</ObjectName>
               <RightMargin>2</RightMargin>
               <TabIndex>-1</TabIndex>
               <TextOrientation>Horizontal</TextOrientation>
@@ -2317,7 +2317,7 @@
               <Left>120</Left>
               <LeftMargin>2</LeftMargin>
               <Mode>InOutput</Mode>
-              <ObjectName>IOField_9</ObjectName>
+              <ObjectName>IO_Par_TDrnOn</ObjectName>
               <RightMargin>3</RightMargin>
               <ShiftDecimalPoint>0</ShiftDecimalPoint>
               <ShowLeadingZeros>false</ShowLeadingZeros>
@@ -2390,7 +2390,7 @@
               <HorizontalAlignment>Left</HorizontalAlignment>
               <Left>200</Left>
               <LeftMargin>2</LeftMargin>
-              <ObjectName>Text_16</ObjectName>
+              <ObjectName>Text_Text_1000_30000</ObjectName>
               <RightMargin>2</RightMargin>
               <TabIndex>-1</TabIndex>
               <TextOrientation>Horizontal</TextOrientation>
@@ -2450,7 +2450,7 @@
               <Left>292</Left>
               <LeftMargin>2</LeftMargin>
               <Mode>Output</Mode>
-              <ObjectName>IOField_10</ObjectName>
+              <ObjectName>IO_Par_TDrnOn_V</ObjectName>
               <RightMargin>3</RightMargin>
               <ShiftDecimalPoint>0</ShiftDecimalPoint>
               <ShowLeadingZeros>false</ShowLeadingZeros>
@@ -2523,7 +2523,7 @@
               <HorizontalAlignment>Left</HorizontalAlignment>
               <Left>8</Left>
               <LeftMargin>2</LeftMargin>
-              <ObjectName>Text_17</ObjectName>
+              <ObjectName>Text_Drain_close_ms</ObjectName>
               <RightMargin>2</RightMargin>
               <TabIndex>-1</TabIndex>
               <TextOrientation>Horizontal</TextOrientation>
@@ -2583,7 +2583,7 @@
               <Left>120</Left>
               <LeftMargin>2</LeftMargin>
               <Mode>InOutput</Mode>
-              <ObjectName>IOField_11</ObjectName>
+              <ObjectName>IO_Par_TDrnOff</ObjectName>
               <RightMargin>3</RightMargin>
               <ShiftDecimalPoint>0</ShiftDecimalPoint>
               <ShowLeadingZeros>false</ShowLeadingZeros>
@@ -2656,7 +2656,7 @@
               <HorizontalAlignment>Left</HorizontalAlignment>
               <Left>200</Left>
               <LeftMargin>2</LeftMargin>
-              <ObjectName>Text_18</ObjectName>
+              <ObjectName>Text_Text_0_60000</ObjectName>
               <RightMargin>2</RightMargin>
               <TabIndex>-1</TabIndex>
               <TextOrientation>Horizontal</TextOrientation>
@@ -2716,7 +2716,7 @@
               <Left>292</Left>
               <LeftMargin>2</LeftMargin>
               <Mode>Output</Mode>
-              <ObjectName>IOField_12</ObjectName>
+              <ObjectName>IO_Par_TDrnOff_V</ObjectName>
               <RightMargin>3</RightMargin>
               <ShiftDecimalPoint>0</ShiftDecimalPoint>
               <ShowLeadingZeros>false</ShowLeadingZeros>
@@ -2789,7 +2789,7 @@
               <HorizontalAlignment>Left</HorizontalAlignment>
               <Left>8</Left>
               <LeftMargin>2</LeftMargin>
-              <ObjectName>Text_19</ObjectName>
+              <ObjectName>Text_Drain_max_ms</ObjectName>
               <RightMargin>2</RightMargin>
               <TabIndex>-1</TabIndex>
               <TextOrientation>Horizontal</TextOrientation>
@@ -2849,7 +2849,7 @@
               <Left>120</Left>
               <LeftMargin>2</LeftMargin>
               <Mode>InOutput</Mode>
-              <ObjectName>IOField_13</ObjectName>
+              <ObjectName>IO_Par_TDrnMax</ObjectName>
               <RightMargin>3</RightMargin>
               <ShiftDecimalPoint>0</ShiftDecimalPoint>
               <ShowLeadingZeros>false</ShowLeadingZeros>
@@ -2922,7 +2922,7 @@
               <HorizontalAlignment>Left</HorizontalAlignment>
               <Left>200</Left>
               <LeftMargin>2</LeftMargin>
-              <ObjectName>Text_20</ObjectName>
+              <ObjectName>Text_Text_60000_3600000</ObjectName>
               <RightMargin>2</RightMargin>
               <TabIndex>-1</TabIndex>
               <TextOrientation>Horizontal</TextOrientation>
@@ -2982,7 +2982,7 @@
               <Left>292</Left>
               <LeftMargin>2</LeftMargin>
               <Mode>Output</Mode>
-              <ObjectName>IOField_14</ObjectName>
+              <ObjectName>IO_Par_TDrnMax_V</ObjectName>
               <RightMargin>3</RightMargin>
               <ShiftDecimalPoint>0</ShiftDecimalPoint>
               <ShowLeadingZeros>false</ShowLeadingZeros>
@@ -3050,12 +3050,12 @@
               <EdgeStyle>Solid</EdgeStyle>
               <FitToLargest>false</FitToLargest>
               <Flashing>None</Flashing>
-              <ForeColor>160, 160, 160</ForeColor>
-              <Height>54</Height>
+              <ForeColor>0, 160, 70</ForeColor>
+              <Height>32</Height>
               <HorizontalAlignment>Left</HorizontalAlignment>
               <Left>372</Left>
               <LeftMargin>2</LeftMargin>
-              <ObjectName>Text_21</ObjectName>
+              <ObjectName>Text_Editing_allowed_Sys_SettingsEditable</ObjectName>
               <RightMargin>2</RightMargin>
               <TabIndex>-1</TabIndex>
               <TextOrientation>Horizontal</TextOrientation>
@@ -3066,83 +3066,47 @@
               <Width>104</Width>
             </AttributeList>
             <ObjectList>
-              <Hmi.Globalization.MultiLingualFont ID="138" CompositionName="Font">
+              <Hmi.Dynamic.SingleBitVisibilityAnimation ID="138" CompositionName="Animations">
+                <AttributeList>
+                  <BitPosition>0</BitPosition>
+                  <Name>VisibilityAnimation</Name>
+                  <Visible>true</Visible>
+                </AttributeList>
                 <ObjectList>
-                  <Hmi.Globalization.FontItem ID="139" CompositionName="Items">
+                  <Hmi.Dynamic.TagElementTrigger ID="139" CompositionName="VisibilityTag">
+                    <LinkList>
+                      <Tag TargetID="@OpenLink">
+                        <Name>Sys_SettingsEditable</Name>
+                      </Tag>
+                    </LinkList>
+                  </Hmi.Dynamic.TagElementTrigger>
+                </ObjectList>
+              </Hmi.Dynamic.SingleBitVisibilityAnimation>
+              <Hmi.Globalization.MultiLingualFont ID="13C" CompositionName="Font">
+                <ObjectList>
+                  <Hmi.Globalization.FontItem ID="13D" CompositionName="Items">
                     <AttributeList>
                       <Culture>en-US</Culture>
                       <FontFamily>Tahoma</FontFamily>
                       <FontSize>10</FontSize>
-                      <FontStyle>Regular</FontStyle>
+                      <FontStyle>Bold</FontStyle>
                     </AttributeList>
                   </Hmi.Globalization.FontItem>
                 </ObjectList>
               </Hmi.Globalization.MultiLingualFont>
-              <MultilingualText ID="13A" CompositionName="Text">
+              <MultilingualText ID="13E" CompositionName="Text">
                 <ObjectList>
-                  <MultilingualTextItem ID="13B" CompositionName="Items">
+                  <MultilingualTextItem ID="13F" CompositionName="Items">
                     <AttributeList>
                       <Culture>en-US</Culture>
-                      <Text><body><p>Raising heat applies after STOP + START.</p></body></Text>
+                      <Text><body><p>Editing allowed</p></body></Text>
                     </AttributeList>
                   </MultilingualTextItem>
                 </ObjectList>
               </MultilingualText>
             </ObjectList>
           </Hmi.Screen.TextField>
-          <Hmi.Screen.Circle ID="13C" CompositionName="ScreenItems">
-            <AttributeList>
-              <BackColor>160, 160, 160</BackColor>
-              <BackFillStyle>Solid</BackFillStyle>
-              <BorderColor>80, 80, 80</BorderColor>
-              <BorderWidth>1</BorderWidth>
-              <EdgeStyle>Solid</EdgeStyle>
-              <Flashing>None</Flashing>
-              <Height>12</Height>
-              <Left>372</Left>
-              <ObjectName>Circle_1</ObjectName>
-              <Radius>6</Radius>
-              <TabIndex>-1</TabIndex>
-              <Top>117</Top>
-              <UseDesignColorSchema>false</UseDesignColorSchema>
-              <Width>12</Width>
-            </AttributeList>
-            <ObjectList>
-              <Hmi.Dynamic.RangeAppearanceAnimation ID="13D" CompositionName="Animations">
-                <AttributeList>
-                  <Name>RangeAppearanceAnimation</Name>
-                </AttributeList>
-                <ObjectList>
-                  <Hmi.Dynamic.TagElementTrigger ID="13E" CompositionName="RangeTag">
-                    <LinkList>
-                      <Tag TargetID="@OpenLink">
-                        <Name>BR01_ParPending</Name>
-                      </Tag>
-                    </LinkList>
-                  </Hmi.Dynamic.TagElementTrigger>
-                  <Hmi.Dynamic.Range ID="141" CompositionName="RangeValues">
-                    <AttributeList>
-                      <BackColor>160, 160, 160</BackColor>
-                      <FlashingType>No</FlashingType>
-                      <ForeColor>30, 30, 30</ForeColor>
-                      <LowerLimit>0</LowerLimit>
-                      <UpperLimit>0</UpperLimit>
-                    </AttributeList>
-                  </Hmi.Dynamic.Range>
-                  <Hmi.Dynamic.Range ID="142" CompositionName="RangeValues">
-                    <AttributeList>
-                      <BackColor>245, 170, 0</BackColor>
-                      <FlashingType>No</FlashingType>
-                      <ForeColor>30, 30, 30</ForeColor>
-                      <LowerLimit>1</LowerLimit>
-                      <UpperLimit>1</UpperLimit>
-                    </AttributeList>
-                  </Hmi.Dynamic.Range>
-                </ObjectList>
-              </Hmi.Dynamic.RangeAppearanceAnimation>
-            </ObjectList>
-          </Hmi.Screen.Circle>
-          <Hmi.Screen.TextField ID="143" CompositionName="ScreenItems">
+          <Hmi.Screen.TextField ID="140" CompositionName="ScreenItems">
             <AttributeList>
               <BackColor>255, 255, 255</BackColor>
               <BackFillStyle>Transparent</BackFillStyle>
@@ -3154,30 +3118,46 @@
               <EdgeStyle>Solid</EdgeStyle>
               <FitToLargest>false</FitToLargest>
               <Flashing>None</Flashing>
-              <ForeColor>30, 30, 30</ForeColor>
-              <Height>18</Height>
+              <ForeColor>245, 170, 0</ForeColor>
+              <Height>48</Height>
               <HorizontalAlignment>Left</HorizontalAlignment>
-              <Left>388</Left>
+              <Left>372</Left>
               <LeftMargin>2</LeftMargin>
-              <ObjectName>Text_22</ObjectName>
+              <ObjectName>Text_STOP_both_burners_first_Sys_SettingsEditable</ObjectName>
               <RightMargin>2</RightMargin>
               <TabIndex>-1</TabIndex>
               <TextOrientation>Horizontal</TextOrientation>
-              <Top>114</Top>
+              <Top>52</Top>
               <TopMargin>1</TopMargin>
               <UseDesignColorSchema>false</UseDesignColorSchema>
               <VerticalAlignment>Middle</VerticalAlignment>
-              <Width>88</Width>
+              <Width>104</Width>
             </AttributeList>
             <ObjectList>
+              <Hmi.Dynamic.SingleBitVisibilityAnimation ID="141" CompositionName="Animations">
+                <AttributeList>
+                  <BitPosition>0</BitPosition>
+                  <Name>VisibilityAnimation</Name>
+                  <Visible>false</Visible>
+                </AttributeList>
+                <ObjectList>
+                  <Hmi.Dynamic.TagElementTrigger ID="142" CompositionName="VisibilityTag">
+                    <LinkList>
+                      <Tag TargetID="@OpenLink">
+                        <Name>Sys_SettingsEditable</Name>
+                      </Tag>
+                    </LinkList>
+                  </Hmi.Dynamic.TagElementTrigger>
+                </ObjectList>
+              </Hmi.Dynamic.SingleBitVisibilityAnimation>
               <Hmi.Globalization.MultiLingualFont ID="144" CompositionName="Font">
                 <ObjectList>
                   <Hmi.Globalization.FontItem ID="145" CompositionName="Items">
                     <AttributeList>
                       <Culture>en-US</Culture>
                       <FontFamily>Tahoma</FontFamily>
-                      <FontSize>11</FontSize>
-                      <FontStyle>Regular</FontStyle>
+                      <FontSize>10</FontSize>
+                      <FontStyle>Bold</FontStyle>
                     </AttributeList>
                   </Hmi.Globalization.FontItem>
                 </ObjectList>
@@ -3187,118 +3167,14 @@
                   <MultilingualTextItem ID="147" CompositionName="Items">
                     <AttributeList>
                       <Culture>en-US</Culture>
-                      <Text><body><p>BR01 pending</p></body></Text>
+                      <Text><body><p>STOP both burners first</p></body></Text>
                     </AttributeList>
                   </MultilingualTextItem>
                 </ObjectList>
               </MultilingualText>
             </ObjectList>
           </Hmi.Screen.TextField>
-          <Hmi.Screen.Circle ID="148" CompositionName="ScreenItems">
-            <AttributeList>
-              <BackColor>160, 160, 160</BackColor>
-              <BackFillStyle>Solid</BackFillStyle>
-              <BorderColor>80, 80, 80</BorderColor>
-              <BorderWidth>1</BorderWidth>
-              <EdgeStyle>Solid</EdgeStyle>
-              <Flashing>None</Flashing>
-              <Height>12</Height>
-              <Left>372</Left>
-              <ObjectName>Circle_2</ObjectName>
-              <Radius>6</Radius>
-              <TabIndex>-1</TabIndex>
-              <Top>137</Top>
-              <UseDesignColorSchema>false</UseDesignColorSchema>
-              <Width>12</Width>
-            </AttributeList>
-            <ObjectList>
-              <Hmi.Dynamic.RangeAppearanceAnimation ID="149" CompositionName="Animations">
-                <AttributeList>
-                  <Name>RangeAppearanceAnimation</Name>
-                </AttributeList>
-                <ObjectList>
-                  <Hmi.Dynamic.TagElementTrigger ID="14A" CompositionName="RangeTag">
-                    <LinkList>
-                      <Tag TargetID="@OpenLink">
-                        <Name>BR02_ParPending</Name>
-                      </Tag>
-                    </LinkList>
-                  </Hmi.Dynamic.TagElementTrigger>
-                  <Hmi.Dynamic.Range ID="14D" CompositionName="RangeValues">
-                    <AttributeList>
-                      <BackColor>160, 160, 160</BackColor>
-                      <FlashingType>No</FlashingType>
-                      <ForeColor>30, 30, 30</ForeColor>
-                      <LowerLimit>0</LowerLimit>
-                      <UpperLimit>0</UpperLimit>
-                    </AttributeList>
-                  </Hmi.Dynamic.Range>
-                  <Hmi.Dynamic.Range ID="14E" CompositionName="RangeValues">
-                    <AttributeList>
-                      <BackColor>245, 170, 0</BackColor>
-                      <FlashingType>No</FlashingType>
-                      <ForeColor>30, 30, 30</ForeColor>
-                      <LowerLimit>1</LowerLimit>
-                      <UpperLimit>1</UpperLimit>
-                    </AttributeList>
-                  </Hmi.Dynamic.Range>
-                </ObjectList>
-              </Hmi.Dynamic.RangeAppearanceAnimation>
-            </ObjectList>
-          </Hmi.Screen.Circle>
-          <Hmi.Screen.TextField ID="14F" CompositionName="ScreenItems">
-            <AttributeList>
-              <BackColor>255, 255, 255</BackColor>
-              <BackFillStyle>Transparent</BackFillStyle>
-              <BorderBackColor>255, 255, 255</BorderBackColor>
-              <BorderColor>0, 0, 0</BorderColor>
-              <BorderWidth>0</BorderWidth>
-              <BottomMargin>1</BottomMargin>
-              <CornerRadius>0</CornerRadius>
-              <EdgeStyle>Solid</EdgeStyle>
-              <FitToLargest>false</FitToLargest>
-              <Flashing>None</Flashing>
-              <ForeColor>30, 30, 30</ForeColor>
-              <Height>18</Height>
-              <HorizontalAlignment>Left</HorizontalAlignment>
-              <Left>388</Left>
-              <LeftMargin>2</LeftMargin>
-              <ObjectName>Text_23</ObjectName>
-              <RightMargin>2</RightMargin>
-              <TabIndex>-1</TabIndex>
-              <TextOrientation>Horizontal</TextOrientation>
-              <Top>134</Top>
-              <TopMargin>1</TopMargin>
-              <UseDesignColorSchema>false</UseDesignColorSchema>
-              <VerticalAlignment>Middle</VerticalAlignment>
-              <Width>88</Width>
-            </AttributeList>
-            <ObjectList>
-              <Hmi.Globalization.MultiLingualFont ID="150" CompositionName="Font">
-                <ObjectList>
-                  <Hmi.Globalization.FontItem ID="151" CompositionName="Items">
-                    <AttributeList>
-                      <Culture>en-US</Culture>
-                      <FontFamily>Tahoma</FontFamily>
-                      <FontSize>11</FontSize>
-                      <FontStyle>Regular</FontStyle>
-                    </AttributeList>
-                  </Hmi.Globalization.FontItem>
-                </ObjectList>
-              </Hmi.Globalization.MultiLingualFont>
-              <MultilingualText ID="152" CompositionName="Text">
-                <ObjectList>
-                  <MultilingualTextItem ID="153" CompositionName="Items">
-                    <AttributeList>
-                      <Culture>en-US</Culture>
-                      <Text><body><p>BR02 pending</p></body></Text>
-                    </AttributeList>
-                  </MultilingualTextItem>
-                </ObjectList>
-              </MultilingualText>
-            </ObjectList>
-          </Hmi.Screen.TextField>
-          <Hmi.Screen.TextField ID="154" CompositionName="ScreenItems">
+          <Hmi.Screen.TextField ID="148" CompositionName="ScreenItems">
             <AttributeList>
               <BackColor>210, 30, 30</BackColor>
               <BackFillStyle>Solid</BackFillStyle>
@@ -3315,7 +3191,7 @@
               <HorizontalAlignment>Left</HorizontalAlignment>
               <Left>8</Left>
               <LeftMargin>2</LeftMargin>
-              <ObjectName>Text_24</ObjectName>
+              <ObjectName>Text_Setting_rejected_STOP_both_check_range_Sys_Alm_ParRejected</ObjectName>
               <RightMargin>2</RightMargin>
               <TabIndex>-1</TabIndex>
               <TextOrientation>Horizontal</TextOrientation>
@@ -3326,14 +3202,14 @@
               <Width>360</Width>
             </AttributeList>
             <ObjectList>
-              <Hmi.Dynamic.SingleBitVisibilityAnimation ID="155" CompositionName="Animations">
+              <Hmi.Dynamic.SingleBitVisibilityAnimation ID="149" CompositionName="Animations">
                 <AttributeList>
                   <BitPosition>0</BitPosition>
                   <Name>VisibilityAnimation</Name>
                   <Visible>true</Visible>
                 </AttributeList>
                 <ObjectList>
-                  <Hmi.Dynamic.TagElementTrigger ID="156" CompositionName="VisibilityTag">
+                  <Hmi.Dynamic.TagElementTrigger ID="14A" CompositionName="VisibilityTag">
                     <LinkList>
                       <Tag TargetID="@OpenLink">
                         <Name>Sys_Alm_ParRejected</Name>
@@ -3342,9 +3218,9 @@
                   </Hmi.Dynamic.TagElementTrigger>
                 </ObjectList>
               </Hmi.Dynamic.SingleBitVisibilityAnimation>
-              <Hmi.Globalization.MultiLingualFont ID="159" CompositionName="Font">
+              <Hmi.Globalization.MultiLingualFont ID="14D" CompositionName="Font">
                 <ObjectList>
-                  <Hmi.Globalization.FontItem ID="15A" CompositionName="Items">
+                  <Hmi.Globalization.FontItem ID="14E" CompositionName="Items">
                     <AttributeList>
                       <Culture>en-US</Culture>
                       <FontFamily>Tahoma</FontFamily>
@@ -3354,19 +3230,19 @@
                   </Hmi.Globalization.FontItem>
                 </ObjectList>
               </Hmi.Globalization.MultiLingualFont>
-              <MultilingualText ID="15B" CompositionName="Text">
+              <MultilingualText ID="14F" CompositionName="Text">
                 <ObjectList>
-                  <MultilingualTextItem ID="15C" CompositionName="Items">
+                  <MultilingualTextItem ID="150" CompositionName="Items">
                     <AttributeList>
                       <Culture>en-US</Culture>
-                      <Text><body><p>Setting rejected: out of range (RESET to clear)</p></body></Text>
+                      <Text><body><p>Setting rejected: STOP both / check range</p></body></Text>
                     </AttributeList>
                   </MultilingualTextItem>
                 </ObjectList>
               </MultilingualText>
             </ObjectList>
           </Hmi.Screen.TextField>
-          <Hmi.Screen.TextField ID="15D" CompositionName="ScreenItems">
+          <Hmi.Screen.TextField ID="151" CompositionName="ScreenItems">
             <AttributeList>
               <BackColor>255, 255, 255</BackColor>
               <BackFillStyle>Transparent</BackFillStyle>
@@ -3383,7 +3259,7 @@
               <HorizontalAlignment>Left</HorizontalAlignment>
               <Left>372</Left>
               <LeftMargin>2</LeftMargin>
-              <ObjectName>Text_25</ObjectName>
+              <ObjectName>Text_Settings_need_log_on_user_Engineer</ObjectName>
               <RightMargin>2</RightMargin>
               <TabIndex>-1</TabIndex>
               <TextOrientation>Horizontal</TextOrientation>
@@ -3394,9 +3270,9 @@
               <Width>104</Width>
             </AttributeList>
             <ObjectList>
-              <Hmi.Globalization.MultiLingualFont ID="15E" CompositionName="Font">
+              <Hmi.Globalization.MultiLingualFont ID="152" CompositionName="Font">
                 <ObjectList>
-                  <Hmi.Globalization.FontItem ID="15F" CompositionName="Items">
+                  <Hmi.Globalization.FontItem ID="153" CompositionName="Items">
                     <AttributeList>
                       <Culture>en-US</Culture>
                       <FontFamily>Tahoma</FontFamily>
@@ -3406,9 +3282,9 @@
                   </Hmi.Globalization.FontItem>
                 </ObjectList>
               </Hmi.Globalization.MultiLingualFont>
-              <MultilingualText ID="160" CompositionName="Text">
+              <MultilingualText ID="154" CompositionName="Text">
                 <ObjectList>
-                  <MultilingualTextItem ID="161" CompositionName="Items">
+                  <MultilingualTextItem ID="155" CompositionName="Items">
                     <AttributeList>
                       <Culture>en-US</Culture>
                       <Text><body><p>Settings need log-on (user Engineer).</p></body></Text>

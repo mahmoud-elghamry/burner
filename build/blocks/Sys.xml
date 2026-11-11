@@ -15,7 +15,8 @@
     <Member Name="ResetPulse" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">RESET S2 rising edge, one scan (R-06)</MultiLanguageText></Comment></Member>
     <Member Name="ResetMem" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">RESET edge memory (R-06)</MultiLanguageText></Comment></Member>
     <Member Name="Alm_EStop" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">HMI alarm: E-STOP (C01)</MultiLanguageText></Comment></Member>
-    <Member Name="Alm_ParRejected" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">HMI alarm: a parameter entry was out of range (R-11)</MultiLanguageText></Comment></Member>
+    <Member Name="Alm_ParRejected" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">R-11: entry rejected (out of range or a burner still enabled)</MultiLanguageText></Comment></Member>
+    <Member Name="SettingsEditable" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">R-11 / 0009: both burners have no START permission</MultiLanguageText></Comment></Member>
   </Section>
 </Sections></Interface>
       <MemoryLayout>Optimized</MemoryLayout>

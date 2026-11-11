@@ -1,0 +1,12 @@
+HMI target: HMI_RT_1
+OK   Tags_LCP01.xml
+OK   Screen_Alarms.xml
+OK   Screen_BR01.xml
+OK   Screen_BR02.xml
+OK   Screen_Root_screen.xml
+OK   Screen_Scrubber.xml
+OK   Screen_Settings.xml
+HMI compile: state=Success errors=0 warnings=0
+  Information: HMI_1 Time stamp: 11/11/2026 2:38 AM - 769232 bytes used of 4194304 bytes, maximum
+  Success:  Compiling finished (errors: 0; warnings: 0)
+SAVED
