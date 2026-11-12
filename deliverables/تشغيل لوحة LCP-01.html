@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>تشغيل لوحة LCP-01</title>
+<style>
+  @page { size: A4; margin: 9mm 11mm 8mm 11mm; }
+  * { box-sizing: border-box; }
+  body { font-family: "Segoe UI", Tahoma, Arial, sans-serif; font-size: 9.6pt; line-height: 1.32; color: #111; margin: 0; }
+  h1 { font-size: 16pt; margin: 0 0 2mm; }
+  .sub { color: #444; margin-bottom: 4mm; font-size: 9.5pt; }
+  h2 { font-size: 12pt; background: #213452; color: #fff; padding: 1.2mm 3mm; margin: 3mm 0 1.5mm; border-radius: 1.5mm; }
+  table { width: 100%; border-collapse: collapse; margin-bottom: 2mm; }
+  th, td { border: 1px solid #888; padding: 1.3mm 2mm; vertical-align: top; text-align: right; }
+  th { background: #e6e9ee; }
+  .en { direction: ltr; unicode-bidi: isolate; font-family: Consolas, "Courier New", monospace; font-weight: 600; white-space: nowrap; }
+  ol, ul { margin: 1mm 0 2mm; padding-right: 6mm; }
+  li { margin-bottom: 1mm; }
+  .warn { border: 2px solid #c62828; background: #fdecea; padding: 2mm 3mm; border-radius: 1.5mm; margin: 2mm 0; }
+  .box { border: 1px solid #888; padding: 2mm 3mm; border-radius: 1.5mm; margin: 2mm 0; }
+  .page2 { page-break-before: always; }
+  tr, .box, .warn { page-break-inside: avoid; }
+  h2 { page-break-after: avoid; }
+  .g { color: #1b7f2a; font-weight: 700; } .r { color: #c62828; font-weight: 700; }
+</style>
+</head>
+<body>
+
+<h1>تشغيل لوحة <span class="en">LCP-01</span>: السكرابر والبيرنرين</h1>
+<div class="sub">الشاشة للعرض بس، والتشغيل كله من زراير الباب. الورقة دي بتشرح كل لمبة على الشاشة معناها إيه، وإزاي تشغّل، وتعمل إيه لو حصل عطل.</div>
+
+<h2>١. الصفحة الرئيسية <span class="en">Overview</span>: كل حاجة عليها معناها إيه</h2>
+<table>
+<tr><th style="width:27%">على الشاشة</th><th>هي إيه</th></tr>
+<tr><td colspan="2" style="background:#f3f4f6"><b>عمود <span class="en">SCRUBBER</span>: الحساسات</b></td></tr>
+<tr><td><span class="en">Pressure</span></td><td>حساس ضغط السكرابر <span class="en">PSH-101</span>. لو الضغط علي، السكرابر بيعمل تريب والبيرنرين بيقفوا.</td></tr>
+<tr><td><span class="en">High level</span></td><td>حساس المستوى العالي <span class="en">LSH-102</span>. لو المستوى علي، الدرين بيفتح لوحده.</td></tr>
+<tr><td><span class="en">Very high level</span></td><td>حساس المستوى العالي جداً <span class="en">LSHH-103</span>. لو اشتغل، السكرابر بيعمل تريب والبيرنرين بيقفوا.</td></tr>
+<tr><td colspan="2" style="background:#f3f4f6"><b>عمود <span class="en">SCRUBBER</span>: الصمامات، وجنب كل صمام الأمر الحالي <span class="en">OPEN</span> أو <span class="en">CLOSE</span></b></td></tr>
+<tr><td><span class="en">XV-401 flare</span></td><td>صمام الفلير. في التشغيل العادي <span class="en">CLOSE</span>.</td></tr>
+<tr><td><span class="en">XV-402 drain</span></td><td>صمام الدرين. بيفتح ويقفل لوحده مع المستوى. لو فضل مفتوح أكتر من 10 دقايق بيقفل ويطلع إنذار: افحص العوّامة وسلكها.</td></tr>
+<tr><td><span class="en">XV-403 suction</span></td><td>صمام الساكشن. في التشغيل العادي <span class="en">OPEN</span>.</td></tr>
+<tr><td><span class="r">TRIP: RESET required</span></td><td>السكرابر في تريب. لما السبب يروح اضغط <span class="en">RESET</span>. وبيظهر كمان بعد ما الكهربا ترجع.</td></tr>
+<tr><td colspan="2" style="background:#f3f4f6"><b>عمودين <span class="en">BR01 TK01</span> و <span class="en">BR02 TK02</span>: كل بيرنر والتانك بتاعه</b></td></tr>
+<tr><td><span class="en">Max temp</span></td><td>حرارة التانك. لو ظهر <span class="en">----</span> يبقى ثيرموكبل بايظ.</td></tr>
+<tr><td><span class="en">Level OK</span></td><td>مستوى الزيت في التانك كفاية.</td></tr>
+<tr><td><span class="en">RUN input</span></td><td>البيرنر ولّع وشغال فعلاً.</td></tr>
+<tr><td><span class="en">Heat request</span></td><td>اللوحة طالبة من البيرنر يشتغل.</td></tr>
+<tr><td><span class="en">Stage 2 request</span></td><td>اللوحة طالبة المرحلة التانية (ولعة أعلى).</td></tr>
+<tr><td><span class="r">Check Alarms</span></td><td>فيه عطل في البيرنر: روح صفحة <span class="en">Alarms</span>.</td></tr>
+<tr><td>لافتة <span class="r">E-STOP / RESET</span> فوق</td><td><span class="en">E-STOP</span> مضغوط، أو مستني <span class="en">RESET</span>.</td></tr>
+</table>
+
+<div class="box"><b>شكل التشغيل العادي:</b> الحساسات التلاتة <span class="g">خضرا</span>، والفلير <span class="en">CLOSE</span>، والدرين <span class="en">CLOSE</span>، والساكشن <span class="en">OPEN</span>.
+وفي كل بيرنر شغال: <span class="en">Level OK</span> و <span class="en">Heat request</span> و <span class="en">RUN input</span> <span class="g">خضرا</span>.<br>
+<b>خد بالك:</b> اللي بيتعرض هو <b>الأمر</b> اللي اللوحة بعتته للصمام. ما فيش إشارة بترجع تقول إن الصمام اتحرك فعلاً.</div>
+
+<h2>٢. باقي الصفحات</h2>
+<table>
+<tr><th style="width:16%">الصفحة</th><th>بتعرض إيه</th></tr>
+<tr><td><span class="en">BR01</span> / <span class="en">BR02</span></td><td>تفاصيل البيرنر:
+  <br>• قراية الثيرموكبلين (الداخل <span class="en">inlet</span> والخارج <span class="en">out</span>)، وأعلى قراية منهم. لو ظهر <span class="en">----</span> مكان الرقم يبقى الحساس بايظ أو سلكه مقطوع.
+  <br>• لمبات: <span class="en">Level OK</span> مستوى التانك، و<span class="en">RUN input</span> البيرنر شغال، و<span class="en">Heat request</span> اللوحة طالبة، و<span class="en">Stage 2 request</span>، و<span class="en">Lockout input</span>، و<span class="en">AUTO mode</span>.</td></tr>
+<tr><td><span class="en">Scrubber</span></td><td>نفس حساسات السكرابر وأوامر صماماته اللي في الصفحة الرئيسية، ومعاهم لمبة <span class="en">E-STOP ready</span> (<span class="g">أخضر</span> = <span class="en">E-STOP</span> سليم واتعمله <span class="en">RESET</span>).</td></tr>
+<tr><td><span class="en">Alarms</span></td><td>قايمة الإنذارات الحالية. زرار <span class="en">Info</span> بيشرح كل إنذار وإيه المطلوب تعمله.</td></tr>
+<tr><td><span class="en">Settings</span></td><td>الأرقام. <b>للمهندس بس</b>، ومحتاجة باسورد. عمود <span class="en">In use</span> هو الرقم اللي اللوحة شغالة بيه.
+  <br>التعديل مسموح <b>بعد STOP للبيرنرين الاتنين</b>. لو الرقم اترفض هيظهر <span class="en">Setting rejected</span>.</td></tr>
+</table>
+
+<h2>٣. إزاي تشغّل بيرنر</h2>
+<ol>
+<li>اتأكد إن <span class="en">E-STOP</span> مش مضغوط. لو كان مضغوط وفكّيته، اضغط <span class="en">RESET</span>.</li>
+<li>لو السكرابر مكتوب عليه <span class="en">TRIP: RESET required</span> وسبب التريب راح، اضغط <span class="en">RESET</span>.
+  <b>دي حاجة طبيعية بعد كل مرة الكهربا ترجع.</b></li>
+<li>اختار <span class="en">AUTO</span> أو <span class="en">MAN</span>.</li>
+<li>اضغط <span class="en">START</span> للبيرنر.</li>
+<li>هتلاقي <span class="en">Heat request</span> نوّر، والبيرنر بيعمل purge وبيولّع في حوالي دقيقة. بعد ما يولّع هتلاقي <span class="en">RUN input</span> نوّر.</li>
+</ol>
+
+<div class="box"><b>الحرارة (بالأرقام الافتراضية، وبيتحسب على أعلى قراية من الثيرموكبلين):</b>
+<ul>
+<li>البيرنر بيقفل عند <b>70°C</b>. وفي <span class="en">AUTO</span> بيرجع يشتغل لوحده لما الحرارة تنزل لـ <b>65°C</b>.</li>
+<li>المرحلة التانية شغالة <b>تحت 60°C</b>، وبتفصل لما الحرارة تعدّي <b>62°C</b>.</li>
+</ul></div>
+
+<p><b>البيرنر مش هيشتغل لو:</b> مستوى التانك واطي (<span class="en">Level OK</span> مطفية)، أو السكرابر في تريب، أو فيه عطل، أو <span class="en">E-STOP</span> مضغوط.
+لو المستوى واطي، البيرنر هيرجع لوحده لما المستوى يرجع في وضع <span class="en">AUTO</span>.
+بعد أي عطل أو <span class="en">E-STOP</span> أو رجوع الكهربا، <b>ما فيش بيرنر بيشتغل لوحده</b>، ولازم تضغط <span class="en">START</span>.</p>
+
+<h2>٤. لما يحصل عطل في بيرنر</h2>
+<ol>
+<li>روح صفحة <span class="en">Alarms</span> واقرا الإنذار.</li>
+<li>صلّح السبب:
+  <br>• <b><span class="en">Lockout</span>:</b> اعمل الريست على علبة البيرنر نفسها الأول.
+  <br>• <b>ثيرموكبل:</b> افحص الحساس والسلك.</li>
+<li>اضغط <span class="en">RESET</span> (<span class="en">S2</span>).</li>
+<li>اضغط <span class="en">START</span> للبيرنر.</li>
+</ol>
+<p><b>لو <span class="en">RESET</span> ما مسحش العطل،</b> يبقى السبب لسه موجود: مثلاً الثيرموكبل لسه مقطوع، أو علبة البيرنر لسه في <span class="en">Lockout</span>، أو <span class="en">RUN</span> لسه شغال.</p>
+
+</body>
+</html>
