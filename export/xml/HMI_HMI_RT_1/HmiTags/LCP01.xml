@@ -2,7 +2,7 @@
 <Document>
   <Engineering version="V15.1" />
   <DocumentInfo>
-    <Created>2026-11-11T00:40:36.8999355Z</Created>
+    <Created>2026-11-11T11:05:33.2812396Z</Created>
     <ExportSetting>WithDefaults</ExportSetting>
     <InstalledProducts>
       <Product>
@@ -77,7 +77,7 @@
               <MultilingualTextItem ID="8" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text><body><p>BR01: Raw thermocouple channel value in 0.1 degC</p></body></Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -153,7 +153,7 @@
               <MultilingualTextItem ID="10" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text><body><p>BR01: Raw thermocouple channel value in 0.1 degC</p></body></Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -214,7 +214,7 @@
             <Name>HMI_Connection_1</Name>
           </Connection>
           <ControllerTag TargetID="@OpenLink">
-            <Name>BR01_DB.Tmax</Name>
+            <Name>BR01_DB.ControlTemp</Name>
           </ControllerTag>
           <DataType TargetID="@OpenLink">
             <Name>Int</Name>
@@ -229,7 +229,7 @@
               <MultilingualTextItem ID="18" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text><body><p>BR01: Higher raw temperature reading, in 0.1 degC; use only when both channels are valid.</p></body></Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -305,7 +305,7 @@
               <MultilingualTextItem ID="22" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text><body><p>BR01: Channel is within configured valid raw range</p></body></Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -381,7 +381,7 @@
               <MultilingualTextItem ID="2A" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text><body><p>BR01: Channel is within configured valid raw range</p></body></Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -457,7 +457,7 @@
               <MultilingualTextItem ID="32" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text><body><p>BR01: Both thermocouple channels are valid</p></body></Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -518,7 +518,7 @@
             <Name>HMI_Connection_1</Name>
           </Connection>
           <ControllerTag TargetID="@OpenLink">
-            <Name>BR01_DB.State</Name>
+            <Name>BR01_DB.BurnerState</Name>
           </ControllerTag>
           <DataType TargetID="@OpenLink">
             <Name>Int</Name>
@@ -533,7 +533,7 @@
               <MultilingualTextItem ID="3A" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text><body><p>BR01: 0 IDLE, 1 STARTING, 2 RUNNING, 3 FAULT</p></body></Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -594,7 +594,7 @@
             <Name>HMI_Connection_1</Name>
           </Connection>
           <ControllerTag TargetID="@OpenLink">
-            <Name>BR01_DB.Enabled</Name>
+            <Name>BR01_DB.StartEnabled</Name>
           </ControllerTag>
           <DataType TargetID="@OpenLink">
             <Name>Bool</Name>
@@ -609,7 +609,7 @@
               <MultilingualTextItem ID="42" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text><body><p>BR01: Saved accepted START permission; separate from RUN feedback</p></body></Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -685,7 +685,7 @@
               <MultilingualTextItem ID="4A" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text><body><p>BR01: Request to certified burner box: TL / L</p></body></Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -761,7 +761,7 @@
               <MultilingualTextItem ID="52" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text><body><p>BR01: Second-stage request to burner box: TR / T2</p></body></Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -837,7 +837,7 @@
               <MultilingualTextItem ID="5A" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text><body><p>BR01: Burner control box RUN feedback</p></body></Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -913,7 +913,7 @@
               <MultilingualTextItem ID="62" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text><body><p>BR01: Burner lockout input; code treats 1 as lockout</p></body></Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -989,7 +989,7 @@
               <MultilingualTextItem ID="6A" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text><body><p>BR01: Tank low-level input; 1 permits heating, 0 stops the heat request.</p></body></Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -1065,7 +1065,7 @@
               <MultilingualTextItem ID="72" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text><body><p>BR01: AUTO/MAN selector; 1 = AUTO</p></body></Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -1141,7 +1141,7 @@
               <MultilingualTextItem ID="7A" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text><body><p>BR01: Ten-second thermocouple-card startup window elapsed</p></body></Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -1202,7 +1202,7 @@
             <Name>HMI_Connection_1</Name>
           </Connection>
           <ControllerTag TargetID="@OpenLink">
-            <Name>BR01_DB.TOn</Name>
+            <Name>BR01_DB.AutoRestartTemp</Name>
           </ControllerTag>
           <DataType TargetID="@OpenLink">
             <Name>Int</Name>
@@ -1217,7 +1217,7 @@
               <MultilingualTextItem ID="82" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text><body><p>BR01: AUTO restart threshold SP minus HYST, in 0.1 degC</p></body></Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -1278,7 +1278,7 @@
             <Name>HMI_Connection_1</Name>
           </Connection>
           <ControllerTag TargetID="@OpenLink">
-            <Name>BR01_DB.TStg</Name>
+            <Name>BR01_DB.SecondStageOnTemp</Name>
           </ControllerTag>
           <DataType TargetID="@OpenLink">
             <Name>Int</Name>
@@ -1293,7 +1293,7 @@
               <MultilingualTextItem ID="8A" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text><body><p>BR01: Second-stage ON threshold SP minus STG, in 0.1 degC</p></body></Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -1354,7 +1354,7 @@
             <Name>HMI_Connection_1</Name>
           </Connection>
           <ControllerTag TargetID="@OpenLink">
-            <Name>BR01_DB.TStgOff</Name>
+            <Name>BR01_DB.SecondStageOffTemp</Name>
           </ControllerTag>
           <DataType TargetID="@OpenLink">
             <Name>Int</Name>
@@ -1369,7 +1369,7 @@
               <MultilingualTextItem ID="92" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text><body><p>BR01: Second-stage OFF threshold, in 0.1 degC</p></body></Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -1445,7 +1445,7 @@
               <MultilingualTextItem ID="9A" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text><body><p>BR01: 24-hour run pause; clears after RUN is off 60 s</p></body></Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -1521,7 +1521,7 @@
               <MultilingualTextItem ID="A2" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text><body><p>BR02: Raw thermocouple channel value in 0.1 degC</p></body></Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -1597,7 +1597,7 @@
               <MultilingualTextItem ID="AA" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text><body><p>BR02: Raw thermocouple channel value in 0.1 degC</p></body></Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -1658,7 +1658,7 @@
             <Name>HMI_Connection_1</Name>
           </Connection>
           <ControllerTag TargetID="@OpenLink">
-            <Name>BR02_DB.Tmax</Name>
+            <Name>BR02_DB.ControlTemp</Name>
           </ControllerTag>
           <DataType TargetID="@OpenLink">
             <Name>Int</Name>
@@ -1673,7 +1673,7 @@
               <MultilingualTextItem ID="B2" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text><body><p>BR02: Higher raw temperature reading, in 0.1 degC; use only when both channels are valid.</p></body></Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -1749,7 +1749,7 @@
               <MultilingualTextItem ID="BA" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text><body><p>BR02: Channel is within configured valid raw range</p></body></Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -1825,7 +1825,7 @@
               <MultilingualTextItem ID="C2" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text><body><p>BR02: Channel is within configured valid raw range</p></body></Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -1901,7 +1901,7 @@
               <MultilingualTextItem ID="CA" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text><body><p>BR02: Both thermocouple channels are valid</p></body></Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -1962,7 +1962,7 @@
             <Name>HMI_Connection_1</Name>
           </Connection>
           <ControllerTag TargetID="@OpenLink">
-            <Name>BR02_DB.State</Name>
+            <Name>BR02_DB.BurnerState</Name>
           </ControllerTag>
           <DataType TargetID="@OpenLink">
             <Name>Int</Name>
@@ -1977,7 +1977,7 @@
               <MultilingualTextItem ID="D2" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text><body><p>BR02: 0 IDLE, 1 STARTING, 2 RUNNING, 3 FAULT</p></body></Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -2038,7 +2038,7 @@
             <Name>HMI_Connection_1</Name>
           </Connection>
           <ControllerTag TargetID="@OpenLink">
-            <Name>BR02_DB.Enabled</Name>
+            <Name>BR02_DB.StartEnabled</Name>
           </ControllerTag>
           <DataType TargetID="@OpenLink">
             <Name>Bool</Name>
@@ -2053,7 +2053,7 @@
               <MultilingualTextItem ID="DA" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text><body><p>BR02: Saved accepted START permission; separate from RUN feedback</p></body></Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -2129,7 +2129,7 @@
               <MultilingualTextItem ID="E2" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text><body><p>BR02: Request to certified burner box: TL / L</p></body></Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -2205,7 +2205,7 @@
               <MultilingualTextItem ID="EA" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text><body><p>BR02: Second-stage request to burner box: TR / T2</p></body></Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -2281,7 +2281,7 @@
               <MultilingualTextItem ID="F2" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text><body><p>BR02: Burner control box RUN feedback</p></body></Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -2357,7 +2357,7 @@
               <MultilingualTextItem ID="FA" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text><body><p>BR02: Burner lockout input; code treats 1 as lockout</p></body></Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -2433,7 +2433,7 @@
               <MultilingualTextItem ID="102" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text><body><p>BR02: Tank low-level input; 1 permits heating, 0 stops the heat request.</p></body></Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -2509,7 +2509,7 @@
               <MultilingualTextItem ID="10A" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text><body><p>BR02: AUTO/MAN selector; 1 = AUTO</p></body></Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -2585,7 +2585,7 @@
               <MultilingualTextItem ID="112" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text><body><p>BR02: Ten-second thermocouple-card startup window elapsed</p></body></Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -2646,7 +2646,7 @@
             <Name>HMI_Connection_1</Name>
           </Connection>
           <ControllerTag TargetID="@OpenLink">
-            <Name>BR02_DB.TOn</Name>
+            <Name>BR02_DB.AutoRestartTemp</Name>
           </ControllerTag>
           <DataType TargetID="@OpenLink">
             <Name>Int</Name>
@@ -2661,7 +2661,7 @@
               <MultilingualTextItem ID="11A" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text><body><p>BR02: AUTO restart threshold SP minus HYST, in 0.1 degC</p></body></Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -2722,7 +2722,7 @@
             <Name>HMI_Connection_1</Name>
           </Connection>
           <ControllerTag TargetID="@OpenLink">
-            <Name>BR02_DB.TStg</Name>
+            <Name>BR02_DB.SecondStageOnTemp</Name>
           </ControllerTag>
           <DataType TargetID="@OpenLink">
             <Name>Int</Name>
@@ -2737,7 +2737,7 @@
               <MultilingualTextItem ID="122" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text><body><p>BR02: Second-stage ON threshold SP minus STG, in 0.1 degC</p></body></Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -2798,7 +2798,7 @@
             <Name>HMI_Connection_1</Name>
           </Connection>
           <ControllerTag TargetID="@OpenLink">
-            <Name>BR02_DB.TStgOff</Name>
+            <Name>BR02_DB.SecondStageOffTemp</Name>
           </ControllerTag>
           <DataType TargetID="@OpenLink">
             <Name>Int</Name>
@@ -2813,7 +2813,7 @@
               <MultilingualTextItem ID="12A" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text><body><p>BR02: Second-stage OFF threshold, in 0.1 degC</p></body></Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -2889,7 +2889,7 @@
               <MultilingualTextItem ID="132" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text><body><p>BR02: BR02 fuel selector input; 1 selects diesel mode. BR01 input is fixed FALSE.</p></body></Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -2965,7 +2965,7 @@
               <MultilingualTextItem ID="13A" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text><body><p>Scrubber: PSH-101 healthy input; contact closed</p></body></Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -3041,7 +3041,7 @@
               <MultilingualTextItem ID="142" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text><body><p>Scrubber: LSH-102 healthy input</p></body></Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -3117,7 +3117,7 @@
               <MultilingualTextItem ID="14A" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text><body><p>Scrubber: LSHH-103 healthy input</p></body></Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -3193,7 +3193,7 @@
               <MultilingualTextItem ID="152" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text><body><p>Scrubber: Saved scrubber trip; removes suction OPEN command and cancels both burner START permissions.</p></body></Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -3254,7 +3254,7 @@
             <Name>HMI_Connection_1</Name>
           </Connection>
           <ControllerTag TargetID="@OpenLink">
-            <Name>Scrubber_DB.ValvesNormal</Name>
+            <Name>Scrubber_DB.ValveCommandsNormal</Name>
           </ControllerTag>
           <DataType TargetID="@OpenLink">
             <Name>Bool</Name>
@@ -3269,7 +3269,7 @@
               <MultilingualTextItem ID="15A" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text><body><p>Scrubber: No flare or suction trip saved; command pattern only, not valve position or drain status.</p></body></Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -3345,7 +3345,7 @@
               <MultilingualTextItem ID="162" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text><body><p>Scrubber: Latched E-STOP trip cause; clears on healthy RESET</p></body></Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -3421,7 +3421,7 @@
               <MultilingualTextItem ID="16A" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text><body><p>Scrubber: Latched PSH-101 trip cause</p></body></Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -3497,7 +3497,7 @@
               <MultilingualTextItem ID="172" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text><body><p>Scrubber: Latched LSHH-103 trip cause</p></body></Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -3573,7 +3573,7 @@
               <MultilingualTextItem ID="17A" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text><body><p>Scrubber: Latched power-up trip cause</p></body></Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -3649,7 +3649,7 @@
               <MultilingualTextItem ID="182" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text><body><p>Scrubber: First latched cause code: 0 none, 1 E-STOP, 2 PSH, 3 LSHH, 4 power-up</p></body></Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -3725,7 +3725,7 @@
               <MultilingualTextItem ID="18A" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text><body><p>Scrubber: XV-401 command; energized closes NO valve</p></body></Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -3801,7 +3801,7 @@
               <MultilingualTextItem ID="192" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text><body><p>Scrubber: XV-402 command; energized opens NC valve</p></body></Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -3877,7 +3877,7 @@
               <MultilingualTextItem ID="19A" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text><body><p>Scrubber: XV-403 command; energized opens NC valve</p></body></Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -3953,7 +3953,7 @@
               <MultilingualTextItem ID="1A2" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text><body><p>Scrubber: Latched drain-open timeout; inhibits drain command</p></body></Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -4029,7 +4029,7 @@
               <MultilingualTextItem ID="1AA" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text><body><p>Scrubber: LSHH unhealthy while LSH healthy for 5 s</p></body></Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -4105,7 +4105,7 @@
               <MultilingualTextItem ID="1B2" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text><body><p>Operator entry: stop temperature, in 0.1 degC.</p></body></Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -4181,7 +4181,7 @@
               <MultilingualTextItem ID="1BA" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text><body><p>Operator entry: restart difference below stop temperature, in 0.1 degC.</p></body></Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -4257,7 +4257,7 @@
               <MultilingualTextItem ID="1C2" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text><body><p>Operator entry: stage 2 ON difference below stop temperature, in 0.1 degC.</p></body></Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -4333,7 +4333,7 @@
               <MultilingualTextItem ID="1CC" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text><body><p>Operator entry: maximum wait for RUN after the heat request, in milliseconds.</p></body></Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -4409,7 +4409,7 @@
               <MultilingualTextItem ID="1D4" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text><body><p>Operator entry: high-level delay before requesting drain OPEN, in milliseconds.</p></body></Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -4485,7 +4485,7 @@
               <MultilingualTextItem ID="1DC" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text><body><p>Operator entry: normal-level delay before removing drain OPEN, in milliseconds.</p></body></Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -4561,7 +4561,7 @@
               <MultilingualTextItem ID="1E4" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text><body><p>Operator entry: maximum continuous drain OPEN command, in milliseconds.</p></body></Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -4637,7 +4637,7 @@
               <MultilingualTextItem ID="1EC" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text><body><p>Accepted stop temperature used by control, in 0.1 degC.</p></body></Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -4713,7 +4713,7 @@
               <MultilingualTextItem ID="1F4" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text><body><p>Accepted restart difference below stop temperature, in 0.1 degC.</p></body></Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -4789,7 +4789,7 @@
               <MultilingualTextItem ID="1FC" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text><body><p>Accepted stage 2 ON difference below stop temperature, in 0.1 degC.</p></body></Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -4865,7 +4865,7 @@
               <MultilingualTextItem ID="204" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text><body><p>Accepted maximum wait for RUN, in milliseconds.</p></body></Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -4941,7 +4941,7 @@
               <MultilingualTextItem ID="20C" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text><body><p>Accepted delay before requesting drain OPEN, in milliseconds.</p></body></Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -5017,7 +5017,7 @@
               <MultilingualTextItem ID="214" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text><body><p>Accepted delay before removing drain OPEN, in milliseconds.</p></body></Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -5093,7 +5093,7 @@
               <MultilingualTextItem ID="21C" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text><body><p>Accepted maximum continuous drain OPEN command, in milliseconds.</p></body></Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -5169,7 +5169,7 @@
               <MultilingualTextItem ID="224" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text><body><p>E-STOP released and latch restored by RESET/startup</p></body></Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -5245,7 +5245,7 @@
               <MultilingualTextItem ID="22C" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text><body><p>HMI alarm while E-STOP permissive is absent</p></body></Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -5321,7 +5321,7 @@
               <MultilingualTextItem ID="234" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text><body><p>Setting rejected for range or enabled-burner condition</p></body></Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -5397,7 +5397,7 @@
               <MultilingualTextItem ID="23C" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text><body><p>Both burner START permissions are OFF; valid setting entries may be accepted.</p></body></Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -5473,7 +5473,7 @@
               <MultilingualTextItem ID="246" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text><body><p>Common alarm display word; each bit 1 displays its alarm. x0 E-STOP active: reset required; x1 Scrubber high pressure: reset required; x2 Scrubber very high level: reset required; x3 Scrubber waiting for first RESET; x4 Scrubber high level (LSH-102); x5 Setting rejected; x6 Scrubber drain time limit reached; x7 Scrubber level switch disagreement</p></body></Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -5549,7 +5549,7 @@
               <MultilingualTextItem ID="24E" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text><body><p>BR01 alarm display word; each bit 1 displays its alarm. x0 BR01 E-STOP trip saved; x1 BR01 temperature input fault; x2 BR01 burner lockout; x3 BR01 RUN not received in time; x4 BR01 RUN input lost; x5 BR01 RUN without request; x6 TK01 level too low for BR01; x7 BR01 stopped by scrubber trip</p></body></Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -5625,7 +5625,7 @@
               <MultilingualTextItem ID="256" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text><body><p>BR02 alarm display word; each bit 1 displays its alarm. x0 BR02 E-STOP trip saved; x1 BR02 temperature input fault; x2 BR02 burner lockout; x3 BR02 RUN not received in time; x4 BR02 RUN input lost; x5 BR02 RUN without request; x6 TK02 level too low for BR02; x7 BR02 stopped by scrubber trip</p></body></Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>

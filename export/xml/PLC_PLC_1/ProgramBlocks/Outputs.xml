@@ -2,7 +2,7 @@
 <Document>
   <Engineering version="V15.1" />
   <DocumentInfo>
-    <Created>2026-11-02T18:55:11.2894745Z</Created>
+    <Created>2026-11-11T11:05:29.8852444Z</Created>
     <ExportSetting>WithDefaults</ExportSetting>
     <InstalledProducts>
       <Product>
@@ -55,7 +55,7 @@
           <MultilingualTextItem ID="2" CompositionName="Items">
             <AttributeList>
               <Culture>en-US</Culture>
-              <Text>The only block that writes %Q (decisions/0006 rule 3)</Text>
+              <Text>Physical output assignments. This is the only block that writes Q tags.</Text>
             </AttributeList>
           </MultilingualTextItem>
         </ObjectList>
@@ -120,7 +120,7 @@
               <MultilingualTextItem ID="5" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text>With E-STOP permission, pass HeatReq to R1 and the H1 lamp circuit. This is a request, not flame proof. Reference: E1.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -130,7 +130,7 @@
               <MultilingualTextItem ID="7" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>E1 — BR01 heat request TL (R1, H1)</Text>
+                  <Text>BR01: heat request to TL</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -197,7 +197,7 @@
               <MultilingualTextItem ID="A" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text>With E-STOP permission, pass Stage2 to R2 and H2. Reference: E2.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -207,7 +207,7 @@
               <MultilingualTextItem ID="C" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>E2 — BR01 2nd stage TR (R2, H2)</Text>
+                  <Text>BR01: stage 2 request to TR</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -285,7 +285,7 @@
               <MultilingualTextItem ID="F" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text>With E-STOP permission, pass HeatReq to L via R6 and the H5 lamp command via R8. Reference: E3.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -295,7 +295,7 @@
               <MultilingualTextItem ID="11" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>E3 / F13 — BR02 start L (R6) and 1st stage lamp H5 (R8)</Text>
+                  <Text>BR02: heat request and stage 1 lamp</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -373,7 +373,7 @@
               <MultilingualTextItem ID="14" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text>With E-STOP permission, pass Stage2 to T2 via R7 and the H6 lamp command via R9. Reference: E4.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -383,7 +383,7 @@
               <MultilingualTextItem ID="16" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>E4 / F13 — BR02 high fire T2 (R7) and 2nd stage lamp H6 (R9)</Text>
+                  <Text>BR02: stage 2 request and lamp</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -435,7 +435,7 @@
               <MultilingualTextItem ID="19" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text>Output ON closes this normally-open valve; output OFF leaves it open. No valve feedback. Reference: E5.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -445,7 +445,7 @@
               <MultilingualTextItem ID="1B" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>E5 — XV-401 flare (NO): energised = closed</Text>
+                  <Text>XV-401: energize to CLOSE the flare</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -497,7 +497,7 @@
               <MultilingualTextItem ID="1E" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text>Output ON opens this normally-closed drain valve; output OFF closes it, per the confirmed NC decision. Reference: E6 / C04 / C05.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -507,7 +507,7 @@
               <MultilingualTextItem ID="20" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>E6 — XV-402 drain (NC): energised = open (C04 / C05)</Text>
+                  <Text>XV-402: energize to OPEN the drain</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -559,7 +559,7 @@
               <MultilingualTextItem ID="23" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text>Output ON opens this normally-closed valve; output OFF closes it. No valve feedback. Reference: E7.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -569,7 +569,7 @@
               <MultilingualTextItem ID="25" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>E7 — XV-403 suction (NC): energised = open</Text>
+                  <Text>XV-403: energize to OPEN the suction</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>

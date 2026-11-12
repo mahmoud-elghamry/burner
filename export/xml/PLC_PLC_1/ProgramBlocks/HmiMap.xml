@@ -2,7 +2,7 @@
 <Document>
   <Engineering version="V15.1" />
   <DocumentInfo>
-    <Created>2026-11-11T00:40:23.6802842Z</Created>
+    <Created>2026-11-11T11:05:29.9481641Z</Created>
     <ExportSetting>WithDefaults</ExportSetting>
     <InstalledProducts>
       <Product>
@@ -55,7 +55,7 @@
           <MultilingualTextItem ID="2" CompositionName="Items">
             <AttributeList>
               <Culture>en-US</Culture>
-              <Text>0007 / H-05: alarm display map only; writes HmiAlm only, no Ack</Text>
+              <Text>Alarm display mapping only. This block does not trip equipment or reset faults.</Text>
             </AttributeList>
           </MultilingualTextItem>
         </ObjectList>
@@ -106,7 +106,7 @@
               <MultilingualTextItem ID="5" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text>Copy "Sys".Alm_EStop to Common bit 0. Bit value 1 displays this alarm. Clears: Release E-STOP and RESET. Reference: C01.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -116,7 +116,7 @@
               <MultilingualTextItem ID="7" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>C01 / 0007 H-05 — Common.x0: E-STOP active or not reset; clears: Release E-STOP and RESET</Text>
+                  <Text>Display alarm: E-STOP active: reset required</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -169,7 +169,7 @@
               <MultilingualTextItem ID="A" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text>Copy "Scrubber_DB".Cause_PSH to Common bit 1. Bit value 1 displays this alarm. Clears: RESET with all scrubber trip causes healthy. Reference: C03 / C06a.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -179,7 +179,7 @@
               <MultilingualTextItem ID="C" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>C03 / C06a (PH proposal: cause memory) / 0007 H-05 — Common.x1: Scrubber trip: high pressure PSH-101; clears: RESET with all scrubber trip causes healthy</Text>
+                  <Text>Display alarm: Scrubber high pressure: reset required</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -232,7 +232,7 @@
               <MultilingualTextItem ID="F" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text>Copy "Scrubber_DB".Cause_LSHH to Common bit 2. Bit value 1 displays this alarm. Clears: RESET with all scrubber trip causes healthy. Reference: C05 / C06a.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -242,7 +242,7 @@
               <MultilingualTextItem ID="11" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>C05 / C06a (PH proposal: cause memory) / 0007 H-05 — Common.x2: Scrubber trip: high-high level LSHH-103; clears: RESET with all scrubber trip causes healthy</Text>
+                  <Text>Display alarm: Scrubber very high level: reset required</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -295,7 +295,7 @@
               <MultilingualTextItem ID="14" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text>Copy "Scrubber_DB".Cause_PwrUp to Common bit 3. Bit value 1 displays this alarm. Clears: RESET with all scrubber trip causes healthy. Reference: S-01 / C06a.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -305,7 +305,7 @@
               <MultilingualTextItem ID="16" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>S-01 / C06a (PH proposal) / 0007 H-05 — Common.x3: Scrubber held after power-up: RESET required; clears: RESET with all scrubber trip causes healthy</Text>
+                  <Text>Display alarm: Scrubber waiting for first RESET</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -358,7 +358,7 @@
               <MultilingualTextItem ID="19" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text>Copy "Scrubber_DB".Alm_LSH to Common bit 4. Bit value 1 displays this alarm. Clears: Automatically when level returns. Reference: C04.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -368,7 +368,7 @@
               <MultilingualTextItem ID="1B" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>C04 (Client) / 0007 H-05 — Common.x4: Scrubber high level LSH-102; clears: Automatically when level returns</Text>
+                  <Text>Display alarm: Scrubber high level (LSH-102)</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -421,7 +421,7 @@
               <MultilingualTextItem ID="1E" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text>Copy "Sys".Alm_ParRejected to Common bit 5. Bit value 1 displays this alarm. Clears: STOP both; check range; RESET clears alarm. Reference: R-11 / 0009.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -431,7 +431,7 @@
               <MultilingualTextItem ID="20" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>R-11 / 0009 / 0007 H-05 — Common.x5: Setting rejected: out of range or a burner enabled; clears: STOP both; check range; RESET clears alarm</Text>
+                  <Text>Display alarm: Setting rejected</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -484,7 +484,7 @@
               <MultilingualTextItem ID="23" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text>Copy "Scrubber_DB".F_DrainTO to Common bit 6. Bit value 1 displays this alarm. Clears: RESET (drain follows level again). Reference: C04a.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -494,7 +494,7 @@
               <MultilingualTextItem ID="25" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>C04a / 0007 H-05 — Common.x6: Scrubber drain open too long: drain closed; clears: RESET (drain follows level again)</Text>
+                  <Text>Display alarm: Scrubber drain time limit reached</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -547,7 +547,7 @@
               <MultilingualTextItem ID="28" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text>Copy "Scrubber_DB".F_LshFault to Common bit 7. Bit value 1 displays this alarm. Clears: RESET after the contradictory level-input combination is gone. Reference: C04b.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -557,7 +557,7 @@
               <MultilingualTextItem ID="2A" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>C04b / 0007 H-05 — Common.x7: LSH-102 fault: LSHH-103 without LSH-102; clears: RESET once the two switches agree</Text>
+                  <Text>Display alarm: Scrubber level switch disagreement</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -610,7 +610,7 @@
               <MultilingualTextItem ID="2D" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text>Copy "BR01_DB".F_EStop to BR01 bit 0. Bit value 1 displays this alarm. Clears: RESET after fault causes clear; START to run. Reference: C01.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -620,7 +620,7 @@
               <MultilingualTextItem ID="2F" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>C01 / 0007 H-05 — BR01.x0: BR01 stopped by E-STOP: RESET + START; clears: RESET after fault causes clear; START to run</Text>
+                  <Text>Display alarm: BR01 E-STOP trip saved</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -673,7 +673,7 @@
               <MultilingualTextItem ID="32" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text>Copy "BR01_DB".F_TC to BR01 bit 1. Bit value 1 displays this alarm. Clears: RESET after repair. Reference: C07d.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -683,7 +683,7 @@
               <MultilingualTextItem ID="34" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>C07d / 0007 H-05 — BR01.x1: BR01 thermocouple fault; clears: RESET after repair</Text>
+                  <Text>Display alarm: BR01 temperature input fault</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -736,7 +736,7 @@
               <MultilingualTextItem ID="37" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text>Copy "BR01_DB".F_Lockout to BR01 bit 2. Bit value 1 displays this alarm. Clears: RESET after burner control box lockout cleared. Reference: C07e.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -746,7 +746,7 @@
               <MultilingualTextItem ID="39" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>C07e / 0007 H-05 — BR01.x2: BR01 burner lockout; clears: RESET after burner control box lockout cleared</Text>
+                  <Text>Display alarm: BR01 burner lockout</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -799,7 +799,7 @@
               <MultilingualTextItem ID="3C" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text>Copy "BR01_DB".F_NoStart to BR01 bit 3. Bit value 1 displays this alarm. Clears: RESET after fault causes clear. Reference: C07f.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -809,7 +809,7 @@
               <MultilingualTextItem ID="3E" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>C07f / 0007 H-05 — BR01.x3: BR01 failed to start; clears: RESET after fault causes clear</Text>
+                  <Text>Display alarm: BR01 RUN not received in time</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -862,7 +862,7 @@
               <MultilingualTextItem ID="41" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text>Copy "BR01_DB".F_RunLost to BR01 bit 4. Bit value 1 displays this alarm. Clears: RESET after fault causes clear. Reference: C07g.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -872,7 +872,7 @@
               <MultilingualTextItem ID="43" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>C07g / 0007 H-05 — BR01.x4: BR01 stopped by itself; clears: RESET after fault causes clear</Text>
+                  <Text>Display alarm: BR01 RUN input lost</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -925,7 +925,7 @@
               <MultilingualTextItem ID="46" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text>Copy "BR01_DB".F_RunWrong to BR01 bit 5. Bit value 1 displays this alarm. Clears: RESET with RUN off and fault causes clear. Reference: R-09.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -935,7 +935,7 @@
               <MultilingualTextItem ID="48" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>R-09 / 0007 H-05 — BR01.x5: BR01 RUN without request; clears: RESET with RUN off and fault causes clear</Text>
+                  <Text>Display alarm: BR01 RUN without request</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -990,7 +990,7 @@
               <MultilingualTextItem ID="4B" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text>Copy !"BR01_DB".LevelOK to BR01 bit 6. Bit value 1 displays this alarm. Clears: Automatically when level returns. Reference: C07a.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -1000,7 +1000,7 @@
               <MultilingualTextItem ID="4D" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>C07a (PH proposal: alarm; Client: permissive) / 0007 H-05 — BR01.x6: TK01 level low: burner held; clears: Automatically when level returns</Text>
+                  <Text>Display alarm: TK01 level too low for BR01</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -1053,7 +1053,7 @@
               <MultilingualTextItem ID="50" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text>Copy "BR01_DB".F_Scrubber to BR01 bit 7. Bit value 1 displays this alarm. Clears: RESET after scrubber trip clears; START to run. Reference: C03 / C05 / R-13.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -1063,7 +1063,7 @@
               <MultilingualTextItem ID="52" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>C03 / C05 / R-13 / 0007 H-05 — BR01.x7: BR01 stopped by scrubber trip; clears: RESET after scrubber trip clears; START to run</Text>
+                  <Text>Display alarm: BR01 stopped by scrubber trip</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -1116,7 +1116,7 @@
               <MultilingualTextItem ID="55" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text>Copy "BR02_DB".F_EStop to BR02 bit 0. Bit value 1 displays this alarm. Clears: RESET after fault causes clear; START to run. Reference: C01.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -1126,7 +1126,7 @@
               <MultilingualTextItem ID="57" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>C01 / 0007 H-05 — BR02.x0: BR02 stopped by E-STOP: RESET + START; clears: RESET after fault causes clear; START to run</Text>
+                  <Text>Display alarm: BR02 E-STOP trip saved</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -1179,7 +1179,7 @@
               <MultilingualTextItem ID="5A" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text>Copy "BR02_DB".F_TC to BR02 bit 1. Bit value 1 displays this alarm. Clears: RESET after repair. Reference: C08d.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -1189,7 +1189,7 @@
               <MultilingualTextItem ID="5C" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>C08d / 0007 H-05 — BR02.x1: BR02 thermocouple fault; clears: RESET after repair</Text>
+                  <Text>Display alarm: BR02 temperature input fault</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -1242,7 +1242,7 @@
               <MultilingualTextItem ID="5F" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text>Copy "BR02_DB".F_Lockout to BR02 bit 2. Bit value 1 displays this alarm. Clears: RESET after burner control box lockout cleared. Reference: C08e.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -1252,7 +1252,7 @@
               <MultilingualTextItem ID="61" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>C08e / 0007 H-05 — BR02.x2: BR02 burner lockout; clears: RESET after burner control box lockout cleared</Text>
+                  <Text>Display alarm: BR02 burner lockout</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -1305,7 +1305,7 @@
               <MultilingualTextItem ID="64" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text>Copy "BR02_DB".F_NoStart to BR02 bit 3. Bit value 1 displays this alarm. Clears: RESET after fault causes clear. Reference: C08f.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -1315,7 +1315,7 @@
               <MultilingualTextItem ID="66" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>C08f / 0007 H-05 — BR02.x3: BR02 failed to start; clears: RESET after fault causes clear</Text>
+                  <Text>Display alarm: BR02 RUN not received in time</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -1368,7 +1368,7 @@
               <MultilingualTextItem ID="69" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text>Copy "BR02_DB".F_RunLost to BR02 bit 4. Bit value 1 displays this alarm. Clears: RESET after fault causes clear. Reference: C08g.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -1378,7 +1378,7 @@
               <MultilingualTextItem ID="6B" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>C08g / 0007 H-05 — BR02.x4: BR02 stopped by itself; clears: RESET after fault causes clear</Text>
+                  <Text>Display alarm: BR02 RUN input lost</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -1431,7 +1431,7 @@
               <MultilingualTextItem ID="6E" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text>Copy "BR02_DB".F_RunWrong to BR02 bit 5. Bit value 1 displays this alarm. Clears: RESET with RUN off and fault causes clear. Reference: R-09.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -1441,7 +1441,7 @@
               <MultilingualTextItem ID="70" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>R-09 / 0007 H-05 — BR02.x5: BR02 RUN without request; clears: RESET with RUN off and fault causes clear</Text>
+                  <Text>Display alarm: BR02 RUN without request</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -1496,7 +1496,7 @@
               <MultilingualTextItem ID="73" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text>Copy !"BR02_DB".LevelOK to BR02 bit 6. Bit value 1 displays this alarm. Clears: Automatically when level returns. Reference: C08a.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -1506,7 +1506,7 @@
               <MultilingualTextItem ID="75" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>C08a (PH proposal: alarm; Client: permissive) / 0007 H-05 — BR02.x6: TK02 level low: burner held; clears: Automatically when level returns</Text>
+                  <Text>Display alarm: TK02 level too low for BR02</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -1559,7 +1559,7 @@
               <MultilingualTextItem ID="78" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text>Copy "BR02_DB".F_Scrubber to BR02 bit 7. Bit value 1 displays this alarm. Clears: RESET after scrubber trip clears; START to run. Reference: C03 / C05 / R-13.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -1569,7 +1569,7 @@
               <MultilingualTextItem ID="7A" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>C03 / C05 / R-13 / 0007 H-05 — BR02.x7: BR02 stopped by scrubber trip; clears: RESET after scrubber trip clears; START to run</Text>
+                  <Text>Display alarm: BR02 stopped by scrubber trip</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>

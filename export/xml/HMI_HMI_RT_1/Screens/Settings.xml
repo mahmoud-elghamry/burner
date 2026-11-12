@@ -2,7 +2,7 @@
 <Document>
   <Engineering version="V15.1" />
   <DocumentInfo>
-    <Created>2026-11-11T00:40:36.2814721Z</Created>
+    <Created>2026-11-11T11:05:33.0109784Z</Created>
     <ExportSetting>WithDefaults</ExportSetting>
     <InstalledProducts>
       <Product>
@@ -985,7 +985,7 @@
               <HorizontalAlignment>Left</HorizontalAlignment>
               <Left>8</Left>
               <LeftMargin>2</LeftMargin>
-              <ObjectName>Text_Setting</ObjectName>
+              <ObjectName>Text_Parameter</ObjectName>
               <RightMargin>2</RightMargin>
               <TabIndex>-1</TabIndex>
               <TextOrientation>Horizontal</TextOrientation>
@@ -1013,7 +1013,7 @@
                   <MultilingualTextItem ID="71" CompositionName="Items">
                     <AttributeList>
                       <Culture>en-US</Culture>
-                      <Text><body><p>Setting</p></body></Text>
+                      <Text><body><p>Parameter</p></body></Text>
                     </AttributeList>
                   </MultilingualTextItem>
                 </ObjectList>
@@ -1037,7 +1037,7 @@
               <HorizontalAlignment>Right</HorizontalAlignment>
               <Left>120</Left>
               <LeftMargin>2</LeftMargin>
-              <ObjectName>Text_New</ObjectName>
+              <ObjectName>Text_Entry</ObjectName>
               <RightMargin>2</RightMargin>
               <TabIndex>-1</TabIndex>
               <TextOrientation>Horizontal</TextOrientation>
@@ -1065,7 +1065,7 @@
                   <MultilingualTextItem ID="76" CompositionName="Items">
                     <AttributeList>
                       <Culture>en-US</Culture>
-                      <Text><body><p>New</p></body></Text>
+                      <Text><body><p>Entry</p></body></Text>
                     </AttributeList>
                   </MultilingualTextItem>
                 </ObjectList>
@@ -1141,7 +1141,7 @@
               <HorizontalAlignment>Right</HorizontalAlignment>
               <Left>292</Left>
               <LeftMargin>2</LeftMargin>
-              <ObjectName>Text_Accepted</ObjectName>
+              <ObjectName>Text_In_use</ObjectName>
               <RightMargin>2</RightMargin>
               <TabIndex>-1</TabIndex>
               <TextOrientation>Horizontal</TextOrientation>
@@ -1169,7 +1169,7 @@
                   <MultilingualTextItem ID="80" CompositionName="Items">
                     <AttributeList>
                       <Culture>en-US</Culture>
-                      <Text><body><p>Accepted</p></body></Text>
+                      <Text><body><p>In use</p></body></Text>
                     </AttributeList>
                   </MultilingualTextItem>
                 </ObjectList>
@@ -1221,7 +1221,7 @@
                   <MultilingualTextItem ID="85" CompositionName="Items">
                     <AttributeList>
                       <Culture>en-US</Culture>
-                      <Text><body><p>Stop at  C</p></body></Text>
+                      <Text><body><p>Stop at °C</p></body></Text>
                     </AttributeList>
                   </MultilingualTextItem>
                 </ObjectList>
@@ -1459,7 +1459,7 @@
               <HorizontalAlignment>Left</HorizontalAlignment>
               <Left>8</Left>
               <LeftMargin>2</LeftMargin>
-              <ObjectName>Text_Restart_below_C</ObjectName>
+              <ObjectName>Text_Restart_gap_C</ObjectName>
               <RightMargin>2</RightMargin>
               <TabIndex>-1</TabIndex>
               <TextOrientation>Horizontal</TextOrientation>
@@ -1487,7 +1487,7 @@
                   <MultilingualTextItem ID="9F" CompositionName="Items">
                     <AttributeList>
                       <Culture>en-US</Culture>
-                      <Text><body><p>Restart below  C</p></body></Text>
+                      <Text><body><p>Restart gap °C</p></body></Text>
                     </AttributeList>
                   </MultilingualTextItem>
                 </ObjectList>
@@ -1725,7 +1725,7 @@
               <HorizontalAlignment>Left</HorizontalAlignment>
               <Left>8</Left>
               <LeftMargin>2</LeftMargin>
-              <ObjectName>Text_Text_2nd_stage_below_C</ObjectName>
+              <ObjectName>Text_Stage_2_offset_C</ObjectName>
               <RightMargin>2</RightMargin>
               <TabIndex>-1</TabIndex>
               <TextOrientation>Horizontal</TextOrientation>
@@ -1753,7 +1753,7 @@
                   <MultilingualTextItem ID="B9" CompositionName="Items">
                     <AttributeList>
                       <Culture>en-US</Culture>
-                      <Text><body><p>2nd stage below  C</p></body></Text>
+                      <Text><body><p>Stage 2 offset °C</p></body></Text>
                     </AttributeList>
                   </MultilingualTextItem>
                 </ObjectList>
@@ -1991,7 +1991,7 @@
               <HorizontalAlignment>Left</HorizontalAlignment>
               <Left>8</Left>
               <LeftMargin>2</LeftMargin>
-              <ObjectName>Text_Start_time_ms</ObjectName>
+              <ObjectName>Text_Start_timeout_ms</ObjectName>
               <RightMargin>2</RightMargin>
               <TabIndex>-1</TabIndex>
               <TextOrientation>Horizontal</TextOrientation>
@@ -2019,7 +2019,7 @@
                   <MultilingualTextItem ID="D3" CompositionName="Items">
                     <AttributeList>
                       <Culture>en-US</Culture>
-                      <Text><body><p>Start time  ms</p></body></Text>
+                      <Text><body><p>Start timeout ms</p></body></Text>
                     </AttributeList>
                   </MultilingualTextItem>
                 </ObjectList>
@@ -2257,7 +2257,7 @@
               <HorizontalAlignment>Left</HorizontalAlignment>
               <Left>8</Left>
               <LeftMargin>2</LeftMargin>
-              <ObjectName>Text_Drain_open_ms</ObjectName>
+              <ObjectName>Text_Drain_on_delay_ms</ObjectName>
               <RightMargin>2</RightMargin>
               <TabIndex>-1</TabIndex>
               <TextOrientation>Horizontal</TextOrientation>
@@ -2285,7 +2285,7 @@
                   <MultilingualTextItem ID="ED" CompositionName="Items">
                     <AttributeList>
                       <Culture>en-US</Culture>
-                      <Text><body><p>Drain open  ms</p></body></Text>
+                      <Text><body><p>Drain on delay ms</p></body></Text>
                     </AttributeList>
                   </MultilingualTextItem>
                 </ObjectList>
@@ -2523,7 +2523,7 @@
               <HorizontalAlignment>Left</HorizontalAlignment>
               <Left>8</Left>
               <LeftMargin>2</LeftMargin>
-              <ObjectName>Text_Drain_close_ms</ObjectName>
+              <ObjectName>Text_Drain_off_delay_ms</ObjectName>
               <RightMargin>2</RightMargin>
               <TabIndex>-1</TabIndex>
               <TextOrientation>Horizontal</TextOrientation>
@@ -2551,7 +2551,7 @@
                   <MultilingualTextItem ID="107" CompositionName="Items">
                     <AttributeList>
                       <Culture>en-US</Culture>
-                      <Text><body><p>Drain close  ms</p></body></Text>
+                      <Text><body><p>Drain off delay ms</p></body></Text>
                     </AttributeList>
                   </MultilingualTextItem>
                 </ObjectList>
@@ -2789,7 +2789,7 @@
               <HorizontalAlignment>Left</HorizontalAlignment>
               <Left>8</Left>
               <LeftMargin>2</LeftMargin>
-              <ObjectName>Text_Drain_max_ms</ObjectName>
+              <ObjectName>Text_Drain_max_time_ms</ObjectName>
               <RightMargin>2</RightMargin>
               <TabIndex>-1</TabIndex>
               <TextOrientation>Horizontal</TextOrientation>
@@ -2817,7 +2817,7 @@
                   <MultilingualTextItem ID="121" CompositionName="Items">
                     <AttributeList>
                       <Culture>en-US</Culture>
-                      <Text><body><p>Drain max  ms</p></body></Text>
+                      <Text><body><p>Drain max time ms</p></body></Text>
                     </AttributeList>
                   </MultilingualTextItem>
                 </ObjectList>
@@ -3055,7 +3055,7 @@
               <HorizontalAlignment>Left</HorizontalAlignment>
               <Left>372</Left>
               <LeftMargin>2</LeftMargin>
-              <ObjectName>Text_Editing_allowed_Sys_SettingsEditable</ObjectName>
+              <ObjectName>Text_Settings_editable_Sys_SettingsEditable</ObjectName>
               <RightMargin>2</RightMargin>
               <TabIndex>-1</TabIndex>
               <TextOrientation>Horizontal</TextOrientation>
@@ -3099,7 +3099,7 @@
                   <MultilingualTextItem ID="13F" CompositionName="Items">
                     <AttributeList>
                       <Culture>en-US</Culture>
-                      <Text><body><p>Editing allowed</p></body></Text>
+                      <Text><body><p>Settings editable</p></body></Text>
                     </AttributeList>
                   </MultilingualTextItem>
                 </ObjectList>
@@ -3259,7 +3259,7 @@
               <HorizontalAlignment>Left</HorizontalAlignment>
               <Left>372</Left>
               <LeftMargin>2</LeftMargin>
-              <ObjectName>Text_Settings_need_log_on_user_Engineer</ObjectName>
+              <ObjectName>Text_Engineer_access</ObjectName>
               <RightMargin>2</RightMargin>
               <TabIndex>-1</TabIndex>
               <TextOrientation>Horizontal</TextOrientation>
@@ -3287,7 +3287,7 @@
                   <MultilingualTextItem ID="155" CompositionName="Items">
                     <AttributeList>
                       <Culture>en-US</Culture>
-                      <Text><body><p>Settings need log-on (user Engineer).</p></body></Text>
+                      <Text><body><p>Engineer access</p></body></Text>
                     </AttributeList>
                   </MultilingualTextItem>
                 </ObjectList>

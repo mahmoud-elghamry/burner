@@ -22,5 +22,9 @@ tia/*.backup/
 tia/**/Generates/
 build/drawing/
 build/for-manager/
+# transient text dumps from tools/lad2text.py
+build/_lad.txt
+build/_lad.err
+build/_msg*.txt
 # ملفات المذاكرة الشخصية
 docs/شرح/

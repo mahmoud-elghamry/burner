@@ -2,7 +2,7 @@
 <Document>
   <Engineering version="V15.1" />
   <DocumentInfo>
-    <Created>2026-11-11T00:40:23.1348615Z</Created>
+    <Created>2026-11-11T11:05:29.6063831Z</Created>
     <ExportSetting>WithDefaults</ExportSetting>
     <InstalledProducts>
       <Product>
@@ -32,61 +32,61 @@
       <HeaderVersion>0.1</HeaderVersion>
       <Interface><Sections xmlns="http://www.siemens.com/automation/Openness/SW/Interface/v3">
   <Section Name="Input">
-    <Member Name="Auto" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute></AttributeList><Comment><MultiLanguageText Lang="en-US">AUTO/MAN selector, 1 = AUTO</MultiLanguageText></Comment></Member>
-    <Member Name="StartPB" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute></AttributeList><Comment><MultiLanguageText Lang="en-US">START push button (NO)</MultiLanguageText></Comment></Member>
-    <Member Name="StopOK" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute></AttributeList><Comment><MultiLanguageText Lang="en-US">STOP push button (NC): 1 = released</MultiLanguageText></Comment></Member>
-    <Member Name="Reset" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute></AttributeList><Comment><MultiLanguageText Lang="en-US">RESET push button, one scan (Sys.ResetPulse)</MultiLanguageText></Comment></Member>
-    <Member Name="LevelOK" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute></AttributeList><Comment><MultiLanguageText Lang="en-US">Tank LSL reached (C07a)</MultiLanguageText></Comment></Member>
-    <Member Name="RunFb" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute></AttributeList><Comment><MultiLanguageText Lang="en-US">Burner RUN feedback</MultiLanguageText></Comment></Member>
-    <Member Name="Lockout" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute></AttributeList><Comment><MultiLanguageText Lang="en-US">Burner lockout signal (C07e)</MultiLanguageText></Comment></Member>
-    <Member Name="Fuel" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute></AttributeList><Comment><MultiLanguageText Lang="en-US">Fuel mode (BR02 Rfuel2, R-12); FALSE for BR01</MultiLanguageText></Comment></Member>
-    <Member Name="TeA" Datatype="Int" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute></AttributeList><Comment><MultiLanguageText Lang="en-US">Thermocouple A raw, 0.1 degC</MultiLanguageText></Comment></Member>
-    <Member Name="TeB" Datatype="Int" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute></AttributeList><Comment><MultiLanguageText Lang="en-US">Thermocouple B raw, 0.1 degC</MultiLanguageText></Comment></Member>
+    <Member Name="Auto" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute></AttributeList><Comment><MultiLanguageText Lang="en-US">AUTO/MAN selector; 1 = AUTO</MultiLanguageText></Comment></Member>
+    <Member Name="StartPB" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute></AttributeList><Comment><MultiLanguageText Lang="en-US">Burner START push button input</MultiLanguageText></Comment></Member>
+    <Member Name="StopOK" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute></AttributeList><Comment><MultiLanguageText Lang="en-US">STOP NC circuit healthy/released</MultiLanguageText></Comment></Member>
+    <Member Name="Reset" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute></AttributeList><Comment><MultiLanguageText Lang="en-US">One-scan RESET pulse from common logic</MultiLanguageText></Comment></Member>
+    <Member Name="LevelOK" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute></AttributeList><Comment><MultiLanguageText Lang="en-US">Tank low-level input; 1 permits heating, 0 stops the heat request.</MultiLanguageText></Comment></Member>
+    <Member Name="RunFb" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute></AttributeList><Comment><MultiLanguageText Lang="en-US">Burner control box RUN feedback</MultiLanguageText></Comment></Member>
+    <Member Name="Lockout" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute></AttributeList><Comment><MultiLanguageText Lang="en-US">Burner lockout input; code treats 1 as lockout</MultiLanguageText></Comment></Member>
+    <Member Name="Fuel" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute></AttributeList><Comment><MultiLanguageText Lang="en-US">BR02 fuel selector input; 1 selects diesel mode. BR01 input is fixed FALSE.</MultiLanguageText></Comment></Member>
+    <Member Name="TeA" Datatype="Int" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute></AttributeList><Comment><MultiLanguageText Lang="en-US">Raw thermocouple channel value in 0.1 degC</MultiLanguageText></Comment></Member>
+    <Member Name="TeB" Datatype="Int" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute></AttributeList><Comment><MultiLanguageText Lang="en-US">Raw thermocouple channel value in 0.1 degC</MultiLanguageText></Comment></Member>
   </Section>
   <Section Name="Output">
-    <Member Name="HeatReq" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute></AttributeList><Comment><MultiLanguageText Lang="en-US">Heat request TL / L (E1 / E3)</MultiLanguageText></Comment></Member>
-    <Member Name="Stage2" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute></AttributeList><Comment><MultiLanguageText Lang="en-US">2nd stage TR / T2 (E2 / E4)</MultiLanguageText></Comment></Member>
+    <Member Name="HeatReq" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute></AttributeList><Comment><MultiLanguageText Lang="en-US">Request to certified burner box: TL / L</MultiLanguageText></Comment></Member>
+    <Member Name="Stage2" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute></AttributeList><Comment><MultiLanguageText Lang="en-US">Second-stage request to burner box: TR / T2</MultiLanguageText></Comment></Member>
   </Section>
   <Section Name="InOut" />
   <Section Name="Static">
-    <Member Name="StartEdge" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="SetPoint" SystemDefined="true">false</BooleanAttribute></AttributeList></Member>
-    <Member Name="StartMem" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="SetPoint" SystemDefined="true">false</BooleanAttribute></AttributeList></Member>
-    <Member Name="AutoChg" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="SetPoint" SystemDefined="true">false</BooleanAttribute></AttributeList></Member>
-    <Member Name="AutoMem" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="SetPoint" SystemDefined="true">false</BooleanAttribute></AttributeList></Member>
-    <Member Name="FuelChg" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="SetPoint" SystemDefined="true">false</BooleanAttribute></AttributeList></Member>
-    <Member Name="FuelMem" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="SetPoint" SystemDefined="true">false</BooleanAttribute></AttributeList></Member>
-    <Member Name="TcOkA" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="SetPoint" SystemDefined="true">false</BooleanAttribute></AttributeList></Member>
-    <Member Name="TcOkB" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="SetPoint" SystemDefined="true">false</BooleanAttribute></AttributeList></Member>
-    <Member Name="TcOk" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="SetPoint" SystemDefined="true">false</BooleanAttribute></AttributeList></Member>
-    <Member Name="TcBad" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="SetPoint" SystemDefined="true">false</BooleanAttribute></AttributeList></Member>
-    <Member Name="Demand" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="SetPoint" SystemDefined="true">false</BooleanAttribute></AttributeList><Comment><MultiLanguageText Lang="en-US">AUTO temperature hysteresis memory</MultiLanguageText></Comment></Member>
-    <Member Name="HeatNeed" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="SetPoint" SystemDefined="true">false</BooleanAttribute></AttributeList><Comment><MultiLanguageText Lang="en-US">Temperature needs heat in the selected AUTO/MAN mode</MultiLanguageText></Comment></Member>
-    <Member Name="Ready" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="SetPoint" SystemDefined="true">false</BooleanAttribute></AttributeList><Comment><MultiLanguageText Lang="en-US">All field permissives healthy; not a heat request by itself</MultiLanguageText></Comment></Member>
-    <Member Name="Pause24" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="SetPoint" SystemDefined="true">false</BooleanAttribute></AttributeList></Member>
-    <Member Name="RunWrong" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="SetPoint" SystemDefined="true">false</BooleanAttribute></AttributeList></Member>
-    <Member Name="NoStart" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="SetPoint" SystemDefined="true">false</BooleanAttribute></AttributeList></Member>
-    <Member Name="PwrUpDone" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="SetPoint" SystemDefined="true">false</BooleanAttribute></AttributeList></Member>
-    <Member Name="TcSlow" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="SetPoint" SystemDefined="true">false</BooleanAttribute></AttributeList></Member>
-    <Member Name="TOn" Datatype="Int" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="SetPoint" SystemDefined="true">false</BooleanAttribute></AttributeList><Comment><MultiLanguageText Lang="en-US">AUTO restart threshold: SP - HYST, 0.1 degC</MultiLanguageText></Comment></Member>
-    <Member Name="TStg" Datatype="Int" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="SetPoint" SystemDefined="true">false</BooleanAttribute></AttributeList><Comment><MultiLanguageText Lang="en-US">Second-stage ON threshold: SP - STG, 0.1 degC</MultiLanguageText></Comment></Member>
-    <Member Name="TStgOff" Datatype="Int" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="SetPoint" SystemDefined="true">false</BooleanAttribute></AttributeList><Comment><MultiLanguageText Lang="en-US">Second-stage OFF threshold: TStg + 2.0 degC</MultiLanguageText></Comment></Member>
-    <Member Name="State" Datatype="Int" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="SetPoint" SystemDefined="true">false</BooleanAttribute></AttributeList><Comment><MultiLanguageText Lang="en-US">0 IDLE, 1 STARTING, 2 RUNNING, 3 FAULT</MultiLanguageText></Comment></Member>
-    <Member Name="Enabled" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="SetPoint" SystemDefined="true">false</BooleanAttribute></AttributeList><Comment><MultiLanguageText Lang="en-US">START accepted; STOP or a trip cancels this permission</MultiLanguageText></Comment></Member>
-    <Member Name="Tmax" Datatype="Int" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="SetPoint" SystemDefined="true">false</BooleanAttribute></AttributeList><Comment><MultiLanguageText Lang="en-US">Higher of both valid temperature channels, 0.1 degC</MultiLanguageText></Comment></Member>
-    <Member Name="F_EStop" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="SetPoint" SystemDefined="true">false</BooleanAttribute></AttributeList></Member>
-    <Member Name="F_TC" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="SetPoint" SystemDefined="true">false</BooleanAttribute></AttributeList></Member>
-    <Member Name="F_Lockout" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="SetPoint" SystemDefined="true">false</BooleanAttribute></AttributeList></Member>
-    <Member Name="F_NoStart" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="SetPoint" SystemDefined="true">false</BooleanAttribute></AttributeList></Member>
-    <Member Name="F_RunLost" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="SetPoint" SystemDefined="true">false</BooleanAttribute></AttributeList></Member>
-    <Member Name="F_RunWrong" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="SetPoint" SystemDefined="true">false</BooleanAttribute></AttributeList></Member>
-    <Member Name="F_Scrubber" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="SetPoint" SystemDefined="true">false</BooleanAttribute></AttributeList><Comment><MultiLanguageText Lang="en-US">Scrubber trip stopped this burner; RESET then new START</MultiLanguageText></Comment></Member>
-    <Member Name="Use24h" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="SetPoint" SystemDefined="true">false</BooleanAttribute></AttributeList></Member>
-    <Member Name="T_PwrUp" Datatype="TON_TIME" Version="1.0" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute></AttributeList><Sections><Section Name="None"><Member Name="PT" Datatype="Time" /><Member Name="ET" Datatype="Time" /><Member Name="IN" Datatype="Bool" /><Member Name="Q" Datatype="Bool" /></Section></Sections></Member>
-    <Member Name="T_TcBad" Datatype="TON_TIME" Version="1.0" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute></AttributeList><Sections><Section Name="None"><Member Name="PT" Datatype="Time" /><Member Name="ET" Datatype="Time" /><Member Name="IN" Datatype="Bool" /><Member Name="Q" Datatype="Bool" /></Section></Sections></Member>
-    <Member Name="T_24h" Datatype="TON_TIME" Version="1.0" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute></AttributeList><Sections><Section Name="None"><Member Name="PT" Datatype="Time" /><Member Name="ET" Datatype="Time" /><Member Name="IN" Datatype="Bool" /><Member Name="Q" Datatype="Bool" /></Section></Sections></Member>
-    <Member Name="T_Pause" Datatype="TON_TIME" Version="1.0" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute></AttributeList><Sections><Section Name="None"><Member Name="PT" Datatype="Time" /><Member Name="ET" Datatype="Time" /><Member Name="IN" Datatype="Bool" /><Member Name="Q" Datatype="Bool" /></Section></Sections></Member>
-    <Member Name="T_RunOff" Datatype="TON_TIME" Version="1.0" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute></AttributeList><Sections><Section Name="None"><Member Name="PT" Datatype="Time" /><Member Name="ET" Datatype="Time" /><Member Name="IN" Datatype="Bool" /><Member Name="Q" Datatype="Bool" /></Section></Sections></Member>
-    <Member Name="T_Start" Datatype="TON_TIME" Version="1.0" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute></AttributeList><Sections><Section Name="None"><Member Name="PT" Datatype="Time" /><Member Name="ET" Datatype="Time" /><Member Name="IN" Datatype="Bool" /><Member Name="Q" Datatype="Bool" /></Section></Sections></Member>
+    <Member Name="StartEdge" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="SetPoint" SystemDefined="true">false</BooleanAttribute></AttributeList><Comment><MultiLanguageText Lang="en-US">New START press pulse; start permission is checked later</MultiLanguageText></Comment></Member>
+    <Member Name="StartMem" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="SetPoint" SystemDefined="true">false</BooleanAttribute></AttributeList><Comment><MultiLanguageText Lang="en-US">START button state from the previous scan; used to detect a new press.</MultiLanguageText></Comment></Member>
+    <Member Name="AutoChg" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="SetPoint" SystemDefined="true">false</BooleanAttribute></AttributeList><Comment><MultiLanguageText Lang="en-US">AUTO/MAN selection changed</MultiLanguageText></Comment></Member>
+    <Member Name="AutoMem" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="SetPoint" SystemDefined="true">false</BooleanAttribute></AttributeList><Comment><MultiLanguageText Lang="en-US">Previous-scan AUTO/MAN selection</MultiLanguageText></Comment></Member>
+    <Member Name="FuelChg" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="SetPoint" SystemDefined="true">false</BooleanAttribute></AttributeList><Comment><MultiLanguageText Lang="en-US">Fuel selection changed</MultiLanguageText></Comment></Member>
+    <Member Name="FuelMem" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="SetPoint" SystemDefined="true">false</BooleanAttribute></AttributeList><Comment><MultiLanguageText Lang="en-US">Previous-scan fuel selection</MultiLanguageText></Comment></Member>
+    <Member Name="TcOkA" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="SetPoint" SystemDefined="true">false</BooleanAttribute></AttributeList><Comment><MultiLanguageText Lang="en-US">Channel is within configured valid raw range</MultiLanguageText></Comment></Member>
+    <Member Name="TcOkB" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="SetPoint" SystemDefined="true">false</BooleanAttribute></AttributeList><Comment><MultiLanguageText Lang="en-US">Channel is within configured valid raw range</MultiLanguageText></Comment></Member>
+    <Member Name="TcOk" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="SetPoint" SystemDefined="true">false</BooleanAttribute></AttributeList><Comment><MultiLanguageText Lang="en-US">Both thermocouple channels are valid</MultiLanguageText></Comment></Member>
+    <Member Name="TcBad" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="SetPoint" SystemDefined="true">false</BooleanAttribute></AttributeList><Comment><MultiLanguageText Lang="en-US">Temperature fault after the applicable startup delay</MultiLanguageText></Comment></Member>
+    <Member Name="Demand" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="SetPoint" SystemDefined="true">false</BooleanAttribute></AttributeList><Comment><MultiLanguageText Lang="en-US">AUTO demand memory with SP/HYST hysteresis</MultiLanguageText></Comment></Member>
+    <Member Name="HeatNeed" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="SetPoint" SystemDefined="true">false</BooleanAttribute></AttributeList><Comment><MultiLanguageText Lang="en-US">Temperature requires heat in the selected mode</MultiLanguageText></Comment></Member>
+    <Member Name="ReadyToStart" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="SetPoint" SystemDefined="true">false</BooleanAttribute></AttributeList><Comment><MultiLanguageText Lang="en-US">All start conditions are healthy; a heat request still needs START permission and temperature demand.</MultiLanguageText></Comment></Member>
+    <Member Name="Pause24" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="SetPoint" SystemDefined="true">false</BooleanAttribute></AttributeList><Comment><MultiLanguageText Lang="en-US">24-hour run pause; clears after RUN is off 60 s</MultiLanguageText></Comment></Member>
+    <Member Name="RunWrong" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="SetPoint" SystemDefined="true">false</BooleanAttribute></AttributeList><Comment><MultiLanguageText Lang="en-US">RUN persists without heat request for 30 s</MultiLanguageText></Comment></Member>
+    <Member Name="NoStart" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="SetPoint" SystemDefined="true">false</BooleanAttribute></AttributeList><Comment><MultiLanguageText Lang="en-US">RUN not received within configured start time</MultiLanguageText></Comment></Member>
+    <Member Name="PwrUpDone" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="SetPoint" SystemDefined="true">false</BooleanAttribute></AttributeList><Comment><MultiLanguageText Lang="en-US">Ten-second thermocouple-card startup window elapsed</MultiLanguageText></Comment></Member>
+    <Member Name="InvalidTempTimerDone" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="SetPoint" SystemDefined="true">false</BooleanAttribute></AttributeList><Comment><MultiLanguageText Lang="en-US">Invalid temperature has persisted for 10 seconds; startup fault logic uses this timer output.</MultiLanguageText></Comment></Member>
+    <Member Name="AutoRestartTemp" Datatype="Int" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="SetPoint" SystemDefined="true">false</BooleanAttribute></AttributeList><Comment><MultiLanguageText Lang="en-US">AUTO restart threshold SP minus HYST, in 0.1 degC</MultiLanguageText></Comment></Member>
+    <Member Name="SecondStageOnTemp" Datatype="Int" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="SetPoint" SystemDefined="true">false</BooleanAttribute></AttributeList><Comment><MultiLanguageText Lang="en-US">Second-stage ON threshold SP minus STG, in 0.1 degC</MultiLanguageText></Comment></Member>
+    <Member Name="SecondStageOffTemp" Datatype="Int" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="SetPoint" SystemDefined="true">false</BooleanAttribute></AttributeList><Comment><MultiLanguageText Lang="en-US">Second-stage OFF threshold, in 0.1 degC</MultiLanguageText></Comment></Member>
+    <Member Name="BurnerState" Datatype="Int" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="SetPoint" SystemDefined="true">false</BooleanAttribute></AttributeList><Comment><MultiLanguageText Lang="en-US">0 IDLE, 1 STARTING, 2 RUNNING, 3 FAULT</MultiLanguageText></Comment></Member>
+    <Member Name="StartEnabled" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="SetPoint" SystemDefined="true">false</BooleanAttribute></AttributeList><Comment><MultiLanguageText Lang="en-US">Saved accepted START permission; separate from RUN feedback</MultiLanguageText></Comment></Member>
+    <Member Name="ControlTemp" Datatype="Int" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="SetPoint" SystemDefined="true">false</BooleanAttribute></AttributeList><Comment><MultiLanguageText Lang="en-US">Higher raw temperature reading, in 0.1 degC; use only when both channels are valid.</MultiLanguageText></Comment></Member>
+    <Member Name="F_EStop" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="SetPoint" SystemDefined="true">false</BooleanAttribute></AttributeList><Comment><MultiLanguageText Lang="en-US">Burner fault memory caused by E-STOP</MultiLanguageText></Comment></Member>
+    <Member Name="F_TC" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="SetPoint" SystemDefined="true">false</BooleanAttribute></AttributeList><Comment><MultiLanguageText Lang="en-US">Burner fault memory caused by invalid temperature</MultiLanguageText></Comment></Member>
+    <Member Name="F_Lockout" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="SetPoint" SystemDefined="true">false</BooleanAttribute></AttributeList><Comment><MultiLanguageText Lang="en-US">Saved burner fault from Lockout=1</MultiLanguageText></Comment></Member>
+    <Member Name="F_NoStart" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="SetPoint" SystemDefined="true">false</BooleanAttribute></AttributeList><Comment><MultiLanguageText Lang="en-US">Fault memory after RUN start timeout</MultiLanguageText></Comment></Member>
+    <Member Name="F_RunLost" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="SetPoint" SystemDefined="true">false</BooleanAttribute></AttributeList><Comment><MultiLanguageText Lang="en-US">Fault memory after RUN drops while running</MultiLanguageText></Comment></Member>
+    <Member Name="F_RunWrong" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="SetPoint" SystemDefined="true">false</BooleanAttribute></AttributeList><Comment><MultiLanguageText Lang="en-US">Fault memory for RUN without request</MultiLanguageText></Comment></Member>
+    <Member Name="F_Scrubber" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="SetPoint" SystemDefined="true">false</BooleanAttribute></AttributeList><Comment><MultiLanguageText Lang="en-US">Fault memory: scrubber trip stopped this burner</MultiLanguageText></Comment></Member>
+    <Member Name="Use24h" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="SetPoint" SystemDefined="true">false</BooleanAttribute></AttributeList><Comment><MultiLanguageText Lang="en-US">Enables the 24-hour continuous-request limit</MultiLanguageText></Comment></Member>
+    <Member Name="T_PwrUp" Datatype="TON_TIME" Version="1.0" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute></AttributeList><Comment><MultiLanguageText Lang="en-US">Thermocouple-card startup window timer</MultiLanguageText></Comment><Sections><Section Name="None"><Member Name="PT" Datatype="Time" /><Member Name="ET" Datatype="Time" /><Member Name="IN" Datatype="Bool" /><Member Name="Q" Datatype="Bool" /></Section></Sections></Member>
+    <Member Name="T_TcBad" Datatype="TON_TIME" Version="1.0" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute></AttributeList><Comment><MultiLanguageText Lang="en-US">Invalid-temperature persistence timer</MultiLanguageText></Comment><Sections><Section Name="None"><Member Name="PT" Datatype="Time" /><Member Name="ET" Datatype="Time" /><Member Name="IN" Datatype="Bool" /><Member Name="Q" Datatype="Bool" /></Section></Sections></Member>
+    <Member Name="T_24h" Datatype="TON_TIME" Version="1.0" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute></AttributeList><Comment><MultiLanguageText Lang="en-US">Continuous heat-request timer for 24-hour limit</MultiLanguageText></Comment><Sections><Section Name="None"><Member Name="PT" Datatype="Time" /><Member Name="ET" Datatype="Time" /><Member Name="IN" Datatype="Bool" /><Member Name="Q" Datatype="Bool" /></Section></Sections></Member>
+    <Member Name="T_Pause" Datatype="TON_TIME" Version="1.0" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute></AttributeList><Comment><MultiLanguageText Lang="en-US">RUN-off time required before daily pause clears</MultiLanguageText></Comment><Sections><Section Name="None"><Member Name="PT" Datatype="Time" /><Member Name="ET" Datatype="Time" /><Member Name="IN" Datatype="Bool" /><Member Name="Q" Datatype="Bool" /></Section></Sections></Member>
+    <Member Name="T_RunOff" Datatype="TON_TIME" Version="1.0" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute></AttributeList><Comment><MultiLanguageText Lang="en-US">RUN-without-request qualification timer</MultiLanguageText></Comment><Sections><Section Name="None"><Member Name="PT" Datatype="Time" /><Member Name="ET" Datatype="Time" /><Member Name="IN" Datatype="Bool" /><Member Name="Q" Datatype="Bool" /></Section></Sections></Member>
+    <Member Name="T_Start" Datatype="TON_TIME" Version="1.0" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute></AttributeList><Comment><MultiLanguageText Lang="en-US">Heat-request-to-RUN timer using Par.TStart_V</MultiLanguageText></Comment><Sections><Section Name="None"><Member Name="PT" Datatype="Time" /><Member Name="ET" Datatype="Time" /><Member Name="IN" Datatype="Bool" /><Member Name="Q" Datatype="Bool" /></Section></Sections></Member>
   </Section>
   <Section Name="Temp" />
   <Section Name="Constant" />
@@ -108,7 +108,7 @@
           <MultilingualTextItem ID="2" CompositionName="Items">
             <AttributeList>
               <Culture>en-US</Culture>
-              <Text>One burner, docs/التشغيل.md §2 and decisions/0006</Text>
+              <Text>Tank heat and stage requests with burner RUN and lockout supervision. Flame safety belongs to the burner control box.</Text>
             </AttributeList>
           </MultilingualTextItem>
         </ObjectList>
@@ -204,7 +204,7 @@
               <MultilingualTextItem ID="5" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text>One-scan pulse on a new press; ignored on first scan or while STOP is pressed. Reference: R-05.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -214,7 +214,7 @@
               <MultilingualTextItem ID="7" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>BUTTONS | R-05 - START edge: not on first scan, only after seen released, STOP wins</Text>
+                  <Text>Detect a new START press</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -265,7 +265,7 @@
               <MultilingualTextItem ID="A" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text>Save the current button state for detecting a new press on the next scan. Reference: R-05.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -275,7 +275,7 @@
               <MultilingualTextItem ID="C" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>BUTTONS | R-05 — START edge memory</Text>
+                  <Text>Remember the START button state</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -380,7 +380,7 @@
               <MultilingualTextItem ID="F" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text>Compare the selector with its previous state; either direction counts as a change. Reference: R-02.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -390,7 +390,7 @@
               <MultilingualTextItem ID="11" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>BUTTONS | R-02 — AUTO/MAN changed</Text>
+                  <Text>Detect an AUTO/MAN change</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -441,7 +441,7 @@
               <MultilingualTextItem ID="14" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text>Save the selected mode for the next scan. Reference: R-02.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -451,7 +451,7 @@
               <MultilingualTextItem ID="16" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>BUTTONS | R-02 — AUTO/MAN memory</Text>
+                  <Text>Remember the AUTO/MAN selector</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -556,7 +556,7 @@
               <MultilingualTextItem ID="19" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text>Detect either change of the fuel input; BR01 has a fixed FALSE input. Reference: R-12.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -566,7 +566,7 @@
               <MultilingualTextItem ID="1B" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>BUTTONS | R-12 — fuel mode changed</Text>
+                  <Text>Detect a fuel selector change</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -617,7 +617,7 @@
               <MultilingualTextItem ID="1E" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text>Save the current fuel input for the next scan; this does not select fuel valves. Reference: R-12.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -627,7 +627,7 @@
               <MultilingualTextItem ID="20" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>BUTTONS | R-12 — fuel mode memory</Text>
+                  <Text>Remember the fuel selector</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -716,7 +716,7 @@
               <MultilingualTextItem ID="23" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text>Reading must be -20.0 to 150.0 degC inclusive; raw values are tenths of a degree. Reference: C07d / C08d.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -726,7 +726,7 @@
               <MultilingualTextItem ID="25" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>TEMPERATURE | C0xd — channel A valid: -20.0 .. 150.0 degC (32767 / -32768 fall outside)</Text>
+                  <Text>Check temperature sensor A</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -815,7 +815,7 @@
               <MultilingualTextItem ID="28" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text>Apply the same limits independently to sensor B; one valid sensor is not enough. Reference: C07d / C08d.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -825,7 +825,7 @@
               <MultilingualTextItem ID="2A" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>TEMPERATURE | C0xd — channel B valid</Text>
+                  <Text>Check temperature sensor B</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -890,7 +890,7 @@
               <MultilingualTextItem ID="2D" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text>Both checks must pass before heat is permitted. Reference: C07d / C08d.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -900,7 +900,7 @@
               <MultilingualTextItem ID="2F" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>TEMPERATURE | C0xd — both channels valid, each checked before MAX</Text>
+                  <Text>Check that both temperatures are valid</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -977,7 +977,7 @@
               <MultilingualTextItem ID="32" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text>The startup window ends after 10 seconds; this bit alone does not confirm valid sensors. Reference: R-10.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -987,7 +987,7 @@
               <MultilingualTextItem ID="34" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>TEMPERATURE | R-10 - power-up window (TC card calibrating) is over after 10 s</Text>
+                  <Text>Time the temperature startup window</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -1010,7 +1010,7 @@
     </Access>
     <Access Scope="LocalVariable" UId="23">
       <Symbol>
-        <Component Name="TcSlow" />
+        <Component Name="InvalidTempTimerDone" />
       </Symbol>
     </Access>
     <Part Name="Contact" UId="24">
@@ -1063,7 +1063,7 @@
               <MultilingualTextItem ID="37" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text>Timer runs while either temperature reading is invalid. Reference: C07d / C08d / R-10.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -1073,7 +1073,7 @@
               <MultilingualTextItem ID="39" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>TEMPERATURE | C0xd / R-10 — invalid for 10 s</Text>
+                  <Text>Time an invalid temperature reading</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -1096,7 +1096,7 @@
     </Access>
     <Access Scope="LocalVariable" UId="23">
       <Symbol>
-        <Component Name="TcSlow" />
+        <Component Name="InvalidTempTimerDone" />
       </Symbol>
     </Access>
     <Access Scope="LocalVariable" UId="24">
@@ -1162,7 +1162,7 @@
               <MultilingualTextItem ID="3C" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text>After the startup window, an invalid reading faults immediately; startup invalidity also faults after 10 seconds. Reference: C07d / C08d / R-10.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -1172,7 +1172,7 @@
               <MultilingualTextItem ID="3E" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>TEMPERATURE | C0xd / R-10 — invalid = fault: at once, or after 10 s right after power-up</Text>
+                  <Text>Raise a temperature fault</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -1200,7 +1200,7 @@
     </Access>
     <Access Scope="LocalVariable" UId="24">
       <Symbol>
-        <Component Name="Tmax" />
+        <Component Name="ControlTemp" />
       </Symbol>
     </Access>
     <Part Name="Ge" UId="25">
@@ -1245,7 +1245,7 @@
               <MultilingualTextItem ID="41" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text>Copy A when A is at least B; heat permission is checked separately. Reference: C07b / C08b.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -1255,7 +1255,7 @@
               <MultilingualTextItem ID="43" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>TEMPERATURE | C0xb — temperature = higher channel (A)</Text>
+                  <Text>Use sensor A as the higher temperature</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -1283,7 +1283,7 @@
     </Access>
     <Access Scope="LocalVariable" UId="24">
       <Symbol>
-        <Component Name="Tmax" />
+        <Component Name="ControlTemp" />
       </Symbol>
     </Access>
     <Part Name="Lt" UId="25">
@@ -1328,7 +1328,7 @@
               <MultilingualTextItem ID="46" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text>Copy B when it exceeds A; this is the control temperature, not a new physical sensor. Reference: C07b / C08b.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -1338,7 +1338,7 @@
               <MultilingualTextItem ID="48" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>TEMPERATURE | C0xb — temperature = higher channel (B)</Text>
+                  <Text>Use sensor B as the higher temperature</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -1363,7 +1363,7 @@
     </Access>
     <Access Scope="LocalVariable" UId="23">
       <Symbol>
-        <Component Name="TOn" />
+        <Component Name="AutoRestartTemp" />
       </Symbol>
     </Access>
     <Access Scope="GlobalVariable" UId="24">
@@ -1380,7 +1380,7 @@
     </Access>
     <Access Scope="LocalVariable" UId="26">
       <Symbol>
-        <Component Name="TStg" />
+        <Component Name="SecondStageOnTemp" />
       </Symbol>
     </Access>
     <Part Name="Sub" UId="27" DisabledENO="false">
@@ -1430,7 +1430,7 @@
               <MultilingualTextItem ID="4B" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text>Restart limit = stop setting - restart difference. Stage 2 ON limit = stop setting - stage 2 offset. Reference: C07b / C08b / C07c / C08c.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -1440,7 +1440,7 @@
               <MultilingualTextItem ID="4D" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>TEMPERATURE | C0xb / C0xc — restart and 2nd-stage limits</Text>
+                  <Text>Calculate the restart and stage 2 limits</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -1453,7 +1453,7 @@
   <Parts>
     <Access Scope="LocalVariable" UId="21">
       <Symbol>
-        <Component Name="TStg" />
+        <Component Name="SecondStageOnTemp" />
       </Symbol>
     </Access>
     <Access Scope="LiteralConstant" UId="22">
@@ -1464,7 +1464,7 @@
     </Access>
     <Access Scope="LocalVariable" UId="23">
       <Symbol>
-        <Component Name="TStgOff" />
+        <Component Name="SecondStageOffTemp" />
       </Symbol>
     </Access>
     <Part Name="Add" UId="24" DisabledENO="false">
@@ -1499,7 +1499,7 @@
               <MultilingualTextItem ID="50" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text>Stage 2 OFF limit = its ON limit + 2.0 degC; raw addition is 20. Reference: C07c / C08c.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -1509,7 +1509,7 @@
               <MultilingualTextItem ID="52" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>TEMPERATURE | C0xc / F41 — 2nd stage back to 1st at SP - STG + 2.0 degC</Text>
+                  <Text>Calculate the stage 2 OFF limit</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -1522,12 +1522,12 @@
   <Parts>
     <Access Scope="LocalVariable" UId="21">
       <Symbol>
-        <Component Name="Tmax" />
+        <Component Name="ControlTemp" />
       </Symbol>
     </Access>
     <Access Scope="LocalVariable" UId="22">
       <Symbol>
-        <Component Name="TOn" />
+        <Component Name="AutoRestartTemp" />
       </Symbol>
     </Access>
     <Access Scope="LocalVariable" UId="23">
@@ -1571,7 +1571,7 @@
               <MultilingualTextItem ID="55" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text>Set the temperature demand at or below the restart limit; keep it until the stop limit. Reference: C07b / C08b.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -1581,7 +1581,7 @@
               <MultilingualTextItem ID="57" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>TEMPERATURE | C0xb — AUTO demand on at T &lt;= SP - HYST</Text>
+                  <Text>AUTO: request heat at the restart limit</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -1594,7 +1594,7 @@
   <Parts>
     <Access Scope="LocalVariable" UId="21">
       <Symbol>
-        <Component Name="Tmax" />
+        <Component Name="ControlTemp" />
       </Symbol>
     </Access>
     <Access Scope="GlobalVariable" UId="22">
@@ -1668,7 +1668,7 @@
               <MultilingualTextItem ID="5A" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text>Clear demand at or above the stop setting, or if either temperature is invalid. Reference: C07b / C08b.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -1678,7 +1678,7 @@
               <MultilingualTextItem ID="5C" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>TEMPERATURE | C0xb — AUTO demand off at T >= SP, or no valid temperature</Text>
+                  <Text>AUTO: clear heat demand at the stop limit</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -1711,7 +1711,7 @@
     </Access>
     <Access Scope="LocalVariable" UId="25">
       <Symbol>
-        <Component Name="Tmax" />
+        <Component Name="ControlTemp" />
       </Symbol>
     </Access>
     <Access Scope="GlobalVariable" UId="26">
@@ -1807,7 +1807,7 @@
               <MultilingualTextItem ID="5F" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text>AUTO uses the retained temperature demand; MAN needs a valid temperature below the stop setting. Reference: B-01.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -1817,7 +1817,7 @@
               <MultilingualTextItem ID="61" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>TEMPERATURE | B-01 — heat needed: AUTO = hysteresis, MAN = below SP</Text>
+                  <Text>Determine whether heat is needed</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -1862,7 +1862,7 @@
     </Access>
     <Access Scope="LocalVariable" UId="27">
       <Symbol>
-        <Component Name="Ready" />
+        <Component Name="ReadyToStart" />
       </Symbol>
     </Access>
     <Part Name="Contact" UId="28" />
@@ -1946,7 +1946,7 @@
               <MultilingualTextItem ID="64" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text>Need tank level OK, both temperatures valid, E-STOP reset, no burner lockout, no daily pause and no scrubber trip. Reference: C07a / C08a / C07d / C08d / C01 / C07e / C08e / C07h / C03 / C05.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -1956,7 +1956,7 @@
               <MultilingualTextItem ID="66" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>PERMISSIVES | C0xa / C0xd / C01 / C0xe / C07h / C03 / C05 - ready to fire</Text>
+                  <Text>Check all burner start conditions</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -2044,7 +2044,7 @@
               <MultilingualTextItem ID="69" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text>When enabled for this burner, 24 hours of continuous heat request sets the pause. Reference: C07h / R-08.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -2054,7 +2054,7 @@
               <MultilingualTextItem ID="6B" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>PERMISSIVES | C07h / R-08 — 24 h of continuous request: forced stop</Text>
+                  <Text>Request the daily burner stop</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -2144,7 +2144,7 @@
               <MultilingualTextItem ID="6E" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text>Clear the daily pause after RUN feedback stays OFF for 60 seconds. Reference: R-08.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -2154,7 +2154,7 @@
               <MultilingualTextItem ID="70" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>PERMISSIVES | R-08 — restart allowed after RUN has been off 60 s</Text>
+                  <Text>End the daily stop after RUN is off</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -2244,7 +2244,7 @@
               <MultilingualTextItem ID="73" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text>RUN feedback with no heat request for 30 seconds sets a fault condition. Reference: R-09.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -2254,7 +2254,7 @@
               <MultilingualTextItem ID="75" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>PERMISSIVES | R-09 — RUN on without our request for 30 s</Text>
+                  <Text>Detect RUN without a heat request</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -2267,7 +2267,7 @@
   <Parts>
     <Access Scope="LocalVariable" UId="21">
       <Symbol>
-        <Component Name="State" />
+        <Component Name="BurnerState" />
       </Symbol>
     </Access>
     <Access Scope="LiteralConstant" UId="22">
@@ -2341,7 +2341,7 @@
               <MultilingualTextItem ID="78" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text>While STARTING, time the maximum wait for RUN using the accepted start-time setting. Reference: C07f / C08f.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -2351,7 +2351,7 @@
               <MultilingualTextItem ID="7A" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>PERMISSIVES | C0xf — no RUN within T_START</Text>
+                  <Text>Check the burner start timeout</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -2369,7 +2369,7 @@
     </Access>
     <Access Scope="LocalVariable" UId="22">
       <Symbol>
-        <Component Name="State" />
+        <Component Name="BurnerState" />
       </Symbol>
     </Access>
     <Access Scope="LiteralConstant" UId="23">
@@ -2380,7 +2380,7 @@
     </Access>
     <Access Scope="LocalVariable" UId="24">
       <Symbol>
-        <Component Name="Ready" />
+        <Component Name="ReadyToStart" />
       </Symbol>
     </Access>
     <Access Scope="LocalVariable" UId="25">
@@ -2395,7 +2395,7 @@
     </Access>
     <Access Scope="LocalVariable" UId="27">
       <Symbol>
-        <Component Name="Enabled" />
+        <Component Name="StartEnabled" />
       </Symbol>
     </Access>
     <Part Name="Contact" UId="28" />
@@ -2478,7 +2478,7 @@
               <MultilingualTextItem ID="7D" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text>Need a new press, IDLE and all start conditions. AUTO may wait for heat; MAN must already need heat. Reference: R-01 / B-01.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -2488,7 +2488,7 @@
               <MultilingualTextItem ID="7F" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>START_STOP | R-01 / B-01 — START accepted: IDLE, ready, and in MAN only if heat is needed</Text>
+                  <Text>Accept START permission</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -2522,7 +2522,7 @@
     </Access>
     <Access Scope="LocalVariable" UId="25">
       <Symbol>
-        <Component Name="Enabled" />
+        <Component Name="StartEnabled" />
       </Symbol>
     </Access>
     <Part Name="Contact" UId="26">
@@ -2594,7 +2594,7 @@
               <MultilingualTextItem ID="82" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text>STOP, AUTO/MAN change, fuel change or scrubber trip cancels the permission, including AUTO waiting for heat. Reference: B-01 / R-02 / R-12 / R-13.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -2604,7 +2604,7 @@
               <MultilingualTextItem ID="84" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>START_STOP | B-01 / R-02 / R-12 / R-13 — STOP, mode/fuel change or scrubber trip cancel START</Text>
+                  <Text>Cancel START permission</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -2617,7 +2617,7 @@
   <Parts>
     <Access Scope="LocalVariable" UId="21">
       <Symbol>
-        <Component Name="State" />
+        <Component Name="BurnerState" />
       </Symbol>
     </Access>
     <Access Scope="LiteralConstant" UId="22">
@@ -2628,12 +2628,12 @@
     </Access>
     <Access Scope="LocalVariable" UId="23">
       <Symbol>
-        <Component Name="Enabled" />
+        <Component Name="StartEnabled" />
       </Symbol>
     </Access>
     <Access Scope="LocalVariable" UId="24">
       <Symbol>
-        <Component Name="Ready" />
+        <Component Name="ReadyToStart" />
       </Symbol>
     </Access>
     <Access Scope="LocalVariable" UId="25">
@@ -2654,7 +2654,7 @@
     </Access>
     <Access Scope="LocalVariable" UId="28">
       <Symbol>
-        <Component Name="State" />
+        <Component Name="BurnerState" />
       </Symbol>
     </Access>
     <Part Name="Eq" UId="29">
@@ -2737,7 +2737,7 @@
               <MultilingualTextItem ID="87" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text>Move from IDLE to STARTING only with permission, healthy conditions, heat demand and RUN initially OFF. Reference: B-01 / R-09.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -2747,7 +2747,7 @@
               <MultilingualTextItem ID="89" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>START_STOP | B-01 — IDLE -> STARTING (R-09: not if RUN is already on)</Text>
+                  <Text>Begin the burner start sequence</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -2760,7 +2760,7 @@
   <Parts>
     <Access Scope="LocalVariable" UId="21">
       <Symbol>
-        <Component Name="State" />
+        <Component Name="BurnerState" />
       </Symbol>
     </Access>
     <Access Scope="LiteralConstant" UId="22">
@@ -2782,7 +2782,7 @@
     </Access>
     <Access Scope="LocalVariable" UId="25">
       <Symbol>
-        <Component Name="State" />
+        <Component Name="BurnerState" />
       </Symbol>
     </Access>
     <Part Name="Eq" UId="26">
@@ -2836,7 +2836,7 @@
               <MultilingualTextItem ID="8C" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text>While STARTING, RUN feedback changes the state to RUNNING. Reference: B-01.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -2846,7 +2846,7 @@
               <MultilingualTextItem ID="8E" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>START_STOP | B-01 — STARTING -> RUNNING on RUN</Text>
+                  <Text>Accept the burner RUN feedback</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -2859,7 +2859,7 @@
   <Parts>
     <Access Scope="LocalVariable" UId="21">
       <Symbol>
-        <Component Name="State" />
+        <Component Name="BurnerState" />
       </Symbol>
     </Access>
     <Access Scope="LiteralConstant" UId="22">
@@ -2870,7 +2870,7 @@
     </Access>
     <Access Scope="LocalVariable" UId="23">
       <Symbol>
-        <Component Name="State" />
+        <Component Name="BurnerState" />
       </Symbol>
     </Access>
     <Access Scope="LiteralConstant" UId="24">
@@ -2899,7 +2899,7 @@
     </Access>
     <Access Scope="LocalVariable" UId="28">
       <Symbol>
-        <Component Name="State" />
+        <Component Name="BurnerState" />
       </Symbol>
     </Access>
     <Access Scope="LocalVariable" UId="29">
@@ -2996,7 +2996,7 @@
               <MultilingualTextItem ID="91" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text>With E-STOP healthy, a scrubber trip while STARTING or RUNNING records this fault. Reference: C03 / C05 / R-13.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -3006,7 +3006,7 @@
               <MultilingualTextItem ID="93" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>START_STOP | C03 / C05 / R-13 — scrubber trip while starting or running: FAULT</Text>
+                  <Text>Fault on a scrubber trip during operation</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -3019,7 +3019,7 @@
   <Parts>
     <Access Scope="LocalVariable" UId="21">
       <Symbol>
-        <Component Name="State" />
+        <Component Name="BurnerState" />
       </Symbol>
     </Access>
     <Access Scope="LiteralConstant" UId="22">
@@ -3030,7 +3030,7 @@
     </Access>
     <Access Scope="LocalVariable" UId="23">
       <Symbol>
-        <Component Name="State" />
+        <Component Name="BurnerState" />
       </Symbol>
     </Access>
     <Access Scope="LiteralConstant" UId="24">
@@ -3041,7 +3041,7 @@
     </Access>
     <Access Scope="LocalVariable" UId="25">
       <Symbol>
-        <Component Name="Ready" />
+        <Component Name="ReadyToStart" />
       </Symbol>
     </Access>
     <Access Scope="LocalVariable" UId="26">
@@ -3051,7 +3051,7 @@
     </Access>
     <Access Scope="LocalVariable" UId="27">
       <Symbol>
-        <Component Name="Enabled" />
+        <Component Name="StartEnabled" />
       </Symbol>
     </Access>
     <Access Scope="LiteralConstant" UId="28">
@@ -3062,7 +3062,7 @@
     </Access>
     <Access Scope="LocalVariable" UId="29">
       <Symbol>
-        <Component Name="State" />
+        <Component Name="BurnerState" />
       </Symbol>
     </Access>
     <Part Name="Eq" UId="30">
@@ -3172,7 +3172,7 @@
               <MultilingualTextItem ID="96" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text>While starting or running, return to IDLE if start conditions, heat demand or START permission are lost. Reference: C07a / C08a / C07b / C08b / C07h / B-01.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -3182,7 +3182,7 @@
               <MultilingualTextItem ID="98" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>START_STOP | C0xa / C0xb / C07h / B-01 — STARTING or RUNNING -> IDLE</Text>
+                  <Text>Return to IDLE when heating must stop</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -3200,7 +3200,7 @@
     </Access>
     <Access Scope="LocalVariable" UId="22">
       <Symbol>
-        <Component Name="State" />
+        <Component Name="BurnerState" />
       </Symbol>
     </Access>
     <Access Scope="LiteralConstant" UId="23">
@@ -3216,7 +3216,7 @@
     </Access>
     <Access Scope="LocalVariable" UId="25">
       <Symbol>
-        <Component Name="Enabled" />
+        <Component Name="StartEnabled" />
       </Symbol>
     </Access>
     <Part Name="Contact" UId="26">
@@ -3275,7 +3275,7 @@
               <MultilingualTextItem ID="9B" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text>In MAN, returning to IDLE after a heat request cancels the previous START permission. Reference: R-03.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -3285,7 +3285,7 @@
               <MultilingualTextItem ID="9D" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>START_STOP | R-03 — MAN: one cycle; any stop needs a new START</Text>
+                  <Text>MAN: require START after each cycle</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -3298,7 +3298,7 @@
   <Parts>
     <Access Scope="LocalVariable" UId="21">
       <Symbol>
-        <Component Name="State" />
+        <Component Name="BurnerState" />
       </Symbol>
     </Access>
     <Access Scope="LiteralConstant" UId="22">
@@ -3320,7 +3320,7 @@
     </Access>
     <Access Scope="LocalVariable" UId="25">
       <Symbol>
-        <Component Name="State" />
+        <Component Name="BurnerState" />
       </Symbol>
     </Access>
     <Access Scope="LocalVariable" UId="26">
@@ -3385,7 +3385,7 @@
               <MultilingualTextItem ID="A0" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text>If still STARTING when the start timer expires, record the start fault. Reference: C07f / C08f.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -3395,7 +3395,7 @@
               <MultilingualTextItem ID="A2" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>START_STOP | C0xf — failed to start</Text>
+                  <Text>Fault if RUN does not arrive in time</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -3408,7 +3408,7 @@
   <Parts>
     <Access Scope="LocalVariable" UId="21">
       <Symbol>
-        <Component Name="State" />
+        <Component Name="BurnerState" />
       </Symbol>
     </Access>
     <Access Scope="LiteralConstant" UId="22">
@@ -3435,7 +3435,7 @@
     </Access>
     <Access Scope="LocalVariable" UId="26">
       <Symbol>
-        <Component Name="State" />
+        <Component Name="BurnerState" />
       </Symbol>
     </Access>
     <Access Scope="LocalVariable" UId="27">
@@ -3513,7 +3513,7 @@
               <MultilingualTextItem ID="A5" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text>In RUNNING, loss of RUN without lockout records this fault, unless an earlier stop already changed the state. Reference: C07g / C08g.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -3523,7 +3523,7 @@
               <MultilingualTextItem ID="A7" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>START_STOP | C0xg — RUN lost while running, no lockout, not stopped by us</Text>
+                  <Text>Fault if RUN feedback is lost</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -3536,7 +3536,7 @@
   <Parts>
     <Access Scope="LocalVariable" UId="21">
       <Symbol>
-        <Component Name="State" />
+        <Component Name="BurnerState" />
       </Symbol>
     </Access>
     <Access Scope="LiteralConstant" UId="22">
@@ -3547,7 +3547,7 @@
     </Access>
     <Access Scope="LocalVariable" UId="23">
       <Symbol>
-        <Component Name="Enabled" />
+        <Component Name="StartEnabled" />
       </Symbol>
     </Access>
     <Part Name="Eq" UId="24">
@@ -3586,7 +3586,7 @@
               <MultilingualTextItem ID="AA" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text>FAULT cancels START permission before reset handling; this prevents restart from an old START. Reference: B-02.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -3596,7 +3596,7 @@
               <MultilingualTextItem ID="AC" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>FAULT_RESET | B-02 — FAULT takes the START back (before RESET, D-09)</Text>
+                  <Text>Cancel START before resetting a fault</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -3609,7 +3609,7 @@
   <Parts>
     <Access Scope="LocalVariable" UId="21">
       <Symbol>
-        <Component Name="State" />
+        <Component Name="BurnerState" />
       </Symbol>
     </Access>
     <Access Scope="LiteralConstant" UId="22">
@@ -3658,7 +3658,7 @@
     </Access>
     <Access Scope="LocalVariable" UId="30">
       <Symbol>
-        <Component Name="State" />
+        <Component Name="BurnerState" />
       </Symbol>
     </Access>
     <Access Scope="LocalVariable" UId="31">
@@ -3840,7 +3840,7 @@
               <MultilingualTextItem ID="AF" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text>Need FAULT, a new RESET, healthy E-STOP and temperatures, no lockout or scrubber trip, and RUN OFF. A new START is still needed. Reference: R-06 / R-07.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -3850,7 +3850,7 @@
               <MultilingualTextItem ID="B1" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>FAULT_RESET | R-06 / R-07 - RESET leaves FAULT only when every cause is gone</Text>
+                  <Text>Reset burner faults after recovery</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -3875,7 +3875,7 @@
     </Access>
     <Access Scope="LocalVariable" UId="23">
       <Symbol>
-        <Component Name="State" />
+        <Component Name="BurnerState" />
       </Symbol>
     </Access>
     <Access Scope="LocalVariable" UId="24">
@@ -3927,7 +3927,7 @@
               <MultilingualTextItem ID="B4" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text>Loss of the common E-STOP permission sets FAULT and remembers the emergency-stop cause. Reference: C01.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -3937,7 +3937,7 @@
               <MultilingualTextItem ID="B6" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>FAULT_RESET | C01 - E-STOP</Text>
+                  <Text>Record the emergency-stop fault</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -3961,7 +3961,7 @@
     </Access>
     <Access Scope="LocalVariable" UId="23">
       <Symbol>
-        <Component Name="State" />
+        <Component Name="BurnerState" />
       </Symbol>
     </Access>
     <Access Scope="LocalVariable" UId="24">
@@ -4011,7 +4011,7 @@
               <MultilingualTextItem ID="B9" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text>The lockout input sets FAULT; resetting the certified burner box is a separate local action. Reference: C07e / C08e.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -4021,7 +4021,7 @@
               <MultilingualTextItem ID="BB" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>FAULT_RESET | C0xe — burner lockout</Text>
+                  <Text>Record the burner control-box lockout</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -4045,7 +4045,7 @@
     </Access>
     <Access Scope="LocalVariable" UId="23">
       <Symbol>
-        <Component Name="State" />
+        <Component Name="BurnerState" />
       </Symbol>
     </Access>
     <Access Scope="LocalVariable" UId="24">
@@ -4095,7 +4095,7 @@
               <MultilingualTextItem ID="BE" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text>An active temperature-fault condition sets FAULT and remembers the cause. Reference: C07d / C08d.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -4105,7 +4105,7 @@
               <MultilingualTextItem ID="C0" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>FAULT_RESET | C0xd — thermocouple fault</Text>
+                  <Text>Record the temperature sensor fault</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -4129,7 +4129,7 @@
     </Access>
     <Access Scope="LocalVariable" UId="23">
       <Symbol>
-        <Component Name="State" />
+        <Component Name="BurnerState" />
       </Symbol>
     </Access>
     <Access Scope="LocalVariable" UId="24">
@@ -4179,7 +4179,7 @@
               <MultilingualTextItem ID="C3" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text>After the 30-second condition is met, set FAULT and remember the RUN mismatch. Reference: R-09.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -4189,7 +4189,7 @@
               <MultilingualTextItem ID="C5" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>FAULT_RESET | R-09 — RUN without request</Text>
+                  <Text>Record RUN without a request</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -4202,7 +4202,7 @@
   <Parts>
     <Access Scope="LocalVariable" UId="21">
       <Symbol>
-        <Component Name="State" />
+        <Component Name="BurnerState" />
       </Symbol>
     </Access>
     <Access Scope="LiteralConstant" UId="22">
@@ -4213,7 +4213,7 @@
     </Access>
     <Access Scope="LocalVariable" UId="23">
       <Symbol>
-        <Component Name="State" />
+        <Component Name="BurnerState" />
       </Symbol>
     </Access>
     <Access Scope="LiteralConstant" UId="24">
@@ -4286,7 +4286,7 @@
               <MultilingualTextItem ID="C8" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text>Heat request is ON in STARTING or RUNNING. The certified burner box controls purge, ignition and flame safety. Reference: E1 / E3.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -4296,7 +4296,7 @@
               <MultilingualTextItem ID="CA" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>OUTPUTS | E1 / E3 — heat request while STARTING or RUNNING</Text>
+                  <Text>Send the burner heat request</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -4309,7 +4309,7 @@
   <Parts>
     <Access Scope="LocalVariable" UId="21">
       <Symbol>
-        <Component Name="State" />
+        <Component Name="BurnerState" />
       </Symbol>
     </Access>
     <Access Scope="LiteralConstant" UId="22">
@@ -4320,12 +4320,12 @@
     </Access>
     <Access Scope="LocalVariable" UId="23">
       <Symbol>
-        <Component Name="Tmax" />
+        <Component Name="ControlTemp" />
       </Symbol>
     </Access>
     <Access Scope="LocalVariable" UId="24">
       <Symbol>
-        <Component Name="TStg" />
+        <Component Name="SecondStageOnTemp" />
       </Symbol>
     </Access>
     <Access Scope="LocalVariable" UId="25">
@@ -4384,7 +4384,7 @@
               <MultilingualTextItem ID="CD" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text>Only in RUNNING and below the calculated ON limit. Example: stop 70, offset 10 means ON below 60 degC. Reference: C07c / C08c.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -4394,7 +4394,7 @@
               <MultilingualTextItem ID="CF" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>OUTPUTS | C0xc — 2nd stage on: RUNNING and T &lt; SP - STG</Text>
+                  <Text>Request stage 2 below its ON temperature</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -4407,17 +4407,17 @@
   <Parts>
     <Access Scope="LocalVariable" UId="21">
       <Symbol>
-        <Component Name="Tmax" />
+        <Component Name="ControlTemp" />
       </Symbol>
     </Access>
     <Access Scope="LocalVariable" UId="22">
       <Symbol>
-        <Component Name="TStgOff" />
+        <Component Name="SecondStageOffTemp" />
       </Symbol>
     </Access>
     <Access Scope="LocalVariable" UId="23">
       <Symbol>
-        <Component Name="State" />
+        <Component Name="BurnerState" />
       </Symbol>
     </Access>
     <Access Scope="LiteralConstant" UId="24">
@@ -4490,7 +4490,7 @@
               <MultilingualTextItem ID="D2" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text />
+                  <Text>Clear stage 2 at or above its OFF limit, or outside RUNNING. In the example, OFF at 62 degC. Reference: C07c / C08c.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -4500,7 +4500,7 @@
               <MultilingualTextItem ID="D4" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>OUTPUTS | C0xc / F41 — 2nd stage off at SP - STG + 2 degC, or when not RUNNING</Text>
+                  <Text>Cancel stage 2 at its OFF temperature</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>

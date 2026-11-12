@@ -1,5 +1,4 @@
-﻿Opening D:\tasks\burner\tia\Burner\Burner.ap15_1
-Project opened: Burner
+﻿Project attached: Burner
 
 === PLC: PLC_1 ===
 OK   Par   [DB]
@@ -8,12 +7,12 @@ OK   HmiAlm   [DB]
 OK   Common   [LAD]
 OK   Scrubber   [LAD]
 OK   Scrubber_DB   [DB]
+OK   Burner   [LAD]
 OK   BR01_DB   [DB]
 OK   BR02_DB   [DB]
 OK   Outputs   [LAD]
 OK   HmiMap   [LAD]
 OK   Startup   [LAD]
-OK   Burner   [LAD]
 OK   Main   [LAD]
 OK   TagTable Default tag table
 OK   TagTable Tag table_1
