@@ -82,6 +82,7 @@ Each C&E row says its source: `Client` (a client document) or `PH proposal`
 
 ```
 inputs/        client/  manuals/  drawings/    — read-only originals
+references/    published manufacturer catalogues from the web — NOT client originals
 deliverables/  what goes to the client (C&E, later: I/O list, FAT procedure)
 docs/          see above
 tools/         generators, TIA Openness scripts, checks
