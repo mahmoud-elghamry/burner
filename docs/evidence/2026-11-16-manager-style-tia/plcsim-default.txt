@@ -1,0 +1,135 @@
+Precondition: retained Par SP=700, HYST=50, STG=100; CURRENT manager-style download.
+Only %Q is checked; alarm/cause bits and physical safety circuits are not observed.
+T1 - Both AUTO burners: RUN delay, stage band and 70/65 hysteresis.
+  ok   [C07b/C08b, B-01] START at 50 C: heat, no stage 2  H5=1 H6=0 L2=1 T2=0 TL1=1 TR1=0
+  ok   [C07c/C08c] request without RUN: stage 2 remains off  H5=1 H6=0 L2=1 T2=0 TL1=1 TR1=0
+  ok   [C07c/C08c] RUN just arrived: stage 2 still off  H5=1 H6=0 L2=1 T2=0 TL1=1 TR1=0
+  ok   [C07c/C08c] RUN under 30 s: stage 2 still off  H5=1 H6=0 L2=1 T2=0 TL1=1 TR1=0
+  ok   [C07c/C08c] RUN over 30 s but exactly 60 C: no stage 2  H5=1 H6=0 L2=1 T2=0 TL1=1 TR1=0
+  ok   [C07c/C08c] 59.9 C after RUN delay: stage 2 on  H5=1 H6=1 L2=1 T2=1 TL1=1 TR1=1
+  ok   [C07c/C08c] 61 C: stage 2 held in band  H5=1 H6=1 L2=1 T2=1 TL1=1 TR1=1
+  ok   [C07c/C08c] exactly 62 C: stage 2 off  H5=1 H6=0 L2=1 T2=0 TL1=1 TR1=0
+  ok   [C07c/C08c] exactly 60 C cannot re-enable stage 2  H5=1 H6=0 L2=1 T2=0 TL1=1 TR1=0
+  ok   [C07c/C08c] below 60 C re-enables stage 2  H5=1 H6=1 L2=1 T2=1 TL1=1 TR1=1
+  ok   [C07c/C08c] RUN lost: stage 2 off, heat remains  H5=1 H6=0 L2=1 T2=0 TL1=1 TR1=0
+  ok   [C07b/C08b] exactly SP 70 C: both requests off  H5=0 H6=0 L2=0 T2=0 TL1=0 TR1=0
+  ok   [C07b/C08b] 65.1 C: still off  H5=0 H6=0 L2=0 T2=0 TL1=0 TR1=0
+  ok   [C07b/C08b] exactly 65 C: AUTO resumes without START  H5=1 H6=0 L2=1 T2=0 TL1=1 TR1=0
+T1b - Each thermocouple can be the higher controlling temperature.
+  ok   [C07b/C08b] max(400,700) stops both tanks  H5=0 H6=0 L2=0 T2=0 TL1=0 TR1=0
+  ok   [C07b/C08b] both channels at 65 C: AUTO resumes  H5=1 H6=0 L2=1 T2=0 TL1=1 TR1=0
+  ok   [C07b/C08b] max(700,400) stops both tanks  H5=0 H6=0 L2=0 T2=0 TL1=0 TR1=0
+  ok   [C07b/C08b] both channels at 65 C: AUTO resumes  H5=1 H6=0 L2=1 T2=0 TL1=1 TR1=0
+T2 - AUTO low level removes request; recovery needs no START.
+  ok   [C07a/C08a] LSL1 lost: only its burner stops  H5=1 H6=0 L2=1 T2=0 TL1=0 TR1=0
+  ok   [C07a/C08a] LSL1 healthy: AUTO resumes  H5=1 H6=0 L2=1 T2=0 TL1=1 TR1=0
+  ok   [C07a/C08a] LSL2 lost: only its burner stops  H5=0 H6=0 L2=0 T2=0 TL1=1 TR1=0
+  ok   [C07a/C08a] LSL2 healthy: AUTO resumes  H5=1 H6=0 L2=1 T2=0 TL1=1 TR1=0
+T3 - Local lockouts are independent and need START, never burner RESET.
+  ok   [C07e/C08e] Rflt: local burner off, peer unaffected  H5=1 H6=0 L2=1 T2=0 TL1=0 TR1=0
+  ok   [C07e/C08e, B-01] lockout cleared, START held: stays off  H5=1 H6=0 L2=1 T2=0 TL1=0 TR1=0
+  ok   [C07e/C08e] fresh START after box reset: heat, no S2  H5=1 H6=0 L2=1 T2=0 TL1=1 TR1=0
+  ok   [C07e/C08e] Rflt2: local burner off, peer unaffected  H5=0 H6=0 L2=0 T2=0 TL1=1 TR1=0
+  ok   [C07e/C08e, B-01] lockout cleared, START held: stays off  H5=0 H6=0 L2=0 T2=0 TL1=1 TR1=0
+  ok   [C07e/C08e] fresh START after box reset: heat, no S2  H5=1 H6=0 L2=1 T2=0 TL1=1 TR1=0
+T5 - RUN dropout alone is not a trip in Rev B.
+  ok   [C07c/C08c; Rev B] RUN lost without lockout: heat stays, stage off  H5=1 H6=0 L2=1 T2=0 TL1=1 TR1=0
+T6 - Both channels, both burners: short bad input vs >10 s trip.
+  ok   [C07d/C08d] TE501/TE503 below -20 C: immediate inhibit  H5=0 H6=0 L2=0 T2=0 TL1=0 TR1=0
+  ok   [C07d/C08d] repaired at 8 s (<10 s): AUTO resumes  H5=1 H6=0 L2=1 T2=0 TL1=1 TR1=0
+  ok   [C07d/C08d] TE501/TE503 broken: immediate inhibit  H5=0 H6=0 L2=0 T2=0 TL1=0 TR1=0
+  ok   [C07d/C08d] good after >10 s fault: stays off until START  H5=0 H6=0 L2=0 T2=0 TL1=0 TR1=0
+  ok   [C07d/C08d] fresh START after repair: no S2 needed  H5=1 H6=0 L2=1 T2=0 TL1=1 TR1=0
+  ok   [C07d/C08d] TE502/TE504 below -20 C: immediate inhibit  H5=0 H6=0 L2=0 T2=0 TL1=0 TR1=0
+  ok   [C07d/C08d] repaired at 8 s (<10 s): AUTO resumes  H5=1 H6=0 L2=1 T2=0 TL1=1 TR1=0
+  ok   [C07d/C08d] TE502/TE504 broken: immediate inhibit  H5=0 H6=0 L2=0 T2=0 TL1=0 TR1=0
+  ok   [C07d/C08d] good after >10 s fault: stays off until START  H5=0 H6=0 L2=0 T2=0 TL1=0 TR1=0
+  ok   [C07d/C08d] fresh START after repair: no S2 needed  H5=1 H6=0 L2=1 T2=0 TL1=1 TR1=0
+T6p - TC invalid during OB100 startup; <10 s calibration then fresh START.
+  ok   [C02] PLC STOP: all nine outputs de-energised  H5=0 H6=0 L2=0 T2=0 TL1=0 TR1=0 XV401=0 XV402=0 XV403=0
+  ok   [C02/C07d/C08d] startup invalid TC: no heat  H5=0 H6=0 L2=0 T2=0 TL1=0 TR1=0
+  ok   [C07d/C08d, B-01] valid after calibration then START: heat  H5=1 H6=0 L2=1 T2=0 TL1=1 TR1=0
+T6b - STOP wins; holding START through STOP release never starts.
+  ok   [B-01/C02] START + STOP: both off  H5=0 H6=0 L2=0 T2=0 TL1=0 TR1=0
+  ok   [B-01/C02] STOP released with START held: still off  H5=0 H6=0 L2=0 T2=0 TL1=0 TR1=0
+  ok   [B-01] release then fresh START: both on  H5=1 H6=0 L2=1 T2=0 TL1=1 TR1=0
+  ok   [B-01] NC STOP open removes both requests and lamps  H5=0 H6=0 L2=0 T2=0 TL1=0 TR1=0
+  ok   [B-01] STOP released: no automatic restart  H5=0 H6=0 L2=0 T2=0 TL1=0 TR1=0
+T7 - Each scrubber trip alone, retained trip and healthy RESET gating.
+  ok   [C03] both requesting before PSH trip  H5=1 H6=0 L2=1 T2=0 TL1=1 TR1=0
+  ok   [C03] cause active: valve actions, all burner requests/lamps off  H5=0 H6=0 L2=0 T2=0 TL1=0 TR1=0 XV401=0 XV402=0 XV403=0
+  ok   [C03] RESET with cause active: trip wins  H5=0 H6=0 L2=0 T2=0 TL1=0 TR1=0 XV401=0 XV403=0
+  ok   [C03/C06a] cause healthy: valve trip retained (cause bits unobserved)  H5=0 H6=0 L2=0 T2=0 TL1=0 TR1=0 XV401=0 XV402=0 XV403=0
+  ok   [C03/C06a] cause clears while RESET/START held: still tripped  H5=0 H6=0 L2=0 T2=0 TL1=0 TR1=0 XV401=0 XV403=0
+  ok   [C03] healthy fresh S2: normal valves, held START cannot run  H5=0 H6=0 L2=0 T2=0 TL1=0 TR1=0 XV401=1 XV402=0 XV403=1
+  ok   [C03] fresh START after S2 restores both requests  H5=1 H6=0 L2=1 T2=0 TL1=1 TR1=0
+  ok   [C05] both requesting before LSHH trip  H5=1 H6=0 L2=1 T2=0 TL1=1 TR1=0
+  ok   [C05] cause active: valve actions, all burner requests/lamps off  H5=0 H6=0 L2=0 T2=0 TL1=0 TR1=0 XV401=1 XV402=1 XV403=0
+  ok   [C05] RESET with cause active: trip wins  H5=0 H6=0 L2=0 T2=0 TL1=0 TR1=0 XV401=1 XV403=0
+  ok   [C05/C06a] cause healthy: valve trip retained (cause bits unobserved)  H5=0 H6=0 L2=0 T2=0 TL1=0 TR1=0 XV401=1 XV402=0 XV403=0
+  ok   [C05/C06a] cause clears while RESET/START held: still tripped  H5=0 H6=0 L2=0 T2=0 TL1=0 TR1=0 XV401=1 XV403=0
+  ok   [C05] healthy fresh S2: normal valves, held START cannot run  H5=0 H6=0 L2=0 T2=0 TL1=0 TR1=0 XV401=1 XV402=0 XV403=1
+  ok   [C05] fresh START after S2 restores both requests  H5=1 H6=0 L2=1 T2=0 TL1=1 TR1=0
+T7b - Drain immediate level control, E-STOP release and high-level startup.
+  ok   [C04] LSH=0: drain follows within settling interval; no trip  H5=1 L2=1 TL1=1 XV401=1 XV402=1 XV403=1
+  ok   [C04] LSH=1: drain follows within settling interval; no trip  H5=1 L2=1 TL1=1 XV401=1 XV402=0 XV403=1
+  ok   [C04] LSH=0: drain follows within settling interval; no trip  H5=1 L2=1 TL1=1 XV401=1 XV402=1 XV403=1
+  ok   [C04] LSH=1: drain follows within settling interval; no trip  H5=1 L2=1 TL1=1 XV401=1 XV402=0 XV403=1
+  ok   [C04] LSH=0: drain follows within settling interval; no trip  H5=1 L2=1 TL1=1 XV401=1 XV402=1 XV403=1
+  ok   [C01/C04] E-STOP while high: all outputs off  H5=0 H6=0 L2=0 T2=0 TL1=0 TR1=0 XV401=0 XV402=0 XV403=0
+  ok   [C01] S2 while E-STOP pressed cannot reset  H5=0 H6=0 L2=0 T2=0 TL1=0 TR1=0 XV401=0 XV402=0 XV403=0
+  ok   [C01/C04] release WITHOUT S2: drain open, scrubber still tripped  H5=0 H6=0 L2=0 T2=0 TL1=0 TR1=0 XV401=0 XV402=1 XV403=0
+  ok   [C04] level healthy WITHOUT S2: drain closes  XV402=0 XV403=0
+  ok   [C02] PLC STOP: all nine outputs de-energised  H5=0 H6=0 L2=0 T2=0 TL1=0 TR1=0 XV401=0 XV402=0 XV403=0
+  ok   [C02/C04] high level after RUN, no S2: drain opens during trip  H5=0 H6=0 L2=0 T2=0 TL1=0 TR1=0 XV401=0 XV402=1 XV403=0
+  ok   [C02/C04] healthy S2 restores scrubber only  H5=0 H6=0 L2=0 T2=0 TL1=0 TR1=0 XV401=1 XV402=0 XV403=1
+T7c - Trip cancels AUTO permission even when idle at SP; diesel also trips.
+  ok   [C07b/C08b, B-01] START at SP: enabled but no heat  H5=0 H6=0 L2=0 T2=0 TL1=0 TR1=0
+  ok   [C03] scrubber trip while AUTO idle cancelled START  H5=0 H6=0 L2=0 T2=0 TL1=0 TR1=0
+  ok   [C08h] fresh START in diesel: both requesting  H5=1 H6=0 L2=1 T2=0 TL1=1 TR1=0
+  ok   [C03/C08h] scrubber trip also stops BR02 diesel  H5=0 H6=0 L2=0 T2=0 TL1=0 TR1=0 XV401=0 XV403=0
+T8 - E-STOP removes energised stage outputs too; recovery S2 then START.
+  ok   [C07c/C08c] both stage outputs and BR02 lamps on before E-STOP  H5=1 H6=1 L2=1 T2=1 TL1=1 TR1=1
+  ok   [C01] E-STOP removes all nine outputs  H5=0 H6=0 L2=0 T2=0 TL1=0 TR1=0 XV401=0 XV402=0 XV403=0
+  ok   [C01] release without S2: scrubber tripped, burners off  H5=0 H6=0 L2=0 T2=0 TL1=0 TR1=0 XV401=0 XV402=0 XV403=0
+  ok   [C01] S2 restores scrubber; held START ignored  H5=0 H6=0 L2=0 T2=0 TL1=0 TR1=0 XV401=1 XV402=0 XV403=1
+  ok   [C01/B-01] new START each: heat restored, no stage yet  H5=1 H6=0 L2=1 T2=0 TL1=1 TR1=0
+T9 - OB100 on STOP/RUN: held START/RESET ignored, gas and diesel startup.
+  ok   [C02/C08h] both requesting before restart; diesel=0  H5=1 H6=0 L2=1 T2=0 TL1=1 TR1=0
+  ok   [C02] PLC STOP: all nine outputs de-energised  H5=0 H6=0 L2=0 T2=0 TL1=0 TR1=0 XV401=0 XV402=0 XV403=0
+  ok   [C02/S-01/B-01] held START and S2 at startup: tripped and off  H5=0 H6=0 L2=0 T2=0 TL1=0 TR1=0 XV401=0 XV402=0 XV403=0
+  ok   [C02/S-01] new S2 restores valves; held START still ignored  H5=0 H6=0 L2=0 T2=0 TL1=0 TR1=0 XV401=1 XV402=0 XV403=1
+  ok   [C02/B-01/C08h] fresh START after RUN: heat in gas/diesel  H5=1 H6=0 L2=1 T2=0 TL1=1 TR1=0
+  ok   [C02/C08h] both requesting before restart; diesel=1  H5=1 H6=0 L2=1 T2=0 TL1=1 TR1=0
+  ok   [C02] PLC STOP: all nine outputs de-energised  H5=0 H6=0 L2=0 T2=0 TL1=0 TR1=0 XV401=0 XV402=0 XV403=0
+  ok   [C02/S-01/B-01] held START and S2 at startup: tripped and off  H5=0 H6=0 L2=0 T2=0 TL1=0 TR1=0 XV401=0 XV402=0 XV403=0
+  ok   [C02/S-01] new S2 restores valves; held START still ignored  H5=0 H6=0 L2=0 T2=0 TL1=0 TR1=0 XV401=1 XV402=0 XV403=1
+  ok   [C02/B-01/C08h] fresh START after RUN: heat in gas/diesel  H5=1 H6=0 L2=1 T2=0 TL1=1 TR1=0
+T10 - MAN one cycle at SP and after low level, for both burners.
+  ok   [B-01/C07b/C08b] MAN START below SP: heat  H5=1 H6=0 L2=1 T2=0 TL1=1 TR1=0
+  ok   [C07b/C08b, B-01] MAN reaches SP: off  H5=0 H6=0 L2=0 T2=0 TL1=0 TR1=0
+  ok   [B-01] MAN START at SP refused; cooling cannot restart  H5=0 H6=0 L2=0 T2=0 TL1=0 TR1=0
+  ok   [B-01] MAN fresh START below SP: heat  H5=1 H6=0 L2=1 T2=0 TL1=1 TR1=0
+  ok   [C07a/C08a, B-01] MAN low level: requests off  H5=0 H6=0 L2=0 T2=0 TL1=0 TR1=0
+  ok   [C07a/C08a, B-01] MAN level recovers: needs START  H5=0 H6=0 L2=0 T2=0 TL1=0 TR1=0
+  ok   [B-01] MAN fresh START after level recovery: heat  H5=1 H6=0 L2=1 T2=0 TL1=1 TR1=0
+R01 - START at low tank level must not create latent permission.
+  ok   [C07a/C08a, B-01] START with low level refused; recovery stays off  H5=0 H6=0 L2=0 T2=0 TL1=0 TR1=0
+  ok   [C07a/C08a, B-01] new START with healthy level: heat  H5=1 H6=0 L2=1 T2=0 TL1=1 TR1=0
+R02 - AUTO/MAN selector changes apply new rules without stopping heat.
+  ok   [B-01; operation section 2] AUTO -> MAN while heating: continues  H5=1 H6=0 L2=1 T2=0 TL1=1 TR1=0
+  ok   [B-01; operation section 2] MAN -> AUTO while heating: continues  H5=1 H6=0 L2=1 T2=0 TL1=1 TR1=0
+R09 - RUN without request for >30 s is an alarm, not a START inhibit.
+  ok   [C07g/C08g] RUN without request >30 s: outputs remain off  H5=0 H6=0 L2=0 T2=0 TL1=0 TR1=0
+  ok   [C07g/C08g] START accepted with unexpected RUN still high (no S2)  H5=1 H6=0 L2=1 T2=0 TL1=1 TR1=0
+  ok   [C07g/C08g] RUN clears: no latched trip (alarm unobserved)  H5=1 H6=0 L2=1 T2=0 TL1=1 TR1=0
+BR02 - BR02 fuel change in both directions and STOP; BR01 unaffected.
+  ok   [C08h/E3/E4] fuel change: BR02 L/T2/H5/H6 off, BR01 on  H5=0 H6=0 L2=0 T2=0 TL1=1 TR1=0
+  ok   [C08h] selector stable: BR02 still needs START  H5=0 H6=0 L2=0 T2=0 TL1=1 TR1=0
+  ok   [C08h/E3/E4] fresh START on selected fuel: BR02 L/H5 on  H5=1 H6=0 L2=1 T2=0 TL1=1 TR1=0
+  ok   [C08h/E3/E4] fuel change: BR02 L/T2/H5/H6 off, BR01 on  H5=0 H6=0 L2=0 T2=0 TL1=1 TR1=0
+  ok   [C08h] selector stable: BR02 still needs START  H5=0 H6=0 L2=0 T2=0 TL1=1 TR1=0
+  ok   [C08h/E3/E4] fresh START on selected fuel: BR02 L/H5 on  H5=1 H6=0 L2=1 T2=0 TL1=1 TR1=0
+  ok   [B-01/E3/E4] BR02 NC STOP: all its commands and lamps off  H5=0 H6=0 L2=0 T2=0 TL1=1 TR1=0
+  ok   [B-01] BR02 STOP release: remains off  H5=0 H6=0 L2=0 T2=0 TL1=1 TR1=0
+PASS

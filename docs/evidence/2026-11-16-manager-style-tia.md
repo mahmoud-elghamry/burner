@@ -78,3 +78,12 @@ NOT SAVED (import failures or compile errors)
 لم تُختبر الـ18 سيناريو الافتراضية، ولا تشغيل 24 ساعة/توقف 60 ثانية، ولا حد الدرين 10 دقائق، ولا انتظار 120 ثانية، ولا بتات الإنذارات عبر HMI، ولا عرض البانر وAlarm View على Runtime، ولا الهاردوير أو أمان اللهب الفعلي.
 
 **للاستكمال:** جلسة تستطيع الاتصال بـTIA Openness، وPLCSIM V15.1 مفتوح على S7-1200 وPower ON، مع بقاء TIA UI مغلقًا. بعدها export للشاشة الحالية ثم patch/import/compile/save/export round-trip/download/default scenarios. لا تستخدم عينة Alarms القديمة للاستيراد.
+
+## تحديث — PLCSIM اتشغّل (2026-11-16 بعد الضهر)
+
+- المستخدم نزّل البرنامج على PLCSIM V15.1 (S7-1200) من TIA، من نسخة `manager-style`، والمشروع
+  `D:\tasks\burner\.claude\worktrees\manager-style\tia\Burner\Burner.ap15_1`.
+- اتشغّل `py tools\plcsim\run_scenarios.py` (الافتراضي، 19 سيناريو: T1…T10، R01 وR02 وR09 وBR02).
+- **النتيجة: PASS، و114 خطوة `ok`، ومفيش ولا `FAIL`.** المخرج الحرفي في `2026-11-16-manager-style-tia/plcsim-default.txt`.
+- اللي ما اتشغّلش: `T4` (120 ث) و`T7d` (10 د) و`T24` (24 ساعة)، وبتات الإنذارات والأسباب لأن الجسر بيقرا `%Q` بس.
+- الشاشة لسه ما اتعملهاش import (صفحة Alarms اليدوية).
