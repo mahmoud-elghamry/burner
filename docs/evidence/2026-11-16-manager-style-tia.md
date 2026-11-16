@@ -87,3 +87,9 @@ NOT SAVED (import failures or compile errors)
 - **النتيجة: PASS، و114 خطوة `ok`، ومفيش ولا `FAIL`.** المخرج الحرفي في `2026-11-16-manager-style-tia/plcsim-default.txt`.
 - اللي ما اتشغّلش: `T4` (120 ث) و`T7d` (10 د) و`T24` (24 ساعة)، وبتات الإنذارات والأسباب لأن الجسر بيقرا `%Q` بس.
 - الشاشة لسه ما اتعملهاش import (صفحة Alarms اليدوية).
+
+## تحديث — الشاشة اتعملها import
+
+- المستخدم مسح الـ Visibility animation من نص E-STOP في صفحة Alarms اليدوية (كان مربوط بـ `Sys_Alm_EStop` اللي اتشال)، وحفظ وقفل TIA.
+- `Apply-Hmi.ps1`: جدول التاجات و5 صفحات. **HMI compile: Success، 0 errors، 0 warnings، SAVED.** المخرج في `2026-11-16-manager-style-tia/hmi-import.txt`.
+- الباقي بالإيد: Import لملف الإنذارات `build/hmi/Alarms_LCP01.xlsx`، ولو حابب ترجّع Visibility لنص E-STOP على `Scrub_EStopOK` (يظهر عند 0).
