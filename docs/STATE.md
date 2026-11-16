@@ -10,7 +10,7 @@
 
 ## شغّال دلوقتي 🔄
 
-**`manager-style` (2026-11-16):** المولّد جاهز: 8 بلوكات و19 network (`Burner` 9، و`Scrubber` 5، و`Main` 4، و`Startup` 1)، وHMI فيه 57 تاج، و16 إنذار بنفس IDs ‏1–16. قرار `0011` ووصف التشغيل اتحدّثوا. الدرين محجوز مقفول بسبب `E-STOP` طول الضغط بس، وإنذار الطوارئ يختفي مع فك الزرار. **لسه ما اتعملش import أو compile أو simulation في `TIA` للنسخة دي؛ المنسّق بيعملهم.** مفيش تنزيل ولا commit في المهمة دي.
+**`manager-style` (2026-11-16):** 8 بلوكات و19 network؛ سجل المنسّق يثبت import وإزالة الخمسة القديمة وPLC ‏0/0 و8/8 consistent وحفظ. HMI import السابق لم يُحفظ بسبب Visibility للعنصر `Text_E_STOP_RESET_Sys_Alm_EStop` في `Alarms`. محاولة Task 5 توقفت: Export فشل مرتين بـ`Connection to TiaPortal failed`، وPLCSIM غير شغّال؛ لا HMI compile ناجح جديد ولا export round-trip ولا تنزيل أو simulation. عينة diff فقط لتغيير الاسم والتاج إلى `Scrub_EStopOK` والظهور عند 0؛ **ممنوع استيرادها لأن export القديم لا يحتوي Alarm View اليدوي**. الدليل والتقارير الحرفية وخطوات الاستكمال في `evidence/2026-11-16-manager-style-tia.md`. لا commit.
 
 **النسخ الثلاث:** الأصلية 135 network في `D:\tasks\burner` على `codex/readability-english`؛ و`Rev. B` ذات 78 network في worktree `simplify-revb`؛ والنسخة الحالية في worktree `manager-style` على branch بنفس الاسم. التفاصيل في `decisions/0011-manager-style-program.md`.
 
@@ -27,7 +27,7 @@
 ## فاضل ⏳ (بالترتيب)
 
 1. مراجعة المنسّق للفروق وقرار `0011`؛ مطابقة تغيير الطوارئ مع الـC&E قبل أي إصدار جديد للعميل.
-2. مع `TIA` مقفول: إزالة البلوكات الملغية بالسكريبت المخصص، واستيراد PLC وHMI وكلمات الإنذار وExcel، ثم compile وexport ومقارنة موثقة.
+2. حل اتصال Openness مع `TIA` UI مقفول؛ export جديد لـ`Alarms` للحفاظ على Alarm View، ثم إصلاح بانر الطوارئ واستيراد HMI وتجميعه وحفظه، ومراجعة كلمات الإنذار وExcel؛ compile وexport ومقارنة PLC موثقة. إزالة البلوكات واستيراد PLC سبق تنفيذهما حسب سجل المنسّق.
 3. `PLCSIM` لكل صف C&E، خصوصًا فك `E-STOP` من غير `RESET`، وترتيب إلغاء الطلب، ورجوع الكهربا والزراير الممسوكة، وBR02 على diesel، وحد الدرين.
 4. اختبار 24 ساعة `C07h` وR-08، وعرض الإنذارات وبانر الطوارئ وحدود الأرقام وrestart وصلاحيات `Engineer`.
 5. قبل إرسال C&E: تدقيق المصادر `F32` واعتماد العميل منفصل؛ ملف FAT وIO مستقل لو مطلوب لسه.

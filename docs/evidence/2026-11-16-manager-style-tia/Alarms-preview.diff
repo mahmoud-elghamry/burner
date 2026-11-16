@@ -1,0 +1,27 @@
+--- existing-export/Alarms.xml
++++ DO-NOT-IMPORT/Alarms-preview.xml
+@@ -145,7 +145,7 @@
+               <HorizontalAlignment>Center</HorizontalAlignment>
+               <Left>330</Left>
+               <LeftMargin>2</LeftMargin>
+-              <ObjectName>Text_E_STOP_RESET_Sys_Alm_EStop</ObjectName>
++              <ObjectName>Text_E_STOP_Scrub_EStopOK</ObjectName>
+               <RightMargin>2</RightMargin>
+               <TabIndex>-1</TabIndex>
+               <TextOrientation>Horizontal</TextOrientation>
+@@ -160,13 +160,13 @@
+                 <AttributeList>
+                   <BitPosition>0</BitPosition>
+                   <Name>VisibilityAnimation</Name>
+-                  <Visible>true</Visible>
++                  <Visible>false</Visible>
+                 </AttributeList>
+                 <ObjectList>
+                   <Hmi.Dynamic.TagElementTrigger ID="D" CompositionName="VisibilityTag">
+                     <LinkList>
+                       <Tag TargetID="@OpenLink">
+-                        <Name>Sys_Alm_EStop</Name>
++                        <Name>Scrub_EStopOK</Name>
+                       </Tag>
+                     </LinkList>
+                   </Hmi.Dynamic.TagElementTrigger>
