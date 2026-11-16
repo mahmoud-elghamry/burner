@@ -13,7 +13,8 @@
     <Member Name="PSH" Datatype="Bool" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">PSH-101 healthy: 1 = contact closed (normal pressure)</MultiLanguageText></Comment></Member>
     <Member Name="LSH" Datatype="Bool" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">LSH-102 healthy: 1 = level below high</MultiLanguageText></Comment></Member>
     <Member Name="LSHH" Datatype="Bool" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">LSHH-103 healthy: 1 = level below very high</MultiLanguageText></Comment></Member>
-    <Member Name="Reset" Datatype="Bool" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">RESET pulse (Sys.ResetPulse)</MultiLanguageText></Comment></Member>
+    <Member Name="EStopOK" Datatype="Bool" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Raw E-STOP status: 1 = released (C01)</MultiLanguageText></Comment></Member>
+    <Member Name="ResetPB" Datatype="Bool" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Raw RESET S2 push button; rising edge detected locally</MultiLanguageText></Comment></Member>
   </Section>
   <Section Name="Output">
     <Member Name="FlareCmd" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">XV-401 flare (NO): 1 = energised = closed</MultiLanguageText></Comment></Member>
@@ -22,6 +23,8 @@
   </Section>
   <Section Name="InOut" />
   <Section Name="Static">
+    <Member Name="ResetMem" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">RESET button state from the previous scan; seeded TRUE by OB100</MultiLanguageText></Comment></Member>
+    <Member Name="ResetPulse" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">One-scan pulse on a new RESET press</MultiLanguageText></Comment></Member>
     <Member Name="Tripped" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Scrubber trip (PSH, LSHH, E-STOP, power-up): suction closed, both burners stopped, until RESET</MultiLanguageText></Comment></Member>
     <Member Name="FlareTrip" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Flare trip (PSH, E-STOP, power-up): flare open until RESET</MultiLanguageText></Comment></Member>
     <Member Name="Cause_PSH" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">PSH-101 tripped the scrubber; kept for the HMI until RESET (C06a)</MultiLanguageText></Comment></Member>
@@ -41,9 +44,9 @@
       <SetENOAutomatically>False</SetENOAutomatically>
     </AttributeList>
     <ObjectList>
-      <MultilingualText ID="33" CompositionName="Comment">
+      <MultilingualText ID="3D" CompositionName="Comment">
         <ObjectList>
-          <MultilingualTextItem ID="34" CompositionName="Items">
+          <MultilingualTextItem ID="3E" CompositionName="Items">
             <AttributeList>
               <Culture>en-US</Culture>
               <Text>Scrubber trip, flare, suction and drain commands (C&amp;E Rev. B).</Text>
@@ -57,7 +60,145 @@
   <Parts>
     <Access Scope="LocalVariable" UId="22">
       <Symbol>
-        <Component Name="Reset" />
+        <Component Name="ResetPB" />
+      </Symbol>
+    </Access>
+    <Access Scope="LocalVariable" UId="24">
+      <Symbol>
+        <Component Name="ResetMem" />
+      </Symbol>
+    </Access>
+    <Access Scope="LocalVariable" UId="26">
+      <Symbol>
+        <Component Name="ResetPulse" />
+      </Symbol>
+    </Access>
+    <Part Name="Contact" UId="21" />
+    <Part Name="Contact" UId="23">
+      <Negated Name="operand" />
+    </Part>
+    <Part Name="Coil" UId="25" />
+  </Parts>
+  <Wires>
+    <Wire UId="27">
+      <Powerrail />
+      <NameCon UId="21" Name="in" />
+    </Wire>
+    <Wire UId="28">
+      <IdentCon UId="22" />
+      <NameCon UId="21" Name="operand" />
+    </Wire>
+    <Wire UId="29">
+      <NameCon UId="21" Name="out" />
+      <NameCon UId="23" Name="in" />
+    </Wire>
+    <Wire UId="30">
+      <IdentCon UId="24" />
+      <NameCon UId="23" Name="operand" />
+    </Wire>
+    <Wire UId="31">
+      <NameCon UId="23" Name="out" />
+      <NameCon UId="25" Name="in" />
+    </Wire>
+    <Wire UId="32">
+      <NameCon UId="25" Name="operand" />
+      <IdentCon UId="26" />
+    </Wire>
+  </Wires>
+</FlgNet></NetworkSource>
+          <ProgrammingLanguage>LAD</ProgrammingLanguage>
+        </AttributeList>
+        <ObjectList>
+          <MultilingualText ID="2" CompositionName="Comment">
+            <ObjectList>
+              <MultilingualTextItem ID="3" CompositionName="Items">
+                <AttributeList>
+                  <Culture>en-US</Culture>
+                  <Text>One-scan pulse on a new S2 press; OB100 seeds ResetMem so a held button is ignored. C01 / C02.</Text>
+                </AttributeList>
+              </MultilingualTextItem>
+            </ObjectList>
+          </MultilingualText>
+          <MultilingualText ID="4" CompositionName="Title">
+            <ObjectList>
+              <MultilingualTextItem ID="5" CompositionName="Items">
+                <AttributeList>
+                  <Culture>en-US</Culture>
+                  <Text>RESET: new press</Text>
+                </AttributeList>
+              </MultilingualTextItem>
+            </ObjectList>
+          </MultilingualText>
+        </ObjectList>
+      </SW.Blocks.CompileUnit>
+      <SW.Blocks.CompileUnit ID="6" CompositionName="CompileUnits">
+        <AttributeList>
+          <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
+  <Parts>
+    <Access Scope="LocalVariable" UId="22">
+      <Symbol>
+        <Component Name="ResetPB" />
+      </Symbol>
+    </Access>
+    <Access Scope="LocalVariable" UId="24">
+      <Symbol>
+        <Component Name="ResetMem" />
+      </Symbol>
+    </Access>
+    <Part Name="Contact" UId="21" />
+    <Part Name="Coil" UId="23" />
+  </Parts>
+  <Wires>
+    <Wire UId="25">
+      <Powerrail />
+      <NameCon UId="21" Name="in" />
+    </Wire>
+    <Wire UId="26">
+      <IdentCon UId="22" />
+      <NameCon UId="21" Name="operand" />
+    </Wire>
+    <Wire UId="27">
+      <NameCon UId="21" Name="out" />
+      <NameCon UId="23" Name="in" />
+    </Wire>
+    <Wire UId="28">
+      <NameCon UId="23" Name="operand" />
+      <IdentCon UId="24" />
+    </Wire>
+  </Wires>
+</FlgNet></NetworkSource>
+          <ProgrammingLanguage>LAD</ProgrammingLanguage>
+        </AttributeList>
+        <ObjectList>
+          <MultilingualText ID="7" CompositionName="Comment">
+            <ObjectList>
+              <MultilingualTextItem ID="8" CompositionName="Items">
+                <AttributeList>
+                  <Culture>en-US</Culture>
+                  <Text>Save S2 for the next scan.</Text>
+                </AttributeList>
+              </MultilingualTextItem>
+            </ObjectList>
+          </MultilingualText>
+          <MultilingualText ID="9" CompositionName="Title">
+            <ObjectList>
+              <MultilingualTextItem ID="A" CompositionName="Items">
+                <AttributeList>
+                  <Culture>en-US</Culture>
+                  <Text>RESET: remember the button</Text>
+                </AttributeList>
+              </MultilingualTextItem>
+            </ObjectList>
+          </MultilingualText>
+        </ObjectList>
+      </SW.Blocks.CompileUnit>
+      <SW.Blocks.CompileUnit ID="B" CompositionName="CompileUnits">
+        <AttributeList>
+          <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
+  <Parts>
+    <Access Scope="LocalVariable" UId="22">
+      <Symbol>
+        <Component Name="ResetPulse" />
       </Symbol>
     </Access>
     <Access Scope="LocalVariable" UId="24">
@@ -70,9 +211,8 @@
         <Component Name="LSHH" />
       </Symbol>
     </Access>
-    <Access Scope="GlobalVariable" UId="28">
+    <Access Scope="LocalVariable" UId="28">
       <Symbol>
-        <Component Name="Sys" />
         <Component Name="EStopOK" />
       </Symbol>
     </Access>
@@ -166,9 +306,9 @@
           <ProgrammingLanguage>LAD</ProgrammingLanguage>
         </AttributeList>
         <ObjectList>
-          <MultilingualText ID="2" CompositionName="Comment">
+          <MultilingualText ID="C" CompositionName="Comment">
             <ObjectList>
-              <MultilingualTextItem ID="3" CompositionName="Items">
+              <MultilingualTextItem ID="D" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
                   <Text>RESET with pressure, very high level and E-STOP healthy clears both trips and the saved causes. C03 / C05.</Text>
@@ -176,9 +316,9 @@
               </MultilingualTextItem>
             </ObjectList>
           </MultilingualText>
-          <MultilingualText ID="4" CompositionName="Title">
+          <MultilingualText ID="E" CompositionName="Title">
             <ObjectList>
-              <MultilingualTextItem ID="5" CompositionName="Items">
+              <MultilingualTextItem ID="F" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
                   <Text>RESET the scrubber trip</Text>
@@ -188,7 +328,7 @@
           </MultilingualText>
         </ObjectList>
       </SW.Blocks.CompileUnit>
-      <SW.Blocks.CompileUnit ID="6" CompositionName="CompileUnits">
+      <SW.Blocks.CompileUnit ID="10" CompositionName="CompileUnits">
         <AttributeList>
           <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
   <Parts>
@@ -202,19 +342,12 @@
         <Component Name="LSHH" />
       </Symbol>
     </Access>
-    <Access Scope="GlobalVariable" UId="26">
+    <Access Scope="LocalVariable" UId="26">
       <Symbol>
-        <Component Name="Sys" />
         <Component Name="EStopOK" />
       </Symbol>
     </Access>
-    <Access Scope="GlobalVariable" UId="28">
-      <Symbol>
-        <Component Name="Sys" />
-        <Component Name="FirstScan" />
-      </Symbol>
-    </Access>
-    <Access Scope="LocalVariable" UId="31">
+    <Access Scope="LocalVariable" UId="29">
       <Symbol>
         <Component Name="Tripped" />
       </Symbol>
@@ -228,120 +361,6 @@
     <Part Name="Contact" UId="25">
       <Negated Name="operand" />
     </Part>
-    <Part Name="Contact" UId="27" />
-    <Part Name="O" UId="29">
-      <TemplateValue Name="Card" Type="Cardinality">4</TemplateValue>
-    </Part>
-    <Part Name="SCoil" UId="30" />
-  </Parts>
-  <Wires>
-    <Wire UId="32">
-      <Powerrail />
-      <NameCon UId="21" Name="in" />
-      <NameCon UId="23" Name="in" />
-      <NameCon UId="25" Name="in" />
-      <NameCon UId="27" Name="in" />
-    </Wire>
-    <Wire UId="33">
-      <IdentCon UId="22" />
-      <NameCon UId="21" Name="operand" />
-    </Wire>
-    <Wire UId="34">
-      <IdentCon UId="24" />
-      <NameCon UId="23" Name="operand" />
-    </Wire>
-    <Wire UId="35">
-      <IdentCon UId="26" />
-      <NameCon UId="25" Name="operand" />
-    </Wire>
-    <Wire UId="36">
-      <IdentCon UId="28" />
-      <NameCon UId="27" Name="operand" />
-    </Wire>
-    <Wire UId="37">
-      <NameCon UId="21" Name="out" />
-      <NameCon UId="29" Name="in1" />
-    </Wire>
-    <Wire UId="38">
-      <NameCon UId="23" Name="out" />
-      <NameCon UId="29" Name="in2" />
-    </Wire>
-    <Wire UId="39">
-      <NameCon UId="25" Name="out" />
-      <NameCon UId="29" Name="in3" />
-    </Wire>
-    <Wire UId="40">
-      <NameCon UId="27" Name="out" />
-      <NameCon UId="29" Name="in4" />
-    </Wire>
-    <Wire UId="41">
-      <NameCon UId="29" Name="out" />
-      <NameCon UId="30" Name="in" />
-    </Wire>
-    <Wire UId="42">
-      <NameCon UId="30" Name="operand" />
-      <IdentCon UId="31" />
-    </Wire>
-  </Wires>
-</FlgNet></NetworkSource>
-          <ProgrammingLanguage>LAD</ProgrammingLanguage>
-        </AttributeList>
-        <ObjectList>
-          <MultilingualText ID="7" CompositionName="Comment">
-            <ObjectList>
-              <MultilingualTextItem ID="8" CompositionName="Items">
-                <AttributeList>
-                  <Culture>en-US</Culture>
-                  <Text>High pressure, very high level, E-STOP or power-up: trip. C01 / C02 / C03 / C05.</Text>
-                </AttributeList>
-              </MultilingualTextItem>
-            </ObjectList>
-          </MultilingualText>
-          <MultilingualText ID="9" CompositionName="Title">
-            <ObjectList>
-              <MultilingualTextItem ID="A" CompositionName="Items">
-                <AttributeList>
-                  <Culture>en-US</Culture>
-                  <Text>Scrubber trip</Text>
-                </AttributeList>
-              </MultilingualTextItem>
-            </ObjectList>
-          </MultilingualText>
-        </ObjectList>
-      </SW.Blocks.CompileUnit>
-      <SW.Blocks.CompileUnit ID="B" CompositionName="CompileUnits">
-        <AttributeList>
-          <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
-  <Parts>
-    <Access Scope="LocalVariable" UId="22">
-      <Symbol>
-        <Component Name="PSH" />
-      </Symbol>
-    </Access>
-    <Access Scope="GlobalVariable" UId="24">
-      <Symbol>
-        <Component Name="Sys" />
-        <Component Name="EStopOK" />
-      </Symbol>
-    </Access>
-    <Access Scope="GlobalVariable" UId="26">
-      <Symbol>
-        <Component Name="Sys" />
-        <Component Name="FirstScan" />
-      </Symbol>
-    </Access>
-    <Access Scope="LocalVariable" UId="29">
-      <Symbol>
-        <Component Name="FlareTrip" />
-      </Symbol>
-    </Access>
-    <Part Name="Contact" UId="21">
-      <Negated Name="operand" />
-    </Part>
-    <Part Name="Contact" UId="23">
-      <Negated Name="operand" />
-    </Part>
-    <Part Name="Contact" UId="25" />
     <Part Name="O" UId="27">
       <TemplateValue Name="Card" Type="Cardinality">3</TemplateValue>
     </Part>
@@ -391,19 +410,106 @@
           <ProgrammingLanguage>LAD</ProgrammingLanguage>
         </AttributeList>
         <ObjectList>
-          <MultilingualText ID="C" CompositionName="Comment">
+          <MultilingualText ID="11" CompositionName="Comment">
             <ObjectList>
-              <MultilingualTextItem ID="D" CompositionName="Items">
+              <MultilingualTextItem ID="12" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>High pressure, E-STOP or power-up open the flare. Very high level alone does not. C01 / C02 / C03.</Text>
+                  <Text>High pressure, very high level or E-STOP: trip. OB100 trips at power-up. C01 / C02 / C03 / C05.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
           </MultilingualText>
-          <MultilingualText ID="E" CompositionName="Title">
+          <MultilingualText ID="13" CompositionName="Title">
             <ObjectList>
-              <MultilingualTextItem ID="F" CompositionName="Items">
+              <MultilingualTextItem ID="14" CompositionName="Items">
+                <AttributeList>
+                  <Culture>en-US</Culture>
+                  <Text>Scrubber trip</Text>
+                </AttributeList>
+              </MultilingualTextItem>
+            </ObjectList>
+          </MultilingualText>
+        </ObjectList>
+      </SW.Blocks.CompileUnit>
+      <SW.Blocks.CompileUnit ID="15" CompositionName="CompileUnits">
+        <AttributeList>
+          <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
+  <Parts>
+    <Access Scope="LocalVariable" UId="22">
+      <Symbol>
+        <Component Name="PSH" />
+      </Symbol>
+    </Access>
+    <Access Scope="LocalVariable" UId="24">
+      <Symbol>
+        <Component Name="EStopOK" />
+      </Symbol>
+    </Access>
+    <Access Scope="LocalVariable" UId="27">
+      <Symbol>
+        <Component Name="FlareTrip" />
+      </Symbol>
+    </Access>
+    <Part Name="Contact" UId="21">
+      <Negated Name="operand" />
+    </Part>
+    <Part Name="Contact" UId="23">
+      <Negated Name="operand" />
+    </Part>
+    <Part Name="O" UId="25">
+      <TemplateValue Name="Card" Type="Cardinality">2</TemplateValue>
+    </Part>
+    <Part Name="SCoil" UId="26" />
+  </Parts>
+  <Wires>
+    <Wire UId="28">
+      <Powerrail />
+      <NameCon UId="21" Name="in" />
+      <NameCon UId="23" Name="in" />
+    </Wire>
+    <Wire UId="29">
+      <IdentCon UId="22" />
+      <NameCon UId="21" Name="operand" />
+    </Wire>
+    <Wire UId="30">
+      <IdentCon UId="24" />
+      <NameCon UId="23" Name="operand" />
+    </Wire>
+    <Wire UId="31">
+      <NameCon UId="21" Name="out" />
+      <NameCon UId="25" Name="in1" />
+    </Wire>
+    <Wire UId="32">
+      <NameCon UId="23" Name="out" />
+      <NameCon UId="25" Name="in2" />
+    </Wire>
+    <Wire UId="33">
+      <NameCon UId="25" Name="out" />
+      <NameCon UId="26" Name="in" />
+    </Wire>
+    <Wire UId="34">
+      <NameCon UId="26" Name="operand" />
+      <IdentCon UId="27" />
+    </Wire>
+  </Wires>
+</FlgNet></NetworkSource>
+          <ProgrammingLanguage>LAD</ProgrammingLanguage>
+        </AttributeList>
+        <ObjectList>
+          <MultilingualText ID="16" CompositionName="Comment">
+            <ObjectList>
+              <MultilingualTextItem ID="17" CompositionName="Items">
+                <AttributeList>
+                  <Culture>en-US</Culture>
+                  <Text>High pressure or E-STOP open the flare. OB100 opens it at power-up. Very high level alone does not. C01 / C02 / C03.</Text>
+                </AttributeList>
+              </MultilingualTextItem>
+            </ObjectList>
+          </MultilingualText>
+          <MultilingualText ID="18" CompositionName="Title">
+            <ObjectList>
+              <MultilingualTextItem ID="19" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
                   <Text>Flare trip</Text>
@@ -413,7 +519,7 @@
           </MultilingualText>
         </ObjectList>
       </SW.Blocks.CompileUnit>
-      <SW.Blocks.CompileUnit ID="10" CompositionName="CompileUnits">
+      <SW.Blocks.CompileUnit ID="1A" CompositionName="CompileUnits">
         <AttributeList>
           <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
   <Parts>
@@ -454,9 +560,9 @@
           <ProgrammingLanguage>LAD</ProgrammingLanguage>
         </AttributeList>
         <ObjectList>
-          <MultilingualText ID="11" CompositionName="Comment">
+          <MultilingualText ID="1B" CompositionName="Comment">
             <ObjectList>
-              <MultilingualTextItem ID="12" CompositionName="Items">
+              <MultilingualTextItem ID="1C" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
                   <Text>Keep PSH-101 for the HMI even if the pressure comes back. C06a.</Text>
@@ -464,9 +570,9 @@
               </MultilingualTextItem>
             </ObjectList>
           </MultilingualText>
-          <MultilingualText ID="13" CompositionName="Title">
+          <MultilingualText ID="1D" CompositionName="Title">
             <ObjectList>
-              <MultilingualTextItem ID="14" CompositionName="Items">
+              <MultilingualTextItem ID="1E" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
                   <Text>Save cause: high pressure</Text>
@@ -476,7 +582,7 @@
           </MultilingualText>
         </ObjectList>
       </SW.Blocks.CompileUnit>
-      <SW.Blocks.CompileUnit ID="15" CompositionName="CompileUnits">
+      <SW.Blocks.CompileUnit ID="1F" CompositionName="CompileUnits">
         <AttributeList>
           <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
   <Parts>
@@ -517,9 +623,9 @@
           <ProgrammingLanguage>LAD</ProgrammingLanguage>
         </AttributeList>
         <ObjectList>
-          <MultilingualText ID="16" CompositionName="Comment">
+          <MultilingualText ID="20" CompositionName="Comment">
             <ObjectList>
-              <MultilingualTextItem ID="17" CompositionName="Items">
+              <MultilingualTextItem ID="21" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
                   <Text>Keep LSHH-103 for the HMI even if the level comes back. C06a.</Text>
@@ -527,9 +633,9 @@
               </MultilingualTextItem>
             </ObjectList>
           </MultilingualText>
-          <MultilingualText ID="18" CompositionName="Title">
+          <MultilingualText ID="22" CompositionName="Title">
             <ObjectList>
-              <MultilingualTextItem ID="19" CompositionName="Items">
+              <MultilingualTextItem ID="23" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
                   <Text>Save cause: very high level</Text>
@@ -539,7 +645,7 @@
           </MultilingualText>
         </ObjectList>
       </SW.Blocks.CompileUnit>
-      <SW.Blocks.CompileUnit ID="1A" CompositionName="CompileUnits">
+      <SW.Blocks.CompileUnit ID="24" CompositionName="CompileUnits">
         <AttributeList>
           <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
   <Parts>
@@ -580,9 +686,9 @@
           <ProgrammingLanguage>LAD</ProgrammingLanguage>
         </AttributeList>
         <ObjectList>
-          <MultilingualText ID="1B" CompositionName="Comment">
+          <MultilingualText ID="25" CompositionName="Comment">
             <ObjectList>
-              <MultilingualTextItem ID="1C" CompositionName="Items">
+              <MultilingualTextItem ID="26" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
                   <Text>Normally open valve: energise to close while there is no flare trip. E5.</Text>
@@ -590,9 +696,9 @@
               </MultilingualTextItem>
             </ObjectList>
           </MultilingualText>
-          <MultilingualText ID="1D" CompositionName="Title">
+          <MultilingualText ID="27" CompositionName="Title">
             <ObjectList>
-              <MultilingualTextItem ID="1E" CompositionName="Items">
+              <MultilingualTextItem ID="28" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
                   <Text>XV-401 flare</Text>
@@ -602,7 +708,7 @@
           </MultilingualText>
         </ObjectList>
       </SW.Blocks.CompileUnit>
-      <SW.Blocks.CompileUnit ID="1F" CompositionName="CompileUnits">
+      <SW.Blocks.CompileUnit ID="29" CompositionName="CompileUnits">
         <AttributeList>
           <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
   <Parts>
@@ -643,9 +749,9 @@
           <ProgrammingLanguage>LAD</ProgrammingLanguage>
         </AttributeList>
         <ObjectList>
-          <MultilingualText ID="20" CompositionName="Comment">
+          <MultilingualText ID="2A" CompositionName="Comment">
             <ObjectList>
-              <MultilingualTextItem ID="21" CompositionName="Items">
+              <MultilingualTextItem ID="2B" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
                   <Text>Normally closed valve: energise to open while there is no scrubber trip. E7.</Text>
@@ -653,9 +759,9 @@
               </MultilingualTextItem>
             </ObjectList>
           </MultilingualText>
-          <MultilingualText ID="22" CompositionName="Title">
+          <MultilingualText ID="2C" CompositionName="Title">
             <ObjectList>
-              <MultilingualTextItem ID="23" CompositionName="Items">
+              <MultilingualTextItem ID="2D" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
                   <Text>XV-403 suction</Text>
@@ -665,7 +771,7 @@
           </MultilingualText>
         </ObjectList>
       </SW.Blocks.CompileUnit>
-      <SW.Blocks.CompileUnit ID="24" CompositionName="CompileUnits">
+      <SW.Blocks.CompileUnit ID="2E" CompositionName="CompileUnits">
         <AttributeList>
           <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
   <Parts>
@@ -679,9 +785,8 @@
         <Component Name="LSHH" />
       </Symbol>
     </Access>
-    <Access Scope="GlobalVariable" UId="27">
+    <Access Scope="LocalVariable" UId="27">
       <Symbol>
-        <Component Name="Sys" />
         <Component Name="EStopOK" />
       </Symbol>
     </Access>
@@ -761,9 +866,9 @@
           <ProgrammingLanguage>LAD</ProgrammingLanguage>
         </AttributeList>
         <ObjectList>
-          <MultilingualText ID="25" CompositionName="Comment">
+          <MultilingualText ID="2F" CompositionName="Comment">
             <ObjectList>
-              <MultilingualTextItem ID="26" CompositionName="Items">
+              <MultilingualTextItem ID="30" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
                   <Text>Normally closed valve: open while LSH-102 or LSHH-103 shows high level. Not during E-STOP or after the 10 min limit. C04 / C05 / E6.</Text>
@@ -771,9 +876,9 @@
               </MultilingualTextItem>
             </ObjectList>
           </MultilingualText>
-          <MultilingualText ID="27" CompositionName="Title">
+          <MultilingualText ID="31" CompositionName="Title">
             <ObjectList>
-              <MultilingualTextItem ID="28" CompositionName="Items">
+              <MultilingualTextItem ID="32" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
                   <Text>XV-402 drain</Text>
@@ -783,7 +888,7 @@
           </MultilingualText>
         </ObjectList>
       </SW.Blocks.CompileUnit>
-      <SW.Blocks.CompileUnit ID="29" CompositionName="CompileUnits">
+      <SW.Blocks.CompileUnit ID="33" CompositionName="CompileUnits">
         <AttributeList>
           <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
   <Parts>
@@ -845,9 +950,9 @@
           <ProgrammingLanguage>LAD</ProgrammingLanguage>
         </AttributeList>
         <ObjectList>
-          <MultilingualText ID="2A" CompositionName="Comment">
+          <MultilingualText ID="34" CompositionName="Comment">
             <ObjectList>
-              <MultilingualTextItem ID="2B" CompositionName="Items">
+              <MultilingualTextItem ID="35" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
                   <Text>Drain open 10 min without a stop: close it and alarm. Protects against a broken LSH-102 wire. C04a.</Text>
@@ -855,9 +960,9 @@
               </MultilingualTextItem>
             </ObjectList>
           </MultilingualText>
-          <MultilingualText ID="2C" CompositionName="Title">
+          <MultilingualText ID="36" CompositionName="Title">
             <ObjectList>
-              <MultilingualTextItem ID="2D" CompositionName="Items">
+              <MultilingualTextItem ID="37" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
                   <Text>Drain open too long</Text>
@@ -867,13 +972,13 @@
           </MultilingualText>
         </ObjectList>
       </SW.Blocks.CompileUnit>
-      <SW.Blocks.CompileUnit ID="2E" CompositionName="CompileUnits">
+      <SW.Blocks.CompileUnit ID="38" CompositionName="CompileUnits">
         <AttributeList>
           <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
   <Parts>
     <Access Scope="LocalVariable" UId="22">
       <Symbol>
-        <Component Name="Reset" />
+        <Component Name="ResetPulse" />
       </Symbol>
     </Access>
     <Access Scope="LocalVariable" UId="24">
@@ -906,9 +1011,9 @@
           <ProgrammingLanguage>LAD</ProgrammingLanguage>
         </AttributeList>
         <ObjectList>
-          <MultilingualText ID="2F" CompositionName="Comment">
+          <MultilingualText ID="39" CompositionName="Comment">
             <ObjectList>
-              <MultilingualTextItem ID="30" CompositionName="Items">
+              <MultilingualTextItem ID="3A" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
                   <Text>RESET lets the drain follow the level again. C04a.</Text>
@@ -916,9 +1021,9 @@
               </MultilingualTextItem>
             </ObjectList>
           </MultilingualText>
-          <MultilingualText ID="31" CompositionName="Title">
+          <MultilingualText ID="3B" CompositionName="Title">
             <ObjectList>
-              <MultilingualTextItem ID="32" CompositionName="Items">
+              <MultilingualTextItem ID="3C" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
                   <Text>RESET the drain limit</Text>
@@ -928,9 +1033,9 @@
           </MultilingualText>
         </ObjectList>
       </SW.Blocks.CompileUnit>
-      <MultilingualText ID="35" CompositionName="Title">
+      <MultilingualText ID="3F" CompositionName="Title">
         <ObjectList>
-          <MultilingualTextItem ID="36" CompositionName="Items">
+          <MultilingualTextItem ID="40" CompositionName="Items">
             <AttributeList>
               <Culture>en-US</Culture>
               <Text>Scrubber</Text>

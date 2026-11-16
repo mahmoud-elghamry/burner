@@ -48,8 +48,7 @@
     </Access>
     <Access Scope="GlobalVariable" UId="24">
       <Symbol>
-        <Component Name="Sys" />
-        <Component Name="EStopOK" />
+        <Component Name="S0_EStopStatus" />
       </Symbol>
     </Access>
     <Access Scope="GlobalVariable" UId="26">
@@ -125,8 +124,7 @@
     </Access>
     <Access Scope="GlobalVariable" UId="24">
       <Symbol>
-        <Component Name="Sys" />
-        <Component Name="EStopOK" />
+        <Component Name="S0_EStopStatus" />
       </Symbol>
     </Access>
     <Access Scope="GlobalVariable" UId="26">
@@ -202,8 +200,7 @@
     </Access>
     <Access Scope="GlobalVariable" UId="24">
       <Symbol>
-        <Component Name="Sys" />
-        <Component Name="EStopOK" />
+        <Component Name="S0_EStopStatus" />
       </Symbol>
     </Access>
     <Access Scope="GlobalVariable" UId="26">
@@ -290,8 +287,7 @@
     </Access>
     <Access Scope="GlobalVariable" UId="24">
       <Symbol>
-        <Component Name="Sys" />
-        <Component Name="EStopOK" />
+        <Component Name="S0_EStopStatus" />
       </Symbol>
     </Access>
     <Access Scope="GlobalVariable" UId="26">

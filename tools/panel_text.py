@@ -322,7 +322,7 @@ IO_COMMENTS = {
 }
 
 BLOCK_COMMENTS = {
-    'Main': 'Program sequence: common conditions, scrubber, both burners, outputs, then alarm display.',
+    'Main': 'Program sequence: setting limits, scrubber, both burners, outputs, then alarm display.',
     'Common': 'E-STOP permission, RESET press and setting limits (C&E Rev. B).',
     'Sys': 'Shared E-STOP permission, RESET pulse and first-scan flag.',
     'Par': 'The three HMI settings SP, HYST, STG in 0.1 degC. All times are fixed in the blocks.',
@@ -334,5 +334,5 @@ BLOCK_COMMENTS = {
     'Outputs': 'Physical output assignments. This is the only block that writes Q tags.',
     'HmiMap': 'Alarm display mapping only. This block does not trip equipment or reset faults.',
     'HmiAlm': 'Three alarm display words. Each set bit displays its corresponding alarm.',
-    'Startup': 'Sets the first-scan marker at startup; Main clears it after the first cycle.',
+    'Startup': 'Latches scrubber trips and seeds START/RESET memories at power-up; held buttons must be released.',
 }

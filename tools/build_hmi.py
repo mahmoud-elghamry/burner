@@ -58,8 +58,7 @@ def _members():
     scrub.update({n: 'Bool' for n, _ in B.SCRUB_OUT})
     scrub.update({n: t for n, t, _ in B.SCRUB_STAT})
     par = {n: t for n, t, *_ in B.PARAMS}
-    sys_ = {n: 'Bool' for n, _ in B.SYS}
-    return {'BR01_DB': br, 'BR02_DB': br, 'Scrubber_DB': scrub, 'Par': par, 'Sys': sys_,
+    return {'BR01_DB': br, 'BR02_DB': br, 'Scrubber_DB': scrub, 'Par': par,
             'HmiAlm': {'Common': 'Word', 'BR01': 'Word', 'BR02': 'Word'}}
 
 
@@ -75,7 +74,7 @@ TAGS += [('Scrub_' + m, 'Scrubber_DB', m) for m in
          ['PSH', 'LSH', 'LSHH', 'Tripped', 'Cause_PSH', 'Cause_LSHH',
           'FlareCmd', 'DrainCmd', 'SuctionCmd', 'F_DrainTO']]
 TAGS += [('Par_' + n, 'Par', n) for n, *_ in B.PARAMS]
-TAGS += [('Sys_' + m, 'Sys', m) for m in ['EStopOK', 'Alm_EStop']]
+TAGS += [('Scrub_EStopOK', 'Scrubber_DB', 'EStopOK')]
 TAGS += [('Alm_' + w, 'HmiAlm', w) for w in ['Common', 'BR01', 'BR02']]
 # Preserve public aliases while following clarified PLC member names.
 TAGS = [(name, db, P.SYMBOL_RENAMES.get(
@@ -96,7 +95,6 @@ _COMMENTS = {
     'Burner': {n: c for n, _t, c in B.BR_IN + B.BR_OUT + B.BR_STAT},
     'Scrubber': dict(B.SCRUB_IN + B.SCRUB_OUT + [(n, c) for n, _t, c in B.SCRUB_STAT]),
     'Par': B.PAR_TEXT,
-    'Sys': dict(B.SYS),
 }
 
 
@@ -389,9 +387,9 @@ SCREENS = [('Root screen', 'Overview'), ('BR01', 'BR01'), ('BR02', 'BR02'),
 def frame(s):
     s.rect(0, 0, W, 26, BAR)
     s.text(6, 2, 300, 22, 'LCP-01  ' + s.title, size=14, bold=True, fore=WHITE)
-    # E-STOP في العنوان: ظاهر لما Sys.Alm_EStop = 1
-    s.text(330, 3, 146, 20, 'E-STOP / RESET', size=12, bold=True, fore=WHITE, back=RED,
-           align='Center', anims=[s.anim_vis('Sys_Alm_EStop', True)])
+    # E-STOP في العنوان: ظاهر لما Scrubber_DB.EStopOK = 0
+    s.text(330, 3, 146, 20, 'E-STOP pressed', size=12, bold=True, fore=WHITE, back=RED,
+           align='Center', anims=[s.anim_vis('Scrub_EStopOK', False)])
     bw = W // len(SCREENS)
     for i, (scr, label) in enumerate(SCREENS):
         s.button(i * bw + 2, 236, bw - 4, 34, label, scr)
@@ -518,7 +516,7 @@ def scrubber():
     s.lamp(x + 8, y + 28, 'Scrub_PSH', 'PSH-101 Pressure', on=GREEN, off=RED, w=204)
     s.lamp(x + 8, y + 58, 'Scrub_LSH', 'LSH-102 High level', on=GREEN, off=AMBER, w=204)
     s.lamp(x + 8, y + 88, 'Scrub_LSHH', 'LSHH-103 Very high level', on=GREEN, off=RED, w=204)
-    s.lamp(x + 8, y + 118, 'Sys_EStopOK', 'E-STOP ready', on=GREEN, off=RED, w=204)
+    s.lamp(x + 8, y + 118, 'Scrub_EStopOK', 'E-STOP ready', on=GREEN, off=RED, w=204)
 
     x = 232
     panel(s, x, y, 244, 178, 'Valve commands')

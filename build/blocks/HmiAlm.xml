@@ -10,7 +10,7 @@
       <HeaderVersion>0.1</HeaderVersion>
       <Interface><Sections xmlns="http://www.siemens.com/automation/Openness/SW/Interface/v3">
   <Section Name="Static">
-    <Member Name="Common" Datatype="Word" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">x0 E-STOP active: reset required [C01]; x1 Scrubber tripped: reset required [C02 / C03 / C05]; x2 Scrubber trip: high pressure [C03 / C06a]; x3 Scrubber trip: very high level [C05 / C06a]; x4 Scrubber high level (LSH-102) [C04]; x5 Scrubber drain time limit reached [C04a]</MultiLanguageText></Comment></Member>
+    <Member Name="Common" Datatype="Word" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">x0 E-STOP pressed [C01]; x1 Scrubber tripped: reset required [C02 / C03 / C05]; x2 Scrubber trip: high pressure [C03 / C06a]; x3 Scrubber trip: very high level [C05 / C06a]; x4 Scrubber high level (LSH-102) [C04]; x5 Scrubber drain time limit reached [C04a]</MultiLanguageText></Comment></Member>
     <Member Name="BR01" Datatype="Word" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">x0 BR01 burner lockout [C07e]; x1 BR01 temperature input fault [C07d]; x2 BR01 RUN not received [C07f]; x3 BR01 RUN without request [C07g]; x4 TK01 level too low for BR01 [C07a]</MultiLanguageText></Comment></Member>
     <Member Name="BR02" Datatype="Word" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">x0 BR02 burner lockout [C08e]; x1 BR02 temperature input fault [C08d]; x2 BR02 RUN not received [C08f]; x3 BR02 RUN without request [C08g]; x4 TK02 level too low for BR02 [C08a]</MultiLanguageText></Comment></Member>
   </Section>

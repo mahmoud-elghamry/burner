@@ -15,6 +15,8 @@
 
 ## شغّال دلوقتي 🔄
 
+**Task 4 — Rev. B من غير Common وSys (2026-11-16):** المولّد بقى 11 بلوك و73 network: ‏Scrubber 12، Burner 26، Outputs 7، HmiMap 16، Startup 1، Main 11؛ كل network فيها rung واحدة. حدود الإعدادات في Main، حافة RESET في Scrubber، وOB100 بيمنع START/RESET المتداسين عند رجوع الكهربا. مع فك E-STOP الإنذار يختفي والدرين يرجع للمستوى؛ السكرابر والفلير محتاجين RESET والبيرنرات START جديد. الشاشة 57 تاج وAlarms مش بتتولّد. القرار `decisions/0012-revb-without-common.md`. التوليد وفحص HMI والـ26 اختبار نجحوا؛ check_docs فشل بسبب مسارات تاريخية ناقصة، وSTATE كانت 93 سطر وبقت 95 (الحد 60)، وملفَي C&E أقدم من مولّدهم؛ ما اتعدّلوش. الإخراج في `baseline/2026-11-16-revb-without-common/gates.txt`. لا commit أو TIA أو PLCSIM؛ المراجعة والاستيراد والكومبايل والمحاكاة عند المنسّق.
+
 **Rev. B في الكود (branch `simplify-revb`، worktree `.claude/worktrees/simplify-revb`):** المولّدات اتعدّلت.
 البرنامج بقى 78 network بدل 135: Burner 26، Common 11، Scrubber 10، HmiMap 16، Outputs 7، Main 7، Startup 1.
 الشاشة فيها 58 تاج، والإنذارات 16 بـ IDs جديدة. `docs/التشغيل.md` اتكتب من جديد على Rev. B.

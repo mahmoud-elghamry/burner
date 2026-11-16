@@ -19,6 +19,7 @@
     <Member Name="Fuel" Datatype="Bool" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">BR02 fuel selector: 1 = diesel. BR01: FALSE</MultiLanguageText></Comment></Member>
     <Member Name="TeA" Datatype="Int" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Thermocouple A, 0.1 degC</MultiLanguageText></Comment></Member>
     <Member Name="TeB" Datatype="Int" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Thermocouple B, 0.1 degC</MultiLanguageText></Comment></Member>
+    <Member Name="EStopOK" Datatype="Bool" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Raw E-STOP status: 1 = released (C01)</MultiLanguageText></Comment></Member>
   </Section>
   <Section Name="Output">
     <Member Name="HeatReq" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Heat request to the burner: TL / L (E1 / E3)</MultiLanguageText></Comment></Member>
@@ -89,18 +90,12 @@
         <Component Name="StartMem" />
       </Symbol>
     </Access>
-    <Access Scope="GlobalVariable" UId="26">
-      <Symbol>
-        <Component Name="Sys" />
-        <Component Name="FirstScan" />
-      </Symbol>
-    </Access>
-    <Access Scope="LocalVariable" UId="28">
+    <Access Scope="LocalVariable" UId="26">
       <Symbol>
         <Component Name="StopOK" />
       </Symbol>
     </Access>
-    <Access Scope="LocalVariable" UId="30">
+    <Access Scope="LocalVariable" UId="28">
       <Symbol>
         <Component Name="StartEdge" />
       </Symbol>
@@ -109,52 +104,41 @@
     <Part Name="Contact" UId="23">
       <Negated Name="operand" />
     </Part>
-    <Part Name="Contact" UId="25">
-      <Negated Name="operand" />
-    </Part>
-    <Part Name="Contact" UId="27" />
-    <Part Name="Coil" UId="29" />
+    <Part Name="Contact" UId="25" />
+    <Part Name="Coil" UId="27" />
   </Parts>
   <Wires>
-    <Wire UId="31">
+    <Wire UId="29">
       <Powerrail />
       <NameCon UId="21" Name="in" />
     </Wire>
-    <Wire UId="32">
+    <Wire UId="30">
       <IdentCon UId="22" />
       <NameCon UId="21" Name="operand" />
     </Wire>
-    <Wire UId="33">
+    <Wire UId="31">
       <NameCon UId="21" Name="out" />
       <NameCon UId="23" Name="in" />
     </Wire>
-    <Wire UId="34">
+    <Wire UId="32">
       <IdentCon UId="24" />
       <NameCon UId="23" Name="operand" />
     </Wire>
-    <Wire UId="35">
+    <Wire UId="33">
       <NameCon UId="23" Name="out" />
       <NameCon UId="25" Name="in" />
     </Wire>
-    <Wire UId="36">
+    <Wire UId="34">
       <IdentCon UId="26" />
       <NameCon UId="25" Name="operand" />
     </Wire>
-    <Wire UId="37">
+    <Wire UId="35">
       <NameCon UId="25" Name="out" />
       <NameCon UId="27" Name="in" />
     </Wire>
-    <Wire UId="38">
-      <IdentCon UId="28" />
+    <Wire UId="36">
       <NameCon UId="27" Name="operand" />
-    </Wire>
-    <Wire UId="39">
-      <NameCon UId="27" Name="out" />
-      <NameCon UId="29" Name="in" />
-    </Wire>
-    <Wire UId="40">
-      <NameCon UId="29" Name="operand" />
-      <IdentCon UId="30" />
+      <IdentCon UId="28" />
     </Wire>
   </Wires>
 </FlgNet></NetworkSource>
@@ -166,7 +150,7 @@
               <MultilingualTextItem ID="3" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>One-scan pulse on a new START press; not on the first scan and not while STOP is pressed.</Text>
+                  <Text>One-scan pulse on a new START press; OB100 seeds StartMem so a held button is ignored. STOP wins. C02 / B-01.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -1428,9 +1412,8 @@
         <AttributeList>
           <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
   <Parts>
-    <Access Scope="GlobalVariable" UId="22">
+    <Access Scope="LocalVariable" UId="22">
       <Symbol>
-        <Component Name="Sys" />
         <Component Name="EStopOK" />
       </Symbol>
     </Access>

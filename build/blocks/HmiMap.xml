@@ -42,8 +42,7 @@
   <Parts>
     <Access Scope="GlobalVariable" UId="22">
       <Symbol>
-        <Component Name="Sys" />
-        <Component Name="Alm_EStop" />
+        <Component Name="S0_EStopStatus" />
       </Symbol>
     </Access>
     <Access Scope="GlobalVariable" UId="24">
@@ -52,7 +51,9 @@
         <Component Name="Common" SliceAccessModifier="x0" />
       </Symbol>
     </Access>
-    <Part Name="Contact" UId="21" />
+    <Part Name="Contact" UId="21">
+      <Negated Name="operand" />
+    </Part>
     <Part Name="Coil" UId="23" />
   </Parts>
   <Wires>
@@ -82,7 +83,7 @@
               <MultilingualTextItem ID="3" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>Clears: Release E-STOP and RESET. C01.</Text>
+                  <Text>Clears: Release E-STOP; then RESET the scrubber and START the burners. C01.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -92,7 +93,7 @@
               <MultilingualTextItem ID="5" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>Alarm Common.x0: E-STOP active: reset required</Text>
+                  <Text>Alarm Common.x0: E-STOP pressed</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>

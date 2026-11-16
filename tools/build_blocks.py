@@ -330,7 +330,7 @@ def db_block(tag, name, number, iface, instance_of=None):
 
 
 # ======================================================================
-#  Par و Sys — Global DBs
+#  Par — Global DB
 # ======================================================================
 # Rev. B (docs/تبسيط الكود.md): تلات إعدادات بس على الشاشة. الحرارة بعُشر الدرجة
 # زي كارت الـ TC (700 = 70.0 °C). الأوقات كلها ثابتة جوه البلوكات.
@@ -352,67 +352,25 @@ def par_db():
     return db_block('SW.Blocks.GlobalDB', 'Par', 1, interface([('Static', mems)]))
 
 
-SYS = [
-    ('FirstScan', 'Startup flag: set by OB100, cleared at the end of Main'),
-    ('EStopOK', 'E-STOP released and RESET given (or released at power-up)'),
-    ('ResetPulse', 'One-scan pulse on a new press of RESET S2'),
-    ('ResetMem', 'RESET S2 state from the previous scan'),
-    ('Alm_EStop', 'HMI alarm: E-STOP pressed or waiting for RESET'),
-]
-
-
-def sys_db():
-    mems = [member(n, 'Bool', retain=False, comment=c) for n, c in SYS]
-    return db_block('SW.Blocks.GlobalDB', 'Sys', 2, interface([('Static', mems)]))
-
-
 def N(title, explanation):
     """Network title with its English explanation (shown in TIA under the title)."""
     return '%s :: %s' % (title, explanation)
 
 
 # ======================================================================
-#  Common (FC1) — الطوارئ وزرار RESET وحدود الإعدادات
-# ======================================================================
-def common_fc():
-    nets = [
-        rung(N('RESET: new press', 'One-scan pulse when S2 is pressed; ignored on the first scan. C01.'),
-             ('&', '"S2_FaultReset"', ('!', '"Sys".ResetMem'), ('!', '"Sys".FirstScan')),
-             ('=', '"Sys".ResetPulse')),
-        rung(N('RESET: remember the button', 'Save S2 for the next scan.'),
-             '"S2_FaultReset"', ('=', '"Sys".ResetMem')),
-        rung(N('E-STOP pressed', 'E-STOP status contact open: remove EStopOK. C01.'),
-             ('!', '"S0_EStopStatus"'), ('R', '"Sys".EStopOK')),
-        rung(N('E-STOP released and RESET', 'E-STOP released plus RESET (or at power-up): EStopOK back. Burners still need START. C01.'),
-             ('&', '"S0_EStopStatus"', ('|', '"Sys".ResetPulse', '"Sys".FirstScan')),
-             ('S', '"Sys".EStopOK')),
-        rung(N('E-STOP alarm', 'Shown while EStopOK is off. C01.'),
-             ('!', '"Sys".EStopOK'), ('=', '"Sys".Alm_EStop')),
-    ]
-    for n, t, d, lo, hi, txt in PARAMS:
-        p = '"Par".%s' % n
-        nets += [
-            rung(N('%s below its minimum' % n, '%s below %s: use %s. Sheet Parameters.' % (n, lo, lo)),
-                 ('Lt', t, p, lo), ('MOVE', lo, p)),
-            rung(N('%s above its maximum' % n, '%s above %s: use %s. Sheet Parameters.' % (n, hi, hi)),
-                 ('Gt', t, p, hi), ('MOVE', hi, p)),
-        ]
-    iface = interface([('Input', []), ('Output', []), ('InOut', []), ('Temp', []),
-                       ('Constant', []), ('Return', ['<Member Name="Ret_Val" Datatype="Void" />'])])
-    return code_block('SW.Blocks.FC', 'Common', 1, iface, nets)
-
-
-# ======================================================================
-#  Scrubber (FB2)
+#  Scrubber (FB2) — السكرابر وحافة RESET
 # ======================================================================
 SCRUB_IN = [('PSH', 'PSH-101 healthy: 1 = contact closed (normal pressure)'),
             ('LSH', 'LSH-102 healthy: 1 = level below high'),
             ('LSHH', 'LSHH-103 healthy: 1 = level below very high'),
-            ('Reset', 'RESET pulse (Sys.ResetPulse)')]
+            ('EStopOK', 'Raw E-STOP status: 1 = released (C01)'),
+            ('ResetPB', 'Raw RESET S2 push button; rising edge detected locally')]
 SCRUB_OUT = [('FlareCmd', 'XV-401 flare (NO): 1 = energised = closed'),
              ('DrainCmd', 'XV-402 drain (NC): 1 = energised = open'),
              ('SuctionCmd', 'XV-403 suction (NC): 1 = energised = open')]
 SCRUB_STAT = [
+    ('ResetMem', 'Bool', 'RESET button state from the previous scan; seeded TRUE by OB100'),
+    ('ResetPulse', 'Bool', 'One-scan pulse on a new RESET press'),
     ('Tripped', 'Bool', 'Scrubber trip (PSH, LSHH, E-STOP, power-up): suction closed, both burners stopped, until RESET'),
     ('FlareTrip', 'Bool', 'Flare trip (PSH, E-STOP, power-up): flare open until RESET'),
     ('Cause_PSH', 'Bool', 'PSH-101 tripped the scrubber; kept for the HMI until RESET (C06a)'),
@@ -423,16 +381,20 @@ SCRUB_TON = [('T_DrnMax', 'Drain open time, 10 min limit (C04a)')]
 
 
 def scrubber_fb():
-    healthy_reset = ('&', '#Reset', '#PSH', '#LSHH', '"Sys".EStopOK')
+    healthy_reset = ('&', '#ResetPulse', '#PSH', '#LSHH', '#EStopOK')
     nets = [
+        rung(N('RESET: new press', 'One-scan pulse on a new S2 press; OB100 seeds ResetMem so a held button is ignored. C01 / C02.'),
+             ('&', '#ResetPB', ('!', '#ResetMem')), ('=', '#ResetPulse')),
+        rung(N('RESET: remember the button', 'Save S2 for the next scan.'),
+             '#ResetPB', ('=', '#ResetMem')),
         rung(N('RESET the scrubber trip', 'RESET with pressure, very high level and E-STOP healthy clears both trips and the saved causes. C03 / C05.'),
              healthy_reset, ('R', '#Tripped'), ('R', '#FlareTrip'),
              ('R', '#Cause_PSH'), ('R', '#Cause_LSHH')),
-        rung(N('Scrubber trip', 'High pressure, very high level, E-STOP or power-up: trip. C01 / C02 / C03 / C05.'),
-             ('|', ('!', '#PSH'), ('!', '#LSHH'), ('!', '"Sys".EStopOK'), '"Sys".FirstScan'),
+        rung(N('Scrubber trip', 'High pressure, very high level or E-STOP: trip. OB100 trips at power-up. C01 / C02 / C03 / C05.'),
+             ('|', ('!', '#PSH'), ('!', '#LSHH'), ('!', '#EStopOK')),
              ('S', '#Tripped')),
-        rung(N('Flare trip', 'High pressure, E-STOP or power-up open the flare. Very high level alone does not. C01 / C02 / C03.'),
-             ('|', ('!', '#PSH'), ('!', '"Sys".EStopOK'), '"Sys".FirstScan'),
+        rung(N('Flare trip', 'High pressure or E-STOP open the flare. OB100 opens it at power-up. Very high level alone does not. C01 / C02 / C03.'),
+             ('|', ('!', '#PSH'), ('!', '#EStopOK')),
              ('S', '#FlareTrip')),
         rung(N('Save cause: high pressure', 'Keep PSH-101 for the HMI even if the pressure comes back. C06a.'),
              ('!', '#PSH'), ('S', '#Cause_PSH')),
@@ -443,12 +405,12 @@ def scrubber_fb():
         rung(N('XV-403 suction', 'Normally closed valve: energise to open while there is no scrubber trip. E7.'),
              ('!', '#Tripped'), ('=', '#SuctionCmd')),
         rung(N('XV-402 drain', 'Normally closed valve: open while LSH-102 or LSHH-103 shows high level. Not during E-STOP or after the 10 min limit. C04 / C05 / E6.'),
-             ('&', ('|', ('!', '#LSH'), ('!', '#LSHH')), '"Sys".EStopOK', ('!', '#F_DrainTO')),
+             ('&', ('|', ('!', '#LSH'), ('!', '#LSHH')), '#EStopOK', ('!', '#F_DrainTO')),
              ('=', '#DrainCmd')),
         rung(N('Drain open too long', 'Drain open 10 min without a stop: close it and alarm. Protects against a broken LSH-102 wire. C04a.'),
              ('&', '#DrainCmd', ('TON', '#T_DrnMax', 'T#10M')), ('S', '#F_DrainTO')),
         rung(N('RESET the drain limit', 'RESET lets the drain follow the level again. C04a.'),
-             '#Reset', ('R', '#F_DrainTO')),
+             '#ResetPulse', ('R', '#F_DrainTO')),
     ]
     iface = interface([
         ('Input', [member(n, 'Bool', retain=None, comment=c) for n, c in SCRUB_IN]),
@@ -483,6 +445,7 @@ BR_IN = [
     ('Fuel', 'Bool', 'BR02 fuel selector: 1 = diesel. BR01: FALSE'),
     ('TeA', 'Int', 'Thermocouple A, 0.1 degC'),
     ('TeB', 'Int', 'Thermocouple B, 0.1 degC'),
+    ('EStopOK', 'Bool', 'Raw E-STOP status: 1 = released (C01)'),
 ]
 BR_OUT = [
     ('HeatReq', 'Bool', 'Heat request to the burner: TL / L (E1 / E3)'),
@@ -523,8 +486,8 @@ BR_TON = [
 def burner_fb():
     nets = [
         # ---- الزراير ------------------------------------------------------
-        rung(N('START: new press', 'One-scan pulse on a new START press; not on the first scan and not while STOP is pressed.'),
-             ('&', '#StartPB', ('!', '#StartMem'), ('!', '"Sys".FirstScan'), '#StopOK'),
+        rung(N('START: new press', 'One-scan pulse on a new START press; OB100 seeds StartMem so a held button is ignored. STOP wins. C02 / B-01.'),
+             ('&', '#StartPB', ('!', '#StartMem'), '#StopOK'),
              ('=', '#StartEdge')),
         rung(N('START: remember the button', 'Save START for the next scan.'),
              '#StartPB', ('=', '#StartMem')),
@@ -561,7 +524,7 @@ def burner_fb():
              ('=', '#HeatNeed')),
         # ---- START / STOP ------------------------------------------------
         rung(N('Burner trip', 'E-STOP, scrubber trip, burner lockout, thermocouple fault or fuel change: stop; a new START is needed. C01 / C03 / C05 / C0xd / C0xe / C08h.'),
-             ('|', ('!', '"Sys".EStopOK'), '"Scrubber_DB".Tripped', '#Lockout', '#TcBad', '#FuelChg'),
+             ('|', ('!', '#EStopOK'), '"Scrubber_DB".Tripped', '#Lockout', '#TcBad', '#FuelChg'),
              ('=', '#Trip')),
         rung(N('START accepted', 'New START with no trip and tank level OK. In MAN only if heat is needed.'),
              ('&', '#StartEdge', ('!', '#Trip'), '#LevelOK', ('|', '#Auto', '#HeatNeed')),
@@ -618,14 +581,14 @@ def burner_db(name, number, use24h=False):
 def outputs_fc():
     nets = [
         rung(N('BR01: heat request TL', 'Relay R1 and lamp H1. Only with E-STOP healthy. E1.'),
-             ('&', '"BR01_DB".HeatReq', '"Sys".EStopOK'), ('=', '"BR01_TL_Cmd"')),
+             ('&', '"BR01_DB".HeatReq', '"S0_EStopStatus"'), ('=', '"BR01_TL_Cmd"')),
         rung(N('BR01: stage 2 TR', 'Relay R2 and lamp H2. E2.'),
-             ('&', '"BR01_DB".Stage2', '"Sys".EStopOK'), ('=', '"BR01_TR_Cmd"')),
+             ('&', '"BR01_DB".Stage2', '"S0_EStopStatus"'), ('=', '"BR01_TR_Cmd"')),
         rung(N('BR02: heat request L', 'Relay R6 and stage 1 lamp H5 (R8). E3.'),
-             ('&', '"BR02_DB".HeatReq', '"Sys".EStopOK'),
+             ('&', '"BR02_DB".HeatReq', '"S0_EStopStatus"'),
              ('=', '"BR02_L_Cmd"'), ('=', '"BR02_Stage1Lamp_Cmd"')),
         rung(N('BR02: stage 2 T2', 'Relay R7 and stage 2 lamp H6 (R9). E4.'),
-             ('&', '"BR02_DB".Stage2', '"Sys".EStopOK'),
+             ('&', '"BR02_DB".Stage2', '"S0_EStopStatus"'),
              ('=', '"BR02_T2_Cmd"'), ('=', '"BR02_Stage2Lamp_Cmd"')),
         rung(N('XV-401 flare', 'Output ON closes the normally open flare valve. E5.'),
              '"Scrubber_DB".FlareCmd', ('=', '"XV_401_Cmd"')),
@@ -645,8 +608,8 @@ def outputs_fc():
 # (Word، bit، إشارة PLC، النص، بيختفي إمتى، المرجع).
 # '!' قبل المعامل = كونتاكت NC. البت = 1 يعني الإنذار ظاهر. لا Ack.
 HMI_ALARMS = [
-    ('Common', 0, '"Sys".Alm_EStop', 'E-STOP active: reset required',
-     'Release E-STOP and RESET', 'C01'),
+    ('Common', 0, '!"S0_EStopStatus"', 'E-STOP pressed',
+     'Release E-STOP; then RESET the scrubber and START the burners', 'C01'),
     ('Common', 1, '"Scrubber_DB".Tripped', 'Scrubber tripped: reset required',
      'RESET with pressure, very high level and E-STOP healthy', 'C02 / C03 / C05'),
     ('Common', 2, '"Scrubber_DB".Cause_PSH', 'Scrubber trip: high pressure',
@@ -694,9 +657,9 @@ def hmi_map_fc():
 #  OB100 و OB1
 # ======================================================================
 def startup_ob():
-    # MOVE على Bool مش مسموح في LAD، وSys مش retain فـ FirstScan = 0 هنا دايمًا
-    nets = [rung(N('Power-up: first scan', 'Set FirstScan: the scrubber trips and the burners need START. C02.'),
-                 ('!', '"Sys".FirstScan'), ('S', '"Sys".FirstScan'))]
+    nets = [rung(N('Power-up', 'Latch scrubber trips and seed START/RESET memories; held buttons need release. FuelMem remains FALSE. C02 / B-01.'),
+                 None, ('S', '"Scrubber_DB".Tripped'), ('S', '"Scrubber_DB".FlareTrip'),
+                 ('S', '"Scrubber_DB".ResetMem'), ('S', '"BR01_DB".StartMem'), ('S', '"BR02_DB".StartMem'))]
     iface = interface([
         ('Input', ['<Member Name="LostRetentive" Datatype="Bool" Accessibility="Public" '
                    'Informative="true" />',
@@ -717,20 +680,28 @@ def burner_params(br):
         io = ['"S5_BR02_Auto"', '"S6_BR02_Start"', '"S7_BR02_Stop"',
               '"LSL_TK02"', '"BR02_Run"', '"BR02_Fault"', '"Rfuel2_BR02_DieselMode"',
               '"TE_503_Raw"', '"TE_504_Raw"']
+    io += ['"S0_EStopStatus"']
     return [(n, 'Input', t, op) for (n, t, _), op in zip(BR_IN, io)]
 
 
 def main_ob():
-    scrub_io = ['"PSH_101"', '"LSH_102"', '"LSHH_103"', '"Sys".ResetPulse']
-    nets = [
-        call(N('Common: E-STOP and RESET', 'E-STOP, RESET and setting limits first, so the other blocks use them.'), 'Common', 'FC'),
+    scrub_io = ['"PSH_101"', '"LSH_102"', '"LSHH_103"', '"S0_EStopStatus"', '"S2_FaultReset"']
+    nets = []
+    for n, t, d, lo, hi, txt in PARAMS:
+        p = '"Par".%s' % n
+        nets += [
+            rung(N('%s below its minimum' % n, '%s below %s: use %s. Sheet Parameters.' % (n, lo, lo)),
+                 ('Lt', t, p, lo), ('MOVE', lo, p)),
+            rung(N('%s above its maximum' % n, '%s above %s: use %s. Sheet Parameters.' % (n, hi, hi)),
+                 ('Gt', t, p, hi), ('MOVE', hi, p)),
+        ]
+    nets += [
         call(N('Scrubber', 'PSH-101, LSH-102, LSHH-103: trips and valve commands, before the burners.'), 'Scrubber', 'FB', 'Scrubber_DB',
              [(n, 'Input', 'Bool', op) for (n, _), op in zip(SCRUB_IN, scrub_io)]),
         call(N('Burner BR01 on tank TK01', 'Burner block with BR01_DB; BR01 has no fuel selector and uses the daily stop.'), 'Burner', 'FB', 'BR01_DB', burner_params('BR01')),
         call(N('Burner BR02 on tank TK02', 'Same burner block with BR02_DB.'), 'Burner', 'FB', 'BR02_DB', burner_params('BR02')),
         call(N('Outputs', 'The only block that writes the Q outputs.'), 'Outputs', 'FC'),
         call(N('HMI alarms', 'Copies the alarm bits for the panel; no control here.'), 'HmiMap', 'FC'),
-        rung(N('First scan done', 'Clear FirstScan after all blocks have used it. C02.'), '"Sys".FirstScan', ('R', '"Sys".FirstScan')),
     ]
     iface = interface([
         ('Input', ['<Member Name="Initial_Call" Datatype="Bool" Accessibility="Public" '
@@ -740,13 +711,12 @@ def main_ob():
         ('Temp', []), ('Constant', [])])
     return code_block('SW.Blocks.OB', 'Main', 1, iface, nets,
                       extra_attrs='      <SecondaryType>ProgramCycle</SecondaryType>\n',
-                      comment='Calls the blocks in a fixed order; no logic here (decisions/0006)')
+                      comment='Setting limits, then calls the blocks in a fixed order (decisions/0006)')
 
 
 # الترتيب ده هو ترتيب الاستيراد.
 BLOCKS = [
-    ('Par.xml', par_db), ('Sys.xml', sys_db), ('HmiAlm.xml', hmi_alm_db),
-    ('Common.xml', common_fc),
+    ('Par.xml', par_db), ('HmiAlm.xml', hmi_alm_db),
     ('Scrubber.xml', scrubber_fb), ('Scrubber_DB.xml', scrubber_db),
     ('Burner.xml', burner_fb),
     ('BR01_DB.xml', lambda: burner_db('BR01_DB', 3, use24h=True)),
@@ -760,6 +730,10 @@ BLOCKS = [
 def main():
     if not os.path.isdir(OUT):
         os.makedirs(OUT)
+    for obsolete in ('Sys.xml', 'Common.xml'):
+        path = os.path.join(OUT, obsolete)
+        if os.path.isfile(path):
+            os.remove(path)
     for fname, fn in BLOCKS:
         with io.open(os.path.join(OUT, fname), 'w', encoding='utf-8') as f:
             f.write(fn())
