@@ -15,17 +15,21 @@
     <Member Name="PSH" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">PSH-101 healthy: 1 = contact closed (normal pressure)</MultiLanguageText></Comment></Member>
     <Member Name="LSH" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">LSH-102 healthy: 1 = level below high</MultiLanguageText></Comment></Member>
     <Member Name="LSHH" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">LSHH-103 healthy: 1 = level below very high</MultiLanguageText></Comment></Member>
-    <Member Name="Reset" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">RESET pulse (Sys.ResetPulse)</MultiLanguageText></Comment></Member>
+    <Member Name="EStopOK" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Raw E-STOP status: 1 = released (C01)</MultiLanguageText></Comment></Member>
+    <Member Name="ResetPB" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Raw RESET S2 push button; rising edge detected locally</MultiLanguageText></Comment></Member>
   </Section>
   <Section Name="Output">
     <Member Name="FlareCmd" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">XV-401 flare (NO): 1 = energised = closed</MultiLanguageText></Comment></Member>
     <Member Name="DrainCmd" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">XV-402 drain (NC): 1 = energised = open</MultiLanguageText></Comment></Member>
     <Member Name="SuctionCmd" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">XV-403 suction (NC): 1 = energised = open</MultiLanguageText></Comment></Member>
+    <Member Name="Tripped" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Latched scrubber trip until healthy RESET</MultiLanguageText></Comment></Member>
+    <Member Name="Alarms" Datatype="Word" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Alarm display word (Common bits 0..5)</MultiLanguageText></Comment></Member>
   </Section>
   <Section Name="InOut" />
   <Section Name="Static">
-    <Member Name="Tripped" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Scrubber trip (PSH, LSHH, E-STOP, power-up): suction closed, both burners stopped, until RESET</MultiLanguageText></Comment></Member>
     <Member Name="FlareTrip" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Flare trip (PSH, E-STOP, power-up): flare open until RESET</MultiLanguageText></Comment></Member>
+    <Member Name="ResetMem" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">RESET state from previous scan; set by OB100</MultiLanguageText></Comment></Member>
+    <Member Name="ResetPulse" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">One-scan new RESET press</MultiLanguageText></Comment></Member>
     <Member Name="Cause_PSH" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">PSH-101 tripped the scrubber; kept for the HMI until RESET (C06a)</MultiLanguageText></Comment></Member>
     <Member Name="Cause_LSHH" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">LSHH-103 tripped the scrubber; kept for the HMI until RESET (C06a)</MultiLanguageText></Comment></Member>
     <Member Name="F_DrainTO" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Drain open 10 min without stop: drain closed until RESET (C04a)</MultiLanguageText></Comment></Member>

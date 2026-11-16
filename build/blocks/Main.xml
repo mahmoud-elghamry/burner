@@ -25,12 +25,12 @@
       <SetENOAutomatically>False</SetENOAutomatically>
     </AttributeList>
     <ObjectList>
-      <MultilingualText ID="24" CompositionName="Comment">
+      <MultilingualText ID="15" CompositionName="Comment">
         <ObjectList>
-          <MultilingualTextItem ID="25" CompositionName="Items">
+          <MultilingualTextItem ID="16" CompositionName="Items">
             <AttributeList>
               <Culture>en-US</Culture>
-              <Text>Program sequence: common conditions, scrubber, both burners, outputs, then alarm display.</Text>
+              <Text>Clamp settings, then call scrubber and burners with all physical I/O visible on the calls.</Text>
             </AttributeList>
           </MultilingualTextItem>
         </ObjectList>
@@ -39,15 +39,316 @@
         <AttributeList>
           <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
   <Parts>
-    <Call UId="21">
-      <CallInfo Name="Common" BlockType="FC">
-      </CallInfo>
-    </Call>
+    <Access Scope="GlobalVariable" UId="22">
+      <Symbol>
+        <Component Name="Par" />
+        <Component Name="SP" />
+      </Symbol>
+    </Access>
+    <Access Scope="LiteralConstant" UId="23">
+      <Constant>
+        <ConstantType>Int</ConstantType>
+        <ConstantValue>400</ConstantValue>
+      </Constant>
+    </Access>
+    <Access Scope="LiteralConstant" UId="25">
+      <Constant>
+        <ConstantType>Int</ConstantType>
+        <ConstantValue>400</ConstantValue>
+      </Constant>
+    </Access>
+    <Access Scope="GlobalVariable" UId="26">
+      <Symbol>
+        <Component Name="Par" />
+        <Component Name="SP" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="28">
+      <Symbol>
+        <Component Name="Par" />
+        <Component Name="SP" />
+      </Symbol>
+    </Access>
+    <Access Scope="LiteralConstant" UId="29">
+      <Constant>
+        <ConstantType>Int</ConstantType>
+        <ConstantValue>900</ConstantValue>
+      </Constant>
+    </Access>
+    <Access Scope="LiteralConstant" UId="31">
+      <Constant>
+        <ConstantType>Int</ConstantType>
+        <ConstantValue>900</ConstantValue>
+      </Constant>
+    </Access>
+    <Access Scope="GlobalVariable" UId="32">
+      <Symbol>
+        <Component Name="Par" />
+        <Component Name="SP" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="34">
+      <Symbol>
+        <Component Name="Par" />
+        <Component Name="HYST" />
+      </Symbol>
+    </Access>
+    <Access Scope="LiteralConstant" UId="35">
+      <Constant>
+        <ConstantType>Int</ConstantType>
+        <ConstantValue>30</ConstantValue>
+      </Constant>
+    </Access>
+    <Access Scope="LiteralConstant" UId="37">
+      <Constant>
+        <ConstantType>Int</ConstantType>
+        <ConstantValue>30</ConstantValue>
+      </Constant>
+    </Access>
+    <Access Scope="GlobalVariable" UId="38">
+      <Symbol>
+        <Component Name="Par" />
+        <Component Name="HYST" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="40">
+      <Symbol>
+        <Component Name="Par" />
+        <Component Name="HYST" />
+      </Symbol>
+    </Access>
+    <Access Scope="LiteralConstant" UId="41">
+      <Constant>
+        <ConstantType>Int</ConstantType>
+        <ConstantValue>100</ConstantValue>
+      </Constant>
+    </Access>
+    <Access Scope="LiteralConstant" UId="43">
+      <Constant>
+        <ConstantType>Int</ConstantType>
+        <ConstantValue>100</ConstantValue>
+      </Constant>
+    </Access>
+    <Access Scope="GlobalVariable" UId="44">
+      <Symbol>
+        <Component Name="Par" />
+        <Component Name="HYST" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="46">
+      <Symbol>
+        <Component Name="Par" />
+        <Component Name="STG" />
+      </Symbol>
+    </Access>
+    <Access Scope="LiteralConstant" UId="47">
+      <Constant>
+        <ConstantType>Int</ConstantType>
+        <ConstantValue>50</ConstantValue>
+      </Constant>
+    </Access>
+    <Access Scope="LiteralConstant" UId="49">
+      <Constant>
+        <ConstantType>Int</ConstantType>
+        <ConstantValue>50</ConstantValue>
+      </Constant>
+    </Access>
+    <Access Scope="GlobalVariable" UId="50">
+      <Symbol>
+        <Component Name="Par" />
+        <Component Name="STG" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="52">
+      <Symbol>
+        <Component Name="Par" />
+        <Component Name="STG" />
+      </Symbol>
+    </Access>
+    <Access Scope="LiteralConstant" UId="53">
+      <Constant>
+        <ConstantType>Int</ConstantType>
+        <ConstantValue>300</ConstantValue>
+      </Constant>
+    </Access>
+    <Access Scope="LiteralConstant" UId="55">
+      <Constant>
+        <ConstantType>Int</ConstantType>
+        <ConstantValue>300</ConstantValue>
+      </Constant>
+    </Access>
+    <Access Scope="GlobalVariable" UId="56">
+      <Symbol>
+        <Component Name="Par" />
+        <Component Name="STG" />
+      </Symbol>
+    </Access>
+    <Part Name="Lt" UId="21">
+      <TemplateValue Name="SrcType" Type="Type">Int</TemplateValue>
+    </Part>
+    <Part Name="Move" UId="24" DisabledENO="false">
+      <TemplateValue Name="Card" Type="Cardinality">1</TemplateValue>
+    </Part>
+    <Part Name="Gt" UId="27">
+      <TemplateValue Name="SrcType" Type="Type">Int</TemplateValue>
+    </Part>
+    <Part Name="Move" UId="30" DisabledENO="false">
+      <TemplateValue Name="Card" Type="Cardinality">1</TemplateValue>
+    </Part>
+    <Part Name="Lt" UId="33">
+      <TemplateValue Name="SrcType" Type="Type">Int</TemplateValue>
+    </Part>
+    <Part Name="Move" UId="36" DisabledENO="false">
+      <TemplateValue Name="Card" Type="Cardinality">1</TemplateValue>
+    </Part>
+    <Part Name="Gt" UId="39">
+      <TemplateValue Name="SrcType" Type="Type">Int</TemplateValue>
+    </Part>
+    <Part Name="Move" UId="42" DisabledENO="false">
+      <TemplateValue Name="Card" Type="Cardinality">1</TemplateValue>
+    </Part>
+    <Part Name="Lt" UId="45">
+      <TemplateValue Name="SrcType" Type="Type">Int</TemplateValue>
+    </Part>
+    <Part Name="Move" UId="48" DisabledENO="false">
+      <TemplateValue Name="Card" Type="Cardinality">1</TemplateValue>
+    </Part>
+    <Part Name="Gt" UId="51">
+      <TemplateValue Name="SrcType" Type="Type">Int</TemplateValue>
+    </Part>
+    <Part Name="Move" UId="54" DisabledENO="false">
+      <TemplateValue Name="Card" Type="Cardinality">1</TemplateValue>
+    </Part>
   </Parts>
   <Wires>
-    <Wire UId="23">
+    <Wire UId="57">
       <Powerrail />
-      <NameCon UId="21" Name="en" />
+      <NameCon UId="21" Name="pre" />
+      <NameCon UId="27" Name="pre" />
+      <NameCon UId="33" Name="pre" />
+      <NameCon UId="39" Name="pre" />
+      <NameCon UId="45" Name="pre" />
+      <NameCon UId="51" Name="pre" />
+    </Wire>
+    <Wire UId="58">
+      <IdentCon UId="22" />
+      <NameCon UId="21" Name="in1" />
+    </Wire>
+    <Wire UId="59">
+      <IdentCon UId="23" />
+      <NameCon UId="21" Name="in2" />
+    </Wire>
+    <Wire UId="60">
+      <NameCon UId="21" Name="out" />
+      <NameCon UId="24" Name="en" />
+    </Wire>
+    <Wire UId="61">
+      <IdentCon UId="25" />
+      <NameCon UId="24" Name="in" />
+    </Wire>
+    <Wire UId="62">
+      <NameCon UId="24" Name="out1" />
+      <IdentCon UId="26" />
+    </Wire>
+    <Wire UId="63">
+      <IdentCon UId="28" />
+      <NameCon UId="27" Name="in1" />
+    </Wire>
+    <Wire UId="64">
+      <IdentCon UId="29" />
+      <NameCon UId="27" Name="in2" />
+    </Wire>
+    <Wire UId="65">
+      <NameCon UId="27" Name="out" />
+      <NameCon UId="30" Name="en" />
+    </Wire>
+    <Wire UId="66">
+      <IdentCon UId="31" />
+      <NameCon UId="30" Name="in" />
+    </Wire>
+    <Wire UId="67">
+      <NameCon UId="30" Name="out1" />
+      <IdentCon UId="32" />
+    </Wire>
+    <Wire UId="68">
+      <IdentCon UId="34" />
+      <NameCon UId="33" Name="in1" />
+    </Wire>
+    <Wire UId="69">
+      <IdentCon UId="35" />
+      <NameCon UId="33" Name="in2" />
+    </Wire>
+    <Wire UId="70">
+      <NameCon UId="33" Name="out" />
+      <NameCon UId="36" Name="en" />
+    </Wire>
+    <Wire UId="71">
+      <IdentCon UId="37" />
+      <NameCon UId="36" Name="in" />
+    </Wire>
+    <Wire UId="72">
+      <NameCon UId="36" Name="out1" />
+      <IdentCon UId="38" />
+    </Wire>
+    <Wire UId="73">
+      <IdentCon UId="40" />
+      <NameCon UId="39" Name="in1" />
+    </Wire>
+    <Wire UId="74">
+      <IdentCon UId="41" />
+      <NameCon UId="39" Name="in2" />
+    </Wire>
+    <Wire UId="75">
+      <NameCon UId="39" Name="out" />
+      <NameCon UId="42" Name="en" />
+    </Wire>
+    <Wire UId="76">
+      <IdentCon UId="43" />
+      <NameCon UId="42" Name="in" />
+    </Wire>
+    <Wire UId="77">
+      <NameCon UId="42" Name="out1" />
+      <IdentCon UId="44" />
+    </Wire>
+    <Wire UId="78">
+      <IdentCon UId="46" />
+      <NameCon UId="45" Name="in1" />
+    </Wire>
+    <Wire UId="79">
+      <IdentCon UId="47" />
+      <NameCon UId="45" Name="in2" />
+    </Wire>
+    <Wire UId="80">
+      <NameCon UId="45" Name="out" />
+      <NameCon UId="48" Name="en" />
+    </Wire>
+    <Wire UId="81">
+      <IdentCon UId="49" />
+      <NameCon UId="48" Name="in" />
+    </Wire>
+    <Wire UId="82">
+      <NameCon UId="48" Name="out1" />
+      <IdentCon UId="50" />
+    </Wire>
+    <Wire UId="83">
+      <IdentCon UId="52" />
+      <NameCon UId="51" Name="in1" />
+    </Wire>
+    <Wire UId="84">
+      <IdentCon UId="53" />
+      <NameCon UId="51" Name="in2" />
+    </Wire>
+    <Wire UId="85">
+      <NameCon UId="51" Name="out" />
+      <NameCon UId="54" Name="en" />
+    </Wire>
+    <Wire UId="86">
+      <IdentCon UId="55" />
+      <NameCon UId="54" Name="in" />
+    </Wire>
+    <Wire UId="87">
+      <NameCon UId="54" Name="out1" />
+      <IdentCon UId="56" />
     </Wire>
   </Wires>
 </FlgNet></NetworkSource>
@@ -59,7 +360,7 @@
               <MultilingualTextItem ID="3" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>E-STOP, RESET and setting limits first, so the other blocks use them.</Text>
+                  <Text>Clamp SP, HYST, STG, minimum then maximum, before calls. C07b / C08b / C07c / C08c; C&amp;E Parameters.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -69,7 +370,7 @@
               <MultilingualTextItem ID="5" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>Common: E-STOP and RESET</Text>
+                  <Text>Settings limits</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -97,8 +398,27 @@
     </Access>
     <Access Scope="GlobalVariable" UId="26">
       <Symbol>
-        <Component Name="Sys" />
-        <Component Name="ResetPulse" />
+        <Component Name="S0_EStopStatus" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="27">
+      <Symbol>
+        <Component Name="S2_FaultReset" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="28">
+      <Symbol>
+        <Component Name="XV_401_Cmd" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="29">
+      <Symbol>
+        <Component Name="XV_402_Cmd" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="30">
+      <Symbol>
+        <Component Name="XV_403_Cmd" />
       </Symbol>
     </Access>
     <Call UId="21">
@@ -109,30 +429,50 @@
           <Parameter Name="PSH" Section="Input" Type="Bool" />
           <Parameter Name="LSH" Section="Input" Type="Bool" />
           <Parameter Name="LSHH" Section="Input" Type="Bool" />
-          <Parameter Name="Reset" Section="Input" Type="Bool" />
+          <Parameter Name="EStopOK" Section="Input" Type="Bool" />
+          <Parameter Name="ResetPB" Section="Input" Type="Bool" />
+          <Parameter Name="FlareCmd" Section="Output" Type="Bool" />
+          <Parameter Name="DrainCmd" Section="Output" Type="Bool" />
+          <Parameter Name="SuctionCmd" Section="Output" Type="Bool" />
       </CallInfo>
     </Call>
   </Parts>
   <Wires>
-    <Wire UId="27">
+    <Wire UId="31">
       <Powerrail />
       <NameCon UId="21" Name="en" />
     </Wire>
-    <Wire UId="28">
+    <Wire UId="32">
       <IdentCon UId="23" />
       <NameCon UId="21" Name="PSH" />
     </Wire>
-    <Wire UId="29">
+    <Wire UId="33">
       <IdentCon UId="24" />
       <NameCon UId="21" Name="LSH" />
     </Wire>
-    <Wire UId="30">
+    <Wire UId="34">
       <IdentCon UId="25" />
       <NameCon UId="21" Name="LSHH" />
     </Wire>
-    <Wire UId="31">
+    <Wire UId="35">
       <IdentCon UId="26" />
-      <NameCon UId="21" Name="Reset" />
+      <NameCon UId="21" Name="EStopOK" />
+    </Wire>
+    <Wire UId="36">
+      <IdentCon UId="27" />
+      <NameCon UId="21" Name="ResetPB" />
+    </Wire>
+    <Wire UId="37">
+      <NameCon UId="21" Name="FlareCmd" />
+      <IdentCon UId="28" />
+    </Wire>
+    <Wire UId="38">
+      <NameCon UId="21" Name="DrainCmd" />
+      <IdentCon UId="29" />
+    </Wire>
+    <Wire UId="39">
+      <NameCon UId="21" Name="SuctionCmd" />
+      <IdentCon UId="30" />
     </Wire>
   </Wires>
 </FlgNet></NetworkSource>
@@ -144,7 +484,7 @@
               <MultilingualTextItem ID="8" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>PSH-101, LSH-102, LSHH-103: trips and valve commands, before the burners.</Text>
+                  <Text>All scrubber inputs and valve outputs; evaluated before burners. C01 / C03 / C04 / C05 / E5 / E6 / E7.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -211,6 +551,51 @@
         <Component Name="TE_502_Raw" />
       </Symbol>
     </Access>
+    <Access Scope="GlobalVariable" UId="32">
+      <Symbol>
+        <Component Name="S0_EStopStatus" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="33">
+      <Symbol>
+        <Component Name="Scrubber_DB" />
+        <Component Name="Tripped" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="34">
+      <Symbol>
+        <Component Name="Par" />
+        <Component Name="SP" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="35">
+      <Symbol>
+        <Component Name="Par" />
+        <Component Name="HYST" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="36">
+      <Symbol>
+        <Component Name="Par" />
+        <Component Name="STG" />
+      </Symbol>
+    </Access>
+    <Access Scope="LiteralConstant" UId="37">
+      <Constant>
+        <ConstantType>Bool</ConstantType>
+        <ConstantValue>TRUE</ConstantValue>
+      </Constant>
+    </Access>
+    <Access Scope="GlobalVariable" UId="38">
+      <Symbol>
+        <Component Name="BR01_TL_Cmd" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="39">
+      <Symbol>
+        <Component Name="BR01_TR_Cmd" />
+      </Symbol>
+    </Access>
     <Call UId="21">
       <CallInfo Name="Burner" BlockType="FB">
         <Instance Scope="GlobalVariable" UId="22">
@@ -225,49 +610,89 @@
           <Parameter Name="Fuel" Section="Input" Type="Bool" />
           <Parameter Name="TeA" Section="Input" Type="Int" />
           <Parameter Name="TeB" Section="Input" Type="Int" />
+          <Parameter Name="EStopOK" Section="Input" Type="Bool" />
+          <Parameter Name="ScrubTrip" Section="Input" Type="Bool" />
+          <Parameter Name="SP" Section="Input" Type="Int" />
+          <Parameter Name="HYST" Section="Input" Type="Int" />
+          <Parameter Name="STG" Section="Input" Type="Int" />
+          <Parameter Name="Use24h" Section="Input" Type="Bool" />
+          <Parameter Name="HeatReq" Section="Output" Type="Bool" />
+          <Parameter Name="Stage2" Section="Output" Type="Bool" />
       </CallInfo>
     </Call>
   </Parts>
   <Wires>
-    <Wire UId="32">
+    <Wire UId="40">
       <Powerrail />
       <NameCon UId="21" Name="en" />
     </Wire>
-    <Wire UId="33">
+    <Wire UId="41">
       <IdentCon UId="23" />
       <NameCon UId="21" Name="Auto" />
     </Wire>
-    <Wire UId="34">
+    <Wire UId="42">
       <IdentCon UId="24" />
       <NameCon UId="21" Name="StartPB" />
     </Wire>
-    <Wire UId="35">
+    <Wire UId="43">
       <IdentCon UId="25" />
       <NameCon UId="21" Name="StopOK" />
     </Wire>
-    <Wire UId="36">
+    <Wire UId="44">
       <IdentCon UId="26" />
       <NameCon UId="21" Name="LevelOK" />
     </Wire>
-    <Wire UId="37">
+    <Wire UId="45">
       <IdentCon UId="27" />
       <NameCon UId="21" Name="RunFb" />
     </Wire>
-    <Wire UId="38">
+    <Wire UId="46">
       <IdentCon UId="28" />
       <NameCon UId="21" Name="Lockout" />
     </Wire>
-    <Wire UId="39">
+    <Wire UId="47">
       <IdentCon UId="29" />
       <NameCon UId="21" Name="Fuel" />
     </Wire>
-    <Wire UId="40">
+    <Wire UId="48">
       <IdentCon UId="30" />
       <NameCon UId="21" Name="TeA" />
     </Wire>
-    <Wire UId="41">
+    <Wire UId="49">
       <IdentCon UId="31" />
       <NameCon UId="21" Name="TeB" />
+    </Wire>
+    <Wire UId="50">
+      <IdentCon UId="32" />
+      <NameCon UId="21" Name="EStopOK" />
+    </Wire>
+    <Wire UId="51">
+      <IdentCon UId="33" />
+      <NameCon UId="21" Name="ScrubTrip" />
+    </Wire>
+    <Wire UId="52">
+      <IdentCon UId="34" />
+      <NameCon UId="21" Name="SP" />
+    </Wire>
+    <Wire UId="53">
+      <IdentCon UId="35" />
+      <NameCon UId="21" Name="HYST" />
+    </Wire>
+    <Wire UId="54">
+      <IdentCon UId="36" />
+      <NameCon UId="21" Name="STG" />
+    </Wire>
+    <Wire UId="55">
+      <IdentCon UId="37" />
+      <NameCon UId="21" Name="Use24h" />
+    </Wire>
+    <Wire UId="56">
+      <NameCon UId="21" Name="HeatReq" />
+      <IdentCon UId="38" />
+    </Wire>
+    <Wire UId="57">
+      <NameCon UId="21" Name="Stage2" />
+      <IdentCon UId="39" />
     </Wire>
   </Wires>
 </FlgNet></NetworkSource>
@@ -279,7 +704,7 @@
               <MultilingualTextItem ID="D" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>Burner block with BR01_DB; BR01 has no fuel selector and uses the daily stop.</Text>
+                  <Text>All BR01 I/O, settings, daily stop enabled, fixed gas. C07 / E1 / E2.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -289,7 +714,7 @@
               <MultilingualTextItem ID="F" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>Burner BR01 on tank TK01</Text>
+                  <Text>BR01</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -345,6 +770,61 @@
         <Component Name="TE_504_Raw" />
       </Symbol>
     </Access>
+    <Access Scope="GlobalVariable" UId="32">
+      <Symbol>
+        <Component Name="S0_EStopStatus" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="33">
+      <Symbol>
+        <Component Name="Scrubber_DB" />
+        <Component Name="Tripped" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="34">
+      <Symbol>
+        <Component Name="Par" />
+        <Component Name="SP" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="35">
+      <Symbol>
+        <Component Name="Par" />
+        <Component Name="HYST" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="36">
+      <Symbol>
+        <Component Name="Par" />
+        <Component Name="STG" />
+      </Symbol>
+    </Access>
+    <Access Scope="LiteralConstant" UId="37">
+      <Constant>
+        <ConstantType>Bool</ConstantType>
+        <ConstantValue>FALSE</ConstantValue>
+      </Constant>
+    </Access>
+    <Access Scope="GlobalVariable" UId="38">
+      <Symbol>
+        <Component Name="BR02_L_Cmd" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="39">
+      <Symbol>
+        <Component Name="BR02_T2_Cmd" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="40">
+      <Symbol>
+        <Component Name="BR02_Stage1Lamp_Cmd" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="41">
+      <Symbol>
+        <Component Name="BR02_Stage2Lamp_Cmd" />
+      </Symbol>
+    </Access>
     <Call UId="21">
       <CallInfo Name="Burner" BlockType="FB">
         <Instance Scope="GlobalVariable" UId="22">
@@ -359,49 +839,99 @@
           <Parameter Name="Fuel" Section="Input" Type="Bool" />
           <Parameter Name="TeA" Section="Input" Type="Int" />
           <Parameter Name="TeB" Section="Input" Type="Int" />
+          <Parameter Name="EStopOK" Section="Input" Type="Bool" />
+          <Parameter Name="ScrubTrip" Section="Input" Type="Bool" />
+          <Parameter Name="SP" Section="Input" Type="Int" />
+          <Parameter Name="HYST" Section="Input" Type="Int" />
+          <Parameter Name="STG" Section="Input" Type="Int" />
+          <Parameter Name="Use24h" Section="Input" Type="Bool" />
+          <Parameter Name="HeatReq" Section="Output" Type="Bool" />
+          <Parameter Name="Stage2" Section="Output" Type="Bool" />
+          <Parameter Name="HeatLamp" Section="Output" Type="Bool" />
+          <Parameter Name="Stage2Lamp" Section="Output" Type="Bool" />
       </CallInfo>
     </Call>
   </Parts>
   <Wires>
-    <Wire UId="32">
+    <Wire UId="42">
       <Powerrail />
       <NameCon UId="21" Name="en" />
     </Wire>
-    <Wire UId="33">
+    <Wire UId="43">
       <IdentCon UId="23" />
       <NameCon UId="21" Name="Auto" />
     </Wire>
-    <Wire UId="34">
+    <Wire UId="44">
       <IdentCon UId="24" />
       <NameCon UId="21" Name="StartPB" />
     </Wire>
-    <Wire UId="35">
+    <Wire UId="45">
       <IdentCon UId="25" />
       <NameCon UId="21" Name="StopOK" />
     </Wire>
-    <Wire UId="36">
+    <Wire UId="46">
       <IdentCon UId="26" />
       <NameCon UId="21" Name="LevelOK" />
     </Wire>
-    <Wire UId="37">
+    <Wire UId="47">
       <IdentCon UId="27" />
       <NameCon UId="21" Name="RunFb" />
     </Wire>
-    <Wire UId="38">
+    <Wire UId="48">
       <IdentCon UId="28" />
       <NameCon UId="21" Name="Lockout" />
     </Wire>
-    <Wire UId="39">
+    <Wire UId="49">
       <IdentCon UId="29" />
       <NameCon UId="21" Name="Fuel" />
     </Wire>
-    <Wire UId="40">
+    <Wire UId="50">
       <IdentCon UId="30" />
       <NameCon UId="21" Name="TeA" />
     </Wire>
-    <Wire UId="41">
+    <Wire UId="51">
       <IdentCon UId="31" />
       <NameCon UId="21" Name="TeB" />
+    </Wire>
+    <Wire UId="52">
+      <IdentCon UId="32" />
+      <NameCon UId="21" Name="EStopOK" />
+    </Wire>
+    <Wire UId="53">
+      <IdentCon UId="33" />
+      <NameCon UId="21" Name="ScrubTrip" />
+    </Wire>
+    <Wire UId="54">
+      <IdentCon UId="34" />
+      <NameCon UId="21" Name="SP" />
+    </Wire>
+    <Wire UId="55">
+      <IdentCon UId="35" />
+      <NameCon UId="21" Name="HYST" />
+    </Wire>
+    <Wire UId="56">
+      <IdentCon UId="36" />
+      <NameCon UId="21" Name="STG" />
+    </Wire>
+    <Wire UId="57">
+      <IdentCon UId="37" />
+      <NameCon UId="21" Name="Use24h" />
+    </Wire>
+    <Wire UId="58">
+      <NameCon UId="21" Name="HeatReq" />
+      <IdentCon UId="38" />
+    </Wire>
+    <Wire UId="59">
+      <NameCon UId="21" Name="Stage2" />
+      <IdentCon UId="39" />
+    </Wire>
+    <Wire UId="60">
+      <NameCon UId="21" Name="HeatLamp" />
+      <IdentCon UId="40" />
+    </Wire>
+    <Wire UId="61">
+      <NameCon UId="21" Name="Stage2Lamp" />
+      <IdentCon UId="41" />
     </Wire>
   </Wires>
 </FlgNet></NetworkSource>
@@ -413,7 +943,7 @@
               <MultilingualTextItem ID="12" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>Same burner block with BR02_DB.</Text>
+                  <Text>All BR02 I/O including fuel and both lamp relays; daily stop disabled. C08 / E3 / E4.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -423,161 +953,16 @@
               <MultilingualTextItem ID="14" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>Burner BR02 on tank TK02</Text>
+                  <Text>BR02</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
           </MultilingualText>
         </ObjectList>
       </SW.Blocks.CompileUnit>
-      <SW.Blocks.CompileUnit ID="15" CompositionName="CompileUnits">
-        <AttributeList>
-          <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
-  <Parts>
-    <Call UId="21">
-      <CallInfo Name="Outputs" BlockType="FC">
-      </CallInfo>
-    </Call>
-  </Parts>
-  <Wires>
-    <Wire UId="23">
-      <Powerrail />
-      <NameCon UId="21" Name="en" />
-    </Wire>
-  </Wires>
-</FlgNet></NetworkSource>
-          <ProgrammingLanguage>LAD</ProgrammingLanguage>
-        </AttributeList>
+      <MultilingualText ID="17" CompositionName="Title">
         <ObjectList>
-          <MultilingualText ID="16" CompositionName="Comment">
-            <ObjectList>
-              <MultilingualTextItem ID="17" CompositionName="Items">
-                <AttributeList>
-                  <Culture>en-US</Culture>
-                  <Text>The only block that writes the Q outputs.</Text>
-                </AttributeList>
-              </MultilingualTextItem>
-            </ObjectList>
-          </MultilingualText>
-          <MultilingualText ID="18" CompositionName="Title">
-            <ObjectList>
-              <MultilingualTextItem ID="19" CompositionName="Items">
-                <AttributeList>
-                  <Culture>en-US</Culture>
-                  <Text>Outputs</Text>
-                </AttributeList>
-              </MultilingualTextItem>
-            </ObjectList>
-          </MultilingualText>
-        </ObjectList>
-      </SW.Blocks.CompileUnit>
-      <SW.Blocks.CompileUnit ID="1A" CompositionName="CompileUnits">
-        <AttributeList>
-          <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
-  <Parts>
-    <Call UId="21">
-      <CallInfo Name="HmiMap" BlockType="FC">
-      </CallInfo>
-    </Call>
-  </Parts>
-  <Wires>
-    <Wire UId="23">
-      <Powerrail />
-      <NameCon UId="21" Name="en" />
-    </Wire>
-  </Wires>
-</FlgNet></NetworkSource>
-          <ProgrammingLanguage>LAD</ProgrammingLanguage>
-        </AttributeList>
-        <ObjectList>
-          <MultilingualText ID="1B" CompositionName="Comment">
-            <ObjectList>
-              <MultilingualTextItem ID="1C" CompositionName="Items">
-                <AttributeList>
-                  <Culture>en-US</Culture>
-                  <Text>Copies the alarm bits for the panel; no control here.</Text>
-                </AttributeList>
-              </MultilingualTextItem>
-            </ObjectList>
-          </MultilingualText>
-          <MultilingualText ID="1D" CompositionName="Title">
-            <ObjectList>
-              <MultilingualTextItem ID="1E" CompositionName="Items">
-                <AttributeList>
-                  <Culture>en-US</Culture>
-                  <Text>HMI alarms</Text>
-                </AttributeList>
-              </MultilingualTextItem>
-            </ObjectList>
-          </MultilingualText>
-        </ObjectList>
-      </SW.Blocks.CompileUnit>
-      <SW.Blocks.CompileUnit ID="1F" CompositionName="CompileUnits">
-        <AttributeList>
-          <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
-  <Parts>
-    <Access Scope="GlobalVariable" UId="22">
-      <Symbol>
-        <Component Name="Sys" />
-        <Component Name="FirstScan" />
-      </Symbol>
-    </Access>
-    <Access Scope="GlobalVariable" UId="24">
-      <Symbol>
-        <Component Name="Sys" />
-        <Component Name="FirstScan" />
-      </Symbol>
-    </Access>
-    <Part Name="Contact" UId="21" />
-    <Part Name="RCoil" UId="23" />
-  </Parts>
-  <Wires>
-    <Wire UId="25">
-      <Powerrail />
-      <NameCon UId="21" Name="in" />
-    </Wire>
-    <Wire UId="26">
-      <IdentCon UId="22" />
-      <NameCon UId="21" Name="operand" />
-    </Wire>
-    <Wire UId="27">
-      <NameCon UId="21" Name="out" />
-      <NameCon UId="23" Name="in" />
-    </Wire>
-    <Wire UId="28">
-      <NameCon UId="23" Name="operand" />
-      <IdentCon UId="24" />
-    </Wire>
-  </Wires>
-</FlgNet></NetworkSource>
-          <ProgrammingLanguage>LAD</ProgrammingLanguage>
-        </AttributeList>
-        <ObjectList>
-          <MultilingualText ID="20" CompositionName="Comment">
-            <ObjectList>
-              <MultilingualTextItem ID="21" CompositionName="Items">
-                <AttributeList>
-                  <Culture>en-US</Culture>
-                  <Text>Clear FirstScan after all blocks have used it. C02.</Text>
-                </AttributeList>
-              </MultilingualTextItem>
-            </ObjectList>
-          </MultilingualText>
-          <MultilingualText ID="22" CompositionName="Title">
-            <ObjectList>
-              <MultilingualTextItem ID="23" CompositionName="Items">
-                <AttributeList>
-                  <Culture>en-US</Culture>
-                  <Text>First scan done</Text>
-                </AttributeList>
-              </MultilingualTextItem>
-            </ObjectList>
-          </MultilingualText>
-        </ObjectList>
-      </SW.Blocks.CompileUnit>
-      <MultilingualText ID="26" CompositionName="Title">
-        <ObjectList>
-          <MultilingualTextItem ID="27" CompositionName="Items">
+          <MultilingualTextItem ID="18" CompositionName="Items">
             <AttributeList>
               <Culture>en-US</Culture>
               <Text>Main</Text>

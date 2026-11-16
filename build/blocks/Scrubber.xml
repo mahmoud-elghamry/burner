@@ -10,20 +10,24 @@
       <HeaderVersion>0.1</HeaderVersion>
       <Interface><Sections xmlns="http://www.siemens.com/automation/Openness/SW/Interface/v3">
   <Section Name="Input">
-    <Member Name="PSH" Datatype="Bool" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">PSH-101 healthy: 1 = contact closed (normal pressure)</MultiLanguageText></Comment></Member>
-    <Member Name="LSH" Datatype="Bool" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">LSH-102 healthy: 1 = level below high</MultiLanguageText></Comment></Member>
-    <Member Name="LSHH" Datatype="Bool" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">LSHH-103 healthy: 1 = level below very high</MultiLanguageText></Comment></Member>
-    <Member Name="Reset" Datatype="Bool" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">RESET pulse (Sys.ResetPulse)</MultiLanguageText></Comment></Member>
+    <Member Name="PSH" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">PSH-101 healthy: 1 = contact closed (normal pressure)</MultiLanguageText></Comment></Member>
+    <Member Name="LSH" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">LSH-102 healthy: 1 = level below high</MultiLanguageText></Comment></Member>
+    <Member Name="LSHH" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">LSHH-103 healthy: 1 = level below very high</MultiLanguageText></Comment></Member>
+    <Member Name="EStopOK" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Raw E-STOP status: 1 = released (C01)</MultiLanguageText></Comment></Member>
+    <Member Name="ResetPB" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Raw RESET S2 push button; rising edge detected locally</MultiLanguageText></Comment></Member>
   </Section>
   <Section Name="Output">
     <Member Name="FlareCmd" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">XV-401 flare (NO): 1 = energised = closed</MultiLanguageText></Comment></Member>
     <Member Name="DrainCmd" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">XV-402 drain (NC): 1 = energised = open</MultiLanguageText></Comment></Member>
     <Member Name="SuctionCmd" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">XV-403 suction (NC): 1 = energised = open</MultiLanguageText></Comment></Member>
+    <Member Name="Tripped" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Latched scrubber trip until healthy RESET</MultiLanguageText></Comment></Member>
+    <Member Name="Alarms" Datatype="Word" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Alarm display word (Common bits 0..5)</MultiLanguageText></Comment></Member>
   </Section>
   <Section Name="InOut" />
   <Section Name="Static">
-    <Member Name="Tripped" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Scrubber trip (PSH, LSHH, E-STOP, power-up): suction closed, both burners stopped, until RESET</MultiLanguageText></Comment></Member>
     <Member Name="FlareTrip" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Flare trip (PSH, E-STOP, power-up): flare open until RESET</MultiLanguageText></Comment></Member>
+    <Member Name="ResetMem" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">RESET state from previous scan; set by OB100</MultiLanguageText></Comment></Member>
+    <Member Name="ResetPulse" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">One-scan new RESET press</MultiLanguageText></Comment></Member>
     <Member Name="Cause_PSH" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">PSH-101 tripped the scrubber; kept for the HMI until RESET (C06a)</MultiLanguageText></Comment></Member>
     <Member Name="Cause_LSHH" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">LSHH-103 tripped the scrubber; kept for the HMI until RESET (C06a)</MultiLanguageText></Comment></Member>
     <Member Name="F_DrainTO" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Drain open 10 min without stop: drain closed until RESET (C04a)</MultiLanguageText></Comment></Member>
@@ -41,9 +45,9 @@
       <SetENOAutomatically>False</SetENOAutomatically>
     </AttributeList>
     <ObjectList>
-      <MultilingualText ID="33" CompositionName="Comment">
+      <MultilingualText ID="1A" CompositionName="Comment">
         <ObjectList>
-          <MultilingualTextItem ID="34" CompositionName="Items">
+          <MultilingualTextItem ID="1B" CompositionName="Items">
             <AttributeList>
               <Culture>en-US</Culture>
               <Text>Scrubber trip, flare, suction and drain commands (C&amp;E Rev. B).</Text>
@@ -55,111 +59,150 @@
         <AttributeList>
           <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
   <Parts>
-    <Access Scope="LocalVariable" UId="22">
-      <Symbol>
-        <Component Name="Reset" />
-      </Symbol>
-    </Access>
-    <Access Scope="LocalVariable" UId="24">
-      <Symbol>
+    <Access Scope="LocalVariable" UId="22"><Symbol>
+        <Component Name="ResetPB" />
+      </Symbol></Access>
+    <Access Scope="LocalVariable" UId="24"><Symbol>
+        <Component Name="ResetMem" />
+      </Symbol></Access>
+    <Access Scope="LocalVariable" UId="26"><Symbol>
+        <Component Name="ResetPulse" />
+      </Symbol></Access>
+    <Access Scope="LocalVariable" UId="28"><Symbol>
+        <Component Name="ResetPB" />
+      </Symbol></Access>
+    <Access Scope="LocalVariable" UId="30"><Symbol>
+        <Component Name="ResetMem" />
+      </Symbol></Access>
+    <Access Scope="LocalVariable" UId="32"><Symbol>
+        <Component Name="ResetPulse" />
+      </Symbol></Access>
+    <Access Scope="LocalVariable" UId="34"><Symbol>
         <Component Name="PSH" />
-      </Symbol>
-    </Access>
-    <Access Scope="LocalVariable" UId="26">
-      <Symbol>
+      </Symbol></Access>
+    <Access Scope="LocalVariable" UId="36"><Symbol>
         <Component Name="LSHH" />
-      </Symbol>
-    </Access>
-    <Access Scope="GlobalVariable" UId="28">
-      <Symbol>
-        <Component Name="Sys" />
+      </Symbol></Access>
+    <Access Scope="LocalVariable" UId="38"><Symbol>
         <Component Name="EStopOK" />
-      </Symbol>
-    </Access>
-    <Access Scope="LocalVariable" UId="30">
-      <Symbol>
+      </Symbol></Access>
+    <Access Scope="LocalVariable" UId="40"><Symbol>
         <Component Name="Tripped" />
-      </Symbol>
-    </Access>
-    <Access Scope="LocalVariable" UId="32">
-      <Symbol>
+      </Symbol></Access>
+    <Access Scope="LocalVariable" UId="42"><Symbol>
         <Component Name="FlareTrip" />
-      </Symbol>
-    </Access>
-    <Access Scope="LocalVariable" UId="34">
-      <Symbol>
+      </Symbol></Access>
+    <Access Scope="LocalVariable" UId="44"><Symbol>
         <Component Name="Cause_PSH" />
-      </Symbol>
-    </Access>
-    <Access Scope="LocalVariable" UId="36">
-      <Symbol>
+      </Symbol></Access>
+    <Access Scope="LocalVariable" UId="46"><Symbol>
         <Component Name="Cause_LSHH" />
-      </Symbol>
-    </Access>
+      </Symbol></Access>
     <Part Name="Contact" UId="21" />
-    <Part Name="Contact" UId="23" />
-    <Part Name="Contact" UId="25" />
+    <Part Name="Contact" UId="23">
+      <Negated Name="operand" />
+    </Part>
+    <Part Name="Coil" UId="25" />
     <Part Name="Contact" UId="27" />
-    <Part Name="RCoil" UId="29" />
-    <Part Name="RCoil" UId="31" />
-    <Part Name="RCoil" UId="33" />
-    <Part Name="RCoil" UId="35" />
+    <Part Name="Coil" UId="29" />
+    <Part Name="Contact" UId="31" />
+    <Part Name="Contact" UId="33" />
+    <Part Name="Contact" UId="35" />
+    <Part Name="Contact" UId="37" />
+    <Part Name="RCoil" UId="39" />
+    <Part Name="RCoil" UId="41" />
+    <Part Name="RCoil" UId="43" />
+    <Part Name="RCoil" UId="45" />
   </Parts>
   <Wires>
-    <Wire UId="37">
+    <Wire UId="47">
       <Powerrail />
       <NameCon UId="21" Name="in" />
+      <NameCon UId="27" Name="in" />
+      <NameCon UId="31" Name="in" />
     </Wire>
-    <Wire UId="38">
+    <Wire UId="48">
       <IdentCon UId="22" />
       <NameCon UId="21" Name="operand" />
     </Wire>
-    <Wire UId="39">
+    <Wire UId="49">
       <NameCon UId="21" Name="out" />
       <NameCon UId="23" Name="in" />
     </Wire>
-    <Wire UId="40">
+    <Wire UId="50">
       <IdentCon UId="24" />
       <NameCon UId="23" Name="operand" />
     </Wire>
-    <Wire UId="41">
+    <Wire UId="51">
       <NameCon UId="23" Name="out" />
       <NameCon UId="25" Name="in" />
     </Wire>
-    <Wire UId="42">
-      <IdentCon UId="26" />
+    <Wire UId="52">
       <NameCon UId="25" Name="operand" />
+      <IdentCon UId="26" />
     </Wire>
-    <Wire UId="43">
-      <NameCon UId="25" Name="out" />
-      <NameCon UId="27" Name="in" />
-    </Wire>
-    <Wire UId="44">
+    <Wire UId="53">
       <IdentCon UId="28" />
       <NameCon UId="27" Name="operand" />
     </Wire>
-    <Wire UId="45">
+    <Wire UId="54">
       <NameCon UId="27" Name="out" />
       <NameCon UId="29" Name="in" />
-      <NameCon UId="31" Name="in" />
-      <NameCon UId="33" Name="in" />
-      <NameCon UId="35" Name="in" />
     </Wire>
-    <Wire UId="46">
+    <Wire UId="55">
       <NameCon UId="29" Name="operand" />
       <IdentCon UId="30" />
     </Wire>
-    <Wire UId="47">
-      <NameCon UId="31" Name="operand" />
+    <Wire UId="56">
       <IdentCon UId="32" />
+      <NameCon UId="31" Name="operand" />
     </Wire>
-    <Wire UId="48">
-      <NameCon UId="33" Name="operand" />
+    <Wire UId="57">
+      <NameCon UId="31" Name="out" />
+      <NameCon UId="33" Name="in" />
+    </Wire>
+    <Wire UId="58">
       <IdentCon UId="34" />
+      <NameCon UId="33" Name="operand" />
     </Wire>
-    <Wire UId="49">
-      <NameCon UId="35" Name="operand" />
+    <Wire UId="59">
+      <NameCon UId="33" Name="out" />
+      <NameCon UId="35" Name="in" />
+    </Wire>
+    <Wire UId="60">
       <IdentCon UId="36" />
+      <NameCon UId="35" Name="operand" />
+    </Wire>
+    <Wire UId="61">
+      <NameCon UId="35" Name="out" />
+      <NameCon UId="37" Name="in" />
+    </Wire>
+    <Wire UId="62">
+      <IdentCon UId="38" />
+      <NameCon UId="37" Name="operand" />
+    </Wire>
+    <Wire UId="63">
+      <NameCon UId="37" Name="out" />
+      <NameCon UId="39" Name="in" />
+      <NameCon UId="41" Name="in" />
+      <NameCon UId="43" Name="in" />
+      <NameCon UId="45" Name="in" />
+    </Wire>
+    <Wire UId="64">
+      <NameCon UId="39" Name="operand" />
+      <IdentCon UId="40" />
+    </Wire>
+    <Wire UId="65">
+      <NameCon UId="41" Name="operand" />
+      <IdentCon UId="42" />
+    </Wire>
+    <Wire UId="66">
+      <NameCon UId="43" Name="operand" />
+      <IdentCon UId="44" />
+    </Wire>
+    <Wire UId="67">
+      <NameCon UId="45" Name="operand" />
+      <IdentCon UId="46" />
     </Wire>
   </Wires>
 </FlgNet></NetworkSource>
@@ -171,7 +214,7 @@
               <MultilingualTextItem ID="3" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>RESET with pressure, very high level and E-STOP healthy clears both trips and the saved causes. C03 / C05.</Text>
+                  <Text>Detect RESET, remember button, then clear trips only with healthy causes. C01 / C03 / C05.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -181,7 +224,7 @@
               <MultilingualTextItem ID="5" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>RESET the scrubber trip</Text>
+                  <Text>RESET</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -192,33 +235,39 @@
         <AttributeList>
           <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
   <Parts>
-    <Access Scope="LocalVariable" UId="22">
-      <Symbol>
+    <Access Scope="LocalVariable" UId="22"><Symbol>
         <Component Name="PSH" />
-      </Symbol>
-    </Access>
-    <Access Scope="LocalVariable" UId="24">
-      <Symbol>
+      </Symbol></Access>
+    <Access Scope="LocalVariable" UId="24"><Symbol>
         <Component Name="LSHH" />
-      </Symbol>
-    </Access>
-    <Access Scope="GlobalVariable" UId="26">
-      <Symbol>
-        <Component Name="Sys" />
+      </Symbol></Access>
+    <Access Scope="LocalVariable" UId="26"><Symbol>
         <Component Name="EStopOK" />
-      </Symbol>
-    </Access>
-    <Access Scope="GlobalVariable" UId="28">
-      <Symbol>
-        <Component Name="Sys" />
-        <Component Name="FirstScan" />
-      </Symbol>
-    </Access>
-    <Access Scope="LocalVariable" UId="31">
-      <Symbol>
+      </Symbol></Access>
+    <Access Scope="LocalVariable" UId="29"><Symbol>
         <Component Name="Tripped" />
-      </Symbol>
-    </Access>
+      </Symbol></Access>
+    <Access Scope="LocalVariable" UId="31"><Symbol>
+        <Component Name="PSH" />
+      </Symbol></Access>
+    <Access Scope="LocalVariable" UId="33"><Symbol>
+        <Component Name="EStopOK" />
+      </Symbol></Access>
+    <Access Scope="LocalVariable" UId="36"><Symbol>
+        <Component Name="FlareTrip" />
+      </Symbol></Access>
+    <Access Scope="LocalVariable" UId="38"><Symbol>
+        <Component Name="PSH" />
+      </Symbol></Access>
+    <Access Scope="LocalVariable" UId="40"><Symbol>
+        <Component Name="Cause_PSH" />
+      </Symbol></Access>
+    <Access Scope="LocalVariable" UId="42"><Symbol>
+        <Component Name="LSHH" />
+      </Symbol></Access>
+    <Access Scope="LocalVariable" UId="44"><Symbol>
+        <Component Name="Cause_LSHH" />
+      </Symbol></Access>
     <Part Name="Contact" UId="21">
       <Negated Name="operand" />
     </Part>
@@ -228,59 +277,119 @@
     <Part Name="Contact" UId="25">
       <Negated Name="operand" />
     </Part>
-    <Part Name="Contact" UId="27" />
-    <Part Name="O" UId="29">
-      <TemplateValue Name="Card" Type="Cardinality">4</TemplateValue>
+    <Part Name="O" UId="27">
+      <TemplateValue Name="Card" Type="Cardinality">3</TemplateValue>
     </Part>
-    <Part Name="SCoil" UId="30" />
+    <Part Name="SCoil" UId="28" />
+    <Part Name="Contact" UId="30">
+      <Negated Name="operand" />
+    </Part>
+    <Part Name="Contact" UId="32">
+      <Negated Name="operand" />
+    </Part>
+    <Part Name="O" UId="34">
+      <TemplateValue Name="Card" Type="Cardinality">2</TemplateValue>
+    </Part>
+    <Part Name="SCoil" UId="35" />
+    <Part Name="Contact" UId="37">
+      <Negated Name="operand" />
+    </Part>
+    <Part Name="SCoil" UId="39" />
+    <Part Name="Contact" UId="41">
+      <Negated Name="operand" />
+    </Part>
+    <Part Name="SCoil" UId="43" />
   </Parts>
   <Wires>
-    <Wire UId="32">
+    <Wire UId="45">
       <Powerrail />
       <NameCon UId="21" Name="in" />
       <NameCon UId="23" Name="in" />
       <NameCon UId="25" Name="in" />
-      <NameCon UId="27" Name="in" />
+      <NameCon UId="30" Name="in" />
+      <NameCon UId="32" Name="in" />
+      <NameCon UId="37" Name="in" />
+      <NameCon UId="41" Name="in" />
     </Wire>
-    <Wire UId="33">
+    <Wire UId="46">
       <IdentCon UId="22" />
       <NameCon UId="21" Name="operand" />
     </Wire>
-    <Wire UId="34">
+    <Wire UId="47">
       <IdentCon UId="24" />
       <NameCon UId="23" Name="operand" />
     </Wire>
-    <Wire UId="35">
+    <Wire UId="48">
       <IdentCon UId="26" />
       <NameCon UId="25" Name="operand" />
     </Wire>
-    <Wire UId="36">
-      <IdentCon UId="28" />
-      <NameCon UId="27" Name="operand" />
-    </Wire>
-    <Wire UId="37">
+    <Wire UId="49">
       <NameCon UId="21" Name="out" />
-      <NameCon UId="29" Name="in1" />
+      <NameCon UId="27" Name="in1" />
     </Wire>
-    <Wire UId="38">
+    <Wire UId="50">
       <NameCon UId="23" Name="out" />
-      <NameCon UId="29" Name="in2" />
+      <NameCon UId="27" Name="in2" />
     </Wire>
-    <Wire UId="39">
+    <Wire UId="51">
       <NameCon UId="25" Name="out" />
-      <NameCon UId="29" Name="in3" />
+      <NameCon UId="27" Name="in3" />
     </Wire>
-    <Wire UId="40">
+    <Wire UId="52">
       <NameCon UId="27" Name="out" />
-      <NameCon UId="29" Name="in4" />
+      <NameCon UId="28" Name="in" />
     </Wire>
-    <Wire UId="41">
-      <NameCon UId="29" Name="out" />
-      <NameCon UId="30" Name="in" />
+    <Wire UId="53">
+      <NameCon UId="28" Name="operand" />
+      <IdentCon UId="29" />
     </Wire>
-    <Wire UId="42">
-      <NameCon UId="30" Name="operand" />
+    <Wire UId="54">
       <IdentCon UId="31" />
+      <NameCon UId="30" Name="operand" />
+    </Wire>
+    <Wire UId="55">
+      <IdentCon UId="33" />
+      <NameCon UId="32" Name="operand" />
+    </Wire>
+    <Wire UId="56">
+      <NameCon UId="30" Name="out" />
+      <NameCon UId="34" Name="in1" />
+    </Wire>
+    <Wire UId="57">
+      <NameCon UId="32" Name="out" />
+      <NameCon UId="34" Name="in2" />
+    </Wire>
+    <Wire UId="58">
+      <NameCon UId="34" Name="out" />
+      <NameCon UId="35" Name="in" />
+    </Wire>
+    <Wire UId="59">
+      <NameCon UId="35" Name="operand" />
+      <IdentCon UId="36" />
+    </Wire>
+    <Wire UId="60">
+      <IdentCon UId="38" />
+      <NameCon UId="37" Name="operand" />
+    </Wire>
+    <Wire UId="61">
+      <NameCon UId="37" Name="out" />
+      <NameCon UId="39" Name="in" />
+    </Wire>
+    <Wire UId="62">
+      <NameCon UId="39" Name="operand" />
+      <IdentCon UId="40" />
+    </Wire>
+    <Wire UId="63">
+      <IdentCon UId="42" />
+      <NameCon UId="41" Name="operand" />
+    </Wire>
+    <Wire UId="64">
+      <NameCon UId="41" Name="out" />
+      <NameCon UId="43" Name="in" />
+    </Wire>
+    <Wire UId="65">
+      <NameCon UId="43" Name="operand" />
+      <IdentCon UId="44" />
     </Wire>
   </Wires>
 </FlgNet></NetworkSource>
@@ -292,7 +401,7 @@
               <MultilingualTextItem ID="8" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>High pressure, very high level, E-STOP or power-up: trip. C01 / C02 / C03 / C05.</Text>
+                  <Text>Trip SET follows RESET so an active cause wins. C01 / C03 / C05 / C06a.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -302,7 +411,7 @@
               <MultilingualTextItem ID="A" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>Scrubber trip</Text>
+                  <Text>Trip</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -313,78 +422,127 @@
         <AttributeList>
           <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
   <Parts>
-    <Access Scope="LocalVariable" UId="22">
-      <Symbol>
-        <Component Name="PSH" />
-      </Symbol>
-    </Access>
-    <Access Scope="GlobalVariable" UId="24">
-      <Symbol>
-        <Component Name="Sys" />
-        <Component Name="EStopOK" />
-      </Symbol>
-    </Access>
-    <Access Scope="GlobalVariable" UId="26">
-      <Symbol>
-        <Component Name="Sys" />
-        <Component Name="FirstScan" />
-      </Symbol>
-    </Access>
-    <Access Scope="LocalVariable" UId="29">
-      <Symbol>
+    <Access Scope="LocalVariable" UId="22"><Symbol>
         <Component Name="FlareTrip" />
-      </Symbol>
-    </Access>
+      </Symbol></Access>
+    <Access Scope="LocalVariable" UId="24"><Symbol>
+        <Component Name="FlareCmd" />
+      </Symbol></Access>
+    <Access Scope="LocalVariable" UId="26"><Symbol>
+        <Component Name="Tripped" />
+      </Symbol></Access>
+    <Access Scope="LocalVariable" UId="28"><Symbol>
+        <Component Name="SuctionCmd" />
+      </Symbol></Access>
+    <Access Scope="LocalVariable" UId="30"><Symbol>
+        <Component Name="LSH" />
+      </Symbol></Access>
+    <Access Scope="LocalVariable" UId="32"><Symbol>
+        <Component Name="LSHH" />
+      </Symbol></Access>
+    <Access Scope="LocalVariable" UId="35"><Symbol>
+        <Component Name="EStopOK" />
+      </Symbol></Access>
+    <Access Scope="LocalVariable" UId="37"><Symbol>
+        <Component Name="F_DrainTO" />
+      </Symbol></Access>
+    <Access Scope="LocalVariable" UId="39"><Symbol>
+        <Component Name="DrainCmd" />
+      </Symbol></Access>
     <Part Name="Contact" UId="21">
       <Negated Name="operand" />
     </Part>
-    <Part Name="Contact" UId="23">
+    <Part Name="Coil" UId="23" />
+    <Part Name="Contact" UId="25">
       <Negated Name="operand" />
     </Part>
-    <Part Name="Contact" UId="25" />
-    <Part Name="O" UId="27">
-      <TemplateValue Name="Card" Type="Cardinality">3</TemplateValue>
+    <Part Name="Coil" UId="27" />
+    <Part Name="Contact" UId="29">
+      <Negated Name="operand" />
     </Part>
-    <Part Name="SCoil" UId="28" />
+    <Part Name="Contact" UId="31">
+      <Negated Name="operand" />
+    </Part>
+    <Part Name="O" UId="33">
+      <TemplateValue Name="Card" Type="Cardinality">2</TemplateValue>
+    </Part>
+    <Part Name="Contact" UId="34" />
+    <Part Name="Contact" UId="36">
+      <Negated Name="operand" />
+    </Part>
+    <Part Name="Coil" UId="38" />
   </Parts>
   <Wires>
-    <Wire UId="30">
+    <Wire UId="40">
       <Powerrail />
       <NameCon UId="21" Name="in" />
-      <NameCon UId="23" Name="in" />
       <NameCon UId="25" Name="in" />
+      <NameCon UId="29" Name="in" />
+      <NameCon UId="31" Name="in" />
     </Wire>
-    <Wire UId="31">
+    <Wire UId="41">
       <IdentCon UId="22" />
       <NameCon UId="21" Name="operand" />
     </Wire>
-    <Wire UId="32">
-      <IdentCon UId="24" />
-      <NameCon UId="23" Name="operand" />
+    <Wire UId="42">
+      <NameCon UId="21" Name="out" />
+      <NameCon UId="23" Name="in" />
     </Wire>
-    <Wire UId="33">
+    <Wire UId="43">
+      <NameCon UId="23" Name="operand" />
+      <IdentCon UId="24" />
+    </Wire>
+    <Wire UId="44">
       <IdentCon UId="26" />
       <NameCon UId="25" Name="operand" />
     </Wire>
-    <Wire UId="34">
-      <NameCon UId="21" Name="out" />
-      <NameCon UId="27" Name="in1" />
-    </Wire>
-    <Wire UId="35">
-      <NameCon UId="23" Name="out" />
-      <NameCon UId="27" Name="in2" />
-    </Wire>
-    <Wire UId="36">
+    <Wire UId="45">
       <NameCon UId="25" Name="out" />
-      <NameCon UId="27" Name="in3" />
+      <NameCon UId="27" Name="in" />
     </Wire>
-    <Wire UId="37">
-      <NameCon UId="27" Name="out" />
-      <NameCon UId="28" Name="in" />
+    <Wire UId="46">
+      <NameCon UId="27" Name="operand" />
+      <IdentCon UId="28" />
     </Wire>
-    <Wire UId="38">
-      <NameCon UId="28" Name="operand" />
-      <IdentCon UId="29" />
+    <Wire UId="47">
+      <IdentCon UId="30" />
+      <NameCon UId="29" Name="operand" />
+    </Wire>
+    <Wire UId="48">
+      <IdentCon UId="32" />
+      <NameCon UId="31" Name="operand" />
+    </Wire>
+    <Wire UId="49">
+      <NameCon UId="29" Name="out" />
+      <NameCon UId="33" Name="in1" />
+    </Wire>
+    <Wire UId="50">
+      <NameCon UId="31" Name="out" />
+      <NameCon UId="33" Name="in2" />
+    </Wire>
+    <Wire UId="51">
+      <NameCon UId="33" Name="out" />
+      <NameCon UId="34" Name="in" />
+    </Wire>
+    <Wire UId="52">
+      <IdentCon UId="35" />
+      <NameCon UId="34" Name="operand" />
+    </Wire>
+    <Wire UId="53">
+      <NameCon UId="34" Name="out" />
+      <NameCon UId="36" Name="in" />
+    </Wire>
+    <Wire UId="54">
+      <IdentCon UId="37" />
+      <NameCon UId="36" Name="operand" />
+    </Wire>
+    <Wire UId="55">
+      <NameCon UId="36" Name="out" />
+      <NameCon UId="38" Name="in" />
+    </Wire>
+    <Wire UId="56">
+      <NameCon UId="38" Name="operand" />
+      <IdentCon UId="39" />
     </Wire>
   </Wires>
 </FlgNet></NetworkSource>
@@ -396,7 +554,7 @@
               <MultilingualTextItem ID="D" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>High pressure, E-STOP or power-up open the flare. Very high level alone does not. C01 / C02 / C03.</Text>
+                  <Text>Flare and suction follow trip memories; drain follows level while E-STOP released. C01 / C04 / C05 / E5 / E6 / E7.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -406,7 +564,7 @@
               <MultilingualTextItem ID="F" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>Flare trip</Text>
+                  <Text>Valves</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -417,37 +575,75 @@
         <AttributeList>
           <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
   <Parts>
-    <Access Scope="LocalVariable" UId="22">
-      <Symbol>
-        <Component Name="PSH" />
-      </Symbol>
+    <Access Scope="LocalVariable" UId="22"><Symbol>
+        <Component Name="DrainCmd" />
+      </Symbol></Access>
+    <Access Scope="TypedConstant" UId="25">
+      <Constant>
+        <ConstantValue>T#10M</ConstantValue>
+      </Constant>
     </Access>
-    <Access Scope="LocalVariable" UId="24">
-      <Symbol>
-        <Component Name="Cause_PSH" />
-      </Symbol>
-    </Access>
-    <Part Name="Contact" UId="21">
-      <Negated Name="operand" />
+    <Access Scope="LocalVariable" UId="28"><Symbol>
+        <Component Name="F_DrainTO" />
+      </Symbol></Access>
+    <Access Scope="LocalVariable" UId="30"><Symbol>
+        <Component Name="ResetPulse" />
+      </Symbol></Access>
+    <Access Scope="LocalVariable" UId="32"><Symbol>
+        <Component Name="F_DrainTO" />
+      </Symbol></Access>
+    <Part Name="Contact" UId="21" />
+    <Part Name="TON" Version="1.0" UId="23">
+      <Instance Scope="LocalVariable" UId="24">
+        <Component Name="T_DrnMax" />
+      </Instance>
+      <TemplateValue Name="time_type" Type="Type">Time</TemplateValue>
     </Part>
-    <Part Name="SCoil" UId="23" />
+    <Part Name="SCoil" UId="27" />
+    <Part Name="Contact" UId="29" />
+    <Part Name="RCoil" UId="31" />
   </Parts>
   <Wires>
-    <Wire UId="25">
+    <Wire UId="33">
       <Powerrail />
       <NameCon UId="21" Name="in" />
+      <NameCon UId="29" Name="in" />
     </Wire>
-    <Wire UId="26">
+    <Wire UId="34">
       <IdentCon UId="22" />
       <NameCon UId="21" Name="operand" />
     </Wire>
-    <Wire UId="27">
+    <Wire UId="35">
       <NameCon UId="21" Name="out" />
-      <NameCon UId="23" Name="in" />
+      <NameCon UId="23" Name="IN" />
     </Wire>
-    <Wire UId="28">
-      <NameCon UId="23" Name="operand" />
-      <IdentCon UId="24" />
+    <Wire UId="36">
+      <IdentCon UId="25" />
+      <NameCon UId="23" Name="PT" />
+    </Wire>
+    <Wire UId="37">
+      <NameCon UId="23" Name="ET" />
+      <OpenCon UId="26" />
+    </Wire>
+    <Wire UId="38">
+      <NameCon UId="23" Name="Q" />
+      <NameCon UId="27" Name="in" />
+    </Wire>
+    <Wire UId="39">
+      <NameCon UId="27" Name="operand" />
+      <IdentCon UId="28" />
+    </Wire>
+    <Wire UId="40">
+      <IdentCon UId="30" />
+      <NameCon UId="29" Name="operand" />
+    </Wire>
+    <Wire UId="41">
+      <NameCon UId="29" Name="out" />
+      <NameCon UId="31" Name="in" />
+    </Wire>
+    <Wire UId="42">
+      <NameCon UId="31" Name="operand" />
+      <IdentCon UId="32" />
     </Wire>
   </Wires>
 </FlgNet></NetworkSource>
@@ -459,7 +655,7 @@
               <MultilingualTextItem ID="12" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>Keep PSH-101 for the HMI even if the pressure comes back. C06a.</Text>
+                  <Text>Valve command precedes timeout SET; RESET follows SET and wins. C04a.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -469,7 +665,7 @@
               <MultilingualTextItem ID="14" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>Save cause: high pressure</Text>
+                  <Text>Drain time limit</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -480,37 +676,140 @@
         <AttributeList>
           <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
   <Parts>
-    <Access Scope="LocalVariable" UId="22">
-      <Symbol>
-        <Component Name="LSHH" />
-      </Symbol>
-    </Access>
-    <Access Scope="LocalVariable" UId="24">
-      <Symbol>
+    <Access Scope="LocalVariable" UId="22"><Symbol>
+        <Component Name="EStopOK" />
+      </Symbol></Access>
+    <Access Scope="LocalVariable" UId="24"><Symbol>
+        <Component Name="Alarms" SliceAccessModifier="x0" />
+      </Symbol></Access>
+    <Access Scope="LocalVariable" UId="26"><Symbol>
+        <Component Name="Tripped" />
+      </Symbol></Access>
+    <Access Scope="LocalVariable" UId="28"><Symbol>
+        <Component Name="Alarms" SliceAccessModifier="x1" />
+      </Symbol></Access>
+    <Access Scope="LocalVariable" UId="30"><Symbol>
+        <Component Name="Cause_PSH" />
+      </Symbol></Access>
+    <Access Scope="LocalVariable" UId="32"><Symbol>
+        <Component Name="Alarms" SliceAccessModifier="x2" />
+      </Symbol></Access>
+    <Access Scope="LocalVariable" UId="34"><Symbol>
         <Component Name="Cause_LSHH" />
-      </Symbol>
-    </Access>
+      </Symbol></Access>
+    <Access Scope="LocalVariable" UId="36"><Symbol>
+        <Component Name="Alarms" SliceAccessModifier="x3" />
+      </Symbol></Access>
+    <Access Scope="LocalVariable" UId="38"><Symbol>
+        <Component Name="LSH" />
+      </Symbol></Access>
+    <Access Scope="LocalVariable" UId="40"><Symbol>
+        <Component Name="Alarms" SliceAccessModifier="x4" />
+      </Symbol></Access>
+    <Access Scope="LocalVariable" UId="42"><Symbol>
+        <Component Name="F_DrainTO" />
+      </Symbol></Access>
+    <Access Scope="LocalVariable" UId="44"><Symbol>
+        <Component Name="Alarms" SliceAccessModifier="x5" />
+      </Symbol></Access>
     <Part Name="Contact" UId="21">
       <Negated Name="operand" />
     </Part>
-    <Part Name="SCoil" UId="23" />
+    <Part Name="Coil" UId="23" />
+    <Part Name="Contact" UId="25" />
+    <Part Name="Coil" UId="27" />
+    <Part Name="Contact" UId="29" />
+    <Part Name="Coil" UId="31" />
+    <Part Name="Contact" UId="33" />
+    <Part Name="Coil" UId="35" />
+    <Part Name="Contact" UId="37">
+      <Negated Name="operand" />
+    </Part>
+    <Part Name="Coil" UId="39" />
+    <Part Name="Contact" UId="41" />
+    <Part Name="Coil" UId="43" />
   </Parts>
   <Wires>
-    <Wire UId="25">
+    <Wire UId="45">
       <Powerrail />
       <NameCon UId="21" Name="in" />
+      <NameCon UId="25" Name="in" />
+      <NameCon UId="29" Name="in" />
+      <NameCon UId="33" Name="in" />
+      <NameCon UId="37" Name="in" />
+      <NameCon UId="41" Name="in" />
     </Wire>
-    <Wire UId="26">
+    <Wire UId="46">
       <IdentCon UId="22" />
       <NameCon UId="21" Name="operand" />
     </Wire>
-    <Wire UId="27">
+    <Wire UId="47">
       <NameCon UId="21" Name="out" />
       <NameCon UId="23" Name="in" />
     </Wire>
-    <Wire UId="28">
+    <Wire UId="48">
       <NameCon UId="23" Name="operand" />
       <IdentCon UId="24" />
+    </Wire>
+    <Wire UId="49">
+      <IdentCon UId="26" />
+      <NameCon UId="25" Name="operand" />
+    </Wire>
+    <Wire UId="50">
+      <NameCon UId="25" Name="out" />
+      <NameCon UId="27" Name="in" />
+    </Wire>
+    <Wire UId="51">
+      <NameCon UId="27" Name="operand" />
+      <IdentCon UId="28" />
+    </Wire>
+    <Wire UId="52">
+      <IdentCon UId="30" />
+      <NameCon UId="29" Name="operand" />
+    </Wire>
+    <Wire UId="53">
+      <NameCon UId="29" Name="out" />
+      <NameCon UId="31" Name="in" />
+    </Wire>
+    <Wire UId="54">
+      <NameCon UId="31" Name="operand" />
+      <IdentCon UId="32" />
+    </Wire>
+    <Wire UId="55">
+      <IdentCon UId="34" />
+      <NameCon UId="33" Name="operand" />
+    </Wire>
+    <Wire UId="56">
+      <NameCon UId="33" Name="out" />
+      <NameCon UId="35" Name="in" />
+    </Wire>
+    <Wire UId="57">
+      <NameCon UId="35" Name="operand" />
+      <IdentCon UId="36" />
+    </Wire>
+    <Wire UId="58">
+      <IdentCon UId="38" />
+      <NameCon UId="37" Name="operand" />
+    </Wire>
+    <Wire UId="59">
+      <NameCon UId="37" Name="out" />
+      <NameCon UId="39" Name="in" />
+    </Wire>
+    <Wire UId="60">
+      <NameCon UId="39" Name="operand" />
+      <IdentCon UId="40" />
+    </Wire>
+    <Wire UId="61">
+      <IdentCon UId="42" />
+      <NameCon UId="41" Name="operand" />
+    </Wire>
+    <Wire UId="62">
+      <NameCon UId="41" Name="out" />
+      <NameCon UId="43" Name="in" />
+    </Wire>
+    <Wire UId="63">
+      <NameCon UId="43" Name="operand" />
+      <IdentCon UId="44" />
     </Wire>
   </Wires>
 </FlgNet></NetworkSource>
@@ -522,7 +821,7 @@
               <MultilingualTextItem ID="17" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>Keep LSHH-103 for the HMI even if the level comes back. C06a.</Text>
+                  <Text>Display Common bits 0..5 from HMI_ALARMS. C01 / C02 / C03 / C04 / C04a / C05 / C06a.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -532,405 +831,16 @@
               <MultilingualTextItem ID="19" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>Save cause: very high level</Text>
+                  <Text>Alarms</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
           </MultilingualText>
         </ObjectList>
       </SW.Blocks.CompileUnit>
-      <SW.Blocks.CompileUnit ID="1A" CompositionName="CompileUnits">
-        <AttributeList>
-          <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
-  <Parts>
-    <Access Scope="LocalVariable" UId="22">
-      <Symbol>
-        <Component Name="FlareTrip" />
-      </Symbol>
-    </Access>
-    <Access Scope="LocalVariable" UId="24">
-      <Symbol>
-        <Component Name="FlareCmd" />
-      </Symbol>
-    </Access>
-    <Part Name="Contact" UId="21">
-      <Negated Name="operand" />
-    </Part>
-    <Part Name="Coil" UId="23" />
-  </Parts>
-  <Wires>
-    <Wire UId="25">
-      <Powerrail />
-      <NameCon UId="21" Name="in" />
-    </Wire>
-    <Wire UId="26">
-      <IdentCon UId="22" />
-      <NameCon UId="21" Name="operand" />
-    </Wire>
-    <Wire UId="27">
-      <NameCon UId="21" Name="out" />
-      <NameCon UId="23" Name="in" />
-    </Wire>
-    <Wire UId="28">
-      <NameCon UId="23" Name="operand" />
-      <IdentCon UId="24" />
-    </Wire>
-  </Wires>
-</FlgNet></NetworkSource>
-          <ProgrammingLanguage>LAD</ProgrammingLanguage>
-        </AttributeList>
+      <MultilingualText ID="1C" CompositionName="Title">
         <ObjectList>
-          <MultilingualText ID="1B" CompositionName="Comment">
-            <ObjectList>
-              <MultilingualTextItem ID="1C" CompositionName="Items">
-                <AttributeList>
-                  <Culture>en-US</Culture>
-                  <Text>Normally open valve: energise to close while there is no flare trip. E5.</Text>
-                </AttributeList>
-              </MultilingualTextItem>
-            </ObjectList>
-          </MultilingualText>
-          <MultilingualText ID="1D" CompositionName="Title">
-            <ObjectList>
-              <MultilingualTextItem ID="1E" CompositionName="Items">
-                <AttributeList>
-                  <Culture>en-US</Culture>
-                  <Text>XV-401 flare</Text>
-                </AttributeList>
-              </MultilingualTextItem>
-            </ObjectList>
-          </MultilingualText>
-        </ObjectList>
-      </SW.Blocks.CompileUnit>
-      <SW.Blocks.CompileUnit ID="1F" CompositionName="CompileUnits">
-        <AttributeList>
-          <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
-  <Parts>
-    <Access Scope="LocalVariable" UId="22">
-      <Symbol>
-        <Component Name="Tripped" />
-      </Symbol>
-    </Access>
-    <Access Scope="LocalVariable" UId="24">
-      <Symbol>
-        <Component Name="SuctionCmd" />
-      </Symbol>
-    </Access>
-    <Part Name="Contact" UId="21">
-      <Negated Name="operand" />
-    </Part>
-    <Part Name="Coil" UId="23" />
-  </Parts>
-  <Wires>
-    <Wire UId="25">
-      <Powerrail />
-      <NameCon UId="21" Name="in" />
-    </Wire>
-    <Wire UId="26">
-      <IdentCon UId="22" />
-      <NameCon UId="21" Name="operand" />
-    </Wire>
-    <Wire UId="27">
-      <NameCon UId="21" Name="out" />
-      <NameCon UId="23" Name="in" />
-    </Wire>
-    <Wire UId="28">
-      <NameCon UId="23" Name="operand" />
-      <IdentCon UId="24" />
-    </Wire>
-  </Wires>
-</FlgNet></NetworkSource>
-          <ProgrammingLanguage>LAD</ProgrammingLanguage>
-        </AttributeList>
-        <ObjectList>
-          <MultilingualText ID="20" CompositionName="Comment">
-            <ObjectList>
-              <MultilingualTextItem ID="21" CompositionName="Items">
-                <AttributeList>
-                  <Culture>en-US</Culture>
-                  <Text>Normally closed valve: energise to open while there is no scrubber trip. E7.</Text>
-                </AttributeList>
-              </MultilingualTextItem>
-            </ObjectList>
-          </MultilingualText>
-          <MultilingualText ID="22" CompositionName="Title">
-            <ObjectList>
-              <MultilingualTextItem ID="23" CompositionName="Items">
-                <AttributeList>
-                  <Culture>en-US</Culture>
-                  <Text>XV-403 suction</Text>
-                </AttributeList>
-              </MultilingualTextItem>
-            </ObjectList>
-          </MultilingualText>
-        </ObjectList>
-      </SW.Blocks.CompileUnit>
-      <SW.Blocks.CompileUnit ID="24" CompositionName="CompileUnits">
-        <AttributeList>
-          <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
-  <Parts>
-    <Access Scope="LocalVariable" UId="22">
-      <Symbol>
-        <Component Name="LSH" />
-      </Symbol>
-    </Access>
-    <Access Scope="LocalVariable" UId="24">
-      <Symbol>
-        <Component Name="LSHH" />
-      </Symbol>
-    </Access>
-    <Access Scope="GlobalVariable" UId="27">
-      <Symbol>
-        <Component Name="Sys" />
-        <Component Name="EStopOK" />
-      </Symbol>
-    </Access>
-    <Access Scope="LocalVariable" UId="29">
-      <Symbol>
-        <Component Name="F_DrainTO" />
-      </Symbol>
-    </Access>
-    <Access Scope="LocalVariable" UId="31">
-      <Symbol>
-        <Component Name="DrainCmd" />
-      </Symbol>
-    </Access>
-    <Part Name="Contact" UId="21">
-      <Negated Name="operand" />
-    </Part>
-    <Part Name="Contact" UId="23">
-      <Negated Name="operand" />
-    </Part>
-    <Part Name="O" UId="25">
-      <TemplateValue Name="Card" Type="Cardinality">2</TemplateValue>
-    </Part>
-    <Part Name="Contact" UId="26" />
-    <Part Name="Contact" UId="28">
-      <Negated Name="operand" />
-    </Part>
-    <Part Name="Coil" UId="30" />
-  </Parts>
-  <Wires>
-    <Wire UId="32">
-      <Powerrail />
-      <NameCon UId="21" Name="in" />
-      <NameCon UId="23" Name="in" />
-    </Wire>
-    <Wire UId="33">
-      <IdentCon UId="22" />
-      <NameCon UId="21" Name="operand" />
-    </Wire>
-    <Wire UId="34">
-      <IdentCon UId="24" />
-      <NameCon UId="23" Name="operand" />
-    </Wire>
-    <Wire UId="35">
-      <NameCon UId="21" Name="out" />
-      <NameCon UId="25" Name="in1" />
-    </Wire>
-    <Wire UId="36">
-      <NameCon UId="23" Name="out" />
-      <NameCon UId="25" Name="in2" />
-    </Wire>
-    <Wire UId="37">
-      <NameCon UId="25" Name="out" />
-      <NameCon UId="26" Name="in" />
-    </Wire>
-    <Wire UId="38">
-      <IdentCon UId="27" />
-      <NameCon UId="26" Name="operand" />
-    </Wire>
-    <Wire UId="39">
-      <NameCon UId="26" Name="out" />
-      <NameCon UId="28" Name="in" />
-    </Wire>
-    <Wire UId="40">
-      <IdentCon UId="29" />
-      <NameCon UId="28" Name="operand" />
-    </Wire>
-    <Wire UId="41">
-      <NameCon UId="28" Name="out" />
-      <NameCon UId="30" Name="in" />
-    </Wire>
-    <Wire UId="42">
-      <NameCon UId="30" Name="operand" />
-      <IdentCon UId="31" />
-    </Wire>
-  </Wires>
-</FlgNet></NetworkSource>
-          <ProgrammingLanguage>LAD</ProgrammingLanguage>
-        </AttributeList>
-        <ObjectList>
-          <MultilingualText ID="25" CompositionName="Comment">
-            <ObjectList>
-              <MultilingualTextItem ID="26" CompositionName="Items">
-                <AttributeList>
-                  <Culture>en-US</Culture>
-                  <Text>Normally closed valve: open while LSH-102 or LSHH-103 shows high level. Not during E-STOP or after the 10 min limit. C04 / C05 / E6.</Text>
-                </AttributeList>
-              </MultilingualTextItem>
-            </ObjectList>
-          </MultilingualText>
-          <MultilingualText ID="27" CompositionName="Title">
-            <ObjectList>
-              <MultilingualTextItem ID="28" CompositionName="Items">
-                <AttributeList>
-                  <Culture>en-US</Culture>
-                  <Text>XV-402 drain</Text>
-                </AttributeList>
-              </MultilingualTextItem>
-            </ObjectList>
-          </MultilingualText>
-        </ObjectList>
-      </SW.Blocks.CompileUnit>
-      <SW.Blocks.CompileUnit ID="29" CompositionName="CompileUnits">
-        <AttributeList>
-          <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
-  <Parts>
-    <Access Scope="LocalVariable" UId="22">
-      <Symbol>
-        <Component Name="DrainCmd" />
-      </Symbol>
-    </Access>
-    <Access Scope="TypedConstant" UId="25">
-      <Constant>
-        <ConstantValue>T#10M</ConstantValue>
-      </Constant>
-    </Access>
-    <Access Scope="LocalVariable" UId="28">
-      <Symbol>
-        <Component Name="F_DrainTO" />
-      </Symbol>
-    </Access>
-    <Part Name="Contact" UId="21" />
-    <Part Name="TON" Version="1.0" UId="23">
-      <Instance Scope="LocalVariable" UId="24">
-        <Component Name="T_DrnMax" />
-      </Instance>
-      <TemplateValue Name="time_type" Type="Type">Time</TemplateValue>
-    </Part>
-    <Part Name="SCoil" UId="27" />
-  </Parts>
-  <Wires>
-    <Wire UId="29">
-      <Powerrail />
-      <NameCon UId="21" Name="in" />
-    </Wire>
-    <Wire UId="30">
-      <IdentCon UId="22" />
-      <NameCon UId="21" Name="operand" />
-    </Wire>
-    <Wire UId="31">
-      <NameCon UId="21" Name="out" />
-      <NameCon UId="23" Name="IN" />
-    </Wire>
-    <Wire UId="32">
-      <IdentCon UId="25" />
-      <NameCon UId="23" Name="PT" />
-    </Wire>
-    <Wire UId="33">
-      <NameCon UId="23" Name="ET" />
-      <OpenCon UId="26" />
-    </Wire>
-    <Wire UId="34">
-      <NameCon UId="23" Name="Q" />
-      <NameCon UId="27" Name="in" />
-    </Wire>
-    <Wire UId="35">
-      <NameCon UId="27" Name="operand" />
-      <IdentCon UId="28" />
-    </Wire>
-  </Wires>
-</FlgNet></NetworkSource>
-          <ProgrammingLanguage>LAD</ProgrammingLanguage>
-        </AttributeList>
-        <ObjectList>
-          <MultilingualText ID="2A" CompositionName="Comment">
-            <ObjectList>
-              <MultilingualTextItem ID="2B" CompositionName="Items">
-                <AttributeList>
-                  <Culture>en-US</Culture>
-                  <Text>Drain open 10 min without a stop: close it and alarm. Protects against a broken LSH-102 wire. C04a.</Text>
-                </AttributeList>
-              </MultilingualTextItem>
-            </ObjectList>
-          </MultilingualText>
-          <MultilingualText ID="2C" CompositionName="Title">
-            <ObjectList>
-              <MultilingualTextItem ID="2D" CompositionName="Items">
-                <AttributeList>
-                  <Culture>en-US</Culture>
-                  <Text>Drain open too long</Text>
-                </AttributeList>
-              </MultilingualTextItem>
-            </ObjectList>
-          </MultilingualText>
-        </ObjectList>
-      </SW.Blocks.CompileUnit>
-      <SW.Blocks.CompileUnit ID="2E" CompositionName="CompileUnits">
-        <AttributeList>
-          <NetworkSource><FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v3">
-  <Parts>
-    <Access Scope="LocalVariable" UId="22">
-      <Symbol>
-        <Component Name="Reset" />
-      </Symbol>
-    </Access>
-    <Access Scope="LocalVariable" UId="24">
-      <Symbol>
-        <Component Name="F_DrainTO" />
-      </Symbol>
-    </Access>
-    <Part Name="Contact" UId="21" />
-    <Part Name="RCoil" UId="23" />
-  </Parts>
-  <Wires>
-    <Wire UId="25">
-      <Powerrail />
-      <NameCon UId="21" Name="in" />
-    </Wire>
-    <Wire UId="26">
-      <IdentCon UId="22" />
-      <NameCon UId="21" Name="operand" />
-    </Wire>
-    <Wire UId="27">
-      <NameCon UId="21" Name="out" />
-      <NameCon UId="23" Name="in" />
-    </Wire>
-    <Wire UId="28">
-      <NameCon UId="23" Name="operand" />
-      <IdentCon UId="24" />
-    </Wire>
-  </Wires>
-</FlgNet></NetworkSource>
-          <ProgrammingLanguage>LAD</ProgrammingLanguage>
-        </AttributeList>
-        <ObjectList>
-          <MultilingualText ID="2F" CompositionName="Comment">
-            <ObjectList>
-              <MultilingualTextItem ID="30" CompositionName="Items">
-                <AttributeList>
-                  <Culture>en-US</Culture>
-                  <Text>RESET lets the drain follow the level again. C04a.</Text>
-                </AttributeList>
-              </MultilingualTextItem>
-            </ObjectList>
-          </MultilingualText>
-          <MultilingualText ID="31" CompositionName="Title">
-            <ObjectList>
-              <MultilingualTextItem ID="32" CompositionName="Items">
-                <AttributeList>
-                  <Culture>en-US</Culture>
-                  <Text>RESET the drain limit</Text>
-                </AttributeList>
-              </MultilingualTextItem>
-            </ObjectList>
-          </MultilingualText>
-        </ObjectList>
-      </SW.Blocks.CompileUnit>
-      <MultilingualText ID="35" CompositionName="Title">
-        <ObjectList>
-          <MultilingualTextItem ID="36" CompositionName="Items">
+          <MultilingualTextItem ID="1D" CompositionName="Items">
             <AttributeList>
               <Culture>en-US</Culture>
               <Text>Scrubber</Text>

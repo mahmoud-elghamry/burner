@@ -21,10 +21,19 @@
     <Member Name="Fuel" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">BR02 fuel selector: 1 = diesel. BR01: FALSE</MultiLanguageText></Comment></Member>
     <Member Name="TeA" Datatype="Int" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Thermocouple A, 0.1 degC</MultiLanguageText></Comment></Member>
     <Member Name="TeB" Datatype="Int" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Thermocouple B, 0.1 degC</MultiLanguageText></Comment></Member>
+    <Member Name="EStopOK" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Raw E-STOP status: 1 = released (C01)</MultiLanguageText></Comment></Member>
+    <Member Name="ScrubTrip" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Scrubber trip cancels START (C03 / C05)</MultiLanguageText></Comment></Member>
+    <Member Name="SP" Datatype="Int" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Stop temperature, 0.1 degC (C0xb)</MultiLanguageText></Comment></Member>
+    <Member Name="HYST" Datatype="Int" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Restart difference, 0.1 degC (C0xb)</MultiLanguageText></Comment></Member>
+    <Member Name="STG" Datatype="Int" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Stage 2 difference, 0.1 degC (C0xc)</MultiLanguageText></Comment></Member>
+    <Member Name="Use24h" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Daily stop used for BR01 only (C07h)</MultiLanguageText></Comment></Member>
   </Section>
   <Section Name="Output">
     <Member Name="HeatReq" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Heat request to the burner: TL / L (E1 / E3)</MultiLanguageText></Comment></Member>
     <Member Name="Stage2" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Stage 2 request to the burner: TR / T2 (E2 / E4)</MultiLanguageText></Comment></Member>
+    <Member Name="HeatLamp" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Lamp follows HeatReq (E1 / E3)</MultiLanguageText></Comment></Member>
+    <Member Name="Stage2Lamp" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Lamp follows Stage2 (E2 / E4)</MultiLanguageText></Comment></Member>
+    <Member Name="Alarms" Datatype="Word" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Alarm display word, bits 0..4 (C07 / C08)</MultiLanguageText></Comment></Member>
   </Section>
   <Section Name="InOut" />
   <Section Name="Static">
@@ -45,7 +54,6 @@
     <Member Name="Trip" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Burner must stop and needs a new START: E-STOP, scrubber trip, lockout, thermocouple fault or fuel change</MultiLanguageText></Comment></Member>
     <Member Name="StartEnabled" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">START accepted; cleared by STOP or Trip</MultiLanguageText></Comment></Member>
     <Member Name="Pause24" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Daily stop after 24 h of request (BR01, C07h)</MultiLanguageText></Comment></Member>
-    <Member Name="Use24h" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Daily stop used for this burner (BR01 only)</MultiLanguageText></Comment><StartValue>false</StartValue></Member>
     <Member Name="NoRun" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Alarm: heat request without RUN for 120 s (C0xf)</MultiLanguageText></Comment></Member>
     <Member Name="RunWrong" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Alarm: RUN without heat request for 30 s (C0xg)</MultiLanguageText></Comment></Member>
     <Member Name="T_TcBad" Datatype="TON_TIME" Remanence="NonRetain" Accessibility="Public"><Comment><MultiLanguageText Lang="en-US">Thermocouple invalid time, 10 s</MultiLanguageText></Comment></Member>

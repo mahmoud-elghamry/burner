@@ -30,7 +30,7 @@
           <MultilingualTextItem ID="7" CompositionName="Items">
             <AttributeList>
               <Culture>en-US</Culture>
-              <Text>Sets the first-scan marker at startup; Main clears it after the first cycle.</Text>
+              <Text>Latch scrubber trips and seed START/RESET edge memories at each startup (C02 / B-01).</Text>
             </AttributeList>
           </MultilingualTextItem>
         </ObjectList>
@@ -41,37 +41,68 @@
   <Parts>
     <Access Scope="GlobalVariable" UId="22">
       <Symbol>
-        <Component Name="Sys" />
-        <Component Name="FirstScan" />
+        <Component Name="Scrubber_DB" />
+        <Component Name="Tripped" />
       </Symbol>
     </Access>
     <Access Scope="GlobalVariable" UId="24">
       <Symbol>
-        <Component Name="Sys" />
-        <Component Name="FirstScan" />
+        <Component Name="Scrubber_DB" />
+        <Component Name="FlareTrip" />
       </Symbol>
     </Access>
-    <Part Name="Contact" UId="21">
-      <Negated Name="operand" />
-    </Part>
+    <Access Scope="GlobalVariable" UId="26">
+      <Symbol>
+        <Component Name="Scrubber_DB" />
+        <Component Name="ResetMem" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="28">
+      <Symbol>
+        <Component Name="BR01_DB" />
+        <Component Name="StartMem" />
+      </Symbol>
+    </Access>
+    <Access Scope="GlobalVariable" UId="30">
+      <Symbol>
+        <Component Name="BR02_DB" />
+        <Component Name="StartMem" />
+      </Symbol>
+    </Access>
+    <Part Name="SCoil" UId="21" />
     <Part Name="SCoil" UId="23" />
+    <Part Name="SCoil" UId="25" />
+    <Part Name="SCoil" UId="27" />
+    <Part Name="SCoil" UId="29" />
   </Parts>
   <Wires>
-    <Wire UId="25">
+    <Wire UId="31">
       <Powerrail />
       <NameCon UId="21" Name="in" />
-    </Wire>
-    <Wire UId="26">
-      <IdentCon UId="22" />
-      <NameCon UId="21" Name="operand" />
-    </Wire>
-    <Wire UId="27">
-      <NameCon UId="21" Name="out" />
       <NameCon UId="23" Name="in" />
+      <NameCon UId="25" Name="in" />
+      <NameCon UId="27" Name="in" />
+      <NameCon UId="29" Name="in" />
     </Wire>
-    <Wire UId="28">
+    <Wire UId="32">
+      <NameCon UId="21" Name="operand" />
+      <IdentCon UId="22" />
+    </Wire>
+    <Wire UId="33">
       <NameCon UId="23" Name="operand" />
       <IdentCon UId="24" />
+    </Wire>
+    <Wire UId="34">
+      <NameCon UId="25" Name="operand" />
+      <IdentCon UId="26" />
+    </Wire>
+    <Wire UId="35">
+      <NameCon UId="27" Name="operand" />
+      <IdentCon UId="28" />
+    </Wire>
+    <Wire UId="36">
+      <NameCon UId="29" Name="operand" />
+      <IdentCon UId="30" />
     </Wire>
   </Wires>
 </FlgNet></NetworkSource>
@@ -83,7 +114,7 @@
               <MultilingualTextItem ID="3" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>Set FirstScan: the scrubber trips and the burners need START. C02.</Text>
+                  <Text>Latch scrubber trips and seed START/RESET memories; held buttons need release. FuelMem remains FALSE. C02 / B-01.</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
@@ -93,7 +124,7 @@
               <MultilingualTextItem ID="5" CompositionName="Items">
                 <AttributeList>
                   <Culture>en-US</Culture>
-                  <Text>Power-up: first scan</Text>
+                  <Text>Power-up</Text>
                 </AttributeList>
               </MultilingualTextItem>
             </ObjectList>
