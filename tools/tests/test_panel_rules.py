@@ -827,7 +827,7 @@ class HmiContracts(unittest.TestCase):
     def test_bindings_and_object_names_are_complete(self):
         import build_hmi as H
         names = {name for name, db, member in H.TAGS}
-        self.assertEqual(len(names), 58)
+        self.assertEqual(len(names), 57)
         for screen in [H.overview(), H.burner('BR01'), H.burner('BR02'), H.scrubber(), H.settings(), H.alarms()]:
             root = ET.fromstring(screen.xml())
             objects = root.findall('.//ObjectName')

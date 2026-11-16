@@ -35,7 +35,7 @@ BANNED_PANEL_WORDS = ('recorded', 'heat request', 'stage request', 'requests',
 # A sequence (rather than a dict literal) lets validation detect duplicate keys.
 # ((word, bit), operator class, alarm text, info text)
 OPERATOR_ALARMS = [
-    (('Common', 0), 'Fault', 'E-STOP active: reset required', 'زرار الطوارئ اتداس أو لسه مستني RESET. البيرنرين واقفين، والفلير مفتوح، والساكشن والدرين مقفولين. فك زرار الطوارئ واضغط RESET، وبعدها START لكل بيرنر.'),
+    (('Common', 0), 'Fault', 'E-STOP pressed', 'زرار الطوارئ مضغوط: البيرنرين واقفين، والفلير مفتوح، والساكشن والدرين مقفولين. الإنذار بيروح أول ما تفك الزرار، والدرين يرجع يمشي مع المستوى لو حد وقته مش حاصل. السكرابر يفضل في تريب: لما الأسباب تبقى سليمة اضغط RESET، وبعدها START لكل بيرنر.'),
     (('Common', 1), 'Fault', 'Scrubber tripped: reset required', 'السكرابر عامل تريب: الساكشن مقفول والبيرنرين واقفين. بيحصل من الضغط العالي أو المستوى العالي جدًا أو الطوارئ أو بعد رجوع الكهربا. لما كله يرجع طبيعي اضغط RESET، وبعدها START لكل بيرنر.'),
     (('Common', 2), 'Fault', 'Scrubber trip: high pressure', 'الضغط العالي PSH-101 هو اللي عمل التريب، والإنذار يفضل ظاهر لحد RESET حتى لو الضغط رجع. الفلير مفتوح والساكشن مقفول. اتأكد إن الضغط طبيعي واضغط RESET.'),
     (('Common', 3), 'Fault', 'Scrubber trip: very high level', 'المستوى العالي جدًا LSHH-103 هو اللي عمل التريب، والإنذار يفضل ظاهر لحد RESET حتى لو المستوى نزل. الساكشن مقفول والدرين بيفتح مع المستوى. اتأكد إن المستوى نزل واضغط RESET.'),

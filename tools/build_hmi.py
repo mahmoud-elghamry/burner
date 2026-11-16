@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-بيولّد تاجات الشاشة والشاشات الست (decisions/0007) في build/hmi/، وApply-Hmi.ps1 بيعمل import.
+بيولّد تاجات الشاشة وخمس صفحات (decisions/0007) في build/hmi/، وApply-Hmi.ps1 بيعمل import.
 
 الشكل متاخد من exports حقيقية لـ V15.1: عيّنة P1 (IO field، وتاج Int على HMI_Connection_1)،
 وشاشات الأوناش (TextField وButton وCircle وRectangle وRangeAppearance وSingleBitVisibility).
@@ -9,7 +9,7 @@
 - مفيش أي زرار بيكتب في الـ PLC. الزراير بتغيّر الشاشة بس (ActivateScreen).
 - أسماء أعضاء الـ DBs بتتراجع على جداول build_blocks.py، فلو اسم اتغيّر هناك السكريبت بيقف.
 - الحرارة بعُشر الدرجة: الحقل بيعرضها بـ ShiftDecimalPoint=1 (700 -> 70.0)، من غير scaling.
-- شاشة Alarms فيها مكان فاضي للـ alarm view: Openness V15.1 مش بيعمله import (0007 §6).
+- شاشة Alarms مش بتتولّد: فيها Alarm View معمول بالإيد (0007 §6).
 - قبل الاستيراد: py tools/check_hmi_xml.py بيراجع أسماء الخصائص والتركيبات على نفس الـ exports.
 """
 from __future__ import print_function
@@ -21,7 +21,6 @@ ROOT = os.path.dirname(HERE)
 OUT = os.path.join(ROOT, 'build', 'hmi')
 sys.path.insert(0, HERE)
 import build_blocks as B  # noqa: E402
-import panel_text as P  # noqa: E402
 
 CONN = 'HMI_Connection_1'
 TEMPLATE = 'Template_1'          # اللي عمله الـ wizard
@@ -55,32 +54,31 @@ def _members():
     br.update({n: t for n, t, *_ in B.BR_OUT})
     br.update({n: t for n, t, *_ in B.BR_STAT})
     scrub = {n: 'Bool' for n, _ in B.SCRUB_IN}
-    scrub.update({n: 'Bool' for n, _ in B.SCRUB_OUT})
+    scrub.update({n: 'Word' if n == 'Alarms' else 'Bool' for n, _ in B.SCRUB_OUT})
     scrub.update({n: t for n, t, _ in B.SCRUB_STAT})
     par = {n: t for n, t, *_ in B.PARAMS}
-    sys_ = {n: 'Bool' for n, _ in B.SYS}
-    return {'BR01_DB': br, 'BR02_DB': br, 'Scrubber_DB': scrub, 'Par': par, 'Sys': sys_,
-            'HmiAlm': {'Common': 'Word', 'BR01': 'Word', 'BR02': 'Word'}}
+    return {'BR01_DB': br, 'BR02_DB': br, 'Scrubber_DB': scrub, 'Par': par}
 
 
 MEMBERS = _members()
 BR_READ = ['TeA', 'TeB', 'Tmax', 'TcOkA', 'TcOkB', 'TcOk', 'Enabled', 'HeatReq',
            'Stage2', 'RunFb', 'Lockout', 'LevelOK', 'Auto', 'TOn',
            'TStg', 'TStgOff', 'TcBad', 'NoRun', 'RunWrong']
+# Public screen aliases survive the PLC member renames (0010).
+BR_MEMBERS = {'Tmax': 'ControlTemp', 'Enabled': 'StartEnabled',
+              'TOn': 'AutoRestartTemp', 'TStg': 'SecondStageOnTemp',
+              'TStgOff': 'SecondStageOffTemp'}
 TAGS = []   # (اسم الشاشة، DB، العضو)
 for br in ('BR01', 'BR02'):
     extra = ['Pause24'] if br == 'BR01' else ['Fuel']
-    TAGS += [(br + '_' + m, br + '_DB', m) for m in BR_READ + extra]
+    TAGS += [(br + '_' + m, br + '_DB', BR_MEMBERS.get(m, m)) for m in BR_READ + extra]
 TAGS += [('Scrub_' + m, 'Scrubber_DB', m) for m in
          ['PSH', 'LSH', 'LSHH', 'Tripped', 'Cause_PSH', 'Cause_LSHH',
           'FlareCmd', 'DrainCmd', 'SuctionCmd', 'F_DrainTO']]
 TAGS += [('Par_' + n, 'Par', n) for n, *_ in B.PARAMS]
-TAGS += [('Sys_' + m, 'Sys', m) for m in ['EStopOK', 'Alm_EStop']]
-TAGS += [('Alm_' + w, 'HmiAlm', w) for w in ['Common', 'BR01', 'BR02']]
-# Preserve public aliases while following clarified PLC member names.
-TAGS = [(name, db, P.SYMBOL_RENAMES.get(
-    'Burner' if db.startswith('BR0') else 'Scrubber' if db == 'Scrubber_DB' else db, {}
-).get(member_name, member_name)) for name, db, member_name in TAGS]
+TAGS += [('Scrub_EStopOK', 'Scrubber_DB', 'EStopOK')]
+ALARM_DBS = {'Common': 'Scrubber_DB', 'BR01': 'BR01_DB', 'BR02': 'BR02_DB'}
+TAGS += [('Alm_' + w, db, 'Alarms') for w, db in ALARM_DBS.items()]
 # H-01: الحقول اللي بتكتب. أي Input على تاج مش هنا = السكريبت يقف.
 WRITABLE = {'Par_' + n for n, *_ in B.PARAMS}
 
@@ -96,17 +94,17 @@ _COMMENTS = {
     'Burner': {n: c for n, _t, c in B.BR_IN + B.BR_OUT + B.BR_STAT},
     'Scrubber': dict(B.SCRUB_IN + B.SCRUB_OUT + [(n, c) for n, _t, c in B.SCRUB_STAT]),
     'Par': B.PAR_TEXT,
-    'Sys': dict(B.SYS),
 }
 
 
 def _tag_comment(name, db, member_name):
-    if db == 'HmiAlm':
-        bits = sorted((bit, title) for word, bit, _signal, title, _clears, _ref
-                      in B.HMI_ALARMS if word == member_name)
+    if member_name == 'Alarms':
+        word = next(word for word, alarm_db in ALARM_DBS.items() if alarm_db == db)
+        bits = sorted((bit, title) for alarm_word, bit, _signal, title, _clears, _ref
+                      in B.HMI_ALARMS if alarm_word == word)
         if [bit for bit, _title in bits] != list(range(len(bits))):
-            raise ValueError('Alarm bits must start at x0 without gaps: ' + member_name)
-        return ('%s alarm display word; each bit 1 displays its alarm. ' % member_name +
+            raise ValueError('Alarm bits must start at x0 without gaps: ' + word)
+        return ('%s alarm display word; each bit 1 displays its alarm. ' % word +
                 '; '.join('x%d %s' % (bit, title) for bit, title in bits))
     group = ('Burner' if db.startswith('BR0') else
              'Scrubber' if db == 'Scrubber_DB' else db)
@@ -321,7 +319,7 @@ class Screen(object):
         self.text(x + 16, y, w - 16, 18, label, size=11)
 
     def fault_badge(self, x, y, w, tag, bit, label):
-        """Show a red text badge when the corresponding HmiAlm word bit is set."""
+        """Show a red text badge when the corresponding alarm word bit is set."""
         self.text(x, y, w, 18, label, size=11, bold=True, fore=RED,
                   anims=[self.anim_vis(tag, True, bit)],
                   name='Fault_%s_Bit%d_%s' % (tag, bit, label))
@@ -389,9 +387,9 @@ SCREENS = [('Root screen', 'Overview'), ('BR01', 'BR01'), ('BR02', 'BR02'),
 def frame(s):
     s.rect(0, 0, W, 26, BAR)
     s.text(6, 2, 300, 22, 'LCP-01  ' + s.title, size=14, bold=True, fore=WHITE)
-    # E-STOP في العنوان: ظاهر لما Sys.Alm_EStop = 1
-    s.text(330, 3, 146, 20, 'E-STOP / RESET', size=12, bold=True, fore=WHITE, back=RED,
-           align='Center', anims=[s.anim_vis('Sys_Alm_EStop', True)])
+    # E-STOP في العنوان: ظاهر لما الدخل الخام = 0 (الزرار مضغوط).
+    s.text(330, 3, 146, 20, 'E-STOP pressed', size=12, bold=True, fore=WHITE, back=RED,
+           align='Center', anims=[s.anim_vis('Scrub_EStopOK', False)])
     bw = W // len(SCREENS)
     for i, (scr, label) in enumerate(SCREENS):
         s.button(i * bw + 2, 236, bw - 4, 34, label, scr)
@@ -500,9 +498,10 @@ def burner(br):
             ('_HeatReq', 'Heat request', GREEN, GREY),
             ('_Stage2', 'Stage 2 request', GREEN, GREY),
             ('_Lockout', 'Lockout input', RED, GREY),
-            ('_Auto', 'AUTO mode', GREEN, GREY)]
+            ('_Auto', 'AUTO mode', GREEN, GREY),
+            ('Scrub_EStopOK', 'E-STOP ready', GREEN, RED)]
     for j, (tag, label, active, inactive) in enumerate(rows):
-        s.lamp(x + 6, y + 24 + j * 24, br + tag, label,
+        s.lamp(x + 6, y + 24 + j * 21, br + tag if tag.startswith('_') else tag, label,
                on=active, off=inactive, w=248)
     return s
 
@@ -518,7 +517,7 @@ def scrubber():
     s.lamp(x + 8, y + 28, 'Scrub_PSH', 'PSH-101 Pressure', on=GREEN, off=RED, w=204)
     s.lamp(x + 8, y + 58, 'Scrub_LSH', 'LSH-102 High level', on=GREEN, off=AMBER, w=204)
     s.lamp(x + 8, y + 88, 'Scrub_LSHH', 'LSHH-103 Very high level', on=GREEN, off=RED, w=204)
-    s.lamp(x + 8, y + 118, 'Sys_EStopOK', 'E-STOP ready', on=GREEN, off=RED, w=204)
+    s.lamp(x + 8, y + 118, 'Scrub_EStopOK', 'E-STOP ready', on=GREEN, off=RED, w=204)
 
     x = 232
     panel(s, x, y, 244, 178, 'Valve commands')

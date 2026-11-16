@@ -14,3 +14,4 @@
 | [0008](0008-burner-call-interface.md) | نداءات `Main`: `Burner` ‏10/2 و`Scrubber` ‏4/3، والتشخيص `Static` في الـ DB | accepted — 2026-11-11 |
 | [0009](0009-small-panel-simplification.md) | تريب السكرابر يمنع البيرنرين؛ الإعدادات بعد STOP للاتنين، وتبسيط ربط الشاشة | accepted — 2026-11-11 |
 | [0010](0010-english-readability.md) | عناوين وشروح إنجليزية واضحة، وتعليقات الأعضاء والتاجات، وتسمية الأعضاء الملتبسة | accepted — 2026-11-10 حسب تاريخ الجلسة الحالي |
+| [0011](0011-manager-style-program.md) | ترتيب بأسلوب المدير: كل I/O على نداءات `Main`، وكذا rung في network واحدة، وقراءة `E-STOP` مباشرة | accepted — 2026-11-16؛ فحوص محلية، ولسه TIA |
