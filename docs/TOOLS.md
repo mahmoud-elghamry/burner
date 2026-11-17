@@ -28,6 +28,19 @@ py tools\check_docs.py
 وإن أرقام `Q`/`F` مش متكررة، وإن كل قرار متسجّل في `decisions/README.md`، وإن الـ xlsx
 أحدث من `build_ce.py`.
 
+## جدول التاجات
+
+```powershell
+py tools\build_tags.py                                                    # يطلّع build\tags\IO.xml من عمود PLC Tag في الـ IO List
+powershell -ExecutionPolicy Bypass -File tools\Apply-Tags.ps1 -Files tags\IO.xml -DryRun   # يستورد جدول التاجات ويكمّل، ومايحفظش
+```
+
+- `build_tags.py` بيقرا الـ IO List من الإكسيل نفسه، مش من قايمة تانية. بيوقف ومايكتبش الملف لو فيه
+  اسم غلط حسب `docs/decisions/0005-tag-naming.md`، أو اسم مكرر (من غير فرق بين الحروف الكبيرة والصغيرة)،
+  أو عنوان مكرر، أو عنوان مش مفهوم. الملف القديم بيتشال في الحالة دي.
+- `Apply-Tags.ps1` شبه `Apply-Blocks.ps1`: TIA لازم يكون مقفول، وبيكمّل الـ CPU والبلوكات، وبيحفظ بس لو
+  الأخطاء صفر. **مااتجرّبش على TIA لسه.**
+
 ## TIA Openness (منقولة من مشروع الأوناش)
 
 `Export-TiaProject.ps1` و`Compile-Project.ps1` و`Apply-Blocks.ps1` و`List-Blocks.ps1` و`lad2text.py`
