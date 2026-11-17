@@ -1,0 +1,71 @@
+##############################################################################
+# BLOCK OB   Main   (LAD, No.1, ProgramCycle)
+##############################################################################
+
+  VAR_INPUT
+    Initial_Call                       : Bool
+    Remanence                          : Bool
+
+------------------------------------------------------------------------------
+NETWORK 1  --  Common: E-STOP and RESET
+   // E-STOP, RESET and setting limits first, so the other blocks use them.
+------------------------------------------------------------------------------
+   CALL FC "Common"
+
+------------------------------------------------------------------------------
+NETWORK 2  --  Scrubber
+   // PSH-101, LSH-102, LSHH-103: trips and valve commands, before the burners.
+------------------------------------------------------------------------------
+   CALL FB "Scrubber" [instance Scrubber_DB](
+        PSH := "PSH_101",
+        LSH := "LSH_102",
+        LSHH := "LSHH_103",
+        Reset := "Sys.ResetPulse")
+
+------------------------------------------------------------------------------
+NETWORK 3  --  Burner BR01 on tank TK01
+   // Burner block with BR01_DB; BR01 has no fuel selector and uses the daily stop.
+------------------------------------------------------------------------------
+   CALL FB "Burner" [instance BR01_DB](
+        Auto := "S4_BR01_Auto",
+        StartPB := "S1_BR01_Start",
+        StopOK := "S3_BR01_Stop",
+        LevelOK := "LSL_TK01",
+        RunFb := "BR01_Run",
+        Lockout := "BR01_Fault",
+        Fuel := FALSE,
+        TeA := "TE_501_Raw",
+        TeB := "TE_502_Raw")
+
+------------------------------------------------------------------------------
+NETWORK 4  --  Burner BR02 on tank TK02
+   // Same burner block with BR02_DB.
+------------------------------------------------------------------------------
+   CALL FB "Burner" [instance BR02_DB](
+        Auto := "S5_BR02_Auto",
+        StartPB := "S6_BR02_Start",
+        StopOK := "S7_BR02_Stop",
+        LevelOK := "LSL_TK02",
+        RunFb := "BR02_Run",
+        Lockout := "BR02_Fault",
+        Fuel := "Rfuel2_BR02_DieselMode",
+        TeA := "TE_503_Raw",
+        TeB := "TE_504_Raw")
+
+------------------------------------------------------------------------------
+NETWORK 5  --  Outputs
+   // The only block that writes the Q outputs.
+------------------------------------------------------------------------------
+   CALL FC "Outputs"
+
+------------------------------------------------------------------------------
+NETWORK 6  --  HMI alarms
+   // Copies the alarm bits for the panel; no control here.
+------------------------------------------------------------------------------
+   CALL FC "HmiMap"
+
+------------------------------------------------------------------------------
+NETWORK 7  --  First scan done
+   // Clear FirstScan after all blocks have used it. C02.
+------------------------------------------------------------------------------
+   "Sys.FirstScan" := R "Sys.FirstScan"

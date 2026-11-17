@@ -1,0 +1,8 @@
+project : D:\tasks\burner\.claude\worktrees\simplify-revb\tia\Burner\Burner.ap15_1
+remove  : Sys,Common
+project opened: Burner
+PLC: PLC_1
+=== REMOVING ===
+  removed: Sys
+  removed: Common
+PROJECT SAVED.

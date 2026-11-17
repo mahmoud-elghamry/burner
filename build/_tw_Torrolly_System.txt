@@ -1,0 +1,128 @@
+##############################################################################
+# BLOCK FB   Torrolly System   (LAD, No.2, Optimized)
+##############################################################################
+
+  VAR_INPUT
+    VSD SD FAULT                       : Bool
+    Speed Freq FB                      : Int
+    System EMG                         : Bool
+    Run feedback                       : Bool
+    Forward in                         : Bool
+    Reverse in                         : Bool
+    Speed 1                            : Bool
+    speed 2                            : Bool
+    Reset_in                           : Bool
+    Forward_LS                         : Bool
+    Reverse_LS                         : Bool
+    SP1_SP                             : Byte
+    SP2_SP                             : Byte
+    Key_Safety                         : Bool
+    MAX_LOAD_LS1                       : Bool
+    MAX_LOAD_LS2                       : Bool
+    Moment_Load_1                      : Bool
+    Moment_Load_2                      : Bool
+    Remote Speed Ref                   : Byte
+    Hmi/Castera                        : Bool
+
+  VAR_OUTPUT
+    VSD Fault indication               : Bool
+    Run/Stop                           : Bool
+    Forward direction                  : Bool
+    reverse direction                  : Bool
+    Reset_out                          : Bool
+    Brake                              : Bool
+    Speed reference_OUT                : Int
+    mech brake                         : Bool
+    Actual freq                        : Int
+    horn                               : Bool
+    VSD SD_OUT                         : Bool
+
+  VAR_STATIC
+    READY                              : Bool
+    sp_fb_scale                        : Real
+    sp_ref_scale                       : Real
+    speed_ref_HZ                       : Int
+    brake seq done                     : Bool
+    delay Start                        : Bool
+    IEC_Timer_0_Instance               : TON_TIME
+    IEC_Timer_0_Instance_1             : TON_TIME
+    IEC_Timer_0_Instance_2             : TOF_TIME
+    Maxload                            : Bool
+
+  VAR_NONE
+    PT                                 : Time
+    ET                                 : Time
+    IN                                 : Bool
+    Q                                  : Bool
+
+  VAR_NONE
+    PT                                 : Time
+    ET                                 : Time
+    IN                                 : Bool
+    Q                                  : Bool
+
+  VAR_NONE
+    PT                                 : Time
+    ET                                 : Time
+    IN                                 : Bool
+    Q                                  : Bool
+
+------------------------------------------------------------------------------
+NETWORK 1  --  Protection network
+------------------------------------------------------------------------------
+   #VSD SD_OUT := (NOT #System EMG OR NOT #Key_Safety)
+   #READY := TON(IN:=NOT #VSD SD_OUT AND #VSD SD FAULT, PT:=T#1s)[IEC_Timer_0_Instance].Q
+   #Maxload := NOT #MAX_LOAD_LS1 AND NOT #MAX_LOAD_LS2 AND NOT #Moment_Load_1 AND NOT #Moment_Load_2
+
+------------------------------------------------------------------------------
+NETWORK 2  --  Reset network
+------------------------------------------------------------------------------
+   #Reset_out := #Reset_in
+
+------------------------------------------------------------------------------
+NETWORK 3  --  Speed Feedback From VSD
+------------------------------------------------------------------------------
+   Normalize()
+   IF Normalize(...) THEN  Scale_X()
+
+------------------------------------------------------------------------------
+NETWORK 4  --  Speed Ref To VSD
+------------------------------------------------------------------------------
+   Normalize()
+   IF Normalize(...) THEN  Scale_X()
+
+------------------------------------------------------------------------------
+NETWORK 5  --  Mechanical Breaking Seq
+------------------------------------------------------------------------------
+   #brake seq done := TOF(IN:=(#READY AND #Maxload AND #Forward in AND #Forward_LS OR #READY AND #Reverse in AND #Reverse_LS), PT:=T#500ms)[IEC_Timer_0_Instance_2].Q
+   #mech brake := #IEC_Timer_0_Instance_2.Q
+
+------------------------------------------------------------------------------
+NETWORK 6  --  Speed Zero
+------------------------------------------------------------------------------
+   IF (#Reset_in OR NOT #Forward in AND NOT #Reverse in OR NOT #READY) THEN  MOVE  0  ->  #speed_ref_HZ
+
+------------------------------------------------------------------------------
+NETWORK 7  --  Start Stop Sequence
+------------------------------------------------------------------------------
+   #delay Start := TON(IN:=(#READY AND #Maxload AND #Forward_LS AND #Forward in OR #READY AND #Reverse_LS AND #Reverse in), PT:=T#200ms)[IEC_Timer_0_Instance_1].Q
+   #Run/Stop := (#READY AND #Maxload AND #Forward_LS AND #Forward in OR #READY AND #Reverse_LS AND #Reverse in)
+   #Forward direction := (#READY AND #Maxload AND #Forward_LS AND #Forward in OR #READY AND #Reverse_LS AND #Reverse in) AND #Maxload AND #Forward_LS AND NOT #Reverse in AND #delay Start
+   #reverse direction := (#READY AND #Maxload AND #Forward_LS AND #Forward in OR #READY AND #Reverse_LS AND #Reverse in) AND #Reverse_LS AND NOT #Forward in AND #delay Start
+
+------------------------------------------------------------------------------
+NETWORK 8  --  speed moving
+------------------------------------------------------------------------------
+   IF (#READY AND #Maxload AND #Forward_LS AND #Forward in OR #READY AND #Reverse_LS AND #Reverse in) AND #Speed 1 AND NOT #speed 2 THEN  MOVE  #SP1_SP  ->  #speed_ref_HZ
+   IF (#READY AND #Maxload AND #Forward_LS AND #Forward in OR #READY AND #Reverse_LS AND #Reverse in) AND #speed 2 THEN  MOVE  #SP2_SP  ->  #speed_ref_HZ
+   IF (#READY AND #Maxload AND #Forward_LS AND #Forward in OR #READY AND #Reverse_LS AND #Reverse in) AND NOT #Speed 1 AND NOT #speed 2 THEN  MOVE  15  ->  #speed_ref_HZ
+
+------------------------------------------------------------------------------
+NETWORK 9  --  Horn
+------------------------------------------------------------------------------
+   #horn := (NOT #Maxload OR NOT #Forward_LS OR NOT #Reverse_LS OR NOT #VSD SD FAULT)
+
+------------------------------------------------------------------------------
+NETWORK 10
+------------------------------------------------------------------------------
+   (empty)

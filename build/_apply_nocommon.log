@@ -1,0 +1,95 @@
+project : D:\tasks\burner\.claude\worktrees\simplify-revb\tia\Burner\Burner.ap15_1
+build   : D:\tasks\burner\.claude\worktrees\simplify-revb\build
+project opened: Burner
+PLC: PLC_1
+
+=== IMPORTING ===
+  imported: Par (GlobalDB)
+  imported: HmiAlm (GlobalDB)
+  imported: Scrubber (FB)
+  imported: Scrubber_DB (InstanceDB)
+  imported: Burner (FB)
+  imported: BR01_DB (InstanceDB)
+  imported: BR02_DB (InstanceDB)
+  imported: Outputs (FC)
+  imported: HmiMap (FC)
+  imported: Startup (OB)
+  imported: Main (OB)
+
+=== COMPILING (device) ===
+state=Success  errors=0  warnings=0
+  [Information] (no text)   @ PLC_1
+      [Information] (no text)   @ Hardware configuration
+          [Information] Hardware was not compiled. The configuration is up-to-date.
+  [Success] Compiling finished (errors: 0; warnings: 0)
+
+=== COMPILING (per block) ===
+  Par: state=Success errors=0 warnings=0
+      [Success] (no text)   @ PLC_1
+          [Success] (no text)   @ Program blocks
+              [Success] Block was successfully compiled.   @ Par (DB1)
+      [Success] Compiling finished (errors: 0; warnings: 0)
+  HmiAlm: state=Success errors=0 warnings=0
+      [Success] (no text)   @ PLC_1
+          [Success] (no text)   @ Program blocks
+              [Success] Block was successfully compiled.   @ HmiAlm (DB6)
+      [Success] Compiling finished (errors: 0; warnings: 0)
+  Scrubber: state=Success errors=0 warnings=0
+      [Success] (no text)   @ PLC_1
+          [Success] (no text)   @ Program blocks
+              [Success] Block was successfully compiled.   @ Scrubber (FB2)
+      [Success] Compiling finished (errors: 0; warnings: 0)
+  Scrubber_DB: state=Success errors=0 warnings=0
+      [Success] (no text)   @ PLC_1
+          [Success] (no text)   @ Program blocks
+              [Success] Block was successfully compiled.   @ Scrubber_DB (DB5)
+      [Success] Compiling finished (errors: 0; warnings: 0)
+  Burner: state=Success errors=0 warnings=0
+      [Success] (no text)   @ PLC_1
+          [Success] (no text)   @ Program blocks
+              [Success] Block was successfully compiled.   @ Burner (FB1)
+      [Success] Compiling finished (errors: 0; warnings: 0)
+  BR01_DB: state=Success errors=0 warnings=0
+      [Success] (no text)   @ PLC_1
+          [Success] (no text)   @ Program blocks
+              [Success] Block was successfully compiled.   @ BR01_DB (DB3)
+      [Success] Compiling finished (errors: 0; warnings: 0)
+  BR02_DB: state=Success errors=0 warnings=0
+      [Success] (no text)   @ PLC_1
+          [Success] (no text)   @ Program blocks
+              [Success] Block was successfully compiled.   @ BR02_DB (DB4)
+      [Success] Compiling finished (errors: 0; warnings: 0)
+  Common: state=Success errors=0 warnings=0
+      [Success] (no text)   @ PLC_1
+          [Success] (no text)   @ Program blocks
+              [Success] Block was successfully compiled.   @ Common (FC1)
+      [Success] Compiling finished (errors: 0; warnings: 0)
+  Outputs: state=Success errors=0 warnings=0
+      [Success] (no text)   @ PLC_1
+          [Success] (no text)   @ Program blocks
+              [Success] Block was successfully compiled.   @ Outputs (FC2)
+      [Success] Compiling finished (errors: 0; warnings: 0)
+  HmiMap: state=Success errors=0 warnings=0
+      [Success] (no text)   @ PLC_1
+          [Success] (no text)   @ Program blocks
+              [Success] Block was successfully compiled.   @ HmiMap (FC3)
+      [Success] Compiling finished (errors: 0; warnings: 0)
+  Startup: state=Success errors=0 warnings=0
+      [Success] (no text)   @ PLC_1
+          [Success] (no text)   @ Program blocks
+              [Success] Block was successfully compiled.   @ Startup (OB100)
+      [Success] Compiling finished (errors: 0; warnings: 0)
+  Main: state=Success errors=0 warnings=0
+      [Information] (no text)   @ PLC_1
+          [Information] (no text)   @ Program blocks
+              [Information] (no text)   @ Main (OB1)
+                  [Information] Number of updated calls in network Scrubber: 1.   @ Network 7
+                  [Information] Number of updated calls in network Burner BR01 on tank TK01: 1.   @ Network 8
+                  [Information] Number of updated calls in network Burner BR02 on tank TK02: 1.   @ Network 9
+                  [Success] Block was successfully compiled.
+      [Success] Compiling finished (errors: 0; warnings: 0)
+
+=== CONSISTENCY ===
+  consistent 13/13
+
+CLEAN. PROJECT SAVED.

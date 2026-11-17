@@ -1,0 +1,88 @@
+##############################################################################
+# BLOCK FB   Hydraulic System   (LAD, No.3, Optimized)
+##############################################################################
+
+  VAR_INPUT
+    Start                              : Bool
+    Stop                               : Bool
+    EMG_Stop                           : Bool
+    UP_Hook                            : Bool
+    Down__Hook                         : Bool
+    O.L fault                          : Bool
+    UP_Lim.SW                          : Bool
+    Down_Lim.SW                        : Bool
+    MAX_LOAD_LS1                       : Bool
+    MAX_LOAD_LS2                       : Bool
+    Moment_Load_1                      : Bool
+    High Oil temp                      : Bool
+    Moment_Load_2                      : Bool
+    High Oil press L.S                 : Bool
+    Low Oil press L.S                  : Bool
+    Key_Safety                         : Bool
+    vibration                          : Bool
+
+  VAR_OUTPUT
+    Drum Solenoid                      : Bool
+    Brake Solenoid                     : Bool
+    UP_Valve                           : Bool
+    Down_Valve                         : Bool
+    Start Relay                        : Bool
+    Stop Relay                         : Bool
+    Shutdown_Hydraulic                 : Bool
+    horn                               : Bool
+
+  VAR_STATIC
+    SD Relay                           : Bool
+    Maxload                            : Bool
+    IEC_Timer_0_Instance               : TON_TIME
+    IEC_Timer_0_Instance_1             : TON_TIME
+
+  VAR_NONE
+    PT                                 : Time
+    ET                                 : Time
+    IN                                 : Bool
+    Q                                  : Bool
+
+  VAR_NONE
+    PT                                 : Time
+    ET                                 : Time
+    IN                                 : Bool
+    Q                                  : Bool
+
+------------------------------------------------------------------------------
+NETWORK 1  --  Protection System
+------------------------------------------------------------------------------
+   #SD Relay := #EMG_Stop AND NOT #High Oil press L.S AND #Key_Safety AND #vibration AND #High Oil temp AND "IEC_Timer_0_DB_2.Q" AND NOT #Stop
+   #Maxload := NOT #MAX_LOAD_LS1 AND NOT #MAX_LOAD_LS2 AND NOT #Moment_Load_1 AND NOT #Moment_Load_2
+   #Shutdown_Hydraulic := #SD Relay
+
+------------------------------------------------------------------------------
+NETWORK 2  --  Start Pulse
+------------------------------------------------------------------------------
+   #Start Relay := #Start AND #SD Relay
+
+------------------------------------------------------------------------------
+NETWORK 3  --  Stop Pulse
+------------------------------------------------------------------------------
+   #Stop Relay := (#Stop OR NOT #SD Relay OR NOT "IEC_Timer_0_DB_2.Q")
+
+------------------------------------------------------------------------------
+NETWORK 4  --  Up Sequence
+------------------------------------------------------------------------------
+   #UP_Valve := TON(IN:=NOT #UP_Lim.SW AND NOT #Moment_Load_1 AND NOT #Moment_Load_2 AND NOT "IEC_Timer_0_DB_1.Q" AND #UP_Hook, PT:=T#400ms)[IEC_Timer_0_Instance].Q
+
+------------------------------------------------------------------------------
+NETWORK 5  --  Down Sequence
+------------------------------------------------------------------------------
+   #Brake Solenoid := TOF(IN:=NOT #Down_Lim.SW AND #Down__Hook, PT:=T#200ms)[IEC_Timer_0_DB].Q
+   #Down_Valve := TON(IN:=NOT #Down_Lim.SW AND #Down__Hook, PT:=T#300ms)[IEC_Timer_0_Instance_1].Q
+
+------------------------------------------------------------------------------
+NETWORK 6
+------------------------------------------------------------------------------
+   #horn := (NOT #Maxload OR #O.L fault OR NOT #vibration OR NOT #High Oil temp OR NOT #High Oil press L.S)
+
+------------------------------------------------------------------------------
+NETWORK 7
+------------------------------------------------------------------------------
+   (empty)

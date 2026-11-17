@@ -1,0 +1,102 @@
+##############################################################################
+# BLOCK FC   HmiMap   (LAD, No.3, Optimized)
+##############################################################################
+
+  VAR_RETURN
+    Ret_Val                            : Void
+
+------------------------------------------------------------------------------
+NETWORK 1  --  Alarm Common.x0: E-STOP active: reset required
+   // Clears: Release E-STOP and RESET. C01.
+------------------------------------------------------------------------------
+   "HmiAlm.Common" := "Sys.Alm_EStop"
+
+------------------------------------------------------------------------------
+NETWORK 2  --  Alarm Common.x1: Scrubber tripped: reset required
+   // Clears: RESET with pressure, very high level and E-STOP healthy. C02 / C03 / C05.
+------------------------------------------------------------------------------
+   "HmiAlm.Common" := "Scrubber_DB.Tripped"
+
+------------------------------------------------------------------------------
+NETWORK 3  --  Alarm Common.x2: Scrubber trip: high pressure
+   // Clears: RESET with all scrubber trip causes healthy. C03 / C06a.
+------------------------------------------------------------------------------
+   "HmiAlm.Common" := "Scrubber_DB.Cause_PSH"
+
+------------------------------------------------------------------------------
+NETWORK 4  --  Alarm Common.x3: Scrubber trip: very high level
+   // Clears: RESET with all scrubber trip causes healthy. C05 / C06a.
+------------------------------------------------------------------------------
+   "HmiAlm.Common" := "Scrubber_DB.Cause_LSHH"
+
+------------------------------------------------------------------------------
+NETWORK 5  --  Alarm Common.x4: Scrubber high level (LSH-102)
+   // Clears: Automatically when level returns. C04.
+------------------------------------------------------------------------------
+   "HmiAlm.Common" := NOT "Scrubber_DB.LSH"
+
+------------------------------------------------------------------------------
+NETWORK 6  --  Alarm Common.x5: Scrubber drain time limit reached
+   // Clears: RESET (drain follows level again). C04a.
+------------------------------------------------------------------------------
+   "HmiAlm.Common" := "Scrubber_DB.F_DrainTO"
+
+------------------------------------------------------------------------------
+NETWORK 7  --  Alarm BR01.x0: BR01 burner lockout
+   // Clears: Reset at the burner box, then START. C07e.
+------------------------------------------------------------------------------
+   "HmiAlm.BR01" := "BR01_DB.Lockout"
+
+------------------------------------------------------------------------------
+NETWORK 8  --  Alarm BR01.x1: BR01 temperature input fault
+   // Clears: Automatically when both sensors are valid; then START. C07d.
+------------------------------------------------------------------------------
+   "HmiAlm.BR01" := "BR01_DB.TcBad"
+
+------------------------------------------------------------------------------
+NETWORK 9  --  Alarm BR01.x2: BR01 RUN not received
+   // Clears: Automatically when RUN arrives or the request stops. C07f.
+------------------------------------------------------------------------------
+   "HmiAlm.BR01" := "BR01_DB.NoRun"
+
+------------------------------------------------------------------------------
+NETWORK 10  --  Alarm BR01.x3: BR01 RUN without request
+   // Clears: Automatically when RUN goes off. C07g.
+------------------------------------------------------------------------------
+   "HmiAlm.BR01" := "BR01_DB.RunWrong"
+
+------------------------------------------------------------------------------
+NETWORK 11  --  Alarm BR01.x4: TK01 level too low for BR01
+   // Clears: Automatically when level returns. C07a.
+------------------------------------------------------------------------------
+   "HmiAlm.BR01" := NOT "BR01_DB.LevelOK"
+
+------------------------------------------------------------------------------
+NETWORK 12  --  Alarm BR02.x0: BR02 burner lockout
+   // Clears: Reset at the burner box, then START. C08e.
+------------------------------------------------------------------------------
+   "HmiAlm.BR02" := "BR02_DB.Lockout"
+
+------------------------------------------------------------------------------
+NETWORK 13  --  Alarm BR02.x1: BR02 temperature input fault
+   // Clears: Automatically when both sensors are valid; then START. C08d.
+------------------------------------------------------------------------------
+   "HmiAlm.BR02" := "BR02_DB.TcBad"
+
+------------------------------------------------------------------------------
+NETWORK 14  --  Alarm BR02.x2: BR02 RUN not received
+   // Clears: Automatically when RUN arrives or the request stops. C08f.
+------------------------------------------------------------------------------
+   "HmiAlm.BR02" := "BR02_DB.NoRun"
+
+------------------------------------------------------------------------------
+NETWORK 15  --  Alarm BR02.x3: BR02 RUN without request
+   // Clears: Automatically when RUN goes off. C08g.
+------------------------------------------------------------------------------
+   "HmiAlm.BR02" := "BR02_DB.RunWrong"
+
+------------------------------------------------------------------------------
+NETWORK 16  --  Alarm BR02.x4: TK02 level too low for BR02
+   // Clears: Automatically when level returns. C08a.
+------------------------------------------------------------------------------
+   "HmiAlm.BR02" := NOT "BR02_DB.LevelOK"

@@ -1,0 +1,30 @@
+=== 1. HARDWARE ===
+state=Success  errors=0  warnings=0
+  [Information] -   @ PLC_1
+    [Information] -   @ Hardware configuration
+      [Information] Hardware was not compiled. The configuration is up-to-date.
+  [Success] Compiling finished (errors: 0; warnings: 0)
+
+=== 2. SOFTWARE ===
+state=Success  errors=0  warnings=0
+  [Information] -   @ PLC_1
+    [Information] -   @ Program blocks
+      [Information] No block was compiled. All blocks are up-to-date.
+  [Success] Compiling finished (errors: 0; warnings: 0)
+
+=== 2b. PER-BLOCK COMPILE (diagnostic) ===
+
+=== 3. BLOCK CONSISTENCY ===
+  Par                      consistent=True
+  HmiAlm                   consistent=True
+  Scrubber                 consistent=True
+  Scrubber_DB              consistent=True
+  Burner                   consistent=True
+  BR01_DB                  consistent=True
+  BR02_DB                  consistent=True
+  Outputs                  consistent=True
+  HmiMap                   consistent=True
+  Startup                  consistent=True
+  Main                     consistent=True
+
+CLEAN. PROJECT SAVED.

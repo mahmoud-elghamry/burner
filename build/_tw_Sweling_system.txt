@@ -1,0 +1,134 @@
+##############################################################################
+# BLOCK FB   Sweling system   (LAD, No.1, Optimized)
+##############################################################################
+
+  VAR_INPUT
+    VSD Ready                          : Bool
+    System EMG                         : Bool
+    Speed freq FB                      : Int
+    Run FB                             : Bool
+    Forward in                         : Bool
+    Reverse in                         : Bool
+    Speed 1                            : Bool
+    Speed 2                            : Bool
+    Reset in                           : Bool
+    Forward_LS                         : Bool
+    Reverse_LS                         : Bool
+    SP1_SP                             : Byte
+    SP2_SP                             : Byte
+    Key_Safety                         : Bool
+    Remote Speed Ref                   : Byte
+    HMI / Castera                      : Bool
+
+  VAR_OUTPUT
+    VSD_Run_indication                 : Bool
+    Run/Stop                           : Bool
+    Forward Direction                  : Bool
+    Reverse Direction                  : Bool
+    Reset Out                          : Bool
+    Speed Ref Out                      : Int
+    Mech_Brake                         : Bool
+    Actual_Freq                        : Int
+    Horn                               : Bool
+    VSD SD_OUT                         : Bool
+
+  VAR_STATIC
+    SP_FB_SCALE                        : Real
+    SP_REF_SCALE                       : Real
+    SPEED_REF_HZ                       : Int
+    IEC_Timer_0_Instance               : TOF_TIME
+    BRAKE SEQ DONE                     : Bool
+    IEC_Timer_0_Instance_1             : TON_TIME
+    delay Start                        : Bool
+    Ready                              : Bool
+    IEC_Timer_0_Instance_2             : TON_TIME
+    IEC_Timer_0_Instance_3             : TON_TIME
+    joystick postion                   : Int
+    timer of ramp                      : Time
+
+  VAR_NONE
+    PT                                 : Time
+    ET                                 : Time
+    IN                                 : Bool
+    Q                                  : Bool
+
+  VAR_NONE
+    PT                                 : Time
+    ET                                 : Time
+    IN                                 : Bool
+    Q                                  : Bool
+
+  VAR_NONE
+    PT                                 : Time
+    ET                                 : Time
+    IN                                 : Bool
+    Q                                  : Bool
+
+  VAR_NONE
+    PT                                 : Time
+    ET                                 : Time
+    IN                                 : Bool
+    Q                                  : Bool
+
+------------------------------------------------------------------------------
+NETWORK 1  --  Protection Network
+------------------------------------------------------------------------------
+   #VSD SD_OUT := (NOT #System EMG OR NOT #Key_Safety)
+   #Ready := TON(IN:=NOT #VSD SD_OUT AND #VSD Ready, PT:=T#1s)[IEC_Timer_0_Instance_2].Q
+   #VSD_Run_indication := TON(IN:=(#Run/Stop AND #Forward Direction OR #Run/Stop AND #Reverse Direction) AND #Run FB, PT:=T#1s)[IEC_Timer_0_Instance_3].Q
+
+------------------------------------------------------------------------------
+NETWORK 2  --  RESET Network
+------------------------------------------------------------------------------
+   #Reset Out := #Reset in
+
+------------------------------------------------------------------------------
+NETWORK 3  --  Speed Feedback From VSD
+------------------------------------------------------------------------------
+   Normalize()
+   IF Normalize(...) THEN  Scale_X()
+
+------------------------------------------------------------------------------
+NETWORK 4  --  Speed Ref To VSD
+------------------------------------------------------------------------------
+   Normalize()
+   IF Normalize(...) THEN  Scale_X()
+
+------------------------------------------------------------------------------
+NETWORK 5  --  Mechanical Breaking Seq
+------------------------------------------------------------------------------
+   #BRAKE SEQ DONE := (#Ready AND #Forward in AND #Forward_LS OR #Ready AND #Reverse in AND #Reverse_LS)
+   #Mech_Brake := #IEC_Timer_0_Instance.Q
+
+------------------------------------------------------------------------------
+NETWORK 6  --  Speed Zero
+------------------------------------------------------------------------------
+   IF (#Reset in OR NOT #Forward in AND NOT #Reverse in AND NOT #Speed 1 AND NOT #Speed 2 OR NOT #Ready) THEN  MOVE  2  ->  #SPEED_REF_HZ
+
+------------------------------------------------------------------------------
+NETWORK 7  --  Start Stop Sequence
+------------------------------------------------------------------------------
+   #delay Start := TON(IN:=(#Ready AND #Forward_LS AND "IEC_Timer_0_DB_3.Q" OR #Ready AND #Reverse_LS AND "IEC_Timer_0_DB_3.Q"), PT:=T#200ms)[IEC_Timer_0_Instance_1].Q
+   #Run/Stop := (#Ready AND #Forward_LS AND "IEC_Timer_0_DB_3.Q" OR #Ready AND #Reverse_LS AND "IEC_Timer_0_DB_3.Q")
+   #Forward Direction := (#Ready AND #Forward_LS AND "IEC_Timer_0_DB_3.Q" OR #Ready AND #Reverse_LS AND "IEC_Timer_0_DB_3.Q") AND #Forward_LS AND NOT #Reverse in AND #delay Start
+   #Reverse Direction := (#Ready AND #Forward_LS AND "IEC_Timer_0_DB_3.Q" OR #Ready AND #Reverse_LS AND "IEC_Timer_0_DB_3.Q") AND #Reverse_LS AND NOT #Forward in AND #delay Start
+
+------------------------------------------------------------------------------
+NETWORK 8  --  speed  moving
+------------------------------------------------------------------------------
+   IF #Ready AND NOT #Speed 1 AND NOT #Speed 2 THEN  MOVE  3  ->  #SPEED_REF_HZ
+   IF (#Ready AND #Forward_LS AND #Forward in OR #Ready AND #Reverse_LS AND #Reverse in) AND #Speed 1 AND NOT #Speed 2 THEN  MOVE  #SP1_SP  ->  #SPEED_REF_HZ
+   IF (#Ready AND #Forward_LS AND #Forward in OR #Ready AND #Reverse_LS AND #Reverse in) AND #Speed 1 AND #Speed 2 THEN  MOVE  #SP2_SP  ->  #SPEED_REF_HZ
+   IF (#Forward in OR #Reverse in) AND NOT #Speed 1 AND NOT #Speed 2 THEN  MOVE  1  ->  #joystick postion
+   IF (#Forward in OR #Reverse in) AND #Speed 1 AND NOT #Speed 2 THEN  MOVE  2  ->  #joystick postion
+   IF (#Forward in OR #Reverse in) AND #Speed 1 AND #Speed 2 THEN  MOVE  3  ->  #joystick postion
+
+------------------------------------------------------------------------------
+NETWORK 9  --  Horn
+------------------------------------------------------------------------------
+   #Horn := (NOT #Forward_LS OR NOT #Reverse_LS OR NOT #VSD Ready)
+
+------------------------------------------------------------------------------
+NETWORK 10
+------------------------------------------------------------------------------
+   (empty)

@@ -1,0 +1,91 @@
+##############################################################################
+# BLOCK FB   Scrubber   (LAD, No.2, Optimized)
+##############################################################################
+
+  VAR_INPUT
+    PSH                                : Bool
+    LSH                                : Bool
+    LSHH                               : Bool
+    Reset                              : Bool
+
+  VAR_OUTPUT
+    FlareCmd                           : Bool
+    DrainCmd                           : Bool
+    SuctionCmd                         : Bool
+
+  VAR_STATIC
+    Tripped                            : Bool
+    FlareTrip                          : Bool
+    Cause_PSH                          : Bool
+    Cause_LSHH                         : Bool
+    F_DrainTO                          : Bool
+    T_DrnMax                           : TON_TIME
+
+  VAR_NONE
+    PT                                 : Time
+    ET                                 : Time
+    IN                                 : Bool
+    Q                                  : Bool
+
+------------------------------------------------------------------------------
+NETWORK 1  --  RESET the scrubber trip
+   // RESET with pressure, very high level and E-STOP healthy clears both trips and the saved causes. C03 / C05.
+------------------------------------------------------------------------------
+   #Tripped := R #Reset AND #PSH AND #LSHH AND "Sys.EStopOK"
+   #FlareTrip := R #Reset AND #PSH AND #LSHH AND "Sys.EStopOK"
+   #Cause_PSH := R #Reset AND #PSH AND #LSHH AND "Sys.EStopOK"
+   #Cause_LSHH := R #Reset AND #PSH AND #LSHH AND "Sys.EStopOK"
+
+------------------------------------------------------------------------------
+NETWORK 2  --  Scrubber trip
+   // High pressure, very high level, E-STOP or power-up: trip. C01 / C02 / C03 / C05.
+------------------------------------------------------------------------------
+   #Tripped := S (NOT #PSH OR NOT #LSHH OR NOT "Sys.EStopOK" OR "Sys.FirstScan")
+
+------------------------------------------------------------------------------
+NETWORK 3  --  Flare trip
+   // High pressure, E-STOP or power-up open the flare. Very high level alone does not. C01 / C02 / C03.
+------------------------------------------------------------------------------
+   #FlareTrip := S (NOT #PSH OR NOT "Sys.EStopOK" OR "Sys.FirstScan")
+
+------------------------------------------------------------------------------
+NETWORK 4  --  Save cause: high pressure
+   // Keep PSH-101 for the HMI even if the pressure comes back. C06a.
+------------------------------------------------------------------------------
+   #Cause_PSH := S NOT #PSH
+
+------------------------------------------------------------------------------
+NETWORK 5  --  Save cause: very high level
+   // Keep LSHH-103 for the HMI even if the level comes back. C06a.
+------------------------------------------------------------------------------
+   #Cause_LSHH := S NOT #LSHH
+
+------------------------------------------------------------------------------
+NETWORK 6  --  XV-401 flare
+   // Normally open valve: energise to close while there is no flare trip. E5.
+------------------------------------------------------------------------------
+   #FlareCmd := NOT #FlareTrip
+
+------------------------------------------------------------------------------
+NETWORK 7  --  XV-403 suction
+   // Normally closed valve: energise to open while there is no scrubber trip. E7.
+------------------------------------------------------------------------------
+   #SuctionCmd := NOT #Tripped
+
+------------------------------------------------------------------------------
+NETWORK 8  --  XV-402 drain
+   // Normally closed valve: open while LSH-102 or LSHH-103 shows high level. Not during E-STOP or after the 10 min limit. C04 / C05 / E6.
+------------------------------------------------------------------------------
+   #DrainCmd := (NOT #LSH OR NOT #LSHH) AND "Sys.EStopOK" AND NOT #F_DrainTO
+
+------------------------------------------------------------------------------
+NETWORK 9  --  Drain open too long
+   // Drain open 10 min without a stop: close it and alarm. Protects against a broken LSH-102 wire. C04a.
+------------------------------------------------------------------------------
+   #F_DrainTO := S TON(IN:=#DrainCmd, PT:=T#10M)[T_DrnMax].Q
+
+------------------------------------------------------------------------------
+NETWORK 10  --  RESET the drain limit
+   // RESET lets the drain follow the level again. C04a.
+------------------------------------------------------------------------------
+   #F_DrainTO := R #Reset

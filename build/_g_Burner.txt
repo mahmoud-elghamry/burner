@@ -1,0 +1,238 @@
+##############################################################################
+# BLOCK FB   Burner   (LAD, No.1, Optimized)
+##############################################################################
+
+  VAR_INPUT
+    Auto                               : Bool
+    StartPB                            : Bool
+    StopOK                             : Bool
+    LevelOK                            : Bool
+    RunFb                              : Bool
+    Lockout                            : Bool
+    Fuel                               : Bool
+    TeA                                : Int
+    TeB                                : Int
+
+  VAR_OUTPUT
+    HeatReq                            : Bool
+    Stage2                             : Bool
+
+  VAR_STATIC
+    StartEdge                          : Bool
+    StartMem                           : Bool
+    FuelChg                            : Bool
+    FuelMem                            : Bool
+    TcOkA                              : Bool
+    TcOkB                              : Bool
+    TcOk                               : Bool
+    TcBad                              : Bool
+    ControlTemp                        : Int
+    AutoRestartTemp                    : Int
+    SecondStageOnTemp                  : Int
+    SecondStageOffTemp                 : Int
+    Demand                             : Bool
+    HeatNeed                           : Bool
+    Trip                               : Bool
+    StartEnabled                       : Bool
+    Pause24                            : Bool
+    Use24h                             : Bool
+    NoRun                              : Bool
+    RunWrong                           : Bool
+    T_TcBad                            : TON_TIME
+    T_24h                              : TON_TIME
+    T_Pause                            : TON_TIME
+    T_Stage2                           : TON_TIME
+    T_NoRun                            : TON_TIME
+    T_RunWrong                         : TON_TIME
+
+  VAR_NONE
+    PT                                 : Time
+    ET                                 : Time
+    IN                                 : Bool
+    Q                                  : Bool
+
+  VAR_NONE
+    PT                                 : Time
+    ET                                 : Time
+    IN                                 : Bool
+    Q                                  : Bool
+
+  VAR_NONE
+    PT                                 : Time
+    ET                                 : Time
+    IN                                 : Bool
+    Q                                  : Bool
+
+  VAR_NONE
+    PT                                 : Time
+    ET                                 : Time
+    IN                                 : Bool
+    Q                                  : Bool
+
+  VAR_NONE
+    PT                                 : Time
+    ET                                 : Time
+    IN                                 : Bool
+    Q                                  : Bool
+
+  VAR_NONE
+    PT                                 : Time
+    ET                                 : Time
+    IN                                 : Bool
+    Q                                  : Bool
+
+------------------------------------------------------------------------------
+NETWORK 1  --  START: new press
+   // One-scan pulse on a new START press; not on the first scan and not while STOP is pressed.
+------------------------------------------------------------------------------
+   #StartEdge := #StartPB AND NOT #StartMem AND NOT "Sys.FirstScan" AND #StopOK
+
+------------------------------------------------------------------------------
+NETWORK 2  --  START: remember the button
+   // Save START for the next scan.
+------------------------------------------------------------------------------
+   #StartMem := #StartPB
+
+------------------------------------------------------------------------------
+NETWORK 3  --  Fuel selector changed
+   // Either direction counts. BR01 has a fixed FALSE. C08h.
+------------------------------------------------------------------------------
+   #FuelChg := (#Fuel AND NOT #FuelMem OR NOT #Fuel AND #FuelMem)
+
+------------------------------------------------------------------------------
+NETWORK 4  --  Fuel selector: remember
+   // Save the fuel selector for the next scan.
+------------------------------------------------------------------------------
+   #FuelMem := #Fuel
+
+------------------------------------------------------------------------------
+NETWORK 5  --  Thermocouple A valid
+   // -20.0 .. 150.0 degC; a broken sensor reads outside. C0xd.
+------------------------------------------------------------------------------
+   #TcOkA := (#TeA >= -200) AND (#TeA <= 1500)
+
+------------------------------------------------------------------------------
+NETWORK 6  --  Thermocouple B valid
+   // Same limits for sensor B. C0xd.
+------------------------------------------------------------------------------
+   #TcOkB := (#TeB >= -200) AND (#TeB <= 1500)
+
+------------------------------------------------------------------------------
+NETWORK 7  --  Both thermocouples valid
+   // Both are needed to heat. C0xd.
+------------------------------------------------------------------------------
+   #TcOk := #TcOkA AND #TcOkB
+
+------------------------------------------------------------------------------
+NETWORK 8  --  Thermocouple fault
+   // Not valid for 10 s (also right after power-up, while the card starts): fault. C0xd.
+------------------------------------------------------------------------------
+   #TcBad := TON(IN:=NOT #TcOk, PT:=T#10S)[T_TcBad].Q
+
+------------------------------------------------------------------------------
+NETWORK 9  --  Temperature = sensor A
+   // Use A when A is the higher one. C0xb.
+------------------------------------------------------------------------------
+   IF (#TeA >= #TeB) THEN  MOVE  #TeA  ->  #ControlTemp
+
+------------------------------------------------------------------------------
+NETWORK 10  --  Temperature = sensor B
+   // Use B when B is the higher one. C0xb.
+------------------------------------------------------------------------------
+   IF (#TeA < #TeB) THEN  MOVE  #TeB  ->  #ControlTemp
+
+------------------------------------------------------------------------------
+NETWORK 11  --  Restart and stage 2 temperatures
+   // Restart = SP - HYST. Stage 2 ON below SP - STG. C0xb / C0xc.
+------------------------------------------------------------------------------
+   (no statements decoded)
+
+------------------------------------------------------------------------------
+NETWORK 12  --  Stage 2 OFF temperature
+   // Stage 2 ON temperature + 2.0 degC, so relay R2 / R7 does not chatter. C0xc.
+------------------------------------------------------------------------------
+   (no statements decoded)
+
+------------------------------------------------------------------------------
+NETWORK 13  --  AUTO: heat demand ON
+   // At or below the restart temperature. C0xb.
+------------------------------------------------------------------------------
+   #Demand := S (#ControlTemp <= #AutoRestartTemp)
+
+------------------------------------------------------------------------------
+NETWORK 14  --  AUTO: heat demand OFF
+   // At or above SP, or no valid temperature. C0xb.
+------------------------------------------------------------------------------
+   #Demand := R ((#ControlTemp >= "Par.SP") OR NOT #TcOk)
+
+------------------------------------------------------------------------------
+NETWORK 15  --  Heat needed
+   // AUTO: the demand above. MAN: temperature below SP.
+------------------------------------------------------------------------------
+   #HeatNeed := (#TcOk AND #Auto AND #Demand OR #TcOk AND NOT #Auto AND (#ControlTemp < "Par.SP"))
+
+------------------------------------------------------------------------------
+NETWORK 16  --  Burner trip
+   // E-STOP, scrubber trip, burner lockout, thermocouple fault or fuel change: stop; a new START is needed. C01 / C03 / C05 / C0xd / C0xe / C08h.
+------------------------------------------------------------------------------
+   #Trip := (NOT "Sys.EStopOK" OR "Scrubber_DB.Tripped" OR #Lockout OR #TcBad OR #FuelChg)
+
+------------------------------------------------------------------------------
+NETWORK 17  --  START accepted
+   // New START with no trip and tank level OK. In MAN only if heat is needed.
+------------------------------------------------------------------------------
+   #StartEnabled := S (#StartEdge AND NOT #Trip AND #LevelOK AND #Auto OR #StartEdge AND NOT #Trip AND #LevelOK AND #HeatNeed)
+
+------------------------------------------------------------------------------
+NETWORK 18  --  STOP or trip
+   // STOP pressed or burner trip cancels START.
+------------------------------------------------------------------------------
+   #StartEnabled := R (NOT #StopOK OR #Trip)
+
+------------------------------------------------------------------------------
+NETWORK 19  --  Daily stop after 24 h
+   // BR01 only: 24 h of continuous heat request stops the burner. RS100 manual 5.10, C07h.
+------------------------------------------------------------------------------
+   #Pause24 := S TON(IN:=#Use24h AND #HeatReq, PT:=T#24H)[T_24h].Q
+
+------------------------------------------------------------------------------
+NETWORK 20  --  Daily stop ends
+   // After RUN has been off for 60 s the burner may start again. C07h.
+------------------------------------------------------------------------------
+   #Pause24 := R TON(IN:=#Pause24 AND NOT #RunFb, PT:=T#60S)[T_Pause].Q
+
+------------------------------------------------------------------------------
+NETWORK 21  --  Heat request
+   // START accepted, tank level OK, no daily stop and heat needed. Goes to TL / L. C0xa / C0xb.
+------------------------------------------------------------------------------
+   #HeatReq := #StartEnabled AND #LevelOK AND NOT #Pause24 AND #HeatNeed
+
+------------------------------------------------------------------------------
+NETWORK 22  --  MAN: one heating cycle
+   // In MAN, when the heat request stops, START is cancelled; press START again.
+------------------------------------------------------------------------------
+   #StartEnabled := R NOT #Auto AND NOT #HeatReq
+
+------------------------------------------------------------------------------
+NETWORK 23  --  Stage 2 ON
+   // Heat request, RUN for 30 s and temperature below SP - STG. Goes to TR / T2. C0xc.
+------------------------------------------------------------------------------
+   #Stage2 := S TON(IN:=#HeatReq AND #RunFb, PT:=T#30S)[T_Stage2].Q AND (#ControlTemp < #SecondStageOnTemp)
+
+------------------------------------------------------------------------------
+NETWORK 24  --  Stage 2 OFF
+   // At SP - STG + 2.0 degC, or no heat request, or no RUN. C0xc.
+------------------------------------------------------------------------------
+   #Stage2 := R ((#ControlTemp >= #SecondStageOffTemp) OR NOT #HeatReq OR NOT #RunFb)
+
+------------------------------------------------------------------------------
+NETWORK 25  --  Alarm: no RUN
+   // Heat request without RUN for 120 s: alarm only (broken TL / L wire, no burner supply). C0xf.
+------------------------------------------------------------------------------
+   #NoRun := TON(IN:=#HeatReq AND NOT #RunFb, PT:=T#120S)[T_NoRun].Q
+
+------------------------------------------------------------------------------
+NETWORK 26  --  Alarm: RUN without request
+   // RUN without heat request for 30 s: alarm only (stuck relay R1 / R6). C0xg.
+------------------------------------------------------------------------------
+   #RunWrong := TON(IN:=#RunFb AND NOT #HeatReq, PT:=T#30S)[T_RunWrong].Q

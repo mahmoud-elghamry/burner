@@ -1,0 +1,13 @@
+##############################################################################
+# BLOCK OB   Startup   (LAD, No.100, Startup)
+##############################################################################
+
+  VAR_INPUT
+    LostRetentive                      : Bool
+    LostRTC                            : Bool
+
+------------------------------------------------------------------------------
+NETWORK 1  --  Power-up: first scan
+   // Set FirstScan: the scrubber trips and the burners need START. C02.
+------------------------------------------------------------------------------
+   "Sys.FirstScan" := S NOT "Sys.FirstScan"

@@ -1,0 +1,154 @@
+##############################################################################
+# BLOCK OB   Main   (LAD, No.1, ProgramCycle)
+##############################################################################
+
+  VAR_INPUT
+    Initial_Call                       : Bool
+    Remanence                          : Bool
+
+  VAR_TEMP
+    test                               : Bool
+
+------------------------------------------------------------------------------
+NETWORK 1  --  HMI WATCHDOG - must run before every remote command
+------------------------------------------------------------------------------
+   CALL FB "HMI_Watchdog" [instance HMI_Watchdog_DB]
+
+------------------------------------------------------------------------------
+NETWORK 2  --  JOG - remote motion commands are self-cancelling. Must run before any motion network.
+------------------------------------------------------------------------------
+   CALL FB "HMI_Jog" [instance HMI_Jog_DB]
+
+------------------------------------------------------------------------------
+NETWORK 3  --  Sweling Block
+------------------------------------------------------------------------------
+   CALL FB "Sweling system" [instance Sweling system_DB](
+        VSD Ready := "Slewing_READY_FB",
+        System EMG := "MAIN_ES" AND "SYSTEM_ES_JOYSTICK",
+        Speed freq FB := "Slewing_sp_fb_AI",
+        Run FB := "Slewing_R/S_FB",
+        Forward in := (NOT "slewing_F_SW" AND NOT "Manual/HMI" OR "Remote Swelling F slow Left" AND "Manual/HMI" OR "Remote Swelling f  slow fast" AND "Manual/HMI"),
+        Reverse in := (NOT "slewing_R_SW" AND NOT "Manual/HMI" OR "Remote Swelling Rev  slow Right" AND "Manual/HMI" OR "Remote Swelling Rev  fast Right" AND "Manual/HMI"),
+        Speed 1 := ("slewing_SPEED_1" AND NOT "Manual/HMI" OR "Remote Swelling F slow Left" AND "Manual/HMI" OR "Remote Swelling Rev  slow Right" AND "Manual/HMI" OR "Remote Swelling Rev  fast Right" AND "Manual/HMI" OR "Remote Swelling f  slow fast" AND "Manual/HMI"),
+        Speed 2 := ("slewing_SPEED_2" AND NOT "Manual/HMI" OR "Remote Swelling Rev  fast Right" AND "Manual/HMI" OR "Remote Swelling f  slow fast" AND "Manual/HMI"),
+        Reset in := ("Reset_button_castera" OR "start marker" OR "remote reset" AND "Manual/HMI") AND "SYSTEM_ES_JOYSTICK",
+        Forward_LS := NOT "Slewing_LS_1_FR",
+        Reverse_LS := NOT "Slewing_LS_2_REV",
+        SP1_SP := 8,
+        SP2_SP := 17,
+        Key_Safety := "KEY INPUT",
+        Remote Speed Ref := <open>,
+        HMI / Castera := "Manual/HMI",
+        VSD_Run_indication := "SLEWING VSD RUN INDICATION",
+        Run/Stop := "SlewingR/S_Order",
+        Forward Direction := "SLEWING Forward_dir_order",
+        Reverse Direction := "SLEWING Reverse_dir_order",
+        Reset Out := "slewing_Reset Drive",
+        Speed Ref Out := "SLEWING_SP_REF_AQ",
+        Mech_Brake := "Slewing_Mech_br_out",
+        Actual_Freq := "slewing actual speed",
+        Horn := <unwired>,
+        VSD SD_OUT := "ATV340 SD DI5")
+
+------------------------------------------------------------------------------
+NETWORK 4  --  Torrolly Block
+------------------------------------------------------------------------------
+   CALL FB "Torrolly System" [instance Torrolly System_DB](
+        VSD SD FAULT := "TROLLY_SD_FB",
+        Speed Freq FB := <open>,
+        System EMG := "MAIN_ES" AND "SYSTEM_ES_JOYSTICK",
+        Run feedback := "TROLLY_RS_FB",
+        Forward in := (NOT "TROLLEY_F_SW" AND NOT "Manual/HMI" OR "remote trolly ForwardSlow button" AND "Manual/HMI" OR "remote trolly ForwardFast button" AND "Manual/HMI"),
+        Reverse in := (NOT "TROLLY_R_SW" AND NOT "Manual/HMI" OR "remote trolly Reverse slow button" AND "Manual/HMI" OR "remote trolly Reverse Fast button" AND "Manual/HMI"),
+        Speed 1 := ("TROLLY_SPEED_1" AND NOT "Manual/HMI" OR "remote trolly ForwardSlow button" AND "Manual/HMI" OR "remote trolly Reverse slow button" AND "Manual/HMI" OR "remote trolly ForwardFast button" AND "Manual/HMI" OR "remote trolly Reverse Fast button" AND "Manual/HMI"),
+        speed 2 := ("TROLLY_SPEED_2" OR "remote trolly ForwardFast button" AND "Manual/HMI" OR "remote trolly Reverse Fast button" AND "Manual/HMI"),
+        Reset_in := ("Reset_button_castera" OR "start marker" OR "remote reset" AND "Manual/HMI") AND "SYSTEM_ES_JOYSTICK",
+        Forward_LS := NOT "TROLLEY_LS_1_FR",
+        Reverse_LS := NOT "TROLLEY_LS_2_REV",
+        SP1_SP := 25,
+        SP2_SP := 35,
+        Key_Safety := "KEY INPUT",
+        MAX_LOAD_LS1 := "max_load_ls1",
+        MAX_LOAD_LS2 := "max_load_ls2",
+        Moment_Load_1 := "moment_sw1",
+        Moment_Load_2 := "moment_sw2",
+        Remote Speed Ref := <open>,
+        Hmi/Castera := "Manual/HMI",
+        VSD Fault indication := <unwired>,
+        Run/Stop := "TROLLEY_R/S_order",
+        Forward direction := "trolley forward_dir_order",
+        reverse direction := "trolley reverse_dir_order",
+        Reset_out := "RESET_ATV320",
+        Brake := <unwired>,
+        Speed reference_OUT := "TROLLEY_SP_REF_AQ",
+        mech brake := "TROLLEY_Mech_br_out",
+        Actual freq := "trolley actual speed",
+        horn := <unwired>,
+        VSD SD_OUT := "ATV320 SD")
+   Normalize()
+   IF Normalize(...) THEN  Scale_X()
+   IF Normalize(...) THEN  Scale_X()
+
+------------------------------------------------------------------------------
+NETWORK 5  --  Hydraulic Block
+------------------------------------------------------------------------------
+   CALL FB "Hydraulic System" [instance Hydraulic System_DB](
+        Start := "start marker",
+        Stop := "stop mARKER",
+        EMG_Stop := "SYSTEM_ES_JOYSTICK" AND "MAIN_ES",
+        UP_Hook := (NOT "Start_Button_castera" AND NOT "start marker" AND "wait working hook" AND NOT "Stop_Button_castera" AND "Hook_UP" AND NOT "Manual/HMI" OR NOT "Start_Button_castera" AND NOT "start marker" AND "wait working hook" AND NOT "Stop_Button_castera" AND "Remote Hydroulic Hook Up" AND "Manual/HMI"),
+        Down__Hook := (NOT "Start_Button_castera" AND NOT "stop mARKER" AND "wait working hook" AND NOT "Stop_Button_castera" AND "hook down waiting" AND "Hook_Down" AND NOT "Manual/HMI" OR NOT "Start_Button_castera" AND NOT "stop mARKER" AND "wait working hook" AND NOT "Stop_Button_castera" AND "hook down waiting" AND "Remote Hydroulic Hook down" AND "Manual/HMI"),
+        O.L fault := "Over_load_F.B_OIL PUMP",
+        UP_Lim.SW := "UP_LS_ROTARY",
+        Down_Lim.SW := "DOWN_LS_ROTARY",
+        MAX_LOAD_LS1 := "max_load_ls1",
+        MAX_LOAD_LS2 := "max_load_ls2",
+        Moment_Load_1 := "moment_sw1",
+        High Oil temp := 1,
+        Moment_Load_2 := "moment_sw2",
+        High Oil press L.S := "HYD_HI_PRESS_LS",
+        Low Oil press L.S := "HYD_LO_PRESS_LS",
+        Key_Safety := "KEY INPUT",
+        vibration := NOT "Vibration Switch",
+        Drum Solenoid := <unwired>,
+        Brake Solenoid := "hydroulic braking solenoid",
+        UP_Valve := "UP Valve hydrolic",
+        Down_Valve := "down valve hydrolic",
+        Start Relay := "start_hydroulic_system_out_relay",
+        Stop Relay := "stop_hydroulic_system_out_relay",
+        Shutdown_Hydraulic := "HYDROULIC_SD",
+        horn := <unwired>)
+   "start marker" := TON(IN:=("Start_Button_castera" AND NOT "Manual/HMI" OR "Remote Hydroulic start" AND "Manual/HMI"), PT:=t#1s)[IEC_Timer_0_DB_4].Q
+   "stop mARKER" := TON(IN:=("Stop_Button_castera" AND NOT "Manual/HMI" OR "Remote Hydroulic Stop" AND "Manual/HMI"), PT:=t#200ms)[IEC_Timer_0_DB_5].Q
+   "hook down waiting" := TON(IN:=("Hook_Down" OR "Remote Hydroulic Hook down"), PT:=t#1s)[IEC_Timer_0_DB_7].Q
+   "waaiting" := SR(S:="start marker", R1:="stop mARKER")
+   "wait" := SR(S:="start marker", R1:="stop mARKER").Q
+   "wait working hook" := TON(IN:="wait", PT:=t#3s)[IEC_Timer_0_DB_6].Q
+
+------------------------------------------------------------------------------
+NETWORK 6  --  Scada System for Trolley
+------------------------------------------------------------------------------
+   "troll_scd_rev_arrow" := "trolley reverse_dir_order" AND ("trolley actual speed" >= 2)
+   "troll_scd_fwd_arrow" := "trolley forward_dir_order" AND ("trolley actual speed" >= 2)
+
+------------------------------------------------------------------------------
+NETWORK 7  --  Scada system for Haydraulic
+------------------------------------------------------------------------------
+   "HYD_scd_up_arrow" := "UP Valve hydrolic" AND "HYDROULIC_SD"
+   "HYD_scd_down_arrow" := "down valve hydrolic" AND "HYDROULIC_SD" AND "hydroulic braking solenoid"
+
+------------------------------------------------------------------------------
+NETWORK 8  --  scada system for slewing system
+------------------------------------------------------------------------------
+   "slewing clockwise" := "SLEWING Forward_dir_order" AND ("slewing actual speed" >= 2)
+   "slewing anticlockwise" := "SLEWING Reverse_dir_order" AND ("slewing actual speed" >= 2)
+
+------------------------------------------------------------------------------
+NETWORK 9  --  Test network
+------------------------------------------------------------------------------
+   "test1scada" := "test scada2"
+
+------------------------------------------------------------------------------
+NETWORK 10
+------------------------------------------------------------------------------
+   (empty)

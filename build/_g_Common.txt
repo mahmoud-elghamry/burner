@@ -1,0 +1,72 @@
+##############################################################################
+# BLOCK FC   Common   (LAD, No.1, Optimized)
+##############################################################################
+
+  VAR_RETURN
+    Ret_Val                            : Void
+
+------------------------------------------------------------------------------
+NETWORK 1  --  RESET: new press
+   // One-scan pulse when S2 is pressed; ignored on the first scan. C01.
+------------------------------------------------------------------------------
+   "Sys.ResetPulse" := "S2_FaultReset" AND NOT "Sys.ResetMem" AND NOT "Sys.FirstScan"
+
+------------------------------------------------------------------------------
+NETWORK 2  --  RESET: remember the button
+   // Save S2 for the next scan.
+------------------------------------------------------------------------------
+   "Sys.ResetMem" := "S2_FaultReset"
+
+------------------------------------------------------------------------------
+NETWORK 3  --  E-STOP pressed
+   // E-STOP status contact open: remove EStopOK. C01.
+------------------------------------------------------------------------------
+   "Sys.EStopOK" := R NOT "S0_EStopStatus"
+
+------------------------------------------------------------------------------
+NETWORK 4  --  E-STOP released and RESET
+   // E-STOP released plus RESET (or at power-up): EStopOK back. Burners still need START. C01.
+------------------------------------------------------------------------------
+   "Sys.EStopOK" := S ("S0_EStopStatus" AND "Sys.ResetPulse" OR "S0_EStopStatus" AND "Sys.FirstScan")
+
+------------------------------------------------------------------------------
+NETWORK 5  --  E-STOP alarm
+   // Shown while EStopOK is off. C01.
+------------------------------------------------------------------------------
+   "Sys.Alm_EStop" := NOT "Sys.EStopOK"
+
+------------------------------------------------------------------------------
+NETWORK 6  --  SP below its minimum
+   // SP below 400: use 400. Sheet Parameters.
+------------------------------------------------------------------------------
+   IF ("Par.SP" < 400) THEN  MOVE  400  ->  "Par.SP"
+
+------------------------------------------------------------------------------
+NETWORK 7  --  SP above its maximum
+   // SP above 900: use 900. Sheet Parameters.
+------------------------------------------------------------------------------
+   IF ("Par.SP" > 900) THEN  MOVE  900  ->  "Par.SP"
+
+------------------------------------------------------------------------------
+NETWORK 8  --  HYST below its minimum
+   // HYST below 30: use 30. Sheet Parameters.
+------------------------------------------------------------------------------
+   IF ("Par.HYST" < 30) THEN  MOVE  30  ->  "Par.HYST"
+
+------------------------------------------------------------------------------
+NETWORK 9  --  HYST above its maximum
+   // HYST above 100: use 100. Sheet Parameters.
+------------------------------------------------------------------------------
+   IF ("Par.HYST" > 100) THEN  MOVE  100  ->  "Par.HYST"
+
+------------------------------------------------------------------------------
+NETWORK 10  --  STG below its minimum
+   // STG below 50: use 50. Sheet Parameters.
+------------------------------------------------------------------------------
+   IF ("Par.STG" < 50) THEN  MOVE  50  ->  "Par.STG"
+
+------------------------------------------------------------------------------
+NETWORK 11  --  STG above its maximum
+   // STG above 300: use 300. Sheet Parameters.
+------------------------------------------------------------------------------
+   IF ("Par.STG" > 300) THEN  MOVE  300  ->  "Par.STG"
