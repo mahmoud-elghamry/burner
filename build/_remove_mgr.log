@@ -1,0 +1,11 @@
+project : D:\tasks\burner\.claude\worktrees\manager-style\tia\Burner\Burner.ap15_1
+remove  : Sys,HmiAlm,Common,Outputs,HmiMap
+project opened: Burner
+PLC: PLC_1
+=== REMOVING ===
+  removed: Sys
+  removed: HmiAlm
+  removed: Common
+  removed: Outputs
+  removed: HmiMap
+PROJECT SAVED.
